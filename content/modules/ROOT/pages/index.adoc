@@ -1,0 +1,32 @@
+= {lab_name}
+
+++++
+<br>
+<h4><i>Red Hat AI Development Roadshow</i></h4>
+<br>
+<style>
+  .nav-container, .pagination, .toolbar {
+    display: none !important;
+  }
+  .doc {
+    max-width: 70rem !important;
+  }
+</style>
+++++
+
+This workshop is centered around use cases in the insurance industry.
+
+Parasol Insurance is a fictional company specializing in providing comprehensive insurance solutions for various sectors. The company's goal is to help customers navigate complex financial landscapes by offering tailored insurance products and services. Recently, the company hired a new CIO and CTO, and they are pushing Parasol to modernize their business using AI technology, introducing new products, and adding features to existing products to address new market opportunities and remain competitive. The company is just getting started understanding how AI can help them and are evaluating Red Hat for their primary AI solution based on their longstanding trust and use of Red Hat’s platforms including RHEL and OpenShift. Parasol’s technical staff of app developers and platform engineers are beginning their own AI journey to understand how each of them can play a role in modernizing Parasol’s business and trying to understand which new roles may be needed.
+
+
+== Get started
+
+Modules are provisioned on demand by you by using the *Workshop Deployer*.
+
+Your access details to the lab:
+
+* Access *Workshop Deployer* by  https://workshop-deployer.{openshift_subdomain}[clicking here^, window="workshopdeployer"]
+* Username: *{user_name}*
+* Password: *{user_password}*
+
+Before diving into a particular module, we recommend that you go through the workshop introduction module, to explore the technical and functional environment for this workshop. *Go ahead! Choose your adventure!*

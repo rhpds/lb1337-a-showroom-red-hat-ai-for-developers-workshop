@@ -1,0 +1,51 @@
+= Discovery
+:imagesdir: ../assets/images
+
+++++
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-3HTRSDJ3M4"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-3HTRSDJ3M4');
+</script>
+<style>
+  .nav-container, .pagination, .toolbar {
+    display: none !important;
+  }
+  .doc {    
+    max-width: 70rem !important;
+  }
+</style>
+++++
+
+== 1. Run podman desktop
+
+Introduction to gen AI + discover and experiment with gen AI models and AI applications on the local desktop, in an inner loop
+
+image::discovery/redhat-openshift-ai.png[]
+
+
+== 1.1. TBD
+
+=== 1.1.1. TBD
+
+== 2. Start a playground, chat with it
+
+== 3. Kill playground, try text summarization recipe, upload claim PDF, view summarization
+
+== 4. Open summarization app (python) in vscode, inspect code (briefly)
+
+== 5. Change the prompt, restart, and observe changes.
+
+== 6. Conclusion
+
+We hope you have enjoyed this module!
+
+Here is a quick summary of what we have learned:
+
+- TBD
+- TBD
+- TBD

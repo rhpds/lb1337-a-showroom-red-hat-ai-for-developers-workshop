@@ -1,0 +1,27 @@
+---
+site:
+  title: Red Hat AI Development Roadshow - Developer Track
+  url: https://github.com/rh-rad-ai-roadshow/dev-guides
+  start_page: modules::index.adoc
+
+content:
+  edit_url: false
+  sources:
+    - url: ./
+      start_path: content
+
+ui:
+  bundle:
+    url: https://github.com/danieloh30/mad-bundle-ui/raw/main/mad-bundle-ui.zip
+    snapshot: true
+  supplemental_files:
+    - path: ./content/supplemental-ui
+    - path: .nojekyll
+    - path: ui.yml
+      contents: "static_files: [ .nojekyll ]"
+
+runtime:
+  cache_dir: ./.cache/antora
+
+output:
+  dir: ./www
