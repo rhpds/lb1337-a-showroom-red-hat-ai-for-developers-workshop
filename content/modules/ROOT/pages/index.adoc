@@ -2,7 +2,7 @@
 
 ++++
 <br>
-<h4><i>Red Hat AI Development Roadshow</i></h4>
+<h4><i>Red Hat AI Development Roadshow - Developer Track</i></h4>
 <br>
 <style>
   .nav-container, .pagination, .toolbar {
