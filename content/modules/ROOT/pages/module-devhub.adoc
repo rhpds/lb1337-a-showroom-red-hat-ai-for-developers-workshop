@@ -21,6 +21,10 @@
 </style>
 ++++
 
+== Goals of this lab
+
+The goal of this lab is to
+
 == 1. Run podman desktop
 
 Introduction to gen AI + discover and experiment with gen AI models and AI applications on the local desktop, in an inner loop
@@ -40,7 +44,7 @@ image::devhub/redhat-openshift-ai.png[]
 
 == 5. Change the prompt, restart, and observe changes.
 
-== 6. Conclusion
+== Conclusion
 
 We hope you have enjoyed this module!
 
