@@ -15,9 +15,8 @@ image::dev-flow.png[Red Hat Products]
 
 == Get started
 
-Your access details to the lab:
+Your credential to access the hands-on lab:
 
-* Access the lab instructions by https://something.something.{openshift_subdomain}[clicking here^, window="workshopdeployer"]
 * Username: *{user_name}*
 * Password: *{user_password}*
 
