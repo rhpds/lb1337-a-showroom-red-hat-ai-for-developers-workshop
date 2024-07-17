@@ -1,16 +1,5 @@
 = {lab_name}
 
-++++
-<style>
-  .nav-container, .pagination, .toolbar {
-    display: none !important;
-  }
-  .doc {
-    max-width: 70rem !important;
-  }
-</style>
-++++
-
 image::parasol_logo.png[Parasol logo,300,float="right",align="center"]
 
 This workshop is centered around use cases in the insurance industry.

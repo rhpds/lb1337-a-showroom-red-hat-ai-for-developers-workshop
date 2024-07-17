@@ -11,14 +11,6 @@
 
   gtag('config', 'G-3HTRSDJ3M4');
 </script>
-<style>
-  .nav-container, .pagination, .toolbar {
-    display: none !important;
-  }
-  .doc {
-    max-width: 70rem !important;
-  }
-</style>
 ++++
 
 == Goals of this lab
