@@ -1,5 +1,5 @@
 * xref:module-discovery.adoc[Discovery]
 * xref:module-private-docs.adoc[Private Docs]
 * xref:module-model-testing.adoc[Model Testing]
-* xref:module-kai.adoc[Migration with Konveyor AI]
+// * xref:module-kai.adoc[Migration with Konveyor AI]
 * xref:module-devhub.adoc[Incorporating Gen AI into existing apps]
