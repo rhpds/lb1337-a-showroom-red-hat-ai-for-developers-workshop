@@ -14,22 +14,10 @@ echo "Removing old site..."
 rm -rf ./www/*
 
 echo "Building new site..."
-# Setup Container Runtime
-# Check if Podman is available
-if podman ps &>/dev/null; then
-  CONTAINER_RUNTIME="podman"
-  # If Podman is not available, check for Docker
-elif docker ps &>/dev/null; then
-  CONTAINER_RUNTIME="docker"
-  # If neither is available
-else
-  CONTAINER_RUNTIME="none"
-  echo No container runtime found. Please install Podman or Docker.
-  exit 1
-fi
 
-# Optionally, you can print the value for confirmation
-echo "CONTAINER_RUNTIME: $CONTAINER_RUNTIME"
+# Setup Container Runtime
+current_dir="$(dirname "$(realpath "$0")")"
+source $current_dir/detect-container-runtime
 
 volume_mount_flag=""
 os_name="$(uname -s)" # Detect the operating system, Linux needs `:z` macos does not
