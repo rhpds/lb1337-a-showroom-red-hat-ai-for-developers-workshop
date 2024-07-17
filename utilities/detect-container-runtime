@@ -1,0 +1,22 @@
+#!/usr/bin/env bash
+
+# Setup Container Runtime
+
+if [[ -z "${CONTAINER_RUNTIME}" ]]; then
+ # Only need the check if the env var is not set
+ # Check if Podman is available
+  if podman ps &>/dev/null; then
+    CONTAINER_RUNTIME="podman"
+  # If Podman is not available, check for Docker
+  elif docker ps &>/dev/null; then
+    CONTAINER_RUNTIME="docker"
+    # If neither is available
+  else
+    CONTAINER_RUNTIME="none"
+    echo No container runtime found. Please install Podman or Docker.
+    exit 1
+  fi
+fi
+
+echo "CONTAINER_RUNTIME: $CONTAINER_RUNTIME"
+export CONTAINER_RUNTIME="${CONTAINER_RUNTIME}"
