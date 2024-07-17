@@ -15,7 +15,7 @@
   .nav-container, .pagination, .toolbar {
     display: none !important;
   }
-  .doc {    
+  .doc {
     max-width: 70rem !important;
   }
 </style>
@@ -23,7 +23,7 @@
 
 == Goals of this lab
 
-The goal of this lab is to
+As a seasoned Parasol developer, you are going to be in charge of modernizing Parasol's existing applications to run on their modern OpenShift platform. In addition to replatforming the application to OpenShift, you are also tasked with refactoring the application to be cloud native, and migrate away from the traditional Java EE / Jakarta EE platform, to maximize the value of the new platform. In this exercise, you will leverage the powerful capabilities of Konveyor AI (KAI) to transform your JakartaEE application into a modern, efficient Quarkus application using generative AI. This hands-on exercise will guide you through the process of refactoring, showcasing how KAI can automate and optimize code conversion while preserving functionality and enhancing performance. By utilizing generative AI, you'll experience firsthand how advanced tools can simplify complex refactoring tasks, making the transition to Quarkus seamless and effective.
 
 == 1. Run podman desktop
 

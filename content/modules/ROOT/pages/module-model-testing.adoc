@@ -15,7 +15,7 @@
   .nav-container, .pagination, .toolbar {
     display: none !important;
   }
-  .doc {    
+  .doc {
     max-width: 70rem !important;
   }
 </style>
@@ -23,14 +23,11 @@
 
 == Goals of this lab
 
-The goal of this lab is to
+Parasol's developers are always expected to thoroughly test their code. In this exercise, you will explore the unique challenges and techniques involved in testing AI models and applications, which differ significantly from traditional enterprise applications. Traditional apps often have deterministic outputs, whereas AI models can produce varied and context-dependent results, requiring specialized testing approaches. Through this hands-on exercise, use specialized testing tools for validating prompt responses. You will identify and fix failing tests by modifying prompts to ensure data consistency, and validate the fixes by re-running the tests. Finally, you'll add a new test to further ensure the robustness of your prompt responses. This exercise will deepen your understanding of AI testing practices and enhance your ability to maintain reliable AI applications.
 
 == 1. Run podman desktop
 
 Introduction to gen AI + discover and experiment with gen AI models and AI applications on the local desktop, in an inner loop
-
-image::model-testing/redhat-openshift-ai.png[]
-
 
 == 1.1. TBD
 

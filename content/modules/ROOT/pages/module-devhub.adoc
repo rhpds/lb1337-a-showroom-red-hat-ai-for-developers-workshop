@@ -15,7 +15,7 @@
   .nav-container, .pagination, .toolbar {
     display: none !important;
   }
-  .doc {    
+  .doc {
     max-width: 70rem !important;
   }
 </style>
@@ -23,7 +23,7 @@
 
 == Goals of this lab
 
-The goal of this lab is to
+Parasol is standardizing on an internal developer portal for its developers to use to build, deploy, and manage cloud native applications, including those with AI capabilities. In this exercise, you will learn how to harness the power of the Parasol internal developer portal to streamline and enhance your development workflow for AI apps. This exercise will guide you through creating a new application using a software template, observing the automatic CI/CD processes powered by Tekton and Argo, and using your web-based IDE OpenShift Dev Spaces. You'll create a new branch to develop and add an AI feature, such as an advanced search service, with the help of the code assistant extension. After merging your pull request, you'll monitor the deployment process via OpenShift GitOps in the Dev Hub web console. Finally, you'll verify the functionality of your new application by accessing its frontend page. This hands-on experience will empower you to efficiently utilize the Parasol developer portal for seamless application development and deployment.
 
 == 1. Run podman desktop
 
