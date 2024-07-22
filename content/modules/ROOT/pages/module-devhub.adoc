@@ -15,26 +15,258 @@
 
 == Goals of this lab
 
-Parasol is standardizing on an internal developer portal for its developers to use to build, deploy, and manage cloud native applications, including those with AI capabilities. In this exercise, you will learn how to harness the power of the Parasol internal developer portal to streamline and enhance your development workflow for AI apps. This exercise will guide you through creating a new application using a software template, observing the automatic CI/CD processes powered by Tekton and Argo, and using your web-based IDE OpenShift Dev Spaces. You'll create a new branch to develop and add an AI feature, such as an advanced search service, with the help of the code assistant extension. After merging your pull request, you'll monitor the deployment process via OpenShift GitOps in the Dev Hub web console. Finally, you'll verify the functionality of your new application by accessing its frontend page. This hands-on experience will empower you to efficiently utilize the Parasol developer portal for seamless application development and deployment.
+*Parasol* is standardizing on an *internal developer portal (IDP)* for its developers to use to build, deploy, and manage cloud native applications, including those with AI capabilities. In this exercise, you will learn how to harness the power of the Parasol internal developer portal to streamline and enhance your development workflow for AI apps. This exercise will guide you through creating a new application using a software template, observing the automatic CI/CD processes powered by Tekton and Argo, and using your web-based IDE, Red Hat Dev Spaces. You'll create a new branch to develop and add an AI feature, such as an email generator. After merging your pull request, you'll monitor the deployment process via OpenShift GitOps in the Red Hat Dev Hub dashboard. Finally, you'll verify the functionality of your new application by accessing its frontend page. This hands-on experience will empower you to efficiently utilize the Parasol developer portal for seamless application development and deployment.
 
-== 1. Run podman desktop
+== 1. Deploy the existing Parasol applications in Red Hat Developer Hub
 
-Introduction to gen AI + discover and experiment with gen AI models and AI applications on the local desktop, in an inner loop
+https://access.redhat.com/products/red-hat-developer-hub[Red Hat Developer Hub (RHDH)^] is an enterprise-grade, self-managed, and customizable *developer portal* built on top of https://backstage.io/[Backstage.io^]. It's designed to streamline the development process for organizations, specifically those using Red Hat products and services. Here's a breakdown of its key Benefits:
 
-image::devhub/redhat-openshift-ai.png[]
+* *Increased Developer Productivity*: Reduces time spent searching for resources and setting up environments.
+* *Improved Collaboration*: Provides a central platform for developers to share knowledge and best practices.
+* *Reduced Cognitive Load*: Minimizes the need for developers to juggle multiple tools and resources.
+* *Enterprise-Grade Support*: Backed by Red Hat's support infrastructure, ensuring stability and reliability.
+
+Red Hat Developer Hub has already been installed and configured in the workshop environment.
+
+=== 1.1. Access Red Hat Developer Hub
+
+Red Hat Developer Hub can integrate with https://access.redhat.com/products/red-hat-single-sign-on/[Red Hat Single Sign On (RH-SSO)^] to enhance security and user experience for developers within an organization. By integrating with RH-SSO, developers only need to log in once to access both RHDH and other applications secured by RH-SSO. This eliminates the need to manage multiple login credentials for different developer tools and services. RH-SSO can centralize user authentication and authorization to strengthen security by ensuring only authorized users can access RHDH and other protected resources. In addition, The platform engineer team can manage user access and permissions centrally through RH-SSO, simplifying administration and reducing the risk of unauthorized access.
+
+To get started, *access* https://developer-hub-backstage-globex-devhub.{openshift_subdomain}[Red Hat Developer Hub Dashboard^] with the following credential:
+
+* *Username*: 
+
+[.console-input]
+[source,yaml,subs="attributes"]
+----
+{user_name}
+----
+
+* *Password*: 
+
+[.console-input]
+[source,yaml,subs="attributes"]
+----
+{user_password}
+----
+ 
+image::devhub/authentication.png[]
+
+Find more information about the Red Hat Developer Hub https://developers.redhat.com/rhdh[here^].
+
+=== 1.2. Create a Parasol LLM software template
+
+In Red Hat Developer Hub, a software template serves as a pre-configured blueprint for creating development environments and infrastructure. Here's a closer look at software templates in Dev Hub. Software templates streamline the process of setting up development environments by encapsulating pre-defined configurations. This saves developers time and effort compared to manually configuring everything from scratch.
+
+Click on `Create...` on the left menu. Then, select the `Parasol LLM` template.
+
+image::devhub/software_template_parasol_llm.png[software_template_parasol_llm, 600]  
+
+Follow the next steps to create a component based on the pre-defined Software Templates:
+
+==== 1.2.1. Provide information about the Gitea location
+
+* *Repo Host*: is the Gitea domain already installed in OpenShift. Red Hat Developer Hub will use this input data to upload the source repository and manifests.
+
+** Replace the *Repo Host* with the OpenShift domain: 
+
+[.console-input]
+[source,bash,subs="attributes"]
+----
+Gitea-Gitea.{openshift_subdomain}
+----
+
+image::devhub/st_Gitea_info.png[st_Gitea_info, 800]  
+
+* *Repo Group*: is the Gitea organization already configured. Red Hat Developer Hub will use this input data to upload the source repository and manifests.
+
+* Click on *Next*
+
+==== 1.2.2. Provide information about the cluster Id:
+
+* *Cluster Id*: is the OpenShift domain. Red Hat Developer Hub will use this input data to build and deploy the application.
+
+** Replace the *Cluster Id* with the OpenShift domain: 
+
+[.console-input]
+[source,bash,subs="attributes"]
+----
+.{openshift_subdomain}
+----
+
+image::devhub/st_component_clusterid.png[st_component_clusterid, 800]  
+
+* *Namespace*:  is the OpenShift namespace. Red Hat Developer Hub will use this input data to build and deploy the application in that namespace.
+
+** Replace the *N* with the user number:
+
+[.console-input]
+[source,bash,subs="attributes"]
+----
+globex-devhub-{user_name}
+----
+
+image::devhub/st_component_namespace.png[st_component_namespace, 800]  
+
+*Note*: Each lab participant is already assigned a unique namespace to be used for all the applications. Each application will have a shared identification based on your user name. 
+
+* *Owner*: The owner is your user ID. Red Hat Developer Hub will use this input data in the build and deployment process.
+** Write your user id: 
+
+[.console-input]
+[source,bash,subs="attributes"]
+----
+qa-{user_name}
+----
+
+image::devhub/st_component_owner.png[st_component_owner, 800]  
+
+* Click on *Next*
+
+==== 1.2.3. Provide build information:
+
+* *Image Host*: The application image will be stored in this registry URL. For this lab, we are using the internal registry of OpenShift. Red Hat Developer Hub will use this input data for the application build and deployment process.
+
+* *Image Tag*: The image tag used to identify the image. The image will be composed by the application name and tag. Red Hat Developer Hub will use this input data for the application build and deployment process.
+
+* *Component ID*: The component ID is the application name. Red Hat Developer Hub will use this input data for the application build and deployment process.
+
+** Replace the *Component ID* using *YOUR* user number: 
+
+[.console-input]
+[source,bash,subs="attributes"]
+----
+inventory-app-{user_name}
+----
+
+image::devhub/st_component_componentid_quarkus.png[st_component_componentid_quarkus, 800]  
+
+* Click on *Review*.
+
+* Review the data.
+
+*Sample data*
+
+image::devhub/st_component_review_quarkus.png[]  
+
+* Click on *Create*.
+
+== 2. Observe the application overview
+
+You have just created the Parasol application with Red Hat Developer Hub. Explore the components and the application overview.
+
+=== 2.1. Open component in catalog
+
+With all your activities in green, click `Open Component in catalog`. 
+
+image::devhub/task_activity.png[]
+
+The Dev Hub will open a new tab with the component information. It will take some time to review the information in the screen:
+
+image::devhub/inventory_overview.png[] 
+
+=== 2.2. View source
+
+Click on `VIEW SOURCE` to access the new source code repository created.
+
+image::devhub/inventory_source.png[] 
+
+Go back to your inventory component on the Red Hat Developer Hub: https://developer-hub-backstage-globex-devhub.{openshift_subdomain}/catalog/default/component/inventory-app-{user_name}[Red Hat Developer Hub UI^].
+
+=== 2.3. Review continuous integration and delivery (CI/CD)
+
+Click on `CI` tab to review your pipeline information. The pipeline will be triggered in a few seconds. After a few minutes, you will see the pipeline finished as *Succeeded*.
+
+image::devhub/inventory_pipeline.png[] 
+
+Click on `CD` to review ArgoCD History.
+
+image::devhub/frontend_argohistory.png[] 
+
+Click on `TOPOLOGY` to review your deployment status. The deployment will be in *blue* immediately after the pipeline succeeds. Then, click on the deployment *inventory-app-{user_name}*. The application details on the right is available. 
+
+image::devhub/inventory_deployment.png[]
+
+=== 2.4. Verify the deployment
+
+Access the https://frontend-app-{user_name}-globex-devhub-{user_name}.{openshift_subdomain}[Parasol web page^] to verify everything is working as expected.
+
+image::devhub/parasol_ui_web.png[]
+
+Now, you've confirmed what the existing Parasol application look like and how it works.
+
+== 3. Add a new generative AI feature
+
+https://developers.redhat.com/products/openshift-dev-spaces/overview[Red Hat OpenShift Dev Spaces^] is a cloud-based development environment built on top of Kubernetes and containers. It offers a streamlined and secure way for developers to code, build, and test applications directly within the OpenShift ecosystem. You'll use the Dev Spaces to develop a new Generative AI feature (e.g.,`email generator`).
+
+=== 3.1. Log in Red Hat OpenShift Dev Spaces
+
+Go back to the https://developer-hub-backstage-globex-devhub.{openshift_subdomain}/catalog/default/component/frontend-app-{user_name}[Parasol component^] in the Red Hat Developer Hub. From the *OVERVIEW* tab click on `OpenShift Dev Spaces (VS Code)` to make the necessary source code changes.
+
+image::devhub/frontend_devspaces.png[frontend_devspaces, 700]
+
+Click on `Log in with OpenShift`.
+
+image::devhub/devspaces_login.png[devspaces_login, 700]
+
+Log in with the following OpenShift credential on the Red Hat Single Sign-On (RH-SSO) page.
+
+ ** *Username*: `{user_name}`
+ ** *Password*: `{user_password}`
+
+Authorize the access by click on *Allow selected permissions*.
+
+image::devhub/devspaces_authorize.png[devspaces_authorize, 600]
+
+Log in GitLab using your credentials.
+
+ ** *Username*: `{user_name}`
+ ** *Password*: `{user_password}`
+
+image::devhub/gitlab_authentication.png[gitlab_authentication, 600]
+
+Authorize *devspaces* to use your account by clicking on the *Authorize* button.
+
+image::devhub/devspaces_authorize_user.png[devspaces_authorize_user, 600]
+
+Wait for your Red Hat OpenShift Dev Spaces workspace to be ready. This can take a few minutes. 
+
+You will see a loading screen while the workspace is being provisioned, where Red Hat OpenShift Dev Spaces is creating a workspace based on a devfile stored in the source code repository, which can be customized to include your tools and configuration.
+
+image::devhub/devspaces_loading.png[devspaces_loading, 700]
+
+[NOTE]
+====
+In case you fail to start the workspace, you can click on *close running workspace and restart*, then it works fine.
+image::devhub/devspaces_error.png[devspaces_error, 700]
+====
+
+Confirm the access by clicking *"Yes, I trust the authors"*.
+
+image::devhub/devspaces_trustauthors.png[devspaces_trustauthors, 800]
+
+Then, you should see this.
+
+image::devhub/devspaces_view.png[devspaces_view, 800]
+
+=== 3.2. Create a new EmailGenereate Service
 
 
-== 1.1. TBD
+== 4. Create a new pull request (PR)
 
-=== 1.1.1. TBD
+Make a new branch to create a new pull request (PR) to add a new AI feature (e.g., a new AI service, e.g. search) to the existing application - potentially using code assistant extension (PR)
 
-== 2. Start a playground, chat with it
+== 5. Merge the PR
 
-== 3. Kill playground, try text summarization recipe, upload claim PDF, view summarization
+Merge the PR which will trigger a new pipeline
 
-== 4. Open summarization app (python) in vscode, inspect code (briefly)
+== 6. Monitor the new deployment
 
-== 5. Change the prompt, restart, and observe changes.
+Monitor if the new deployment rolls out by the OpenShift GitOps in the Dev Hub web console.
+
+== 7. Verify the new app’s functionality
+
+Verify the new app’s functionality by accessing the frontend page (Parasol)
 
 == Conclusion
 
