@@ -13,20 +13,51 @@
 </script>
 ++++
 
+== The AI Journey for an Application Developer
+
+
+
+It's important to understand the different steps of the journey to learning, understanding, and working with AI as a developer. 
+
 == Goals of this lab
 
-As a Developer at Parasol Insurance, the first step in your AI journey will be to use RHEL AI (Red Hat's foundation model platform to seamlessly develop, test, and run LLMs for enterprise applications) and Podman Desktop AI Lab extension to discover and experiment with a variety of generative AI models and understand the relationship between model, model server, and the application. The goal of this exercise is to equip you with the basic knowledge and skills to be able to identify suitable AI models for different tasks, understand their underlying mechanisms, and see examples of application integration with the underlying model.
+As a Developer at Parasol Insurance, the first step in your AI journey will be to use RHEL AI (Red Hat's foundation model platform to seamlessly develop, test, and run LLMs for enterprise applications) and Podman Desktop AI Lab extension to discover and experiment with a variety of generative AI models and understand the relationship between model, model server, and the application.
 
-== 1. Run podman desktop
+The goal of this exercise is to equip you with the basic knowledge and skills to be able to identify suitable AI models for different tasks, understand their underlying mechanisms, and see examples of application integration with the underlying model.
 
-Introduction to gen AI + discover and experiment with gen AI models and AI applications on the local desktop, in an inner loop
+// == 1. Run Podman Desktop
 
-image::discovery/redhat-openshift-ai.png[]
+// Introduction to generative AI and discover and experiment with gen AI models and AI applications on the local desktop, in an inner loop development environment.
+
+// image::discovery/redhat-openshift-ai.png[]
 
 
-== 1.1. TBD
+== 1. Getting Started your developer environment for Generative AI
 
-=== 1.1.1. TBD
+In this section, you'll understand how you can...
+
+=== 1.1. Understanding Podman Desktop and AI Lab
+
+Let's take a look at https://podman-desktop.io[Podman Desktop], an open-source graphical interface for managing containers, pods, and images on your local system. It provides a user-friendly way for developers in our organization to work with containerized applications and services. The https://podman-desktop.io/extensions/ai-lab[AI Lab extension] for Podman Desktop is a powerful tool that allows developers to explore and experiment with various AI models and applications locally, and we'll learn how to use it to kick-start our discovery and usage of generative AI.
+
+=== 1.2. Key Components of Podman AI Lab
+
+With Podman AI Lab, we're provided a curated catalog of open-source recipes, ready-to-use models, and playgrounds for common generative AI use cases:
+
+* *Recipes Catalog*: A collection of pre-built AI applications and use cases that demonstrate real-world implementations of AI models.
+* *Open Source Models*: A curated list of AI models that can be easily downloaded and used, with information on their licenses and capabilities.
+* *Playground Environments*: Interactive spaces to test and experiment with different models, allowing developers to specify model parameters and observe results.
+* *Model Serving*: Capability to run local inference servers for AI models, providing an OpenAI-compatible endpoint for application integration.
+
+== 2. Exploring the Podman AI Lab Interface
+
+=== 2.1. Viewing the Model Catalog
+
+=== 2.2. Testing out Playground Environments
+
+=== 2.3. Model Serving and Integration
+
+=== 2.4. 
 
 == 2. Start a playground, chat with it
 
