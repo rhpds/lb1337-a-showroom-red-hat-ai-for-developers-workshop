@@ -57,15 +57,13 @@ With Podman AI Lab, we're provided a curated catalog of open-source recipes, rea
 
 === 2.3. Model Serving and Integration
 
-=== 2.4. 
+== 3. Getting Started from Recipes
 
-== 2. Start a playground, chat with it
+== 3.1. Expanding Features
 
-== 3. Kill playground, try text summarization recipe, upload claim PDF, view summarization
+try text summarization recipe, upload claim PDF, view summarization
 
-== 4. Open summarization app (python) in vscode, inspect code (briefly)
-
-== 5. Change the prompt, restart, and observe changes.
+== 3.2. Basic Prompt Engineering
 
 == Conclusion
 
@@ -76,3 +74,11 @@ Here is a quick summary of what we have learned:
 - TBD
 - TBD
 - TBD
+
+OLD:
+
+== 3. Kill playground, 
+
+== 4. Open summarization app (python) in vscode, inspect code (briefly)
+
+== 5. Change the prompt, restart, and observe changes.
