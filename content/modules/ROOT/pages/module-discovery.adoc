@@ -15,11 +15,23 @@
 
 == The AI Journey for an Application Developer
 
-It's important to understand the different steps of the journey to learning, understanding, and working with AI as a developer. 
+"More Than 80% of Enterprises Will Have Used Generative AI APIs or Deployed Generative AI-Enabled Applications by 2026"
+-- https://www.gartner.com/en/newsroom/press-releases/2023-10-11-gartner-says-more-than-80-percent-of-enterprises-will-have-used-generative-ai-apis-or-deployed-generative-ai-enabled-applications-by-2026[Gartner]
+
+This is why, as a developer at Parasol Insurance, it's important to understand the different steps of the journey to learning, understanding, and working with AI:
+
+. Ideation & Prototyping
+* How do I *evaluate* models and pick the best one for my use case?
+. Building & Refining
+* How do I *build* an application with LLMs?
+. Operationalizing
+* How do I *deploy* my application with LLMs?
+
+image::discovery/adopting-gen-ai.png[Adopting Gen AI]
 
 == Goals of this lab
 
-As a developer at Parasol Insurance, your first step is to start learning and experimenting with AI for enterprise applications. In this section, you'll understand how you can work with the Podman AI Lab for building AI-enabled applications. You will accomplish this with the following steps:
+Your first step is to start learning and experimenting with AI for enterprise applications. In this section, you'll understand how you can work with the Podman AI Lab for building AI-enabled applications. You will accomplish this with the following steps:
 
 * *Learn* about the Podman AI Lab and how it can accelerate developer productivity for building applications using Generative AI.
 * *Test* out the different features of the AI Lab, including the model catalog, playground environments, and more.
