@@ -1,4 +1,4 @@
-= Incorporating Gen AI into existing apps - 70 minutes
+= Gen AI into Parasol - 70 minutes
 :imagesdir: ../assets/images
 
 ++++
@@ -136,7 +136,7 @@ image::devhub/st_component_owner.png[st_component_owner, 800]
 [.console-input]
 [source,bash,subs="attributes"]
 ----
-inventory-app-{user}
+parasol-app-{user}
 ----
 
 image::devhub/st_component_componentid_quarkus.png[st_component_componentid_quarkus, 800]  
@@ -163,29 +163,29 @@ image::devhub/task_activity.png[]
 
 The Dev Hub will open a new tab with the component information. It will take some time to review the information in the screen:
 
-image::devhub/inventory_overview.png[] 
+image::devhub/parasol_overview.png[] 
 
 === 2.2. View source
 
 Click on `VIEW SOURCE` to access the new source code repository created.
 
-image::devhub/inventory_source.png[] 
+image::devhub/parasol_source.png[] 
 
-Go back to your inventory component on the Red Hat Developer Hub: https://developer-hub-backstage-globex-devhub.{openshift_subdomain}/catalog/default/component/inventory-app-{user}[Red Hat Developer Hub UI^].
+Go back to your parasol component on the Red Hat Developer Hub: https://developer-hub-backstage-globex-devhub.{openshift_subdomain}/catalog/default/component/parasol-app-{user}[Red Hat Developer Hub UI^].
 
 === 2.3. Review continuous integration and delivery (CI/CD)
 
 Click on `CI` tab to review your pipeline information. The pipeline will be triggered in a few seconds. After a few minutes, you will see the pipeline finished as *Succeeded*.
 
-image::devhub/inventory_pipeline.png[] 
+image::devhub/parasol_pipeline.png[] 
 
 Click on `CD` to review ArgoCD History.
 
 image::devhub/frontend_argohistory.png[] 
 
-Click on `TOPOLOGY` to review your deployment status. The deployment will be in *blue* immediately after the pipeline succeeds. Then, click on the deployment *inventory-app-{user}*. The application details on the right is available. 
+Click on `TOPOLOGY` to review your deployment status. The deployment will be in *blue* immediately after the pipeline succeeds. Then, click on the deployment *parasol-app-{user}*. The application details on the right is available. 
 
-image::devhub/inventory_deployment.png[]
+image::devhub/parasol_deployment.png[]
 
 === 2.4. Verify the deployment
 
