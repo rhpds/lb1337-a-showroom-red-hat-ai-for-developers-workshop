@@ -13,35 +13,220 @@
 </script>
 ++++
 
+== The AI Journey for an Application Developer
+
+"More Than 80% of Enterprises Will Have Used Generative AI APIs or Deployed Generative AI-Enabled Applications by 2026"
+-- https://www.gartner.com/en/newsroom/press-releases/2023-10-11-gartner-says-more-than-80-percent-of-enterprises-will-have-used-generative-ai-apis-or-deployed-generative-ai-enabled-applications-by-2026[Gartner]
+
+This is why, as a developer at Parasol Insurance, it's important to understand the different steps of the journey to learning, understanding, and working with AI:
+
+. Ideation & Prototyping
+* How do I *evaluate* models and pick the best one for my use case?
+. Building & Refining
+* How do I *build* an application with LLMs?
+. Operationalizing
+* How do I *deploy* my application with LLMs?
+
+image::discovery/adopting-gen-ai.png[Adopting Gen AI]
+
 == Goals of this lab
 
-As a Developer at Parasol Insurance, the first step in your AI journey will be to use RHEL AI (Red Hat's foundation model platform to seamlessly develop, test, and run LLMs for enterprise applications) and Podman Desktop AI Lab extension to discover and experiment with a variety of generative AI models and understand the relationship between model, model server, and the application. The goal of this exercise is to equip you with the basic knowledge and skills to be able to identify suitable AI models for different tasks, understand their underlying mechanisms, and see examples of application integration with the underlying model.
+Your first step is to start learning and experimenting with AI for enterprise applications. In this section, you'll understand how you can work with the Podman AI Lab for building AI-enabled applications. You will accomplish this with the following steps:
 
-== 1. Run podman desktop
+* *Learn* about the Podman AI Lab and how it can accelerate developer productivity for building applications using Generative AI.
+* *Test* out the different features of the AI Lab, including the model catalog, playground environments, and more.
+* *Deploy* a basic summarization application in order to quickly understand insurance claims.
 
-Introduction to gen AI + discover and experiment with gen AI models and AI applications on the local desktop, in an inner loop
+== 1. Getting Started with Your Developer Environment for Generative AI
 
-image::discovery/redhat-openshift-ai.png[]
+=== 1.1. Understanding Podman Desktop and AI Lab
 
+We'll be using https://podman-desktop.io[Podman Desktop], an open-source graphical interface for managing containers, pods, and images on your local system. It provides a user-friendly way for developers in our organization to work with containerized applications and services. The https://podman-desktop.io/extensions/ai-lab[AI Lab extension] for Podman Desktop is a powerful tool that allows developers to explore and experiment with various AI models and applications locally, and we'll learn how to use it to kick-start our discovery and usage of generative AI.
 
-== 1.1. TBD
+=== 1.2. Key Components of Podman AI Lab
 
-=== 1.1.1. TBD
+With Podman AI Lab, we're provided a curated catalog of open-source recipes, ready-to-use models, and playgrounds for common generative AI use cases. The main components include:
 
-== 2. Start a playground, chat with it
+* *Recipes Catalog*: A collection of pre-built AI applications and use cases that demonstrate real-world implementations of AI models.
+* *Open Source Models*: A curated list of AI models that can be easily downloaded and used, with information on their licenses and capabilities.
+* *Playground Environments*: Interactive spaces to test and experiment with different models, allowing developers to specify model parameters and observe results.
+* *Model Serving*: Capability to run local inference servers for AI models, providing an OpenAI-compatible endpoint for application integration.
 
-== 3. Kill playground, try text summarization recipe, upload claim PDF, view summarization
+== 2. Exploring the Podman AI Lab Interface
 
-== 4. Open summarization app (python) in vscode, inspect code (briefly)
+Your developer environment includes Podman Desktop pre-installed with the AI Lab extension, allowing you to instantly get started exploring and working with Generative AI in your application development workflow. From the extensions sidebar of Podman Desktop, navigate to the AI Lab icon.
 
-== 5. Change the prompt, restart, and observe changes.
+image::discovery/ai-lab-extension-menu.png[Podman AI Lab Extension]
+
+=== 2.1. Viewing the Model Catalog
+
+The Model Catalog is a key component of Podman AI Lab, providing developers with a curated list of open-source AI models and Large Language Models (LLMs). Select the *Models / Catalog* from the menu.
+
+image::discovery/model-catalog.png[Podman AI Lab Model Catalog]
+
+The Model Catalog interface is organized into four distinct tabs, each serving a specific purpose:
+
+* *All*: Displays the complete list of catalog models. Models that have been downloaded are easily identifiable by their green highlighted icon.
+* *Downloaded*: Shows only the models that have been stored locally on your machine, ready for offline use.
+* *Imported*: Lists any custom models you've imported that weren't originally part of the catalog. These could be models you've trained yourself or obtained from other sources, via `.gguf` format.
+* *Available*: Presents all catalog models that are yet to be downloaded.
+
+[NOTE]
+====
+All models in the Podman AI Lab catalog are licensed under Apache 2.0. This permissive open-source license grants users the freedom to use, modify, and distribute the software, while also providing patent rights.
+====
+
+image::discovery/model-catalog-tabs.png[Podman AI Lab Model Catalog Tabs]
+
+=== 2.2. Model Serving and Integration
+
+Model serving is a crucial step in making AI models accessible for application integration. Podman AI Lab simplifies this process by allowing you to run inference servers for downloaded models, exposing them through OpenAI-compatible API endpoints. From the AI Lab menu, select *Models / Services*.
+
+image::discovery/model-services.png[Podman AI Lab Model Services]
+
+By selecting New Model Service, you can choose a pre-downloaded model from the dropdown menu and start an inference server for it. This action deploys a containerized model service that exposes the AI model via a REST API endpoint.
+
+image::discovery/model-service-new.png[Podman AI Lab Model Service New]
+
+The Model Service details dashboard provides essential information for integrating the model into your applications:
+
+* *Container section*: Shows the model's container name, useful for viewing direct container interactions via Podman Desktop.
+* *Model section*: Displays the model name, license, and source repository.
+* *Server section*: Provides the local URL (inference endpoint) for the model.
+* *Client Code section*: Offers integration code snippets in various programming languages.
+
+image::discovery/model-service-details.png[Podman AI Lab Model Service Details]
+
+Specifically, the Client Code section provides developers with code snippets in popular programming languages, such as Python, JavaScript, and cURL, to help them quickly integrate the model into their applications. Typically, this includes the following information:
+
+* *Endpoint connection details*: The URL and necessary headers for connecting to the model service.
+* *Sample prompt*: A basic example query to test the model's functionality.
+
+image::discovery/model-service-client-code.png[Podman AI Lab Model Service Client Code]
+
+=== 2.3. Testing out Playground Environments
+
+The AI Lab Playground is a powerful feature that allows you to experiment with available models in a local environment. It provides an intuitive user interface for exploring model capabilities, accuracy, and finding the best model for your use case. From the AI Lab menu, select *Models / Playgrounds*.
+
+image::discovery/playground-menu.png[Podman AI Lab Playground]
+
+By selecting *New Playground*, you can select a pre-downloaded model from the dropdown menu and start experimenting with it. This action deploys two key components: a Model Service that exposes the AI model via an inference endpoint API, and an ai-lab-playground-chat container that provides the user interface for model interaction.
+
+image::discovery/playground-new.png[Podman AI Lab Playground New]
+
+The Playground interface offers several technical features for fine-tuning model behavior:
+
+* *System Prompt*: Located at the top of the chat interface, this text area allows you to set the context and behavior of the AI model. For insurance-specific tasks, you might use: `You are an AI assistant specializing in insurance. Provide accurate, helpful information on insurance policies, claims, and risk assessment.`
+* *Hyperparameter Tuning*: The Settings widget on the right side provides access to crucial parameters:
+** *Temperature*: Controls the randomness of the model's responses. Lower values produce more deterministic outputs, while higher values introduce more randomness.
+** *Max Tokens*: Limits the number of tokens generated by the model, which can help prevent overly verbose responses.
+** *Top P*: Determines the number of tokens to consider for each step of the model's generation process. Higher values can lead to more diverse responses.
+
+image::discovery/playground-settings.png[Podman AI Lab Playground Settings]
+
+By systematically testing various configurations and prompts related to insurance scenarios, developers can gain insights into model performance and identify optimal settings for specific use cases within Parasol Insurance's applications. This process of experimentation and analysis in the Playground environment is crucial for understanding model capabilities and limitations before integration into production systems.
+
+== 3. Getting Started from Recipes
+
+Podman AI Lab provides a Recipes Catalog that helps you navigate core AI use cases and problem domains. Each recipe comes with detailed explanations and sample applications with open source code that can be run with various large language models (LLMs). From the AI Lab menu, select *AI Apps / Recipes*.
+
+image::discovery/recipes-catalog-menu.png[Podman AI Lab Recipes Catalog Menu]
+
+The catalog is organized by categories of example use cases, including:
+
+* *Natural Language Processing*: Chatbots, Text summarizers, Code generators
+* *Computer Vision*: Object detection
+* *Audio*: Audio-to-text transcription
+
+These recipes can help you quickly prototype new AI and LLM-based applications locally, without relying on externally hosted services. By exploring the Recipes Catalog, you can gain insights into the capabilities of different models and understand how they can be applied to real-world scenarios.
+
+=== 3.1. Deploying a Basic AI Summarization Application
+
+Let's explore the Text Summarization recipe, which can be particularly useful for processing insurance claim documents:
+
+1. In the Recipes Catalog, select the *Summarizer* application under the Natural Language Processing category.
+2. Review the Summary tab for details about the application and its capabilities.
+3. In the Models tab, you can select a compatible model for the application to use.
+4. Click the Start AI App button in the AI App Details section to begin the application's building process, where one container will act as an AI model server and another as the application interface.
+
+image::discovery/text-summarization-recipe.png[Podman AI Lab Text Summarization Recipe]
+
+=== 3.2. Testing the Text Summarization Application
+
+Once the application is running, you can upload a sample insurance claim PDF document to the interface and view the summarization output. First, open the application by clicking the *link* button in the AI App Details section.
+
+image::discovery/text-summarization-app.png[Podman AI Lab Text Summarization Application]
+
+Here, you can upload a sample insurance claim PDF document and observe the summarization output generated by the AI model.
+
+image::discovery/text-summarization-app-upload.png[Podman AI Lab Text Summarization Application Upload]
+
+By experimenting with the Text Summarization application, you can quickly understand how AI models can be leveraged to process and summarize insurance claims, providing valuable insights and accelerating the claims processing workflow at Parasol Insurance.
+
+=== 3.3. Updating the Application's Source Code
+
+To further customize the Text Summarization application for Parasol Insurance's specific requirements, you can access and modify the application's source code, which was cloned locally to your machine when you started the recipe. By clicking the *Open in VSCode* button in the AI App Details section, you can view and modify the application's codebase directly in your local development environment.
+
+image::discovery/text-summarization-app-vscode.png[Podman AI Lab Text Summarization Application VSCode]
+
+Let's examine the code briefly to understand how the application interacts with the AI model and processes the input data, from the `summarizer.py` in the `app` folder. This includes the use of `langchain` for making calls to the model server, a `chunk_text` function for splitting the input text into smaller segments, and the `refine_template` for guiding the final summary output.
+
+image::discovery/text-summarization-app-code.png[Podman AI Lab Text Summarization Application Code]
+
+For our specific use case, let's make an adjustment to the summarization behavior to better align with Parasol Insurance's claim processing requirements:
+
+* Find the `refine_template` in the `summarizer.py` file.
+* Modify the template to include additional details about the claimant, policy number, and claim type:
+
+[source,python]
+----
+refine_template = PromptTemplate.from_template(
+    "Summarize this insurance claim document:\n"
+    "Existing summary: {existing_answer}\n"
+    "New context:\n"
+    "------------\n"
+    "{text}\n"
+    "------------\n"
+    "Refine the summary, focusing on:\n"
+    "1. Incident date and location\n"
+    "2. Type of claim (e.g., auto, property)\n"
+    "3. Claimed amount\n"
+    "4. Key policy details relevant to the claim\n"
+    "Use bullet points, maximum 10 points."
+)
+----
+
+image::discovery/text-summarization-app-refine.png[Podman AI Lab Text Summarization Application Refine]
+
+By updating the template with these specific requirements, you can tailor the summarization output to provide more detailed and relevant information for insurance claims processing at Parasol Insurance. Now, save your changes and restart the recipe to re-build the container with the updated code.
+
+image::discovery/text-summarization-app-restart.png[Podman AI Lab Text Summarization Application Restart]
+
+[NOTE]
+====
+Being that the source code has changed, you may be notified from Podman AI Lab that the hash has changed. This is expected behavior.
+====
+
+=== 3.4. Re-Testing the Text Summarization Application
+
+Now that we've updated the code and restarted the recipe, let's test the Text Summarization application again to see the improvements:
+
+* Open the application by clicking the *link* button in the AI App Details section.
+* Upload the same sample insurance claim document you used earlier.
+* Observe the new summarization output generated by the AI model. You should notice that the summary now includes more specific details related to insurance claims, such as incident date, claim type, and policy details.
+
+image::discovery/text-summarization-app-retest.png[Podman AI Lab Text Summarization Application Retest]
+
+Compare this new output with the previous summarization to see how the changes in the `refine_template` have improved the relevance and specificity of the summary for insurance claim processing.
 
 == Conclusion
 
-We hope you have enjoyed this module!
+This demonstrates how developers can leverage the Podman AI Lab to quickly prototype, test, and refine AI-powered applications for their organization's unique requirements. Here's a quick summary of what we have learned:
 
-Here is a quick summary of what we have learned:
+* How to use Podman Desktop and the AI Lab extension to explore and experiment with AI models and applications.
+* The key components of Podman AI Lab, including the Model Catalog, Model Serving, and Playground Environments.
+* How to deploy and customize a basic AI Summarization application using the Recipes Catalog.
+* The process of modifying and improving an AI application to better suit specific business needs, such as tailoring it for insurance claim processing.
+* The benefits of using containerized AI recipes for rapid prototyping and development of AI-powered applications.
 
-- TBD
-- TBD
-- TBD
+These skills and tools will be invaluable as you continue to develop AI-enabled applications at Parasol Insurance, allowing you to quickly iterate on ideas and integrate powerful AI capabilities into your workflow. Now, let's learn how we can enhance our applications by providing additional knowledge and information to the AI models we work with.
