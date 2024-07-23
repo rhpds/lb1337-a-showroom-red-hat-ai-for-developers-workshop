@@ -28,7 +28,7 @@ This is why, as a developer at Parasol Insurance, it's important to understand t
 . Operationalizing
 * How do I *deploy* my application with LLMs?
 
-This module will be focusing on *Ideation and Prototyping*
+This module will be focusing on *Ideation and Prototyping*.
 
 image::discovery/adopting-gen-ai.png[Adopting Gen AI]
 
