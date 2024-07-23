@@ -7,5 +7,8 @@ nav:
 asciidoc:
   attributes:
     lab_name: Red Hat AI Development Roadshow - Developer Track
+    user: user1
+    password: openshift
+    openshift_subdomain: app.example.sandbox.com
     release-version: main
     page-pagination: true
