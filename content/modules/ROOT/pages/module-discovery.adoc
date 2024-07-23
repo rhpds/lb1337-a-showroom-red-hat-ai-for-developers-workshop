@@ -18,6 +18,7 @@
 "More Than 80% of Enterprises Will Have Used Generative AI APIs or Deployed Generative AI-Enabled Applications by 2026"
 -- https://www.gartner.com/en/newsroom/press-releases/2023-10-11-gartner-says-more-than-80-percent-of-enterprises-will-have-used-generative-ai-apis-or-deployed-generative-ai-enabled-applications-by-2026[Gartner]
 
+
 This is why, as a developer at Parasol Insurance, it's important to understand the different steps of the journey to learning, understanding, and working with AI:
 
 . Ideation & Prototyping
@@ -26,6 +27,8 @@ This is why, as a developer at Parasol Insurance, it's important to understand t
 * How do I *build* an application with LLMs?
 . Operationalizing
 * How do I *deploy* my application with LLMs?
+
+This module will be focusing on *Ideation and Prototyping*
 
 image::discovery/adopting-gen-ai.png[Adopting Gen AI]
 
