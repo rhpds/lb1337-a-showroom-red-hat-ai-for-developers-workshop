@@ -57,11 +57,21 @@ With Podman AI Lab, we're provided a curated catalog of open-source recipes, rea
 
 == 2. Exploring the Podman AI Lab Interface
 
-Your developer environment includes Podman Desktop pre-installed with the AI Lab extension, allowing you to instantly get started exploring and working with Generative AI in your application development workflow. From the extensions sidebar of Podman Desktop, navigate to the AI Lab icon.
+Your developer environment includes Podman Desktop pre-installed with the AI Lab extension, allowing you to instantly get started exploring and working with Generative AI in your application development workflow. 
+
+=== 2.1 Launch Podman Desktop AI Lab
+
+1. Click the `Activities` label in the top-left corner of the screen.
+2. Click the `Show Applications` icon to show all the applications.
+3. Click the `Podman Desktop` icon to launch Podman Desktop.
+
+image::discovery/launch-podman-desktop.png[Launch Podman Desktop]
+
+From the extensions sidebar of Podman Desktop, navigate to the AI Lab icon.
 
 image::discovery/ai-lab-extension-menu.png[Podman AI Lab Extension]
 
-=== 2.1. Viewing the Model Catalog
+=== 2.2. Viewing the Model Catalog
 
 The Model Catalog is a key component of Podman AI Lab, providing developers with a curated list of open-source AI models and Large Language Models (LLMs). Select the *Models / Catalog* from the menu.
 
@@ -81,7 +91,7 @@ All models in the Podman AI Lab catalog are licensed under Apache 2.0. This perm
 
 image::discovery/model-catalog-tabs.png[Podman AI Lab Model Catalog Tabs]
 
-=== 2.2. Model Serving and Integration
+=== 2.3. Model Serving and Integration
 
 Model serving is a crucial step in making AI models accessible for application integration. Podman AI Lab simplifies this process by allowing you to run inference servers for downloaded models, exposing them through OpenAI-compatible API endpoints. From the AI Lab menu, select *Models / Services*.
 
@@ -107,7 +117,7 @@ Specifically, the Client Code section provides developers with code snippets in 
 
 image::discovery/model-service-client-code.png[Podman AI Lab Model Service Client Code]
 
-=== 2.3. Testing out Playground Environments
+=== 2.4. Testing out Playground Environments
 
 The AI Lab Playground is a powerful feature that allows you to experiment with available models in a local environment. It provides an intuitive user interface for exploring model capabilities, accuracy, and finding the best model for your use case. From the AI Lab menu, select *Models / Playgrounds*.
 
