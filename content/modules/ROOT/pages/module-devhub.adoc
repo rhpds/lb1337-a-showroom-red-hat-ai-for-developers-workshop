@@ -1,4 +1,4 @@
-= Incorporating Gen AI into existing apps
+= Incorporating Gen AI into existing apps - 70 minutes
 :imagesdir: ../assets/images
 
 ++++
