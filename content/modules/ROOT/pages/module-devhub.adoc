@@ -64,21 +64,21 @@ image::devhub/software_template_parasol_llm.png[software_template_parasol_llm, 6
 
 Follow the next steps to create a component based on the pre-defined Software Templates:
 
-==== 1.2.1. Provide information about the Gitea location
+==== 1.2.1. Provide information about the Gitlab location
 
-* *Repo Host*: is the Gitea domain already installed in OpenShift. Red Hat Developer Hub will use this input data to upload the source repository and manifests.
+* *Repo Host*: is the Gitlab domain already installed in OpenShift. Red Hat Developer Hub will use this input data to upload the source repository and manifests.
 
 ** Replace the *Repo Host* with the OpenShift domain: 
 
 [.console-input]
 [source,bash,subs="attributes"]
 ----
-Gitea-Gitea.{openshift_subdomain}
+Gitlab-Gitlab.{openshift_subdomain}
 ----
 
-image::devhub/st_Gitea_info.png[st_Gitea_info, 800]  
+image::devhub/st_Gitlab_info.png[st_Gitlab_info, 800]  
 
-* *Repo Group*: is the Gitea organization already configured. Red Hat Developer Hub will use this input data to upload the source repository and manifests.
+* *Repo Group*: is the Gitlab organization already configured. Red Hat Developer Hub will use this input data to upload the source repository and manifests.
 
 * Click on *Next*
 
