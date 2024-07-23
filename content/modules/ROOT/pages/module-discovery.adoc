@@ -18,7 +18,6 @@
 "More Than 80% of Enterprises Will Have Used Generative AI APIs or Deployed Generative AI-Enabled Applications by 2026"
 -- https://www.gartner.com/en/newsroom/press-releases/2023-10-11-gartner-says-more-than-80-percent-of-enterprises-will-have-used-generative-ai-apis-or-deployed-generative-ai-enabled-applications-by-2026[Gartner]
 
-
 This is why, as a developer at Parasol Insurance, it's important to understand the different steps of the journey to learning, understanding, and working with AI:
 
 . Ideation & Prototyping
@@ -34,17 +33,18 @@ image::discovery/adopting-gen-ai.png[Adopting Gen AI]
 
 == Goals of this lab
 
-Your first step is to start learning and experimenting with AI for enterprise applications. In this section, you'll understand how you can work with the Podman AI Lab for building AI-enabled applications. You will accomplish this with the following steps:
+Your first step is to start learning and experimenting with AI for enterprise applications. In this section, you'll understand how you can work with the https://podman-desktop.io/docs/ai-lab[Podman AI Lab] for building AI-enabled applications. You will accomplish this with the following steps:
 
-* *Learn* about the Podman AI Lab and how it can accelerate developer productivity for building applications using Generative AI.
+* *Learn* about https://podman-desktop.io/docs/ai-lab[Podman AI Lab] and how it can accelerate developer productivity for building applications using Generative AI.
 * *Test* out the different features of the AI Lab, including the model catalog, playground environments, and more.
-* *Deploy* a basic summarization application in order to quickly understand insurance claims.
+* *Deploy* a basic summarization application, upload a claim, and view summarization to quickly understand how AI can assist with insurance claims.
+* *Change* the prompt, restart, and observe changes.
 
 == 1. Getting Started with Your Developer Environment for Generative AI
 
 === 1.1. Understanding Podman Desktop and AI Lab
 
-We'll be using https://podman-desktop.io[Podman Desktop], an open-source graphical interface for managing containers, pods, and images on your local system. It provides a user-friendly way for developers in our organization to work with containerized applications and services. The https://podman-desktop.io/extensions/ai-lab[AI Lab extension] for Podman Desktop is a powerful tool that allows developers to explore and experiment with various AI models and applications locally, and we'll learn how to use it to kick-start our discovery and usage of generative AI.
+We'll be using https://podman-desktop.io[Podman Desktop], an open-source graphical interface for managing images, containers, and pods on a local system. It provides a user-friendly way for developers in our organization to work with containerized applications and services. The https://podman-desktop.io/extensions/ai-lab[AI Lab extension] for Podman Desktop is a powerful tool that allows developers to explore and experiment with various AI models and applications locally. We'll learn how to use it to kick-start our discovery and usage of generative AI.
 
 === 1.2. Key Components of Podman AI Lab
 
