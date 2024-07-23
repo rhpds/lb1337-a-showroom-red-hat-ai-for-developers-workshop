@@ -39,7 +39,7 @@ To get started, *access* https://developer-hub-backstage-globex-devhub.{openshif
 [.console-input]
 [source,yaml,subs="attributes"]
 ----
-{user_name}
+{user}
 ----
 
 * *Password*: 
@@ -47,7 +47,7 @@ To get started, *access* https://developer-hub-backstage-globex-devhub.{openshif
 [.console-input]
 [source,yaml,subs="attributes"]
 ----
-{user_password}
+{password}
 ----
  
 image::devhub/authentication.png[]
@@ -103,7 +103,7 @@ image::devhub/st_component_clusterid.png[st_component_clusterid, 800]
 [.console-input]
 [source,bash,subs="attributes"]
 ----
-globex-devhub-{user_name}
+globex-devhub-{user}
 ----
 
 image::devhub/st_component_namespace.png[st_component_namespace, 800]  
@@ -116,7 +116,7 @@ image::devhub/st_component_namespace.png[st_component_namespace, 800]
 [.console-input]
 [source,bash,subs="attributes"]
 ----
-qa-{user_name}
+qa-{user}
 ----
 
 image::devhub/st_component_owner.png[st_component_owner, 800]  
@@ -136,7 +136,7 @@ image::devhub/st_component_owner.png[st_component_owner, 800]
 [.console-input]
 [source,bash,subs="attributes"]
 ----
-inventory-app-{user_name}
+inventory-app-{user}
 ----
 
 image::devhub/st_component_componentid_quarkus.png[st_component_componentid_quarkus, 800]  
@@ -171,7 +171,7 @@ Click on `VIEW SOURCE` to access the new source code repository created.
 
 image::devhub/inventory_source.png[] 
 
-Go back to your inventory component on the Red Hat Developer Hub: https://developer-hub-backstage-globex-devhub.{openshift_subdomain}/catalog/default/component/inventory-app-{user_name}[Red Hat Developer Hub UI^].
+Go back to your inventory component on the Red Hat Developer Hub: https://developer-hub-backstage-globex-devhub.{openshift_subdomain}/catalog/default/component/inventory-app-{user}[Red Hat Developer Hub UI^].
 
 === 2.3. Review continuous integration and delivery (CI/CD)
 
@@ -183,13 +183,13 @@ Click on `CD` to review ArgoCD History.
 
 image::devhub/frontend_argohistory.png[] 
 
-Click on `TOPOLOGY` to review your deployment status. The deployment will be in *blue* immediately after the pipeline succeeds. Then, click on the deployment *inventory-app-{user_name}*. The application details on the right is available. 
+Click on `TOPOLOGY` to review your deployment status. The deployment will be in *blue* immediately after the pipeline succeeds. Then, click on the deployment *inventory-app-{user}*. The application details on the right is available. 
 
 image::devhub/inventory_deployment.png[]
 
 === 2.4. Verify the deployment
 
-Access the https://frontend-app-{user_name}-globex-devhub-{user_name}.{openshift_subdomain}[Parasol web page^] to verify everything is working as expected.
+Access the https://frontend-app-{user}-globex-devhub-{user}.{openshift_subdomain}[Parasol web page^] to verify everything is working as expected.
 
 image::devhub/parasol_ui_web.png[]
 
@@ -201,7 +201,7 @@ https://developers.redhat.com/products/openshift-dev-spaces/overview[Red Hat Ope
 
 === 3.1. Log in Red Hat OpenShift Dev Spaces
 
-Go back to the https://developer-hub-backstage-globex-devhub.{openshift_subdomain}/catalog/default/component/frontend-app-{user_name}[Parasol component^] in the Red Hat Developer Hub. From the *OVERVIEW* tab click on `OpenShift Dev Spaces (VS Code)` to make the necessary source code changes.
+Go back to the https://developer-hub-backstage-globex-devhub.{openshift_subdomain}/catalog/default/component/frontend-app-{user}[Parasol component^] in the Red Hat Developer Hub. From the *OVERVIEW* tab click on `OpenShift Dev Spaces (VS Code)` to make the necessary source code changes.
 
 image::devhub/frontend_devspaces.png[frontend_devspaces, 700]
 
@@ -211,8 +211,8 @@ image::devhub/devspaces_login.png[devspaces_login, 700]
 
 Log in with the following OpenShift credential on the Red Hat Single Sign-On (RH-SSO) page.
 
- ** *Username*: `{user_name}`
- ** *Password*: `{user_password}`
+ ** *Username*: `{user}`
+ ** *Password*: `{password}`
 
 Authorize the access by click on *Allow selected permissions*.
 
@@ -220,8 +220,8 @@ image::devhub/devspaces_authorize.png[devspaces_authorize, 600]
 
 Log in GitLab using your credentials.
 
- ** *Username*: `{user_name}`
- ** *Password*: `{user_password}`
+ ** *Username*: `{user}`
+ ** *Password*: `{password}`
 
 image::devhub/gitlab_authentication.png[gitlab_authentication, 600]
 
