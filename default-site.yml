@@ -10,8 +10,8 @@ content:
 
 ui:
   bundle:
-    # url: https://github.com/rhpds/showroom_theme_rhdp/releases/download/rhdp-v0.0.2/ui-bundle.zip
-    url: https://github.com/danieloh30/rad-ui-bundle/raw/main/releases/download/v1.0/rad-ui-bundle.zip
+    url: https://github.com/rhpds/showroom_theme_rhdp/releases/download/rhdp-v0.0.2/ui-bundle.zip
+    # url: https://github.com/danieloh30/rad-ui-bundle/raw/main/releases/download/v1.0/rad-ui-bundle.zip
 
 runtime:
   cache_dir: ./.cache/antora
