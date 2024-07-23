@@ -61,13 +61,14 @@ Your developer environment includes Podman Desktop pre-installed with the AI Lab
 
 === 2.1 Launch Podman Desktop AI Lab
 
-1. Click the `Activities` label in the top-left corner of the screen.
-2. Click the `Show Applications` icon to show all the applications.
-3. Click the `Podman Desktop` icon to launch Podman Desktop.
+. Click the `Activities` label in the top-left corner of the screen.
+. Click the `Show Applications` icon to show all the applications.
+. Click the `Podman Desktop` icon to launch Podman Desktop.
 
 image::discovery/launch-podman-desktop.png[Launch Podman Desktop]
 
-From the extensions sidebar of Podman Desktop, navigate to the AI Lab icon.
+[start=4]
+. From the extensions sidebar of Podman Desktop, navigate to the AI Lab icon.
 
 image::discovery/ai-lab-extension-menu.png[Podman AI Lab Extension]
 
