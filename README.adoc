@@ -1,5 +1,7 @@
 # Red Hat AI Development Roadshow - Developer Track
 
+To consult the static version of the instructions, please use [this URL](https://rh-rad-ai-roadshow.github.io/dev-guides/)
+
 === Getting Started
 
 . Create a git repo from this template
