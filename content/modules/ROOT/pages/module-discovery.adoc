@@ -1,4 +1,4 @@
-= Discovery
+= Discovery - 40 minutes
 :imagesdir: ../assets/images
 :sectnums:
 
