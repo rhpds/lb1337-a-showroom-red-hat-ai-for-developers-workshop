@@ -247,7 +247,7 @@ You can see from the result that the summarizer has created a summary from the c
 
 To further customize the Text Summarization application for Parasol Insurance's specific requirements, you can access and modify the application's source code, which was cloned locally to your machine when you started the recipe.
 
-Click the `Open in VSCode` button in the `AI App Details` section to view and modify the application's codebase directly in your local development environment.
+Return to Podman Desktop and click the `Open in VSCode` button in the `AI App Details` section to view and modify the application's codebase directly in your local development environment.
 
 image::discovery/text-summarization-app-vscode.png[Podman AI Lab Text Summarization Application VSCode]
 
@@ -290,7 +290,8 @@ For our specific use case, let's make an adjustment to the summarization behavio
 . Find the `refine_template` variable in the `summarizer.py` file.
 . Modify the template to include additional details about the claimant, including policy number, and claim type:
 
-[source,python]
+[.console-input]
+[source,puthon,subs="+attributes,macros+"]
 ----
 refine_template = PromptTemplate.from_template(
     "Summarize this insurance claim document:\n"
