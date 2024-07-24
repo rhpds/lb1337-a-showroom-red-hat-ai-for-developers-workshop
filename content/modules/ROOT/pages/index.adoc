@@ -18,7 +18,6 @@ image::dev-flow.png[Red Hat Products]
 Your credentials to access the hands-on lab:
 
 * Username: *{user}*
-* Password (OpenShift cluster *AND* noVNC server): *{password}*
-* noVNC Web URL: *{novnc_url}*
+* Password: *{password}*
 
 Before diving into a particular module, we recommend that you go through the workshop introduction module, to explore the technical and functional environment for this workshop. *Go ahead! Choose your adventure!*
