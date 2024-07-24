@@ -156,8 +156,12 @@ Now let's play with it a bit:
 . Click the `Open` icon next to `Define a system prompt`
 . Paste in the following text and click the checkmark to save the system prompt:
 
+[.console-input]
+[source,text,subs="+attributes,macros+"]
 ----
-You are an AI assistant specializing in insurance. Provide accurate, helpful information on insurance policies, claims, and risk assessment.
+You are an AI assistant specializing in insurance.
+
+Provide accurate, helpful information on insurance policies, claims, and risk assessment.
 ----
 
 image::discovery/playground-system-prompt.png[Podman AI Lab Playground save system prompt]
