@@ -28,7 +28,7 @@ This is why, as a developer at Parasol Insurance, it's important to understand t
 . Operationalizing
 * How do I *deploy* my application with LLMs?
 
-This module will be focusing on *Ideation and Prototyping*.
+This module will focus on *Ideation and Prototyping*.
 
 image::discovery/adopting-gen-ai.png[Adopting Gen AI]
 
@@ -62,6 +62,7 @@ Your developer environment includes Podman Desktop pre-installed with the AI Lab
 
 === Launch Podman Desktop AI Lab
 
+. Connect to your noVNC server (*INSERT_NOVNC_SERVER_URL_HERE*), using the password *INSERT_NOVNC_SERVER_PASSWORD_HERE*.
 . Click the `Activities` label in the top-left corner of the screen.
 . Click the `Show Applications` icon to show all the applications.
 . Click the `Podman Desktop` icon to launch Podman Desktop.

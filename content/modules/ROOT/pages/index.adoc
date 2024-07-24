@@ -15,9 +15,11 @@ image::dev-flow.png[Red Hat Products]
 
 == Get started
 
-Your credential to access the hands-on lab:
+Your credentials to access the hands-on lab:
 
 * Username: *{user}*
 * Password: *{password}*
+* noVNC Web URL: *INSERT_NOVNC_SERVER_URL_HERE*
+* noVNC Password: *INSERT_NOVNC_SERVER_PASSWORD_HERE*
 
 Before diving into a particular module, we recommend that you go through the workshop introduction module, to explore the technical and functional environment for this workshop. *Go ahead! Choose your adventure!*
