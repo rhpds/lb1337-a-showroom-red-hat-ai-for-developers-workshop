@@ -1,5 +1,6 @@
 = Private Docs (RAG/Tools)
 :imagesdir: ../assets/images
+:sectnums:
 
 ++++
 <!-- Google tag (gtag.js) -->
@@ -13,28 +14,45 @@
 </script>
 ++++
 
+
 == Goals of this lab
 
 Parasol is looking to not only build new apps, but integrate generative AI into their existing applications such as their customer service representative tools used to respond to customer claim emails. In this exercise, you will delve into basic application integration techniques such as ingesting private documents and applying the Retrieval-Augmented Generation (RAG) pattern to enhance AI model performance. You will learn how to extend models with specialized tools, understand the inherent limitations of the RAG approach, and explore the rationale behind training AI models for specific tasks using Parasol’s corporate data. By the end of this exercise, you will gain valuable insights into how to effectively handle private data, leverage the RAG pattern to improve information retrieval and generation, and learn how to integrate AI into applications within the context of Parasol Insurance's operational needs.
 
-== 1. Run podman desktop
+== Instantiate Developer Hub template
 
 Introduction to gen AI + discover and experiment with gen AI models and AI applications on the local desktop, in an inner loop
 
 image::private-docs/redhat-openshift-ai.png[]
 
+== Open/Examine App in DevSpaces
 
-== 1.1. TBD
+== Implement chat bot
 
-=== 1.1.1. TBD
+* WebSocket code already there
+* Build prompt
+* Already in context of the claim (claim details are passed in)
+* Maybe chat bot is already there? Depends on whether we want to spend time building this or focus on RAG/Agent/Tools
 
-== 2. Start a playground, chat with it
+== Launch app and interact with chat bot
 
-== 3. Kill playground, try text summarization recipe, upload claim PDF, view summarization
+* Ask questions about the claim
+* Ask a question that may not be in the claim but is specific to parasol
+** i.e. Should I approve this claim based on Parasol's policies?
 
-== 4. Open summarization app (python) in vscode, inspect code (briefly)
+== Introduce & build RAG
 
-== 5. Change the prompt, restart, and observe changes.
+* When to use RAG vs fine-tuning (maybe covered at beginning)
+* Now re-ask previous question and bot should be able to answer
+
+== Build a tool/agent to notify the user by email an update to their claim
+
+* Send email to user with pre-defined text that the claim status has changed to "being worked on".
+* Reuse stuff from https://redhat-developer-demos.github.io/quarkus-tutorial/quarkus-tutorial/19_agents_tools.html
+
+== Re-run chat asking to notify the user that their clain is being worked on
+
+== Go to Dev UI to see email
 
 == Conclusion
 
