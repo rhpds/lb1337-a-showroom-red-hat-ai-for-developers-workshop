@@ -32,7 +32,7 @@ Red Hat Developer Hub has already been installed and configured in the workshop 
 
 Red Hat Developer Hub can integrate with https://access.redhat.com/products/red-hat-single-sign-on/[Red Hat Single Sign On (RH-SSO)^] to enhance security and user experience for developers within an organization. By integrating with RH-SSO, developers only need to log in once to access both RHDH and other applications secured by RH-SSO. This eliminates the need to manage multiple login credentials for different developer tools and services. RH-SSO can centralize user authentication and authorization to strengthen security by ensuring only authorized users can access RHDH and other protected resources. In addition, The platform engineer team can manage user access and permissions centrally through RH-SSO, simplifying administration and reducing the risk of unauthorized access.
 
-To get started, *access* https://developer-hub-backstage-globex-devhub.{openshift_subdomain}[Red Hat Developer Hub Dashboard^] with the following credential:
+To get started, *access* https://developer-hub-backstage-globex-devhub.{openshift_cluster_ingress_domain}[Red Hat Developer Hub Dashboard^] with the following credential:
 
 * *Username*: 
 
@@ -73,7 +73,7 @@ Follow the next steps to create a component based on the pre-defined Software Te
 [.console-input]
 [source,bash,subs="attributes"]
 ----
-Gitlab-Gitlab.{openshift_subdomain}
+Gitlab-Gitlab.{openshift_cluster_ingress_domain}
 ----
 
 image::devhub/st_Gitlab_info.png[st_Gitlab_info, 800]  
@@ -91,7 +91,7 @@ image::devhub/st_Gitlab_info.png[st_Gitlab_info, 800]
 [.console-input]
 [source,bash,subs="attributes"]
 ----
-.{openshift_subdomain}
+.{openshift_cluster_ingress_domain}
 ----
 
 image::devhub/st_component_clusterid.png[st_component_clusterid, 800]  
@@ -171,7 +171,7 @@ Click on `VIEW SOURCE` to access the new source code repository created.
 
 image::devhub/parasol_source.png[] 
 
-Go back to your parasol component on the Red Hat Developer Hub: https://developer-hub-backstage-globex-devhub.{openshift_subdomain}/catalog/default/component/parasol-app-{user}[Red Hat Developer Hub UI^].
+Go back to your parasol component on the Red Hat Developer Hub: https://developer-hub-backstage-globex-devhub.{openshift_cluster_ingress_domain}/catalog/default/component/parasol-app-{user}[Red Hat Developer Hub UI^].
 
 === 2.3. Review continuous integration and delivery (CI/CD)
 
@@ -189,7 +189,7 @@ image::devhub/parasol_deployment.png[]
 
 === 2.4. Verify the deployment
 
-Access the https://frontend-app-{user}-globex-devhub-{user}.{openshift_subdomain}[Parasol web page^] to verify everything is working as expected.
+Access the https://frontend-app-{user}-globex-devhub-{user}.{openshift_cluster_ingress_domain}[Parasol web page^] to verify everything is working as expected.
 
 image::devhub/parasol_ui_web.png[]
 
@@ -201,7 +201,7 @@ https://developers.redhat.com/products/openshift-dev-spaces/overview[Red Hat Ope
 
 === 3.1. Log in Red Hat OpenShift Dev Spaces
 
-Go back to the https://developer-hub-backstage-globex-devhub.{openshift_subdomain}/catalog/default/component/frontend-app-{user}[Parasol component^] in the Red Hat Developer Hub. From the *OVERVIEW* tab click on `OpenShift Dev Spaces (VS Code)` to make the necessary source code changes.
+Go back to the https://developer-hub-backstage-globex-devhub.{openshift_cluster_ingress_domain}/catalog/default/component/frontend-app-{user}[Parasol component^] in the Red Hat Developer Hub. From the *OVERVIEW* tab click on `OpenShift Dev Spaces (VS Code)` to make the necessary source code changes.
 
 image::devhub/frontend_devspaces.png[frontend_devspaces, 700]
 
