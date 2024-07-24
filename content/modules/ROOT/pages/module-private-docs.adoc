@@ -19,6 +19,8 @@
 
 Parasol is looking to not only build new apps, but integrate generative AI into their existing applications such as their customer service representative tools used to respond to customer claim emails. In this exercise, you will delve into basic application integration techniques such as ingesting private documents and applying the Retrieval-Augmented Generation (RAG) pattern to enhance AI model performance. You will learn how to extend models with specialized tools, understand the inherent limitations of the RAG approach, and explore the rationale behind training AI models for specific tasks using Parasol’s corporate data. By the end of this exercise, you will gain valuable insights into how to effectively handle private data, leverage the RAG pattern to improve information retrieval and generation, and learn how to integrate AI into applications within the context of Parasol Insurance's operational needs.
 
+include::module-devhub-preq.adoc[]
+
 == Instantiate Developer Hub template
 
 Introduction to gen AI + discover and experiment with gen AI models and AI applications on the local desktop, in an inner loop
