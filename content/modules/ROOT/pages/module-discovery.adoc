@@ -62,7 +62,7 @@ Your developer environment includes Podman Desktop pre-installed with the AI Lab
 
 === Launch Podman Desktop AI Lab
 
-. Connect to your noVNC server (*INSERT_NOVNC_SERVER_URL_HERE*), using the password *INSERT_NOVNC_SERVER_PASSWORD_HERE*.
+. Connect to your noVNC server (*{novnc_url}*), using the password *{password}*.
 . Click the `Activities` label in the top-left corner of the screen.
 . Click the `Show Applications` icon to show all the applications.
 . Click the `Podman Desktop` icon to launch Podman Desktop.
