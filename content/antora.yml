@@ -10,6 +10,7 @@ asciidoc:
     user: user1
     password: openshift
     openshift_cluster_ingress_domain: app.example.sandbox.com
+    novnc_url: https://app.example.sandbox.com
     release-version: main
     page-pagination: true
     page-toclevels: 1
