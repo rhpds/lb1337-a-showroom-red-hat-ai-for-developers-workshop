@@ -1,5 +1,7 @@
 = Discovery
 :imagesdir: ../assets/images
+:toc:
+:toclevels: 1
 
 ++++
 <!-- Google tag (gtag.js) -->
