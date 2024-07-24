@@ -41,8 +41,6 @@ Your first step is to start learning and experimenting with AI for enterprise ap
 * *Deploy* a basic summarization application, upload a claim, and view summarization to quickly understand how AI can assist with insurance claims.
 * *Change* the prompt, restart, and observe changes.
 
-include::module-devhub-preq.adoc[]
-
 == Getting Started with Your Developer Environment for Generative AI
 
 === Understanding Podman Desktop and AI Lab
