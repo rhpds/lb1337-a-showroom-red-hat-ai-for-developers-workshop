@@ -12,3 +12,4 @@ asciidoc:
     openshift_subdomain: app.example.sandbox.com
     release-version: main
     page-pagination: true
+    toclevels: 1

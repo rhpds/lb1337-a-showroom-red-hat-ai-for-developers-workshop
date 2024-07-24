@@ -249,7 +249,109 @@ Then, you should see this.
 
 image::devhub/devspaces_view.png[devspaces_view, 800]
 
-=== 3.2. Create a new EmailGenereate Service
+=== 3.2. Create a new Gen AI email service
+
+You'll create a few Java classes to process 
+
+==== 3.2.1 Create Java records beans
+
+Create a new Java file, `Email.java` in the `src/main/java/org/parasol/model` directory to carry email data in a concise and immutable way. Copy the following code and paste it into the Email.java file.
+
+[.console-input]
+[source,java,subs="+attributes,macros+"]
+----
+package org.parasol.model;
+
+public record Email(String text) { }
+----
+
+[.console-input]
+[source,java,subs="+attributes,macros+"]
+----
+package org.parasol.model;
+
+public record EmailResponse(String subject, String message) { }
+----
+
+
+Create a new Jakarta REST resource
+
+[.console-input]
+[source,java,subs="+attributes,macros+"]
+----
+package org.parasol.resources;
+
+import jakarta.inject.Inject;
+import jakarta.ws.rs.Consumes;
+import jakarta.ws.rs.POST;
+import jakarta.ws.rs.Path;
+import jakarta.ws.rs.Produces;
+import jakarta.ws.rs.core.MediaType;
+
+import org.parasol.ai.EmailService;
+import org.parasol.model.Email;
+import org.parasol.model.EmailResponse;
+
+@Produces(MediaType.APPLICATION_JSON)
+@Path("/api/email")
+public class EmailResource {
+
+    @Inject
+    EmailService bot;
+
+    @POST
+    @Consumes(MediaType.APPLICATION_JSON)
+    public EmailResponse getresponse(Email claimEmail) {
+        return bot.chat(claimEmail.text());
+    }
+}
+
+----
+
+[.console-input]
+[source,java,subs="+attributes,macros+"]
+----
+package org.parasol.resources;
+
+import jakarta.inject.Inject;
+import jakarta.ws.rs.Consumes;
+import jakarta.ws.rs.POST;
+import jakarta.ws.rs.Path;
+import jakarta.ws.rs.Produces;
+import jakarta.ws.rs.core.MediaType;
+
+import org.parasol.ai.EmailService;
+import org.parasol.model.Email;
+import org.parasol.model.EmailResponse;
+
+@Produces(MediaType.APPLICATION_JSON)
+@Path("/api/email")
+public class EmailResource {
+
+    @Inject
+    EmailService bot;
+
+    @POST
+    @Consumes(MediaType.APPLICATION_JSON)
+    public EmailResponse getresponse(Email claimEmail) {
+        return bot.chat(claimEmail.text());
+    }
+}
+----
+
+
+[.console-input]
+[source,javascript,subs="+attributes,macros+"]
+----
+
+----
+
+
+[.console-input]
+[source,properties,subs="+attributes,macros+"]
+----
+
+----
 
 
 == 4. Create a new pull request (PR)
