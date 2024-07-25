@@ -26,7 +26,28 @@ https://developers.redhat.com/products/openshift-dev-spaces/overview[Red Hat Ope
 
 === Create a new Gen AI email service
 
-You'll create a few Java classes to process 
+You'll create a new Java AI service that generates emails based on https://developers.redhat.com/products/quarkus/overview[Quarkus^] and https://github.com/langchain4j/langchain4j[LangChain4j^] library. The https://quarkus.io/extensions/?search-regex=langchain[Quarkus LangChain4j extensions^] bridge the gap between your Quarkus application and LangChain4j, a library that allows interaction with various LLMs like OpenAI, Hugging Face, or Ollama. with the following key features and benefits:
+
+* *Key Features*
+** *Declarative AI Services*: Define how you want to interact with the LLM using annotations or configuration files.
+** *Embedding Support*: Integrates with document embedding stores like Redis, Chroma, or Infinispan to store and retrieve document context for the LLM.
+** *Observability Integration*: Allows monitoring and logging of LLM interactions within your Quarkus application.
+** *Pluggable Authentication*: Supports different authentication providers for accessing LLM services.
+
+* *Benefits*
+** *Simplified LLM Integration*: The extension streamlines the process of incorporating LLMs into your application, saving development time and effort.
+** *Declarative Approach*: It offers a declarative way to interact with LLMs, making the code more readable and maintainable. You specify what you want the LLM to do, and the extension handles the underlying communication.
+** *Embedding Support*: Supports Diverse LLMs: The extension is designed to work with a variety of LLM providers, giving you flexibility in choosing the LLM that best suits your needs.
+
+==== Create a new branch in Gitlab
+
+Before you begin developing your new feature, you need to create a new branch in Gitlab called `new-gen-ai-service`. Open a terminal in the VS Code workspace. Run the following `git` command to create the new branch.
+
+[.console-input]
+[source,shell,subs="+attributes,macros+"]
+----
+git checkout -b new-gen-ai-service
+----
 
 ==== Create Java records beans
 
@@ -40,6 +61,17 @@ package org.parasol.model;
 public record Email(String text) { }
 ----
 
+kbd:[Ctrl+Shift+N] will open a new incognito window.
+
+[NOTE]
+====
+Where is the Save button? VS Code will autosave your changes, that is why you can’t find a SAVE button - no more losing code because you forgot to save. You can undo with *CTRL-Z* (or *CMD-Z* on a Mac) or by using the `Edit -> Undo` menu option.
+
+In case you see the red lines in the source code, you can't ignore it because they are the migration issues rather than compliation errors.
+====
+
+Create a new Java file, `EmailResponse.java` in the `src/main/java/org/parasol/model` directory to store the output of the LLM server. Copy the following code and paste it into the EmailResponse.java file.
+
 [.console-input]
 [source,java,subs="+attributes,macros+"]
 ----
@@ -48,7 +80,48 @@ package org.parasol.model;
 public record EmailResponse(String subject, String message) { }
 ----
 
-Create a new Jakarta REST resource
+==== Create Java AI service
+
+Create a new Java file, `EmailService.java` in the `src/main/java/org/parasol/ai` directory to serve the AI Service as the core connection point between your application and the LLM. Copy the following code and paste it into the EmailService.java file.
+
+[.console-input]
+[source,java,subs="+attributes,macros+"]
+----
+package org.parasol.ai;
+
+import org.parasol.model.EmailResponse;
+
+import dev.langchain4j.service.SystemMessage;
+import dev.langchain4j.service.UserMessage;
+import io.quarkiverse.langchain4j.RegisterAiService;
+
+@RegisterAiService // <1>
+public interface EmailService {
+    @SystemMessage(""" // <2>
+        You are a helpful, respectful and honest assistant named "Parasol Assistant". You work for Parasol Insurance.
+        You will be given an email from a customer making an insurance claim. You must generate a response that will be emailed back to the customer, with an email subject and the email body summarizing the information they gave, and asking for
+        any other missing information needed from Parasol.
+
+        You will always answer with a JSON document, and only this JSON document.
+
+        Your response needs to contain the following information:
+            - the 'subject' key set to the subject of the response email
+            - the 'message' key set to the response text
+        """
+    )
+    @UserMessage(""" // <3>
+        claim: {{claim}}
+    """)
+    EmailResponse chat(String claim);
+}
+----
+<1> *@RegisterAiService* annotation is pivotal for registering an AI Service, placed on an interface.
+<2> *@SystemMessage* annotation defines the scope and initial instructions, serving as the first message sent to the LLM. It delineates the AI service’s role in the interaction.
+<3> *@UserMessage* annotation defines primary instructions dispatched to the LLM. It typically encompasses requests and the expected response format.
+
+==== Create Jakarta REST resource
+
+Create a new Java file, `EmailResource.java` in the `src/main/java/org/parasol/resources` directory to serve a new Jakarta REST resource. Copy the following code and paste it into the EmailResource.java file.
 
 [.console-input]
 [source,java,subs="+attributes,macros+"]
@@ -79,62 +152,140 @@ public class EmailResource {
         return bot.chat(claimEmail.text());
     }
 }
-
 ----
 
-[.console-input]
-[source,java,subs="+attributes,macros+"]
-----
-package org.parasol.resources;
+==== Add new LLM model configurations
 
-import jakarta.inject.Inject;
-import jakarta.ws.rs.Consumes;
-import jakarta.ws.rs.POST;
-import jakarta.ws.rs.Path;
-import jakarta.ws.rs.Produces;
-import jakarta.ws.rs.core.MediaType;
-
-import org.parasol.ai.EmailService;
-import org.parasol.model.Email;
-import org.parasol.model.EmailResponse;
-
-@Produces(MediaType.APPLICATION_JSON)
-@Path("/api/email")
-public class EmailResource {
-
-    @Inject
-    EmailService bot;
-
-    @POST
-    @Consumes(MediaType.APPLICATION_JSON)
-    public EmailResponse getresponse(Email claimEmail) {
-        return bot.chat(claimEmail.text());
-    }
-}
-----
-
-
-[.console-input]
-[source,javascript,subs="+attributes,macros+"]
-----
-
-----
-
+Open an existing `application.properties` file in the `src/main/resources` directory to `append` the following Langchain4j configurations.
 
 [.console-input]
 [source,properties,subs="+attributes,macros+"]
 ----
-
+quarkus.langchain4j.openai.parasol-instruct.chat-model.model-name=parasol-4
+quarkus.langchain4j.openai.parasol-instruct.base-url={parasol-instruct-url}/v1
+quarkus.tls.trust-all=true
 ----
 
+=== Update the frontend web application in Parasol Insurance
 
-== Create a new pull request (PR)
+Let's update the frontend web application in Parasol Insurance to represent the output of the LLM in the email subject and body content.
 
-Make a new branch to create a new pull request (PR) to add a new AI feature (e.g., a new AI service, e.g. search) to the existing application - potentially using code assistant extension (PR)
+==== Create new TypeScript component
 
-== Merge the PR
+Create a new TypeScript XML file, `EmailGenerate.tsx` in the `src/main/webui/src/app/components/EmailGenerate` directory to render the output of the LLM in the email subject and body content. Copy the following code and paste it into the EmailGenerate.tsx file.
 
-Merge the PR which will trigger a new pipeline
+[.console-input]
+[source,javascript,subs="+attributes,macros+"]
+----
+import config from '@app/config';
+import { Button, Form, FormGroup, TextArea, Spinner } from '@patternfly/react-core';
+import * as React from 'react';
+import { useState } from 'react';
+
+interface ResponseData {
+    subject: string;
+    message: string;
+  }
+
+const EmailGenerate: React.FunctionComponent = () => {
+
+    const [text, setText] = useState('');
+    const [error, setError] = useState('');
+    const [response, setResponse] = useState<ResponseData | null>(null);
+    const [loading, setLoading] = useState(false);
+
+    const handleSubmit = async (event: React.FormEvent) => {
+      event.preventDefault();
+      setLoading(true);
+
+      try {
+        const response = await fetch('/api/email', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ text: text })
+        });
+        console.log("response: ");
+        console.log(response);
+        if (response.ok) {
+          const data = await response.json();
+          setResponse(data);
+          setError('');
+        } else {
+          setError('Error: Failed to fetch response from server.');
+        }
+      } catch (error) {
+        setError('Error!');
+      } finally {
+        setLoading(false);
+      }
+
+    };
+
+    return (
+        <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
+
+        <Form onSubmit={handleSubmit} style={{ width: '600px', textAlign: 'center' }}>
+        <FormGroup label="Your Feedback" fieldId="text-area">
+          <TextArea
+            onChange={(value) => setText(value.target.value)}
+            name="textArea"
+            id="text-area"
+            aria-label="Your feedback"
+            placeholder="Enter customer email content here"
+            style={{ width: '100%' }}
+          />
+        </FormGroup>
+        <Button type="submit">Submit</Button>
+        {loading && <Spinner style={{justifyContent: 'center', alignItems: 'center'}} size="lg" />}
+        {response && (
+          <div id="email-response" style={{ marginTop: '20px', color: 'blue', textAlign: 'left', width: '100%' }}>
+            <div id="email-response-subject" style={{ fontWeight: 'bold', fontFamily: 'Arial' }}>Subject: {response.subject}</div>
+            <pre id="email-response-message" style={{ whiteSpace: 'pre-wrap', wordWrap: 'break-word', fontFamily: 'monospace', border: '1px solid black', padding: '10px' }}>
+              {response.message}
+            </pre>
+          </div>
+        )}
+
+        {error && (
+            <div style={{ marginTop: '20px', color: 'red', textAlign: 'left', width: '100%' }}>{error}</div>
+        )}
+
+      </Form>
+    </div>
+
+    )
+}
+
+export { EmailGenerate };
+----
+
+==== Add a new menu item in the navigation bar
+
+Open the `routes.tsx` file in the `src/main/webui/src/app` directory and `uncomment` the following code out to show the new menu item.
+
+[.console-input]
+[source,properties,subs="+attributes,macros+"]
+----
+{
+  component: EmailGenerate,
+  exact: true,
+  label: 'Email Generate',
+  path: '/EmailGenerate',
+  title: 'Email Generate'
+},
+----
+
+Great! Now you're ready to create a new pull request (PR) to servie the new Gen AI feature in the Parasol Insurance's application.
+
+== Create a new pull request
+
+Create a new pull request (PR) to serve the new Gen AI feature in the Parasol Insurance's application.
+
+== Merge the pull request
+
+Merge the pull request. The PR will trigger a new pipeline. The new pipeline will deploy the new Gen AI feature in the Parasol Insurance's application. 
 
 == Monitor the new deployment
 

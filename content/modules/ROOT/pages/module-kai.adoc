@@ -1,5 +1,6 @@
 = Migration with Konveyor AI
 :imagesdir: ../assets/images
+:sectnums:
 
 ++++
 <!-- Google tag (gtag.js) -->
