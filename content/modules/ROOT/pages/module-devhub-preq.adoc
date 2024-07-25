@@ -152,7 +152,7 @@ Click on `VIEW SOURCE` to access the new source code repository created.
 
 image::devhub/parasol_source.png[] 
 
-Go back to your parasol component on the Red Hat Developer Hub: https://developer-hub-backstage-globex-devhub.{openshift_cluster_ingress_domain}/catalog/default/component/parasol-app-{user}[Red Hat Developer Hub UI^].
+Go back to your parasol component on the Red Hat Developer Hub: https://backstage-backstage.{openshift_cluster_ingress_domain}/catalog/default/component/parasol-app-{user}[Red Hat Developer Hub UI^].
 
 === Review continuous integration and delivery (CI/CD)
 
@@ -178,7 +178,7 @@ Now, you've confirmed what the existing Parasol application look like and how it
 
 == Log in Red Hat OpenShift Dev Spaces
 
-Go back to the https://developer-hub-backstage-globex-devhub.{openshift_cluster_ingress_domain}/catalog/default/component/frontend-app-{user}[Parasol component^] in the Red Hat Developer Hub. From the *OVERVIEW* tab click on `OpenShift Dev Spaces (VS Code)` to make the necessary source code changes.
+Go back to the https://backstage-backstage.{openshift_cluster_ingress_domain}/catalog/default/component/frontend-app-{user}[Parasol component^] in the Red Hat Developer Hub. From the *OVERVIEW* tab click on `OpenShift Dev Spaces (VS Code)` to make the necessary source code changes.
 
 image::devhub/frontend_devspaces.png[frontend_devspaces, 700]
 

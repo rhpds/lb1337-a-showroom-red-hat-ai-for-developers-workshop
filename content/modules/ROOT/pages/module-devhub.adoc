@@ -282,12 +282,46 @@ import { EmailGenerate } from './components/EmailGenerate/EmailGenerate';
 },
 ----
 
-
 Great! Now you're ready to create a new pull request (PR) to servie the new Gen AI feature in the Parasol Insurance's application.
 
 == Create a new pull request
 
 Create a new pull request (PR) to serve the new Gen AI feature in the Parasol Insurance's application.
+
+=== Commit your source code changes
+
+image::devhub/icon_source_control.png[width=40%, float=left]
+
+Click on the *Source Control* icon. 
+
+* Add a *Message* for the commit.
+* Click on Commit *arrow*
+* Select the option *Commit & Push*.
+
+image::devhub/dev_commit.png[dev_commit, 700]
+
+Confirm the changes.
+
+image::devhub/dev_confirmed.png[dev_confirmed, 900]
+image::devhub/git_fetch.png[git_fetch, 900]
+
+Explore Pipelines from Red Hat Developer Hub.
+
+Your source code changes triggered a new pipeline to update the version of the frontend application.
+
+Go back to your frontend component on the Red Hat Developer Hub: https://backstage-backstage.{openshift_subdomain}/catalog/default/component/frontend-app-{user_name}[Red Hat Developer Hub UI^].
+
+Explore the pipelines by clicking on the *CI*.
+
+image::devhub/frontend_newpipeline.png[frontend_newpipeline, 900]
+
+Wait for pipeline to finish and THEN reload the Cool Store web page.
+
+You will see the *new title* in the Cool Store web page.
+
+image::devhub/final_web.png[]
+
+*Congratulations!*  You have finished your git request.
 
 == Merge the pull request
 
