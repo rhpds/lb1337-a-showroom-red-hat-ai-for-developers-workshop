@@ -16,23 +16,94 @@
 
 == Goals of this lab
 
-Parasol's developers are always expected to thoroughly test their code. In this exercise, you will explore the unique challenges and techniques involved in testing AI models and applications, which differ significantly from traditional enterprise applications. Traditional apps often have deterministic outputs, whereas AI models can produce varied and context-dependent results, requiring specialized testing approaches. Through this hands-on exercise, use specialized testing tools for validating prompt responses. You will identify and fix failing tests by modifying prompts to ensure data consistency, and validate the fixes by re-running the tests. Finally, you'll add a new test to further ensure the robustness of your prompt responses. This exercise will deepen your understanding of AI testing practices and enhance your ability to maintain reliable AI applications.
+Parasol's developers are always expected to thoroughly test their code. In this exercise, you will explore the unique challenges and techniques involved in testing AI models and applications, which differ significantly from traditional enterprise applications. Traditional apps often have deterministic outputs, whereas AI models can produce varied and context-dependent results, requiring specialized testing approaches. A number of tools are being developed to help enable model testing for example promptfoo, deepeval, and deepchecks. In this module we will use one of these tools "promptfoo" to test the consistency of model responses.
 
-== Run podman desktop
+In this lab we're going to use a trained model which has been fine tuned with Parasol Insurance specific data.  We're going to write some tests which will use predefined prompts which should return accurate responses demonstrating the trained model.
 
-Introduction to gen AI + discover and experiment with gen AI models and AI applications on the local desktop, in an inner loop
+To test the responses to ensure they are accurate we're going to use another model (an embedding model) to test for similarity between two sentences.
 
-== TBD
+== 1. Open Red Hat Developer Hub
 
-=== TBD
+To get started we're going to open Red Hat Developer Hub by clicking on the following url:
 
-== Start a playground, chat with it
+TODO add developer hub url
 
-== Kill playground, try text summarization recipe, upload claim PDF, view summarization
+== 1.1. Select Parasol application
 
-== Open summarization app (python) in vscode, inspect code (briefly)
+From the Red Hat Developer Hub landing page, click on the "Parasol" (TODO check name) application.
 
-== Change the prompt, restart, and observe changes.
+== 1.2. Open the Parasol application code in Red Hat OpenShift Dev Spaces
+
+To open the Parasol application code in Red Hat OpenShift Dev Spaces click on the icon (TODO get image of icon).  You will be taken to the Dev Spaces IDE with the application source code open.
+
+image::model-testing/dev-spaces-landing.png[Red Hat OpenShift Dev Spaces Landing Page]
+
+Open the folder "prompt-testing"
+
+== 2. Configure the model config
+
+Before we can run our tests we need to configure the location of the models we're going to use for embedding and chat completions.  
+
+Open the file `.vscode/settings/models-config.js`
+
+Paste the following text:
+
+[source,js,role="copypaste",subs="attributes"]
+----
+{
+    "jest": {
+        "nodeEnv": {
+            "NODE_TLS_REJECT_UNAUTHORIZED": "0", 
+            "PARASOL_MODEL_URL": "https://phi3-airoadshow.apps.{openshift_subdomain}:443/v1/chat/completions",
+            "EMBEDDING_MODEL_URL": "http://localhost:9999/v1"
+        },
+        "rootPath": "prompt-testing"
+    }
+}
+  
+----
+
+== 3. Run tests
+
+We can now run the tests to ensure they pass.
+
+Navigate to `prompt-testing/index.test.js`
+
+You should see green play buttons next to the tests.  Click on the top green button to start the tests.
+
+You will see the tests processing. Once they are complete you should see green ticks next to the completed tests.
+
+== 4. Add new tests
+
+We're now going to add a new test to test some new functionality we've added to the application.
+
+In the file `index.test.js`, add the following 
+
+[source,js,role="copypaste",subs="attributes"]
+----
+
+describe('Parasol Claim response test', () => {
+  const prompt = `On January 2nd, 1955, at around 3:30 PM, a car accident occurred at the intersection of Colima Road and Azusa Avenue in Hill Vallet. The involved parties were Marty McFly, driving a silver Delorean DMC-12 (OUTA-TIME), and Biff Tanner in a blue Type 2 Volkswagen Bus (BIF-RULZ).
+
+  Marty was heading south on Colima Road when Biff failed to stop at the red traffic signal on Asuza Avenue, causing a collision with Marty''s vehicle. Both drivers exchanged information and took photos of the accident scene, which included damages to the front driver and passenger side of Marty''s Delorean DMC-12 and the front driver''s side of Biff''s Volkswagen Bus. No injuries were reported.
+
+  Marty has attached necessary documents, such as photos, a police report, and an estimate for repair costs, to his email. He requests prompt attention to the claim and is available at (916) 555-4385 or marty.mcfly@email.com for any additional information or documentation needed.`;
+
+  const systemPrompt = "You are a helpful, respectful and honest assistant named 'Parasol Assistant'. You will be given a claim summary, references to provide you with information, and a question. You must answer the question based as much as possible on this claim with the help of the references. Always answer as helpfully as possible, while being safe. Your answers should not include any harmful, unethical, racist, sexist, toxic, dangerous, or illegal content. Please ensure that your responses are socially unbiased and positive in nature. If a question does not make any sense, or is not factually coherent, explain why instead of answering something not correct. If you don't know the answer to a question, please don't share false information."
+
+  const response = `Based on the claim summary provided, the accident occurred on January 2nd, 1955, at the intersection of Colima Road and Azusa Avenue in Hill Vallet. Marty McFly, driving a silver Delorean DMC-12, was heading south on Colima Road, and Biff Tanner, in a blue Type 2 Volkswagen Bus, failed to stop at the red signal on Asuza Avenue, resulting in a collision with Marty's vehicle.
+
+  Both drivers exchanged their contact information, took photos of the accident scene and the damages to their vehicles, and no injuries were reported. Marty has attached necessary documentation to his claim, including photos, a police report, and an estimate for repair costs. He is available at (916) 555-4385 or marty.mcfly@email.com for further information or documentation if required.`;
+
+  test('should pass when response to claim summary is accurate', async () => {
+    await expect(await callModel(prompt, systemPrompt)).toMatchSemanticSimilarity(
+      response,
+      0.8
+    );
+  }, 20000);
+});
+
+----
 
 == Conclusion
 
@@ -43,3 +114,8 @@ Here is a quick summary of what we have learned:
 - TBD
 - TBD
 - TBD
+
+parasol-insurance (main) $ npx promptfoo eval
+Need to install the following packages:
+promptfoo@0.73.3
+Ok to proceed? (y) y
