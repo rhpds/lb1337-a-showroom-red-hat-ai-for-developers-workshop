@@ -95,25 +95,23 @@ import dev.langchain4j.service.SystemMessage;
 import dev.langchain4j.service.UserMessage;
 import io.quarkiverse.langchain4j.RegisterAiService;
 
-@RegisterAiService // <1>
+@RegisterAiService(modelName = "parasol-email") // <1>
 public interface EmailService {
     @SystemMessage(""" // <2>
-        You are a helpful, respectful and honest assistant named "Parasol Assistant". You work for Parasol Insurance.
-        You will be given an email from a customer making an insurance claim. You must generate a response that will be emailed back to the customer, with an email subject and the email body summarizing the information they gave, and asking for
-        any other missing information needed from Parasol.
-
-        You will always answer with a JSON document, and only this JSON document.
-
-        Your response needs to contain the following information:
-            - the 'subject' key set to the subject of the response email
-            - the 'message' key set to the response text
-        """
-    )
-    @UserMessage(""" // <3>
-        claim: {{claim}}
-    """)
-    EmailResponse chat(String claim);
+      You are a helpful, respectful and honest assistant named "Parasol Assistant".
+      
+      You work for Parasol Insurance.
+      
+      Your response must look like the following JSON:
+      
+      {
+        "subject": "Subject of your response, suitable to use as an email subject line.",
+        "message": "Response text that summarizes the information they gave, and asks for any other missing information needed from Parasol."
+      }
+      """)
+    EmailResponse chat(@UserMessage String claim); // <3>
 }
+
 ----
 <1> *@RegisterAiService* annotation is pivotal for registering an AI Service, placed on an interface.
 <2> *@SystemMessage* annotation defines the scope and initial instructions, serving as the first message sent to the LLM. It delineates the AI service’s role in the interaction.
@@ -140,7 +138,7 @@ import org.parasol.model.Email;
 import org.parasol.model.EmailResponse;
 
 @Produces(MediaType.APPLICATION_JSON)
-@Path("/api/email")
+@Path("/api/email") // <1>
 public class EmailResource {
 
     @Inject
@@ -153,6 +151,7 @@ public class EmailResource {
     }
 }
 ----
+<1> *@Path* annotation defines the URL path for the resource.
 
 ==== Add new LLM model configurations
 
@@ -161,9 +160,9 @@ Open an existing `application.properties` file in the `src/main/resources` direc
 [.console-input]
 [source,properties,subs="+attributes,macros+"]
 ----
-quarkus.langchain4j.openai.parasol-instruct.chat-model.model-name=parasol-4
-quarkus.langchain4j.openai.parasol-instruct.base-url={parasol-instruct-url}/v1
-quarkus.tls.trust-all=true
+quarkus.langchain4j.openai.parasol-email.chat-model.temperature=0.3
+quarkus.langchain4j.openai.parasol-email.chat-model.model-name=parasol-instruct
+quarkus.langchain4j.openai.parasol-email.base-url={parasol-instruct-url}/v1
 ----
 
 === Update the frontend web application in Parasol Insurance
@@ -263,10 +262,16 @@ export { EmailGenerate };
 
 ==== Add a new menu item in the navigation bar
 
-Open the `routes.tsx` file in the `src/main/webui/src/app` directory and `uncomment` the following code out to show the new menu item.
+Open the `routes.tsx` file in the `src/main/webui/src/app` directory and `uncomment` the following code out in line *8* and *89 - 95* to show the new menu item.
 
-[.console-input]
-[source,properties,subs="+attributes,macros+"]
+[.console-output]
+[source,javascript]
+----
+import { EmailGenerate } from './components/EmailGenerate/EmailGenerate';
+----
+
+[.console-output]
+[source,javascript]
 ----
 {
   component: EmailGenerate,
@@ -276,6 +281,7 @@ Open the `routes.tsx` file in the `src/main/webui/src/app` directory and `uncomm
   title: 'Email Generate'
 },
 ----
+
 
 Great! Now you're ready to create a new pull request (PR) to servie the new Gen AI feature in the Parasol Insurance's application.
 
