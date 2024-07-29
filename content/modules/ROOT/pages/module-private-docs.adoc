@@ -30,246 +30,74 @@ image::private-docs/building-gen-ai.png[Adopting Gen AI]
 
 IMPORTANT: If you've NOT already done the steps in accessing Red Hat Developer Hub and Red Hat Dev Spaces, please follow the instructions in the following sections. Otherwise, you can skip ahead to the *Implementing a Chatbot* section.
 
-== Deploy the existing Parasol applications in Red Hat Developer Hub
+include::module-devhub-preq.adoc[]
 
-https://access.redhat.com/products/red-hat-developer-hub[Red Hat Developer Hub (RHDH)^] is an enterprise-grade, self-managed, and customizable *developer portal* built on top of https://backstage.io/[Backstage.io^]. It's designed to streamline the development process for organizations, specifically those using Red Hat products and services. Here's a breakdown of its key Benefits:
+== Working in your Cloud-based Development Environment
 
-* *Increased Developer Productivity*: Reduces time spent searching for resources and setting up environments.
-* *Improved Collaboration*: Provides a central platform for developers to share knowledge and best practices.
-* *Reduced Cognitive Load*: Minimizes the need for developers to juggle multiple tools and resources.
-* *Enterprise-Grade Support*: Backed by Red Hat's support infrastructure, ensuring stability and reliability.
+https://developers.redhat.com/products/openshift-dev-spaces/overview[Red Hat OpenShift Dev Spaces^] is a cloud-based development environment built on top of Kubernetes and containers. It offers a streamlined and secure way for developers to code, build, and test applications directly within the OpenShift ecosystem. You'll use the Dev Spaces to develop a new Generative AI feature (e.g.,`email generator`).
 
-Red Hat Developer Hub has already been installed and configured in the workshop environment.
+=== Using LangChain4j with Quarkus
 
-=== Access Red Hat Developer Hub
+You'll be building new features in this application, based on https://developers.redhat.com/products/quarkus/overview[Quarkus^] and the https://github.com/langchain4j/langchain4j[LangChain4j^] library. The https://quarkus.io/extensions/?search-regex=langchain[Quarkus LangChain4j extensions^] bridge the gap between your Quarkus application and LangChain4j, a library that allows interaction with various LLMs like OpenAI, Hugging Face, or Ollama. with the following key features and benefits:
 
-Red Hat Developer Hub can integrate with https://access.redhat.com/products/red-hat-single-sign-on/[Red Hat Single Sign On (RH-SSO)^] to enhance security and user experience for developers within an organization. By integrating with RH-SSO, developers only need to log in once to access both RHDH and other applications secured by RH-SSO. This eliminates the need to manage multiple login credentials for different developer tools and services. RH-SSO can centralize user authentication and authorization to strengthen security by ensuring only authorized users can access RHDH and other protected resources. In addition, The platform engineer team can manage user access and permissions centrally through RH-SSO, simplifying administration and reducing the risk of unauthorized access.
+* *Key Features*
+** *Simplified LLM Integration*: The extension streamlines the process of incorporating LLMs into your application, saving development time and effort.
+** *Declarative AI Services*: Define how you want to interact with the LLM using annotations or configuration files.
+** *Embedding Support*: Integrates with document embedding stores like Redis, Chroma, or Infinispan to store and retrieve document context for the LLM.
+** *Observability Integration*: Allows monitoring and logging of LLM interactions within your Quarkus application.
 
-To get started, *access* https://keycloak-backstage.{openshift_cluster_ingress_domain}[Red Hat Developer Hub Dashboard^] with the following credential:
+=== Understanding the application's codebase
 
-* *Username*: 
+This Quarkus application is a customer service processing tool that handles customer claim emails for Parasol insurance. The team has recently improved the application with a chatbot to interact with the agent and generate responses based on the email content. In the VS Code environment, navigate to the `app/src/main/java/org/parasol` directory, which contains the main capabilities of the application.
 
-[.console-input]
-[source,yaml,subs="attributes"]
+image::private-docs/quarkus_codebase.png[Quarkus codebase]
+
+In the `app/src/main/java/org/parasol/ai/ClaimService.java` file, you'll find the main AI chatbot class that processes the customer claim emails with a `SystemMessage`, `UserMessage`, and chat method. The chat method processes the claim details and question, then generates a response based on the claim and references provided.
+
+image::private-docs/claim_service_code.png[ClaimService code]
+
+You can also explore the `app/src/main/resources/application.properties` file to review the application configuration, including the Quarkus configuration and the LangChain4j extension settings. 
+
+image::private-docs/application_properties.png[Application properties]
+
+== Testing out the existing chatbot
+
+Now that we've checked out the chatbot, let's test it:
+
+. In the terminal within Dev Spaces, navigate to your project directory and run:
++
+[source,bash]
 ----
-{user}
-----
-
-* *Password*: 
-
-[.console-input]
-[source,yaml,subs="attributes"]
-----
-{password}
-----
- 
-image::devhub/authentication.png[]
-
-Find more information about the Red Hat Developer Hub https://developers.redhat.com/rhdh[here^].
-
-=== Create a Parasol LLM software template
-
-In Red Hat Developer Hub, a software template serves as a pre-configured blueprint for creating development environments and infrastructure. Here's a closer look at software templates in Dev Hub. Software templates streamline the process of setting up development environments by encapsulating pre-defined configurations. This saves developers time and effort compared to manually configuring everything from scratch.
-
-Click on `Create...` on the left menu. Then, select the `Parasol LLM` template.
-
-image::devhub/software_template_parasol_llm.png[software_template_parasol_llm, 600]  
-
-Follow the next steps to create a component based on the pre-defined Software Templates:
-
-==== Provide information about the Gitlab location
-
-* *Repo Host*: is the Gitlab domain already installed in OpenShift. Red Hat Developer Hub will use this input data to upload the source repository and manifests.
-
-** Replace the *Repo Host* with the OpenShift domain: 
-
-[.console-input]
-[source,bash,subs="attributes"]
-----
-https://gitlab-gitlab.{openshift_cluster_ingress_domain}/parasol/parasol-insurance-git.git
+./mvnw quarkus:dev
 ----
 
-image::devhub/st_Gitlab_info.png[st_Gitlab_info, 800]  
+image::private-docs/quarkus_dev.png[Quarkus dev]
 
-* *Repo Group*: is the Gitlab organization already configured. Red Hat Developer Hub will use this input data to upload the source repository and manifests.
+[start=2]
+. Open a new browser tab and navigate to the Parasol application URL (https://x-{user}-x-{user}.{openshift_cluster_ingress_domain}).
 
-* Click on *Next*
+image::private-docs/parasol_ui.png[Parasol UI]
 
-==== Provide information about the cluster Id:
+. Click on the chat icon in the bottom right corner to open the chat interface.
 
-* *Cluster Id*: is the OpenShift domain. Red Hat Developer Hub will use this input data to build and deploy the application.
+image::private-docs/chat_interface.png[Chat interface]
 
-** Replace the *Cluster Id* with the OpenShift domain: 
+. In the chat interface, try asking the following questions about a specific claim:
+* "What is the status of this claim?"
+* "When was the incident reported?"
+* "What is the claimed amount?"
 
-[.console-input]
-[source,bash,subs="attributes"]
-----
-.{openshift_cluster_ingress_domain}
-----
+image::private-docs/chatbot_questions.png[Chatbot questions]
 
-image::devhub/st_component_clusterid.png[st_component_clusterid, 800]  
+You should notice that the chatbot can answer these questions based on the claim context we provided. Now, let's ask a more complex question that requires knowledge of Parasol's policies:
 
-* *Namespace*:  is the OpenShift namespace. Red Hat Developer Hub will use this input data to build and deploy the application in that namespace.
+. Ask the chatbot: "Should this claim be approved based on Parasol's policies?"
 
-** Replace the *N* with the user number:
-
-[.console-input]
-[source,bash,subs="attributes"]
-----
-globex-devhub-{user}
-----
-
-image::devhub/st_component_namespace.png[st_component_namespace, 800]  
-
-*Note*: Each lab participant is already assigned a unique namespace to be used for all the applications. Each application will have a shared identification based on your user name. 
-
-* *Owner*: The owner is your user ID. Red Hat Developer Hub will use this input data in the build and deployment process.
-** Write your user id: 
-
-[.console-input]
-[source,bash,subs="attributes"]
-----
-qa-{user}
-----
-
-image::devhub/st_component_owner.png[st_component_owner, 800]  
-
-* Click on *Next*
-
-==== Provide build information:
-
-* *Image Host*: The application image will be stored in this registry URL. For this lab, we are using the internal registry of OpenShift. Red Hat Developer Hub will use this input data for the application build and deployment process.
-
-* *Image Tag*: The image tag used to identify the image. The image will be composed by the application name and tag. Red Hat Developer Hub will use this input data for the application build and deployment process.
-
-* *Component ID*: The component ID is the application name. Red Hat Developer Hub will use this input data for the application build and deployment process.
-
-** Replace the *Component ID* using *YOUR* user number: 
-
-[.console-input]
-[source,bash,subs="attributes"]
-----
-parasol-app-{user}
-----
-
-image::devhub/st_component_componentid_quarkus.png[st_component_componentid_quarkus, 800]  
-
-* Click on *Review*.
-
-* Review the data.
-
-*Sample data*
-
-image::devhub/st_component_review_quarkus.png[]  
-
-* Click on *Create*.
-
-== Observe the application overview
-
-You have just created the Parasol application with Red Hat Developer Hub. Explore the components and the application overview.
-
-=== Open component in catalog
-
-With all your activities in green, click `Open Component in catalog`. 
-
-image::devhub/task_activity.png[]
-
-The Dev Hub will open a new tab with the component information. It will take some time to review the information in the screen:
-
-image::devhub/parasol_overview.png[] 
-
-=== View source
-
-Click on `VIEW SOURCE` to access the new source code repository created.
-
-image::devhub/parasol_source.png[] 
-
-Go back to your parasol component on the Red Hat Developer Hub: https://backstage-backstage.{openshift_cluster_ingress_domain}/catalog/default/component/parasol-app-{user}[Red Hat Developer Hub UI^].
-
-=== Review continuous integration and delivery (CI/CD)
-
-Click on `CI` tab to review your pipeline information. The pipeline will be triggered in a few seconds. After a few minutes, you will see the pipeline finished as *Succeeded*.
-
-image::devhub/parasol_pipeline.png[] 
-
-Click on `CD` to review ArgoCD History.
-
-image::devhub/frontend_argohistory.png[] 
-
-Click on `TOPOLOGY` to review your deployment status. The deployment will be in *blue* immediately after the pipeline succeeds. Then, click on the deployment *parasol-app-{user}*. The application details on the right is available. 
-
-image::devhub/parasol_deployment.png[]
-
-=== Verify the deployment
-
-Access the https://frontend-app-{user}-globex-devhub-{user}.{openshift_cluster_ingress_domain}[Parasol web page^] to verify everything is working as expected.
-
-image::devhub/parasol_ui_web.png[]
-
-Now, you've confirmed what the existing Parasol application look like and how it works.
-
-== Log in Red Hat OpenShift Dev Spaces
-
-Go back to the https://backstage-backstage.{openshift_cluster_ingress_domain}/catalog/default/component/frontend-app-{user}[Parasol component^] in the Red Hat Developer Hub. From the *OVERVIEW* tab click on `OpenShift Dev Spaces (VS Code)` to make the necessary source code changes.
-
-image::devhub/frontend_devspaces.png[frontend_devspaces, 700]
-
-Click on `Log in with OpenShift`.
-
-image::devhub/devspaces_login.png[devspaces_login, 700]
-
-Log in with the following OpenShift credential on the Red Hat Single Sign-On (RH-SSO) page.
-
- ** *Username*: `{user}`
- ** *Password*: `{password}`
-
-Authorize the access by click on *Allow selected permissions*.
-
-image::devhub/devspaces_authorize.png[devspaces_authorize, 600]
-
-Log in GitLab using your credentials.
-
- ** *Username*: `{user}`
- ** *Password*: `{password}`
-
-image::devhub/gitlab_authentication.png[gitlab_authentication, 600]
-
-Authorize *devspaces* to use your account by clicking on the *Authorize* button.
-
-image::devhub/devspaces_authorize_user.png[devspaces_authorize_user, 600]
-
-Wait for your Red Hat OpenShift Dev Spaces workspace to be ready. This can take a few minutes. 
-
-You will see a loading screen while the workspace is being provisioned, where Red Hat OpenShift Dev Spaces is creating a workspace based on a devfile stored in the source code repository, which can be customized to include your tools and configuration.
-
-image::devhub/devspaces_loading.png[devspaces_loading, 700]
-
-*NOTE*: In case you fail to start the workspace, you can click on *close running workspace and restart*, then it works fine.
-
-image::devhub/devspaces_error.png[devspaces_error, 700]
-
-Confirm the access by clicking *"Yes, I trust the authors"*.
-
-image::devhub/devspaces_trustauthors.png[devspaces_trustauthors, 800]
-
-Then, you should see this.
-
-image::devhub/devspaces_view.png[devspaces_view, 800]
-
-== Implementing a Chatbot
-
-* WebSocket code already there
-* Build prompt
-* Already in context of the claim (claim details are passed in)
-* Maybe chat bot is already there? Depends on whether we want to spend time building this or focus on RAG/Agent/Tools
-
-== Launch app and interact with chat bot
-
-* Ask questions about the claim
-* Ask a question that may not be in the claim but is specific to parasol
-** i.e. Should I approve this claim based on Parasol's policies?
+You'll observe that the chatbot struggles with this question, as it doesn't have access to Parasol's specific policies. If only there was a way to automatically retrieve this information and provide it to the chatbot!
 
 == Introduce & build RAG
+
+Retrieval-Augmented Generation (RAG) is a technique that enhances language models by providing them with relevant information retrieved from a knowledge base. This is particularly useful when dealing with domain-specific knowledge or private data.
 
 * When to use RAG vs fine-tuning (maybe covered at beginning)
 * Now re-ask previous question and bot should be able to answer
