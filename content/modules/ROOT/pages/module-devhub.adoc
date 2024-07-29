@@ -319,13 +319,17 @@ Wait for pipeline to finish and THEN reload the Cool Store web page.
 
 You will see the *new title* in the Cool Store web page.
 
-image::devhub/final_web.png[]
+image::devhub/parasol_ui_web.png[]
 
 *Congratulations!*  You have finished your git request.
 
 == Merge the pull request
 
-Merge the pull request. The PR will trigger a new pipeline. The new pipeline will deploy the new Gen AI feature in the Parasol Insurance's application. 
+Merge the pull request. The PR will trigger a new pipeline. The new pipeline will deploy the new Gen AI feature in the Parasol Insurance's application.
+
+=== Access the Gitlab to review the changes
+
+Go to the [Gitlab^] and review the changes.
 
 == Monitor the new deployment
 

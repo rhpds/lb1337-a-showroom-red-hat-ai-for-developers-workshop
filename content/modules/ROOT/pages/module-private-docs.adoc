@@ -17,9 +17,15 @@
 
 == Goals of this lab
 
-Parasol is looking to not only build new apps, but integrate generative AI into their existing applications such as their customer service representative tools used to respond to customer claim emails. In this exercise, you will delve into basic application integration techniques such as ingesting private documents and applying the Retrieval-Augmented Generation (RAG) pattern to enhance AI model performance. You will learn how to extend models with specialized tools, understand the inherent limitations of the RAG approach, and explore the rationale behind training AI models for specific tasks using Parasol’s corporate data. By the end of this exercise, you will gain valuable insights into how to effectively handle private data, leverage the RAG pattern to improve information retrieval and generation, and learn how to integrate AI into applications within the context of Parasol Insurance's operational needs.
+Parasol is looking to not only build new apps, but integrate generative AI into their existing applications such as their customer service representative tools used to respond to customer claim emails. In this exercise, you will delve into basic application integration techniques such as ingesting private documents and applying the Retrieval-Augmented Generation (RAG) pattern to enhance AI model performance. You will learn how to extend models with specialized tools, understand the inherent limitations of the RAG approach, and explore the rationale behind training AI models for specific tasks using Parasol’s corporate data. By the end of this exercise, you will gain valuable insights into how to effectively handle private data, leverage the RAG pattern to improve information retrieval and generation, and learn how to integrate AI into applications within the context of Parasol Insurance's operational needs. 
 
++
+
+.If you've NOT already done the steps in accessing Red Hat Developer Hub and Red Hat Dev Spaces, please follow the instructions in the next section. Otherwise, you can skip ahead to the *Instantiate Developer Hub template* section.
+[%collapsible]
+======
 include::module-devhub-preq.adoc[]
+======
 
 == Instantiate Developer Hub template
 

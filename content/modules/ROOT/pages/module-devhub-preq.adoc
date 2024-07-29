@@ -54,7 +54,7 @@ Follow the next steps to create a component based on the pre-defined Software Te
 [.console-input]
 [source,bash,subs="attributes"]
 ----
-Gitlab-Gitlab.{openshift_cluster_ingress_domain}
+https://gitlab-gitlab.{openshift_cluster_ingress_domain}/parasol/parasol-insurance-git.git
 ----
 
 image::devhub/st_Gitlab_info.png[st_Gitlab_info, 800]  
@@ -212,11 +212,9 @@ You will see a loading screen while the workspace is being provisioned, where Re
 
 image::devhub/devspaces_loading.png[devspaces_loading, 700]
 
-[NOTE]
-====
-In case you fail to start the workspace, you can click on *close running workspace and restart*, then it works fine.
+*NOTE*: In case you fail to start the workspace, you can click on *close running workspace and restart*, then it works fine.
+
 image::devhub/devspaces_error.png[devspaces_error, 700]
-====
 
 Confirm the access by clicking *"Yes, I trust the authors"*.
 
