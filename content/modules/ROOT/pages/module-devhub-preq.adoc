@@ -1,3 +1,6 @@
+:imagesdir: ../assets/images
+:sectnums:
+
 == Deploy the existing Parasol applications in Red Hat Developer Hub
 
 https://access.redhat.com/products/red-hat-developer-hub[Red Hat Developer Hub (RHDH)^] is an enterprise-grade, self-managed, and customizable *developer portal* built on top of https://backstage.io/[Backstage.io^]. It's designed to streamline the development process for organizations, specifically those using Red Hat products and services. Here's a breakdown of its key Benefits:
@@ -135,9 +138,15 @@ image::devhub/frontend_argohistory.png[]
 
 Click on `TOPOLOGY` to review your deployment status. Then, you will see the deployment *parasol-app-{user}* in the Topology.
 
-Don't worry if the deployment is not in *Failed* status. We'll review and fix it later.
-
 image::devhub/parasol_deployment.png[]
+
+=== Verify the deployment
+
+Access the https://frontend-app-{user}-globex-devhub-{user}.{openshift_cluster_ingress_domain}[Parasol web page^] to verify everything is working as expected.
+
+image::devhub/parasol_ui_web.png[]
+
+Now, you've confirmed what the existing Parasol application look like and how it works.
 
 == Log in Red Hat OpenShift Dev Spaces
 
