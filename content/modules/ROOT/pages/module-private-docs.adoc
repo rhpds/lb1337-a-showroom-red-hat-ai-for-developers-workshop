@@ -18,11 +18,11 @@
 
 Parasol Insurance is looking to not only build new apps but also integrate generative AI into their existing applications, such as their customer service representative tools used to respond to customer claim emails. In this exercise, you will:
 
-* Dive into advanced application integration techniques for AI, exploring how to integrate AI into applications for Parasol's unique needs
-* Learn how to ingest and utilize private documents securely
-* Apply the Retrieval-Augmented Generation (RAG) pattern to enhance AI model output
-* Extend AI models with specialized tools and agents
-* Understand the limitations of RAG and when to consider fine-tuning
+* Dive into advanced application integration techniques for AI, exploring how to *integrate* AI into applications for Parasol's unique needs
+* Learn how to ingest and utilize *private* documents securely
+* Apply the *Retrieval-Augmented Generation* (RAG) pattern to enhance AI model output
+* Extend AI models with specialized *tools and agents*
+* Understand the *limitations* of RAG and when to consider fine-tuning
 
 This module will focus on *Building and Refining*.
 
@@ -34,13 +34,12 @@ include::module-devhub-preq.adoc[]
 
 == Working in your Cloud-based Development Environment
 
-https://developers.redhat.com/products/openshift-dev-spaces/overview[Red Hat OpenShift Dev Spaces^] is a cloud-based development environment built on top of Kubernetes and containers. It offers a streamlined and secure way for developers to code, build, and test applications directly within the OpenShift ecosystem. You'll use the Dev Spaces to develop a new Generative AI feature (e.g.,`email generator`).
+https://developers.redhat.com/products/openshift-dev-spaces/overview[Red Hat OpenShift Dev Spaces^] is a cloud-based development environment built on top of Kubernetes and containers. It offers a streamlined and secure way for developers to code, build, and test applications directly within the OpenShift ecosystem. You'll use the Dev Spaces environment in this module to enhance the current functionality of the Parasol Insurance application.
 
 === Using LangChain4j with Quarkus
 
 You'll be building new features in this application, based on https://developers.redhat.com/products/quarkus/overview[Quarkus^] and the https://github.com/langchain4j/langchain4j[LangChain4j^] library. The https://quarkus.io/extensions/?search-regex=langchain[Quarkus LangChain4j extensions^] bridge the gap between your Quarkus application and LangChain4j, a library that allows interaction with various LLMs like OpenAI, Hugging Face, or Ollama. with the following key features and benefits:
 
-* *Key Features*
 ** *Simplified LLM Integration*: The extension streamlines the process of incorporating LLMs into your application, saving development time and effort.
 ** *Declarative AI Services*: Define how you want to interact with the LLM using annotations or configuration files.
 ** *Embedding Support*: Integrates with document embedding stores like Redis, Chroma, or Infinispan to store and retrieve document context for the LLM.
@@ -78,10 +77,12 @@ image::private-docs/quarkus_dev.png[Quarkus dev]
 
 image::private-docs/parasol_ui.png[Parasol UI]
 
+[start=4]
 . Click on the chat icon in the bottom right corner to open the chat interface.
 
 image::private-docs/chat_interface.png[Chat interface]
 
+[start=4]
 . In the chat interface, try asking the following questions about a specific claim:
 * "What is the status of this claim?"
 * "When was the incident reported?"
@@ -91,6 +92,7 @@ image::private-docs/chatbot_questions.png[Chatbot questions]
 
 You should notice that the chatbot can answer these questions based on the claim context we provided. Now, let's ask a more complex question that requires knowledge of Parasol's policies:
 
+[start=5]
 . Ask the chatbot: "Should this claim be approved based on Parasol's policies?"
 
 You'll observe that the chatbot struggles with this question, as it doesn't have access to Parasol's specific policies. If only there was a way to automatically retrieve this information and provide it to the chatbot!
