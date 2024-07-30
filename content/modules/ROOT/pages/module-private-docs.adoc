@@ -28,10 +28,11 @@ This module will focus on *Building and Refining*.
 
 image::private-docs/building-gen-ai.png[Adopting Gen AI]
 
-IMPORTANT: If you've NOT already done the steps in accessing Red Hat Developer Hub and Red Hat Dev Spaces, please follow the instructions in the following sections. Otherwise, you can skip ahead to the *Implementing a Chatbot* section.
+IMPORTANT: If you haven't accessed *Red Hat Developer Hub and Red Hat Dev Spaces* yet, complete the following sections. Otherwise, *proceed* to the <<skip-prereqs, Working in your Cloud-based Development Environment>> section.
 
 include::module-devhub-preq.adoc[]
 
+[#skip-prereqs]
 == Working in your Cloud-based Development Environment
 
 https://developers.redhat.com/products/openshift-dev-spaces/overview[Red Hat OpenShift Dev Spaces^] is a cloud-based development environment built on top of Kubernetes and containers. It offers a streamlined and secure way for developers to code, build, and test applications directly within the OpenShift ecosystem. You'll use the Dev Spaces environment in this module to enhance the current functionality of the Parasol Insurance application.

@@ -1,5 +1,4 @@
 :imagesdir: ../assets/images
-:sectnums:
 
 == Deploy the existing Parasol applications in Red Hat Developer Hub
 
