@@ -133,17 +133,11 @@ Click on `CD` to review ArgoCD History.
 
 image::devhub/frontend_argohistory.png[] 
 
-Click on `TOPOLOGY` to review your deployment status. The deployment will be in *blue* immediately after the pipeline succeeds. Then, click on the deployment *parasol-app-{user}*. The application details on the right is available. 
+Click on `TOPOLOGY` to review your deployment status. Then, you will see the deployment *parasol-app-{user}* in the Topology.
+
+Don't worry if the deployment is not in *Failed* status. We'll review and fix it later.
 
 image::devhub/parasol_deployment.png[]
-
-=== Verify the deployment
-
-Access the https://frontend-app-{user}-globex-devhub-{user}.{openshift_cluster_ingress_domain}[Parasol web page^] to verify everything is working as expected.
-
-image::devhub/parasol_ui_web.png[]
-
-Now, you've confirmed what the existing Parasol application look like and how it works.
 
 == Log in Red Hat OpenShift Dev Spaces
 

@@ -165,6 +165,15 @@ quarkus.langchain4j.openai.parasol-email.chat-model.model-name=parasol-instruct
 quarkus.langchain4j.openai.parasol-email.base-url={parasol-instruct-model-url}/v1
 ----
 
+You also need to fix the issue in the previous deployment failure. The root case is that the application refers to the wrong LLM model. 
+`Update` the *parasol-chat.base-url* to the following base URL in the `application.properties` file.
+
+[.console-input]
+[source,properties,subs="+attributes,macros+"]
+----
+quarkus.langchain4j.openai.parasol-chat.base-url={parasol-chat-model-url}/v1
+----
+
 === Update the frontend web application in Parasol Insurance
 
 Let's update the frontend web application in Parasol Insurance to represent the output of the LLM in the email subject and body content.
@@ -337,7 +346,11 @@ Monitor if the new deployment rolls out by the OpenShift GitOps in the Dev Hub w
 
 == Verify the new app’s functionality
 
-Verify the new app’s functionality by accessing the frontend page (Parasol)
+Access the https://frontend-app-{user}-globex-devhub-{user}.{openshift_cluster_ingress_domain}[Parasol web page^] to verify everything is working as expected.
+
+image::devhub/parasol_ui_web.png[]
+
+Now, you've confirmed what the existing Parasol application look like and how it works.
 
 == Conclusion
 
