@@ -162,7 +162,7 @@ Open an existing `application.properties` file in the `src/main/resources` direc
 ----
 quarkus.langchain4j.openai.parasol-email.chat-model.temperature=0.3
 quarkus.langchain4j.openai.parasol-email.chat-model.model-name=parasol-instruct
-quarkus.langchain4j.openai.parasol-email.base-url={parasol-instruct-url}/v1
+quarkus.langchain4j.openai.parasol-email.base-url={parasol-instruct-model-url}/v1
 ----
 
 === Update the frontend web application in Parasol Insurance
@@ -309,7 +309,7 @@ Explore Pipelines from Red Hat Developer Hub.
 
 Your source code changes triggered a new pipeline to update the version of the frontend application.
 
-Go back to your frontend component on the Red Hat Developer Hub: https://backstage-backstage.{openshift_subdomain}/catalog/default/component/frontend-app-{user_name}[Red Hat Developer Hub UI^].
+Go back to your frontend component on the Red Hat Developer Hub: https://backstage-backstage.{openshift_cluster_ingress_domain}/catalog/default/component/frontend-app-{user}[Red Hat Developer Hub UI^].
 
 Explore the pipelines by clicking on the *CI*.
 
