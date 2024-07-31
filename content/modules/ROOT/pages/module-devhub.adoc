@@ -180,7 +180,7 @@ Let's update the frontend web application in Parasol Insurance to represent the 
 
 ==== Create new TypeScript component
 
-Create a new TypeScript XML file, `EmailGenerate.tsx` in the `src/main/webui/src/app/components/EmailGenerate` directory to render the output of the LLM in the email subject and body content. Copy the following code and paste it into the EmailGenerate.tsx file.
+Create a new `EmailGenerate` directory in the `src/main/webui/src/app/components` directory. Also, create a new TypeScript XML file, `EmailGenerate.tsx` in the `src/main/webui/src/app/components/EmailGenerate` directory to render the output of the LLM in the email subject and body content. Copy the following code and paste it into the EmailGenerate.tsx file.
 
 [.console-input]
 [source,javascript,subs="+attributes,macros+"]
@@ -291,7 +291,7 @@ import { EmailGenerate } from './components/EmailGenerate/EmailGenerate';
 },
 ----
 
-Great! Now you're ready to create a new pull request (PR) to servie the new Gen AI feature in the Parasol Insurance's application.
+*Great!* Now you're ready to create a new pull request (PR) to servie the new Gen AI feature in the Parasol Insurance's application.
 
 == Create a new pull request
 
@@ -299,20 +299,56 @@ Create a new pull request (PR) to serve the new Gen AI feature in the Parasol In
 
 === Commit your source code changes
 
-image::devhub/icon_source_control.png[width=40%, float=left]
+Click on the *Source Control* icon. Then, follow the next steps.
 
-Click on the *Source Control* icon. 
-
-* Add a *Message* for the commit.
-* Click on Commit *arrow*
+* Add a *Message* (e.g., `Add a new Gen AI feature`) for the commit.
+* Click on Commit *arrow*.
 * Select the option *Commit & Push*.
 
-image::devhub/dev_commit.png[dev_commit, 700]
+image::devhub/dev_commit.png[]]
 
 Confirm the changes.
 
-image::devhub/dev_confirmed.png[dev_confirmed, 900]
-image::devhub/git_fetch.png[git_fetch, 900]
+image::devhub/dev_confirmed.png[]
+
+=== Merge the pull request
+
+Go to the https://gitlab-gitlab.{openshift_cluster_ingress_domain}[Gitlab^]. Click on the *Create merge requests* to merge the pull request. 
+
+image::devhub/create_merge.png[]
+
+You will see the details of the *New merge request* page. Fill out the form and click on *Create merge request*.
+
+* *Description*: This is a new Gen AI feature to generate an email body and subject in the Parasol Insurance.
+* *Assignee*: {user} GitLab - click on the *Assigne me*
+* *Reviewer*: select {user} GitLab
+
+image::devhub/new_merge.png[]
+
+[NOTE]
+====
+The reviewer and assignee should be different in reality. To make the PR process easier, you can use the same user.
+====
+
+=== Review the changes
+
+Select the *Changes* tab to review what code has changed in the pull request. This should be done by an application architect or senior developer in general.
+
+image::devhub/review_pr.png[]
+
+Switch back to the *Overview* tab and click on *Merge* to merge the pull request. Note that the reviewer usually approves the pull request before merging.
+
+image::devhub/merge_pr.png[]
+
+A few seconds later, the pull request will be merged.
+
+image::devhub/pr_merged.png[]
+
+The PR merge will trigger a new pipeline that will deploy the new Gen AI feature in the Parasol Insurance's application.
+
+== Monitor the new deployment
+
+Monitor if the new deployment rolls out by the OpenShift GitOps in the Dev Hub web console.
 
 Explore Pipelines from Red Hat Developer Hub.
 
@@ -331,18 +367,6 @@ You will see the *new title* in the Cool Store web page.
 image::devhub/parasol_ui_web.png[]
 
 *Congratulations!*  You have finished your git request.
-
-== Merge the pull request
-
-Merge the pull request. The PR will trigger a new pipeline. The new pipeline will deploy the new Gen AI feature in the Parasol Insurance's application.
-
-=== Access the Gitlab to review the changes
-
-Go to the [Gitlab^] and review the changes.
-
-== Monitor the new deployment
-
-Monitor if the new deployment rolls out by the OpenShift GitOps in the Dev Hub web console.
 
 == Verify the new app’s functionality
 
