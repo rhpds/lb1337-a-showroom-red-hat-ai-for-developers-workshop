@@ -356,25 +356,34 @@ Your source code changes triggered a new pipeline to update the version of the f
 
 Go back to your frontend component on the Red Hat Developer Hub: https://backstage-backstage.{openshift_cluster_ingress_domain}/catalog/default/component/frontend-app-{user}[Red Hat Developer Hub UI^].
 
-Explore the pipelines by clicking on the *CI*.
+Explore the pipelines by clicking on the *CI*. Wait for pipeline to finish.
 
-image::devhub/frontend_newpipeline.png[frontend_newpipeline, 900]
+image::devhub/frontend_newpipeline.png[]
 
-Wait for pipeline to finish and THEN reload the Cool Store web page.
-
-You will see the *new title* in the Cool Store web page.
-
-image::devhub/parasol_ui_web.png[]
-
-*Congratulations!*  You have finished your git request.
+*Congratulations!* You have finished deploying a new Gen AI feature in the Parasol Insurance. You can now test the new feature in your git request.
 
 == Verify the new app’s functionality
 
 Access the https://frontend-app-{user}-globex-devhub-{user}.{openshift_cluster_ingress_domain}[Parasol web page^] to verify everything is working as expected.
 
-image::devhub/parasol_ui_web.png[]
+The new *Email Generate* menu item will appear on the left panel. Click on it.
 
-Now, you've confirmed what the existing Parasol application look like and how it works.
+image::devhub/new_parasol_ui_web.png[]
+
+Try to submit a simple draft email content. `Type` in the follwing content in the text box.
+
+[.console-input]
+[source,text]
+----
+danieloh@redhat.com
+We have a new policy to cover your car damage.
+----
+
+Click on `Submit` to generate the email subject and body. It will take a few seconds to receive the result (generated data) from the Parasol Instruct LLM model.
+
+image::devhub/generated_email.png[]
+
+Now, you've confirmed what the new Gen AI feature (e.g, Email Generate) in the Parasol application look like and how it works.
 
 == Conclusion
 
