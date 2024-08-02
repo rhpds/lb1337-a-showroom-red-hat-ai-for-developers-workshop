@@ -391,6 +391,6 @@ We hope you have enjoyed this module!
 
 Here is a quick summary of what we have learned:
 
-- TBD
-- TBD
+- How to use the Parasol Instruct LLM model to generate an email content
+- How to
 - TBD

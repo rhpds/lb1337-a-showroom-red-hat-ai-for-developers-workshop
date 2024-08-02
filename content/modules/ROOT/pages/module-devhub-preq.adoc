@@ -49,6 +49,8 @@ Follow the next steps to create a component based on the pre-defined Software Te
 
 ==== Provide information about the Gitlab location
 
+*Name* is the name of the component. Replace the *Name* with the following domain.
+
 *GitLab Host* is to use this input data to upload the source repository and manifests. in the Red Hat Developer Hub. You'll use a private GitLab server on the OpenShift today. Replace the *Gitlab Host* with the folowing domain.
 
 [.console-input]
