@@ -391,6 +391,6 @@ We hope you have enjoyed this module!
 
 Here is a quick summary of what we have learned:
 
-- How to use the Parasol Instruct LLM model to generate an email content
-- How to
-- TBD
+- How Red Hat Developer Hub enables you to build, deploy, and manage AI application (Parasol).
+- How to develop a new Geneartive AI feature with LLM model using the cloud IDE, Red Hat Dev Spaces on Red Hat OpenShift.
+- How to release the new Gen AI feature using GitOps pratice in Developer Hub and Red Hat OpenShift AI.
