@@ -1,4 +1,5 @@
 :imagesdir: ../assets/images
+:sectnums:
 
 == Deploy the existing Parasol applications in Red Hat Developer Hub
 
@@ -15,7 +16,13 @@ Red Hat Developer Hub has already been installed and configured in the workshop 
 
 Red Hat Developer Hub can integrate with https://access.redhat.com/products/red-hat-single-sign-on/[Red Hat Single Sign On (RH-SSO)^] to enhance security and user experience for developers within an organization. By integrating with RH-SSO, developers only need to log in once to access both RHDH and other applications secured by RH-SSO. This eliminates the need to manage multiple login credentials for different developer tools and services. RH-SSO can centralize user authentication and authorization to strengthen security by ensuring only authorized users can access RHDH and other protected resources. In addition, The platform engineer team can manage user access and permissions centrally through RH-SSO, simplifying administration and reducing the risk of unauthorized access.
 
-To get started, *access* https://keycloak-backstage.{openshift_cluster_ingress_domain}[Red Hat Developer Hub Dashboard^] with the following credential:
+To get started, *access* https://keycloak-backstage.{openshift_cluster_ingress_domain}[Red Hat Developer Hub Dashboard^] to authenticate by the *GitLab*. 
+
+Choose the *GitLab* option.
+ 
+image::devhub/authentication.png[]
+
+Enter the following credential in the Gitlab login page.
 
 * *Username*: 
 
@@ -32,8 +39,8 @@ To get started, *access* https://keycloak-backstage.{openshift_cluster_ingress_d
 ----
 {password}
 ----
- 
-image::devhub/authentication.png[]
+
+image::devhub/gitlab_authentication.png[]
 
 Find more information about the Red Hat Developer Hub https://developers.redhat.com/rhdh[here^].
 
@@ -47,49 +54,9 @@ image::devhub/software_template_parasol_llm.png[]
 
 Follow the next steps to create a component based on the pre-defined Software Templates:
 
-==== Provide information about the Gitlab location
+==== Provide Information for Application
 
-*Name* is the name of the component. Replace the *Name* with the following domain.
-
-*GitLab Host* is to use this input data to upload the source repository and manifests. in the Red Hat Developer Hub. You'll use a private GitLab server on the OpenShift today. Replace the *Gitlab Host* with the folowing domain.
-
-[.console-input]
-[source,bash,subs="attributes"]
-----
-https://gitlab-gitlab.{openshift_cluster_ingress_domain}
-----
-
-image::devhub/st_gitlab_info.png[]  
-
-*Group Id* is the GitLab organization already configured in the Red Hat Developer to manage the source repository and manifests.
-
-Click on *Next*.
-
-==== Provide information about the cluster Id:
-
-*Cluster Id* is to use this input data to build and deploy the application in the Red Hat Developer Hub. Replace the *Cluster Id* with the following domain.
-
-[.console-input]
-[source,bash,subs="attributes"]
-----
-.{openshift_cluster_ingress_domain}
-----
-
-*Namespace* is a project in the OpenShift cluster where the application will be deployed. The workshop environment is already created the unique project named, *parasol-{user}* for you.
-
-*Owner* is your user ID to use this input data in the build and deployment process in the Red Hat Developer. Choose your user ID (`user:{user}`) in the drop-down list.
-
-image::devhub/st_component_clusterid.png[]  
-
-Click on *Next*.
-
-==== Provide build information:
-
-* *Image Host*: Your application image will be stored in the internal OpenShift registry. Red Hat Developer Hub will use this image for building and deploying your application.
-* *Image Tag*: Composed of the application name and a version identifier, will be used by Red Hat Developer Hub for building and deploying your application.
-* *Component ID*: The application name will be used as the component ID for the build and deployment process.
-
-Replace the *Component ID* with the followingunique component ID.: 
+* *Name*: The name of the component. Replace the *Name* with the following domain.
 
 [.console-input]
 [source,bash,subs="attributes"]
@@ -97,11 +64,35 @@ Replace the *Component ID* with the followingunique component ID.:
 parasol-app-{user}
 ----
 
-image::devhub/st_component_componentid.png[]  
+* *Group Id*: Maven Group Id.
+* *Artifact Id*: Maven Artifact Id.
+* *Java Package Name*: Name for the java package. e.g., (com.redhat.example)
+
+image::devhub/st_app_info.png[]  
+
+Click on *Next*.
+
+==== Provide Image Registry Information
+
+Choose the *Quay* option for the image registry where you deploy your application.
+
+image::devhub/st_image_info.png[]
+
+Leave the other fields as they are.
+
+Click on *Next*.
+
+==== Application repository Information
+
+The Developer Hub will create a new repository in the your GitLab account for your application.
+
+image::devhub/st_repo_info.png[]
+
+Leave the all fields as they are.
 
 When you click on *Review*, you will see the following review information.
 
-image::devhub/st_component_review.png[]  
+image::devhub/st_component_review.png[]
 
 click on *Create* to proceed.
 
@@ -115,7 +106,7 @@ With all your activities in green, click `Open Component in catalog`.
 
 image::devhub/task_activity.png[]
 
-The Dev Hub will open a new tab with the component information. It will take some time to review the information in the screen:
+The Dev Hub will open a new tab with the component information. It will take some time to review the information in the screen.
 
 image::devhub/parasol_overview.png[] 
 
@@ -167,13 +158,6 @@ Log in with the following OpenShift credential on the Red Hat Single Sign-On (RH
 Authorize the access by click on *Allow selected permissions*.
 
 image::devhub/devspaces_authorize.png[devspaces_authorize, 600]
-
-Log in GitLab using your credentials.
-
- ** *Username*: `{user}`
- ** *Password*: `{password}`
-
-image::devhub/gitlab_authentication.png[gitlab_authentication, 600]
 
 Authorize *devspaces* to use your account by clicking on the *Authorize* button.
 
