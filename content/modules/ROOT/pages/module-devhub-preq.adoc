@@ -40,7 +40,7 @@ Enter the following credential in the Gitlab login page.
 {password}
 ----
 
-image::devhub/gitlab_authentication.png[]
+image::devhub/gitlab_authentication.png[] 
 
 Find more information about the Red Hat Developer Hub https://developers.redhat.com/rhdh[here^].
 
