@@ -2,4 +2,4 @@
 * xref:module-private-docs.adoc[Private Docs]
 * xref:module-model-testing.adoc[Model Testing]
 // * xref:module-kai.adoc[Migration with Konveyor AI]
-* xref:module-discovery.adoc[Discovery]
+* xref:module-discovery.adoc[Podman Desktop AI Lab]

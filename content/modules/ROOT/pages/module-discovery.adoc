@@ -1,4 +1,4 @@
-= Discovery - 40 minutes
+= Podman Desktop AI Lab - 40 minutes
 :imagesdir: ../assets/images
 :sectnums:
 
