@@ -153,12 +153,17 @@ Try to ask any questions about the claim to the AI chatbot. For example, you can
 [.console-input]
 [source,bash,subs="attributes"]
 ----
-I'd like to know the coverage of my policy for this claim.
+Please clarify my policy coverage for this specific claim.
 ----
 
 Then, click on `paper airplane` to send the query. The AI chatbot will connect to the trained parasol LLM model in the Parasol Insurance to respond with the answer.
 
-you will see the answer in a few seconds.
+[NOTE]
+====
+If nothing happens when you click the paper airplane icon, please refresh the page and try again.
+====
+
+You will see the answer in a few seconds. The answer provided here varies from the output of the Parasol Chat LLM model.
 
 image::devhub/chatbot_query.png[]
 

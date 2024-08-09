@@ -11,11 +11,6 @@ asciidoc:
     password: openshift
     openshift_cluster_ingress_domain: app.example.sandbox.com
     novnc_url: https://app.example.sandbox.com
-    parasol-instruct-model-url: https://parasol-instruct-aiworkshop.apps.cluster-wk5tx.sandbox3051.opentlc.com
-    parasol-chat-model-url: https://parasol-chat-aiworkshop.apps.cluster-wk5tx.sandbox3051.opentlc.com
-    parasol-embedding-model-url: https://parasol-embedding-aiworkshop.apps.cluster-wk5tx.sandbox3051.opentlc.com
-    granite-7b-lab-model-url: https://granite-7b-lab-aiworkshop.apps.cluster-wk5tx.sandbox3051.opentlc.com
-    merlinite-7b-lab-model-url: https://merlinite-7b-lab-aiworkshop.apps.cluster-wk5tx.sandbox3051.opentlc.com
     release-version: main
     page-pagination: true
     page-toclevels: 1
