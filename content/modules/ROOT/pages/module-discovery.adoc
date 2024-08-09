@@ -346,5 +346,3 @@ This demonstrates how developers can leverage the Podman AI Lab to quickly proto
 * The benefits of using containerized AI recipes for rapid prototyping and development of AI-powered applications.
 
 These skills and tools will be invaluable as you continue to develop AI-enabled applications at Parasol Insurance, allowing you to quickly iterate on ideas and integrate powerful AI capabilities into your workflow.
-
-Now, let's learn how we can enhance our applications by providing additional knowledge and information to the AI models we work with.
