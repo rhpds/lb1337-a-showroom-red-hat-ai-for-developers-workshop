@@ -164,11 +164,16 @@ Open an existing `application.properties` file in the `src/main/resources` direc
 [.console-input]
 [source,properties,subs="+attributes,macros+"]
 ----
-quarkus.langchain4j.parasol-email.chat-model.provider=openai
-quarkus.langchain4j.openai.parasol-email.chat-model.temperature=0.3
-quarkus.langchain4j.openai.parasol-email.chat-model.model-name=parasol-instruct
-quarkus.langchain4j.openai.parasol-email.base-url=https://parasol-chat-predictor-aiworkshop.${openshift_cluster_ingress_domain}/v1
+quarkus.langchain4j.parasol-email.chat-model.provider=openai // <1>
+quarkus.langchain4j.openai.parasol-email.chat-model.temperature=0.3 // <2>
+quarkus.langchain4j.openai.parasol-email.chat-model.model-name=parasol-instruct // <3>
+quarkus.langchain4j.openai.parasol-email.base-url=https://parasol-chat-predictor-aiworkshop.${openshift_cluster_ingress_domain}/v1 // <4>
 ----
+<1> Specify the model provider (e.g., openai, huggingface)
+<2> Set the model temperature
+<3> Specify the model name to connect to
+<4> Specify the base URL of the model that the application will connect to
+
 
 === Update the frontend web application in Parasol Insurance
 
