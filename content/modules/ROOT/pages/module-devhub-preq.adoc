@@ -184,9 +184,8 @@ Log in with the following OpenShift credential on the Red Hat Single Sign-On (RH
  ** *Username*: `{user}`
  ** *Password*: `{password}`
 
-Authorize the access by click on *Allow selected permissions*.
-
-image::devhub/devspaces_authorize.png[devspaces_authorize, 600]
+// Authorize the access by click on *Allow selected permissions*.
+// image::devhub/devspaces_authorize.png[devspaces_authorize, 600]
 
 Authorize *devspaces* to use your account by clicking on the *Authorize* button.
 
