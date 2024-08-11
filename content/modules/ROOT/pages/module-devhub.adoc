@@ -361,7 +361,7 @@ Your source code changes triggered a new pipeline to update the version of the f
 
 Go back to your frontend component on the Red Hat Developer Hub: https://backstage-backstage.{openshift_cluster_ingress_domain}/catalog/default/component/frontend-app-{user}[Red Hat Developer Hub UI^].
 
-Explore the pipelines by clicking on the *CI*. A new pipeline will be triggered to build the new Gen AI feature. Wait for pipeline to finish for the deployment.
+Explore the pipelines by clicking on the `CI` tab. *A new pipeline* will be triggered to build the new Gen AI feature. Wait for pipeline to finish for the deployment.
 
 image::devhub/frontend_newpipeline.png[]
 
