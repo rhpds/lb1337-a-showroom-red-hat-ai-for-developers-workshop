@@ -114,8 +114,3 @@ Here is a quick summary of what we have learned:
 - TBD
 - TBD
 - TBD
-
-parasol-insurance (main) $ npx promptfoo eval
-Need to install the following packages:
-promptfoo@0.73.3
-Ok to proceed? (y) y
