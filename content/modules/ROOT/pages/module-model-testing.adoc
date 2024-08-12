@@ -44,7 +44,7 @@ Open the folder "prompt-testing"
 
 Before we can run our tests we need to configure the location of the models we're going to use for embedding and chat completions.  
 
-Open the file `.vscode/settings/models-config.js`
+Open the file `.vscode/settings.json`
 
 Paste the following text:
 
@@ -54,8 +54,8 @@ Paste the following text:
     "jest": {
         "nodeEnv": {
             "NODE_TLS_REJECT_UNAUTHORIZED": "0", 
-            "PARASOL_MODEL_URL": "https://phi3-airoadshow.apps.{openshift_subdomain}:443/v1/chat/completions",
-            "EMBEDDING_MODEL_URL": "http://localhost:9999/v1"
+            "PARASOL_MODEL_URL": "https://parasol-instruct-aiworkshop.{openshift_cluster_ingress_domain}:443/v1/chat/completions",
+            "EMBEDDING_MODEL_URL": "https://parasol-embedding-aiworkshop.{openshift_cluster_ingress_domain}/v1"
         },
         "rootPath": "prompt-testing"
     }
