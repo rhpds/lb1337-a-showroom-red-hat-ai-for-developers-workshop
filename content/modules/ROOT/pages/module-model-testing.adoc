@@ -22,46 +22,33 @@ In this lab we're going to use a trained model which has been fine tuned with Pa
 
 To test the responses to ensure they are accurate we're going to use another model (an embedding model) to test for similarity between two sentences.
 
-== 1. Open Red Hat Developer Hub
+:imagesdir: ../assets/images
+:sectnums:
 
-To get started we're going to open Red Hat Developer Hub by clicking on the following url:
+IMPORTANT: If you haven't accessed *Red Hat Developer Hub and Red Hat Dev Spaces* yet, complete the following sections. Otherwise, *proceed* to the <<skip-prereqs, Install Node modules>> section.
 
-TODO add developer hub url
+include::partial-devhub-pre-req.adoc[]
+include::partial-dev-spaces-pre-req.adoc[]
 
-== 1.1. Select Parasol application
 
-From the Red Hat Developer Hub landing page, click on the "Parasol" (TODO check name) application.
+[#skip-prereqs]
+== 3. Install Node modules
 
-== 1.2. Open the Parasol application code in Red Hat OpenShift Dev Spaces
+Open a Terminal window.
 
-To open the Parasol application code in Red Hat OpenShift Dev Spaces click on the icon (TODO get image of icon).  You will be taken to the Dev Spaces IDE with the application source code open.
+image::devhub/new-terminal.png[new-terminal, 500]
 
-image::model-testing/dev-spaces-landing.png[Red Hat OpenShift Dev Spaces Landing Page]
+Enter the following commands:
 
-Open the folder "prompt-testing"
-
-== 2. Configure the model config
-
-Before we can run our tests we need to configure the location of the models we're going to use for embedding and chat completions.  
-
-Open the file `.vscode/settings/models-config.js`
-
-Paste the following text:
-
-[source,js,role="copypaste",subs="attributes"]
+[source,bash,role="copypaste"]
 ----
-{
-    "jest": {
-        "nodeEnv": {
-            "NODE_TLS_REJECT_UNAUTHORIZED": "0", 
-            "PARASOL_MODEL_URL": "https://phi3-airoadshow.apps.{openshift_subdomain}:443/v1/chat/completions",
-            "EMBEDDING_MODEL_URL": "http://localhost:9999/v1"
-        },
-        "rootPath": "prompt-testing"
-    }
-}
-  
+cd prompt-testing
+npm install
 ----
+
+Once this command has completed you should see the following.
+
+image::model-testing/npm-output.png[npm_output, 800]
 
 == 3. Run tests
 
@@ -69,15 +56,23 @@ We can now run the tests to ensure they pass.
 
 Navigate to `prompt-testing/index.test.js`
 
-You should see green play buttons next to the tests.  Click on the top green button to start the tests.
+On the left hand panel, click on the "Testing" icon
 
-You will see the tests processing. Once they are complete you should see green ticks next to the completed tests.
+image::model-testing/testing-panel.png[npm_output, 800]
+
+Click on the "Run Tests" icon at the top as shown below
+
+image::model-testing/run-tests.png[npm_output, 800]
+
+When the test run is complete you should see
+
+image::model-testing/run-complete.png[npm_output, 800]
 
 == 4. Add new tests
 
 We're now going to add a new test to test some new functionality we've added to the application.
 
-In the file `index.test.js`, add the following 
+In the file `index.test.js`, add the following to the end of the file replacing the comment: "// ADD NEW TEST HERE"
 
 [source,js,role="copypaste",subs="attributes"]
 ----
@@ -105,6 +100,17 @@ describe('Parasol Claim response test', () => {
 
 ----
 
+On the left hand panel, click on the "Testing" icon
+
+
+Click on the "Run Tests" icon at the top as shown below
+
+image::model-testing/run-tests-2.png[npm_output, 800]
+
+When the test run is complete you should see
+
+image::model-testing/run-complete-2.png[npm_output, 800]
+
 == Conclusion
 
 We hope you have enjoyed this module!
@@ -114,8 +120,3 @@ Here is a quick summary of what we have learned:
 - TBD
 - TBD
 - TBD
-
-parasol-insurance (main) $ npx promptfoo eval
-Need to install the following packages:
-promptfoo@0.73.3
-Ok to proceed? (y) y
