@@ -18,7 +18,9 @@
 
 *Parasol* is standardizing on an *internal developer portal (IDP)* for its developers to use to build, deploy, and manage cloud native applications, including those with AI capabilities. In this exercise, you will learn how to harness the power of the Parasol internal developer portal to streamline and enhance your development workflow for AI apps. This exercise will guide you through creating a new application using a software template, observing the automatic CI/CD processes powered by Tekton and Argo, and using your web-based IDE, Red Hat Dev Spaces. You'll create a new branch to develop and add an AI feature, such as an email generator. After merging your pull request, you'll monitor the deployment process via OpenShift GitOps in the Red Hat Dev Hub dashboard. Finally, you'll verify the functionality of your new application by accessing its frontend page. This hands-on experience will empower you to efficiently utilize the Parasol developer portal for seamless application development and deployment.
 
-include::module-devhub-preq.adoc[]
+include::partial-devhub-pre-req.adoc[]
+include::partial-cicd-pre-req.adoc[]
+include::partial-dev-spaces-pre-req.adoc[]
 
 == Add a new generative AI feature
 
