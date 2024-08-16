@@ -1,3 +1,5 @@
+:imagesdir: ../assets/images
+:sectnums:
 
 == Log in Red Hat OpenShift Dev Spaces
 

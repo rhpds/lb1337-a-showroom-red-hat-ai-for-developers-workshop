@@ -1,3 +1,6 @@
+:imagesdir: ../assets/images
+:sectnums:
+
 === Review continuous integration and delivery (CI/CD)
 
 Click on `CI` tab to review your pipeline information. The pipeline will be triggered in a few seconds. After a few minutes, you will see the pipeline finished as *Succeeded*.
