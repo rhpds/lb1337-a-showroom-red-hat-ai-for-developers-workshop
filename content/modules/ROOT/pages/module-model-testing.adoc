@@ -25,14 +25,19 @@ To test the responses to ensure they are accurate we're going to use another mod
 :imagesdir: ../assets/images
 :sectnums:
 
-IMPORTANT: If you haven't accessed *Red Hat Developer Hub and Red Hat Dev Spaces* yet, complete the following sections. Otherwise, *proceed* to the <<skip-prereqs, Install Node modules>> section.
+IMPORTANT: If you haven't accessed *Red Hat Developer Hub and Red Hat Dev Spaces* yet, complete the following sections. Otherwise, *proceed* to the <<skip-prereqs, Model Testing Overview>> section.
 
 include::partial-devhub-pre-req.adoc[]
 include::partial-dev-spaces-pre-req.adoc[]
 
 
 [#skip-prereqs]
-== 3. Install Node modules
+
+== Model Testing Overview
+
+
+
+== Install Node modules
 
 Open a Terminal window.
 
@@ -50,7 +55,8 @@ Once this command has completed you should see the following.
 
 image::model-testing/npm-output.png[npm_output, 800]
 
-== 3. Run tests
+
+== Run tests
 
 We can now run the tests to ensure they pass.
 
@@ -68,7 +74,7 @@ When the test run is complete you should see
 
 image::model-testing/run-complete.png[npm_output, 800]
 
-== 4. Add new tests
+== Add new tests
 
 We're now going to add a new test to test some new functionality we've added to the application.
 
