@@ -22,17 +22,48 @@ In this lab we're going to use a trained model which has been fine tuned with Pa
 
 To test the responses to ensure they are accurate we're going to use another model (an embedding model) to test for similarity between two sentences.
 
+Embedding is a means of representing objects like text, images and audio as points in a continuous vector space where the locations of those points in space are semantically meaningful to machine learning (ML) algorithms. Embedding enables machine learning models to find similar objects.  Our tests will use an embedding model served by OpenShift AI to compare two strings semantically to ensure there are similar enough to pass a threshold.
+
 :imagesdir: ../assets/images
 :sectnums:
 
-IMPORTANT: If you haven't accessed *Red Hat Developer Hub and Red Hat Dev Spaces* yet, complete the following sections. Otherwise, *proceed* to the <<skip-prereqs, Install Node modules>> section.
+IMPORTANT: If you haven't accessed *Red Hat Developer Hub and Red Hat Dev Spaces* yet, complete the following sections. Otherwise, *proceed* to the <<skip-prereqs, Model Testing Overview>> section.
 
 include::partial-devhub-pre-req.adoc[]
 include::partial-dev-spaces-pre-req.adoc[]
 
 
 [#skip-prereqs]
-== 3. Install Node modules
+
+== Model Testing Overview
+
+As we mentioned in the goals section, we're going to use two models to perform these tests. The configuration for these models can be found in .vscode/settings.json.  Open this file and examine it's contents, it should look like this:
+
+[source,json,subs="attributes"]
+----
+{
+    "jest": {
+        "nodeEnv": {
+            "NODE_TLS_REJECT_UNAUTHORIZED": "0", 
+            "PARASOL_MODEL_URL": "https://parasol-instruct-predictor-aiworkshop.{openshift_cluster_ingress_domain}:443/v1/chat/completions",
+            "EMBEDDING_MODEL_URL": "https://parasol-embedding-predictor-aiworkshop.{openshift_cluster_ingress_domain}/v1",
+            "PARASOL_MODEL_NAME": "parasol-instruct"
+        },
+        "rootPath": "prompt-testing"
+    }
+}
+----
+
+There are a four things to take note of in this JSON file.
+
+1. "PARASOL_MODEL_URL": This is the url of the pre-trained model with knowledge of the Parasol inurance company and it's products.  This model is hosted by OpenShift AI.
+2. "PARASOL_MODEL_NAME": The name of the model as configured in OpenShift AI
+3. "EMBEDDING_MODEL_URL": This is the url of the embedding model hosted by OpenShift AI.  The embedding model is used by our tests to compare the response from the trained model with a pre-defined example for similarity.
+4. "NODE_TLS_REJECT_UNAUTHORIZED": This is disabled allowing Node.js to make calls to SSL connections with self signed certs.  Our models served by OpenShift AI are using self signed certs, in a production environment this would not be the case.
+
+== Install Node modules
+
+Before we get started running these tests, we need to install the required NPM modules, to do this, follow these instructions.
 
 Open a Terminal window.
 
@@ -50,7 +81,7 @@ Once this command has completed you should see the following.
 
 image::model-testing/npm-output.png[npm_output, 800]
 
-== 3. Run tests
+== Run tests
 
 We can now run the tests to ensure they pass.
 
@@ -68,13 +99,41 @@ When the test run is complete you should see
 
 image::model-testing/run-complete.png[npm_output, 800]
 
-== 4. Add new tests
+== Adding a new test
 
 We're now going to add a new test to test some new functionality we've added to the application.
 
-In the file `index.test.js`, add the following to the end of the file replacing the comment: "// ADD NEW TEST HERE"
+This test is going to generate a response to a claim submission from a customer and compare this response with a pre-defined example for simularity.  We're also going to use a system prompt designed to ensure an accurate and polite reponse to the claim query.
 
-[source,js,role="copypaste",subs="attributes"]
+The text of the claim we're going to use for the test is:
+
+[source,text]
+----
+On January 2nd, 1955, at around 3:30 PM, a car accident occurred at the intersection of Colima Road and Azusa Avenue in Hill Vallet. The involved parties were Marty McFly, driving a silver Delorean DMC-12 (OUTA-TIME), and Biff Tanner in a blue Type 2 Volkswagen Bus (BIF-RULZ).
+
+Marty was heading south on Colima Road when Biff failed to stop at the red traffic signal on Asuza Avenue, causing a collision with Marty''s vehicle. Both drivers exchanged information and took photos of the accident scene, which included damages to the front driver and passenger side of Marty''s Delorean DMC-12 and the front driver''s side of Biff''s Volkswagen Bus. No injuries were reported.
+
+Marty has attached necessary documents, such as photos, a police report, and an estimate for repair costs, to his email. He requests prompt attention to the claim and is available at (916) 555-4385 or marty.mcfly@email.com for any additional information or documentation needed
+----
+
+The text of the prompt we're going to use for the test is:
+
+[source,text]
+----
+You are a helpful, respectful and honest assistant named 'Parasol Assistant'. You will be given a claim summary, references to provide you with information, and a question. You must answer the question based as much as possible on this claim with the help of the references. Always answer as helpfully as possible, while being safe. Your answers should not include any harmful, unethical, racist, sexist, toxic, dangerous, or illegal content. Please ensure that your responses are socially unbiased and positive in nature. If a question does not make any sense, or is not factually coherent, explain why instead of answering something not correct. If you don't know the answer to a question, please don't share false information.
+----
+
+The sample response we're going to use for the test is as follows:
+[source,text]
+----
+Based on the claim summary provided, the accident occurred on January 2nd, 1955, at the intersection of Colima Road and Azusa Avenue in Hill Vallet. Marty McFly, driving a silver Delorean DMC-12, was heading south on Colima Road, and Biff Tanner, in a blue Type 2 Volkswagen Bus, failed to stop at the red signal on Asuza Avenue, resulting in a collision with Marty's vehicle.
+
+Both drivers exchanged their contact information, took photos of the accident scene and the damages to their vehicles, and no injuries were reported. Marty has attached necessary documentation to his claim, including photos, a police report, and an estimate for repair costs. He is available at (916) 555-4385 or marty.mcfly@email.com for further information or documentation if required.
+----
+
+To create this test, in the file `index.test.js` add the following to the end replacing the comment: `// ADD NEW TEST HERE`
+
+[source,js,role="copypaste"]
 ----
 
 describe('Parasol Claim response test', () => {
@@ -100,8 +159,7 @@ describe('Parasol Claim response test', () => {
 
 ----
 
-On the left hand panel, click on the "Testing" icon
-
+On the left hand panel, click on the "Testing" icon, you should see our new test is listed but has not yet been run.
 
 Click on the "Run Tests" icon at the top as shown below
 
