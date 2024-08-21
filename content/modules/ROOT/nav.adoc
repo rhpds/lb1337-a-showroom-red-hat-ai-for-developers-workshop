@@ -1,5 +1,6 @@
 * xref:module-devhub.adoc[Gen AI into Parasol]
 * xref:module-private-docs.adoc[Private Docs]
 * xref:module-model-testing.adoc[Model Testing]
+* xref:module-prompt.adoc[Prompting Basics]
 // * xref:module-kai.adoc[Migration with Konveyor AI]
 * xref:module-discovery.adoc[Podman Desktop AI Lab]
