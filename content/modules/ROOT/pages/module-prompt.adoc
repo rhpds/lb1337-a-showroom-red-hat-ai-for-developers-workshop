@@ -185,43 +185,162 @@ Take some time to ask the LLM various questions and see how it responds.  Rememb
 
 Customers frequently reach out to our customer service team to discuss their insurance claims.  These emails are very diverse and, while we can easily route them to the claims team, determining how to process from there is time consuming manual labor that Parasol Insurance would like to repurpose elsewhere within the company.  This is where you come in - Parasol Insurance leadership is eager to pilot Generative AI in the context of claims email routing.  It hopes this automation will allow it to move these claims support resources to the claims analysis team, who is getting behind in their processes and causing customer impacting delays.
 
-As the Model Builder, you have already completed training of a robust LLM that is are of Parasol Insurance's business rules.  We will use this model to analyze customer emails and determine how to best handle the customer inquiry.  Architecturally, this logic will be invoked as a simple business service written in Java that generates a simple response that guides routing.  The robust analysis must be performed by the LLM and will require solid prompt to produce quality results.
+As the AI Developer, you have been given access to a robust LLM that has already been trained on Parasol Insurance's business rules.  We will use this model to analyze customer emails and determine how to best handle the customer inquiry.  Architecturally, this logic will be invoked as a simple business service written in Java that generates a simple response that guides routing.  The robust analysis must be performed by the LLM and will require solid prompt to produce quality results.
 
-* Input/Output Specification:
- - LLM Input:  "customer email body"
- - LLM Output: { "claimStatus": "RESPONSE" } where RESPONSE is either NEW, EXISTING, UNRELATED, or UNKNOWN
+*Your Functional Requirements:*
 
-* Requirements:
- - Determine if the customer email is notifying the company of a new insurance claim or asking about an existing one.
- - If the email was misrouted to the claim team for some reason, respond with UNRELATED
- - Non-business emails should be assigned UNKNOWN
+* Determine if the customer email is notifying the company of a new insurance claim or asking about an existing one.
+* If the email was misrouted to the claim team for some reason, respond with UNRELATED
+* Non-business emails should be assigned UNKNOWN
 
-=== Prepare for Prompt Experimentation
+*Required LLM Input/Output Specifications:*
 
-* Open Podman Desktop AI Lab
-* Click on AI Lab
-* Click on Playgrounds
-* Click on New Playground
-* Choose the Parasol Insurance model 
-* Click the Create playbround button
-* Set the Max Tokens to a definitive value - something smaller like 100-200 tokens
+* Input:
+
+`"customer email body"`
+
+* Output must be one of the following:
+
+`{ "claimStatus": "NEW" }`
+
+`{ "claimStatus": "EXISTING" }`
+
+`{ "claimStatus": "UNRELATED" }`
+
+`{ "claimStatus": "UNKNOWN" }`
+
 
 === Write a prompt!
 
 Think about what we've learned so far with LLMs and ground yourself in clear communication vs the power of AI.  How would you communicate this use case to a new employee with no background at all in insurance or customer service?  How would you communicate what good looks like in a way that is descriptive of a pattern vs rigid rules that must be followed?
 
-I recommend that you start with a text editor in the shared desktop and then paste updates into Podman Desktop, as this will be an interative process.
-A hint - the user prompt will always be the customer email with no other surrounding questions or text.  This means your system prompt will contain all of the instructions for this exercise.  Each change to a system prompt requires a new playground session so pasting this in will help simplify the continuous improvement process.
+I recommend that you start with a text editor in the shared desktop and then paste updates into playground, as this will be an interative process and you will need to restart conversations as you change the system prompt.
 
+A hint - the user prompt will always be the customer email with no other surrounding questions or text.  This means your system prompt will contain all of the instructions for this exercise. 
 You can write your own sample emails and paste them into the user prompt text box or you can view them in the Parsol Insurance App.  For the latter, open the web application, click on Claims, select any of the claims in the list and emails are included in the Document tab.
 
 If you run into challenges while drafting the prompt, ask your instructor for assistance.
 
+
+=== Test emails to speed up testing
+
+*Example - NEW*
+
+[.console-input]
+[source,text,subs="+attributes,macros+"]
+----
+Dear Parasol Inc.,
+
+I hope this email finds you well. I'm writing to, uh, inform you about, well, something that happened recently. It's, um, about a car accident, and I'm not really sure how to, you know, go about all this. I'm kinda anxious and confused, to be honest.
+
+So, the accident, uh, occurred on January 15, 2024, at around 3:30 PM. I was driving, or, um, attempting to drive, my car at the intersection of Maple Street and Elm Avenue. It's kinda close to, um, a gas station and a, uh, coffee shop called Brew Haven? I'm not sure if that matters, but, yeah.
+
+So, I was just, you know, driving along, and suddenly, out of nowhere, another car, a Blue Crest Sedan, crashed into the, uh, driver's side of my car. It was like, whoa, what just happened, you know? There was this screeching noise and, uh, some honking from other cars, and I just felt really, uh, overwhelmed.
+
+The weather was, um, kinda cloudy that day, but I don't think it was raining. I mean, I can't really remember. Sorry if that's important. Anyway, the road, or, well, maybe the intersection, was kinda busy, with cars going in different directions. I guess that's, you know, a detail you might need?
+
+As for damages, my car has, uh, significant damage on the driver's side. The front door is all dented, and the side mirror is, like, hanging by a thread. It's not really drivable in its current, uh, state. The Blue Crest Sedan also had some damage, but I'm not exactly sure what because, you know, everything happened so fast.
+
+I did manage to exchange information with the other driver. Their name is Sarah Johnson, and I got their phone number (555-1234), license plate number (ABC123), and insurance information. So, yeah, I hope that's helpful.
+
+I'm not sure what, um, steps I should take now. Do I need to go to a specific, uh, repair shop? Should I get a quote for the repairs? And, uh, how do I, you know, proceed with the insurance claim? I'm kinda lost here, and any guidance or assistance you can provide would be really, um, appreciated.
+
+Sorry if this email is a bit all over the place. I'm just really, uh, anxious about the whole situation. Thank you for your understanding.
+
+Sincerely,
+
+Jane Doe
+Policy Number: AC-987654
+----
+
+*Example - NEW*
+
+[.console-input]
+[source,text,subs="+attributes,macros+"]
+----
+Dear Parasol Insurance Team,
+
+I hope this email finds you well. I'm reaching out to file a claim regarding a recent incident involving my car, which is covered under my policy with Parasol. The accident occurred last night on the streets of Los Angeles, and I wanted to provide you with all the necessary details.
+
+Location: The accident took place at the intersection of Sunset Boulevard and Vine Street in downtown Los Angeles. It was one of those crazy nights, where the streets were alive with the sound of engines and the glow of neon lights.
+
+Circumstances: So, here's the deal. I was out cruising with the crew, enjoying the vibe of the city, when suddenly we found ourselves in the middle of a high-speed chase. There was this dude, let's call him Johnny Tran for the sake of this email, who thought he could outmaneuver us. Little did he know, we don't play by the rules.
+
+Anyway, Johnny pulled some slick moves, cutting through traffic like a bat outta hell. Naturally, being the king of the streets that I am, I had to show him what real speed looks like. So, I hit the nitrous and went full throttle.
+
+But then, outta nowhere, this semi-truck decided to make a left turn without signaling. I had to make a split-second decision, and I ended up launching my car off a ramp, trying to clear the truck like we're in one of those crazy action flicks. It was like something straight outta the movies, I tell ya.
+
+Long story short, the stunt didn't exactly go as planned. My car ended up crashing into a billboard, flipping over a couple of times before finally coming to a stop. Yeah, it was a total wreck. But hey, at least we walked away without a scratch, just a little shaken, not stirred, if you catch my drift.
+
+Damage: As for the damage to my car, let's just say it's gonna need more than a few wrenches and some duct tape to fix this baby up. The front end is smashed in, the windows are shattered, and I'm pretty sure the chassis is twisted beyond recognition. It's gonna take a miracle to get her back on the road.
+
+I understand that accidents happen, but I'm counting on Parasol to have my back in times like these. I've been a loyal customer for years, and I trust that you'll handle my claim with the same speed and precision that I handle my rides.
+
+Please let me know what steps I need to take to get the ball rolling on this claim. I'm ready to do whatever it takes to get my car back in top shape and back on the streets where it belongs.
+
+Looking forward to hearing from you soon.
+
+Sincerely,
+Dominic Toretto
+----
+
+*Example - EXISTING*
+
+[.console-input]
+[source,text,subs="+attributes,macros+"]
+----
+Dear Parasol Insurance Claims Department,
+
+I am absolutely *thrilled* (read: infuriated) to be writing yet another heartfelt missive to the void that is your customer service. My recent car accident claim has vanished into the ether, much like my patience and the professionalism I expected from your company. How about we resolve this before the next ice age?
+
+Let's recap the blockbuster event:
+On March 28, 2023, at around 4:15 PM, at the intersection of 5th Avenue and Main St in Springfield, my car was passionately sideswiped by another vehicle. Why? Because the other driver blasted through a red light and T-boned my car's passenger side. It was a harrowing scene, made worse by your glacial pace of response.
+
+It's been over two weeks, and your commitment to delay is almost impressive. I demand a comprehensive review and prompt update on my claim within the next 24 hours. This isn't just a request—it's a necessity driven by sheer frustration and the urgent need for resolution.
+
+Please treat this matter with the urgency it clearly deserves. I expect a detailed plan of action and a swift response, or be assured, further actions including legal recourse will be considered.
+
+Looking forward to an expedited resolution,
+Saul Goodman
+
+CC: My 17 Twitter Followers
+
+Attach: Police Report No. 12345, Photos of the Incident, Documented Calls and Emails
+----
+
+
+*Example - EXISTING*
+
+[.console-input]
+[source,text,subs="+attributes,macros+"]
+----
+Dear Parasol Insurance Claims Department,
+
+This correspondence is from Tyrion Lannister, currently not in a tavern but rather dealing with the aftermath of an unpleasant vehicular incident. As a man known for resolving conflicts, I find myself ironically embroiled in one that requires your immediate attention.
+
+Here are the distressing details:
+On April 15, 2023, at about noon, within the confines of King's Landing, my car was struck by another. As I navigated through the bustling streets near the marketplace, a distracted driver—likely admiring the view of the Blackwater Bay instead of the road—rammed into my car's side. This not only caused significant damage to the vehicle but also disrupted my travel plans significantly.
+
+Nearly a month has elapsed since the accident, and yet, I've seen more action in the Small Council meetings than in the progress of my claim. Your lack of promptness in handling this matter is both noted and distressing. I require an exhaustive review and a swift update on my claim within the next 48 hours. This is not a mere request, but a necessity fueled by urgent needs and dwindling patience.
+
+Please address this claim with the seriousness it merits. I expect a detailed response and a rapid resolution, or rest assured, further actions, potentially involving the Crown, will be considered.
+
+I await your expedited action,
+Tyrion Lannister
+
+CC: Master of Coin
+
+Attach: Car Damage Photos, Eyewitness Accounts, Incident Report No. KL509
+----
+
+
+=== I finished early!
+
 If you finish this exercise early, can you enhance the process with the following:
 
-* If the response is NEW, is there a customer provided policy number that you can include in the response?  If not, can you return an error message with the code saying that more information is needed?
-* If the response is EXISTING, is the claim number provided?  If not, can you return an error message with the EXISTING response?
-* Enrich the JSON with the additional data fields.
+. If the response is NEW, is there a customer provided policy number that you can include in the response?  If not, can you return an error message with the code saying that more information is needed?
+. If the response is EXISTING, is the claim number provided?  If not, can you return an error message with the EXISTING response?
+. Enrich the JSON with the additional data fields.
 
 == Update the Parasol Insurance Java App w/New Prompt
 
@@ -231,9 +350,14 @@ Now that you've developed a working prompt that can help satisfy leadership obje
 
 === Working Prompt
 
+[.console-input]
+[source,text,subs="+attributes,macros+"]
+----
 You are a customer service expert in the claims management processes at Parasol Insurance. 
 
-You are the first point of contact for customer emails involving insurance claims. These emails always fall into one of the following categories - 1.) New Claim , 2.) Status Updates or Additional Details Regarding an Existing Claim, or 3.) Unrelated to Insurance Claims. 
+You are the first point of contact for customer emails involving insurance claims. 
+These emails always fall into one of the following categories - 
+1.) New Claim, 2.) Status Updates or Additional Details Regarding an Existing Claim, or 3.) Unrelated to Insurance Claims. 
 
 Emails that describe a new accident or discuss filing a new claim are always NEW claims. 
  
@@ -243,9 +367,11 @@ Emails that have nothing to do with insurance or claims are always UNRELATED.
 
 Any email that cannot be categorized into NEW, EXISTING, or UNRELATED must be categorized as UNKNOWN. 
 
-You will be provided the email body in user prompt and will review it to determine which category to which it belongs. You MUST ALWAYS respond with only one of the following words - NEW, EXISTING, UNRELATED, or UNKNOWN. 
+You will be provided the email body in user prompt and will review it to determine which category to which it belongs. 
+You MUST ALWAYS respond with only one of the following words - NEW, EXISTING, UNRELATED, or UNKNOWN. 
 
 Provide this response in JSON format in the following structure: { "claimStatus": "RESPONSE" } where "RESPONSE" contains NEW, EXISTING, UNRELATED, or UNKNOWN. 
+----
 
 === Integrate Prompt with Application
 
