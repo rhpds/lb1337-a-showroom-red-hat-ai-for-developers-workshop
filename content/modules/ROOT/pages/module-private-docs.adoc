@@ -41,49 +41,61 @@ https://developers.redhat.com/products/openshift-dev-spaces/overview[Red Hat Ope
 
 === Using LangChain4j with Quarkus
 
-You'll be building new features in this application, based on https://developers.redhat.com/products/quarkus/overview[Quarkus^] and the https://github.com/langchain4j/langchain4j[LangChain4j^] library. The https://quarkus.io/extensions/?search-regex=langchain[Quarkus LangChain4j extensions^] bridge the gap between your Quarkus application and LangChain4j, a library that allows interaction with various LLMs like OpenAI, Hugging Face, or Ollama. with the following key features and benefits:
+You'll be building new features in this application, based on https://developers.redhat.com/products/quarkus/overview[Quarkus^] and the https://github.com/langchain4j/langchain4j[LangChain4j^] library. The https://quarkus.io/extensions/?search-regex=langchain[Quarkus LangChain4j extensions^] bridge the gap between your Quarkus application and LangChain4j, a library that allows interaction with various LLMs like OpenAI, Hugging Face, or Ollama. It has the following key features and benefits:
 
 ** *Simplified LLM Integration*: The extension streamlines the process of incorporating LLMs into your application, saving development time and effort.
-** *Declarative AI Services*: Define how you want to interact with the LLM using annotations or configuration files.
+** *Declarative AI Services*: Defines how you want to interact with the LLM using annotations or configuration files.
 ** *Embedding Support*: Integrates with document embedding stores like Redis, Chroma, or Infinispan to store and retrieve document context for the LLM.
 ** *Observability Integration*: Allows monitoring and logging of LLM interactions within your Quarkus application.
 
 === Understanding the application's codebase
 
-This Quarkus application is a customer service processing tool that handles customer claim emails for Parasol insurance. The team has recently improved the application with a chatbot to interact with the agent and generate responses based on the email content. In the VS Code environment, navigate to the `app/src/main/java/org/parasol` directory, which contains the main capabilities of the application.
+This Quarkus application is a customer service processing tool that handles customer claim emails for Parasol insurance. The team has recently improved the application with a chatbot to interact with the agent and to generate responses based on the email content. In the VS Code environment, navigate to the `src/main/java/org/parasol` directory, which contains the main source code of the application.
 
-image::private-docs/quarkus_codebase.png[Quarkus codebase]
+image::private-docs/quarkus-codebase.png[Quarkus codebase]
 
-In the `app/src/main/java/org/parasol/ai/ClaimService.java` file, you'll find the main AI chatbot class that processes the customer claim emails with a `SystemMessage`, `UserMessage`, and chat method. The chat method processes the claim details and question, then generates a response based on the claim and references provided.
+In the `src/main/java/org/parasol/ai/ClaimService.java` file, you'll find the main AI chatbot class that processes the customer claim emails with a `@SystemMessage` and `@UserMessage` annotation, and a `chat` method. The `chat` method processes the claim details and question, then generates a response based on the claim and references provided.
 
-image::private-docs/claim_service_code.png[ClaimService code]
+image::private-docs/claim-service-code.png[ClaimService code]
 
-You can also explore the `app/src/main/resources/application.properties` file to review the application configuration, including the Quarkus configuration and the LangChain4j extension settings. 
+You can also explore the `src/main/resources/application.properties` file to review the application configuration, including the Quarkus configuration and the LangChain4j extension settings. 
 
-image::private-docs/application_properties.png[Application properties]
+
+image::private-docs/application-properties.png[Application properties]
 
 == Testing out the existing chatbot
 
-Now that we've checked out the chatbot, let's test it:
+Now that we've checked out the chatbot, let's test it.
 
-. In the terminal within Dev Spaces, navigate to your project directory and run:
-+
-[source,bash]
+Open a terminal window within Dev Spaces by clicking on the 'hamburger' menu button in the top left, then click on 'Terminal' and finally on 'New Terminal' as seen below:
+
+image::private-docs/new-terminal.png[New Terminal]
+
+In the terminal window that has appeared at the bottom of the editor, run the following command: 
+
+[.console-input]
+[source,bash,subs="+attributes,macros+"]
 ----
 ./mvnw quarkus:dev
 ----
 
-image::private-docs/quarkus_dev.png[Quarkus dev]
+This will download some dependencies and start the application in Quarkus Dev Mode.
+
+NOTE: You may get asked to contribute anonymous build time data. It's up to you what to answer, but we recommend answering yes so the Quarkus developers can have valuable performance insights to improve Quarkus even further. :) 
+
+After a minute or 2, depending on network speeds, your application will be up and running:
+
+image::private-docs/quarkus-dev.png[Quarkus dev]
 
 [start=2]
-. Open a new browser tab and navigate to the Parasol application URL (https://x-{user}-x-{user}.{openshift_cluster_ingress_domain}).
+Go ahead and click the "Open In New Tab" button that shows up in the bottom right. Confirm that you want to open the app in the following dialog, after which you should see the Parasol UI in the new tab.
 
-image::private-docs/parasol_ui.png[Parasol UI]
+image::private-docs/parasol-ui.png[Parasol UI]
 
 [start=4]
-. Click on the chat icon in the bottom right corner to open the chat interface.
+Click on the first claim with number "CLM195501" to open the claim, and then on the chat icon in the bottom right corner to open the chat interface.
 
-image::private-docs/chat_interface.png[Chat interface]
+image::devhub/claim_view.png[Chat interface]
 
 [start=4]
 . In the chat interface, try asking the following questions about a specific claim:
@@ -91,21 +103,56 @@ image::private-docs/chat_interface.png[Chat interface]
 * "When was the incident reported?"
 * "What is the claimed amount?"
 
-image::private-docs/chatbot_questions.png[Chatbot questions]
+image::devhub/chatbot_query.png[Chatbot questions]
 
 You should notice that the chatbot can answer these questions based on the claim context we provided. Now, let's ask a more complex question that requires knowledge of Parasol's policies:
 
 [start=5]
-. Ask the chatbot: "Should this claim be approved based on Parasol's policies?"
+Ask the chatbot: "Should this claim be approved based on Parasol's policies?"
+
+image::private-docs/chat-policies-unknown.png[Chatbot questions about policies]
 
 You'll observe that the chatbot struggles with this question, as it doesn't have access to Parasol's specific policies. If only there was a way to automatically retrieve this information and provide it to the chatbot!
 
-== Introduce & build RAG
+== Embedding Documents with RAG
 
-Retrieval-Augmented Generation (RAG) is a technique that enhances language models by providing them with relevant information retrieved from a knowledge base. This is particularly useful when dealing with domain-specific knowledge or private data.
+Retrieval-Augmented Generation (RAG) is a technique that enhances language models by providing them with relevant information retrieved from a knowledge base. This is particularly useful when dealing with domain-specific knowledge or private data. 
 
-* When to use RAG vs fine-tuning (maybe covered at beginning)
-* Now re-ask previous question and bot should be able to answer
+=== When to use RAG vs fine-tuning
+Use Retrieval-Augmented Generation (RAG) when you need to access a dynamic knowledge base in real-time, especially for tasks that involve varied or constantly updating information. RAG is ideal if you require scalability, need to handle out-of-domain queries, or want to deploy quickly without the resource demands of fine-tuning - which often requires specialized knowledge of working with AI models, something application developers often don't possess.
+
+On the other hand, choose fine-tuning when your task is specialized and you need precise control over the model's behavior. Fine-tuning is better suited for homogeneous data, offline or low-latency applications, and situations where security or compliance requires all data to be embedded within the model. It's also preferable when you have a well-defined use case with specific task requirements.
+
+=== Add Parasol-specific policies to the LLM's knowledge base with RAG
+
+While we could use a database to store (vectorized) data to use with RAG, we can also simply specify a directory where text-based files are stored. We can then parse this data, vectorize it and pass it along to our LLM calls. This process is made very easy with the aptly named "Easy RAG" extension in Quarkus. 
+
+To add this extension, run the following command:
+
+[.console-input]
+[source,bash,subs="+attributes,macros+"]
+----
+quarkus ext add easy-rag
+----
+
+You will see that a new extension was added to your application:
+
+image::private-docs/quarkus-easy-rag.png[Quarkus Easy Rag Extension added]
+
+We have already added the policy documents in the app/src/main/resources/policies folder. Now we need to tell the Easy Rag extension where to find them by adding the following line to your app/src/main/resources/application.properties:
+
+[.console-input]
+[source,java,subs="+attributes,macros+"]
+----
+quarkus.langchain4j.easy-rag.path=src/main/resources/policies
+----
+
+That's all there is to it! Now when we reload the application, it will parse the documents and vectorize them into an in-memory embedding store that will be used by the AI calls to the LLM.
+
+NOTE: Of course this is a simple use case with a few text documents loaded into an in-memory embedding store. https://docs.quarkiverse.io/quarkus-langchain4j/dev/easy-rag.html[Click here] If you would like to learn more about Easy Rag and embedding models 
+
+Let's reload the browser window to make sure Quarkus Dev mode picks up the changes, and then ask the same questions in the chat window. This time the bot should be able to answer the questions.
+
 
 == Build a tool/agent to notify the user by email an update to their claim
 

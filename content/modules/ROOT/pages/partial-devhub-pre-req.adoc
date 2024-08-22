@@ -3,7 +3,7 @@
 
 == Deploy the existing Parasol applications in Red Hat Developer Hub
 
-https://access.redhat.com/products/red-hat-developer-hub[Red Hat Developer Hub (RHDH)^] is an enterprise-grade, self-managed, and customizable *developer portal* built on top of https://backstage.io/[Backstage.io^]. It's designed to streamline the development process for organizations, specifically those using Red Hat products and services. Here's a breakdown of its key Benefits:
+https://access.redhat.com/products/red-hat-developer-hub[Red Hat Developer Hub (RHDH)^] is an enterprise-grade, self-managed, and customizable *developer portal* built on top of https://backstage.io/[Backstage.io^]. It's designed to streamline the development process for organizations, specifically those using Red Hat products and services. Here's a breakdown of its key benefits:
 
 * *Increased Developer Productivity*: Reduces time spent searching for resources and setting up environments.
 * *Improved Collaboration*: Provides a central platform for developers to share knowledge and best practices.
