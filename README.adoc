@@ -2,7 +2,7 @@
 
 To consult the static version of the instructions, please use this URL https://rh-rad-ai-roadshow.github.io/dev-guides/[this URL].
 
-=== Getting Started
+== Getting Started
 
 . Create a git repo from this template
 . Clone the repo and `cd` into it
@@ -12,11 +12,11 @@ To consult the static version of the instructions, please use this URL https://r
 
 Now you are ready to go!  You can start editing the files in the `content/modules/ROOT/pages/` directory.
 
-**Today** you have to run `./utilites/build` to rebuild your html but *very shortly* we will be adding live updating.
+**Today** you have to run `./utilities/build` to rebuild your html but *very shortly* we will be adding live updating.
 I.E. on every save the lab will re-build in real time.
 In addition, many modern editors such as Visual Studio Code offer live Asciidoc Preview extensions.
 
-=== Understanding the Basic Template Directory Structure
+== Understanding the Basic Template Directory Structure
 
 [source,sh]
 ----
@@ -35,7 +35,7 @@ In addition, many modern editors such as Visual Studio Code offer live Asciidoc 
     └── example_partial.adoc
 ----
 
-=== Development Cycle
+== Development Cycle
 
 . Edit your content in `content/modules/ROOT/pages/`
 . Run `./utilities/lab-build` to build your html
@@ -44,7 +44,7 @@ In addition, many modern editors such as Visual Studio Code offer live Asciidoc 
 .. You should use `git tags` or `git branches` in production
 .. However development items default to the head of `main`
 
-=== Configuring your Lab 
+== Configuring your Lab 
 
 Project Zero Lab repos have 3 *yaml* files that control the build and deployment of your lab.
 However _typically_ you will only need to only make very few edits 

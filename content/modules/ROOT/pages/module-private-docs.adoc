@@ -60,18 +60,19 @@ image::private-docs/claim-service-code.png[ClaimService code]
 
 You can also explore the `app/src/main/resources/application.properties` file to review the application configuration, including the Quarkus configuration and the LangChain4j extension settings. 
 
-#TODO: add screenshot of application.properties once we have the right settings 
-#image::private-docs/application-properties.png[Application properties]
+// TODO: add screenshot of application.properties once we have the right settings
+// image::private-docs/application-properties.png[Application properties]
 
 == Testing out the existing chatbot
 
 Now that we've checked out the chatbot, let's test it:
 
-. In the terminal within Dev Spaces, navigate to your project directory and run:
-+
-[source,bash]
+In the terminal within Dev Spaces, navigate to your project directory and run:
+
+[.console-input]
+[source,bash,subs="+attributes,macros+"]
 ----
-./mvnw quarkus:dev
+quarkus dev
 ----
 
 image::private-docs/quarkus_dev.png[Quarkus dev]
@@ -101,12 +102,45 @@ You should notice that the chatbot can answer these questions based on the claim
 
 You'll observe that the chatbot struggles with this question, as it doesn't have access to Parasol's specific policies. If only there was a way to automatically retrieve this information and provide it to the chatbot!
 
-== Introduce & build RAG
+== Embedding Documents with RAG
 
-Retrieval-Augmented Generation (RAG) is a technique that enhances language models by providing them with relevant information retrieved from a knowledge base. This is particularly useful when dealing with domain-specific knowledge or private data.
+Retrieval-Augmented Generation (RAG) is a technique that enhances language models by providing them with relevant information retrieved from a knowledge base. This is particularly useful when dealing with domain-specific knowledge or private data. 
 
-* When to use RAG vs fine-tuning (maybe covered at beginning)
-* Now re-ask previous question and bot should be able to answer
+=== When to use RAG vs fine-tuning
+Use Retrieval-Augmented Generation (RAG) when you need to access a dynamic knowledge base in real-time, especially for tasks that involve varied or constantly updating information. RAG is ideal if you require scalability, need to handle out-of-domain queries, or want to deploy quickly without the resource demands of fine-tuning - which often requires specialized knowledge of working with AI models, something application developers often don't possess.
+
+On the other hand, choose fine-tuning when your task is specialized and you need precise control over the model's behavior. Fine-tuning is better suited for homogeneous data, offline or low-latency applications, and situations where security or compliance requires all data to be embedded within the model. It's also preferable when you have a well-defined use case with specific task requirements.
+
+=== Add Parasol-specific policies to the LLM's knowledge base with RAG
+
+While we could use a database to store (vectorized) data to use with RAG, we can also simply specify a directory where text-based files are stored. We can then parse this data, vectorize it and pass it along to our LLM calls. This process is made very easy with the aptly named "Easy RAG" extension in Quarkus. 
+
+To add this extension, run the following command:
+
+[.console-input]
+[source,bash,subs="+attributes,macros+"]
+----
+quarkus ext add easy-rag
+----
+
+You will see that a new extension was added to your application:
+
+image::private-docs/quarkus-easy-rag.png[Quarkus Easy Rag Extension added]
+
+We have already added the policy documents in the app/src/main/resources/catalog folder. Now we need to tell the Easy Rag extension where to find them by adding the following line to your app/src/main/resources/application.properties:
+
+[.console-input]
+[source,java,subs="+attributes,macros+"]
+----
+quarkus.langchain4j.easy-rag.path=src/main/resources/catalog
+----
+
+That's all there is to it! Now when we reload the application, it will parse the documents and vectorize them into an in-memory embedding store that will be used by the AI calls to the LLM.
+
+NOTE: Of course this is a simple use case with a few text documents loaded into an in-memory embedding store. https://docs.quarkiverse.io/quarkus-langchain4j/dev/easy-rag.html[Click here] If you would like to learn more about Easy Rag and embedding models 
+
+Let's reload the browser window to make sure Quarkus Dev mode picks up the changes, and then ask the same questions in the chat window. This time the bot should be able to answer the questions.
+
 
 == Build a tool/agent to notify the user by email an update to their claim
 
