@@ -41,26 +41,27 @@ https://developers.redhat.com/products/openshift-dev-spaces/overview[Red Hat Ope
 
 === Using LangChain4j with Quarkus
 
-You'll be building new features in this application, based on https://developers.redhat.com/products/quarkus/overview[Quarkus^] and the https://github.com/langchain4j/langchain4j[LangChain4j^] library. The https://quarkus.io/extensions/?search-regex=langchain[Quarkus LangChain4j extensions^] bridge the gap between your Quarkus application and LangChain4j, a library that allows interaction with various LLMs like OpenAI, Hugging Face, or Ollama. with the following key features and benefits:
+You'll be building new features in this application, based on https://developers.redhat.com/products/quarkus/overview[Quarkus^] and the https://github.com/langchain4j/langchain4j[LangChain4j^] library. The https://quarkus.io/extensions/?search-regex=langchain[Quarkus LangChain4j extensions^] bridge the gap between your Quarkus application and LangChain4j, a library that allows interaction with various LLMs like OpenAI, Hugging Face, or Ollama. It has the following key features and benefits:
 
 ** *Simplified LLM Integration*: The extension streamlines the process of incorporating LLMs into your application, saving development time and effort.
-** *Declarative AI Services*: Define how you want to interact with the LLM using annotations or configuration files.
+** *Declarative AI Services*: Defines how you want to interact with the LLM using annotations or configuration files.
 ** *Embedding Support*: Integrates with document embedding stores like Redis, Chroma, or Infinispan to store and retrieve document context for the LLM.
 ** *Observability Integration*: Allows monitoring and logging of LLM interactions within your Quarkus application.
 
 === Understanding the application's codebase
 
-This Quarkus application is a customer service processing tool that handles customer claim emails for Parasol insurance. The team has recently improved the application with a chatbot to interact with the agent and generate responses based on the email content. In the VS Code environment, navigate to the `app/src/main/java/org/parasol` directory, which contains the main capabilities of the application.
+This Quarkus application is a customer service processing tool that handles customer claim emails for Parasol insurance. The team has recently improved the application with a chatbot to interact with the agent and to generate responses based on the email content. In the VS Code environment, navigate to the `app/src/main/java/org/parasol` directory, which contains the main source code of the application.
 
-image::private-docs/quarkus_codebase.png[Quarkus codebase]
+image::private-docs/quarkus-codebase.png[Quarkus codebase]
 
-In the `app/src/main/java/org/parasol/ai/ClaimService.java` file, you'll find the main AI chatbot class that processes the customer claim emails with a `SystemMessage`, `UserMessage`, and chat method. The chat method processes the claim details and question, then generates a response based on the claim and references provided.
+In the `app/src/main/java/org/parasol/ai/ClaimService.java` file, you'll find the main AI chatbot class that processes the customer claim emails with a `@SystemMessage` and `@UserMessage` annotation, and a `chat` method. The `chat` method processes the claim details and question, then generates a response based on the claim and references provided.
 
-image::private-docs/claim_service_code.png[ClaimService code]
+image::private-docs/claim-service-code.png[ClaimService code]
 
 You can also explore the `app/src/main/resources/application.properties` file to review the application configuration, including the Quarkus configuration and the LangChain4j extension settings. 
 
-image::private-docs/application_properties.png[Application properties]
+#TODO: add screenshot of application.properties once we have the right settings 
+#image::private-docs/application-properties.png[Application properties]
 
 == Testing out the existing chatbot
 
