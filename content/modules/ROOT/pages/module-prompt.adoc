@@ -179,6 +179,141 @@ Take some time to ask the LLM various questions and see how it responds.  Rememb
 //
 //Keep in mind this is an insecure business server and confidential data should be avoided, along with offensive material.  Also, keep in mind maximum length guidance as provided in the UI.
 
+
+== Hallucinations
+
+Before we begin experimenting with prompts, let's take a moment to review LLM issues known as hallucinations.  
+
+LLMs have a tendancy, especially without guidance, to guess or speculate responses to user messages.  There are many reasons this may happen - flaws in its training, non-specific prompts, or the fact they generally are not good at math.  The fact LLMs are able to produce such amazing results is impressive but the expectations of those results is elevated when considered for business use cases.  As you complete the following sections, look for hallucinations in the model and experiment with phrasing your prompts to avoid them.
+
+Potential approaches for minimizing hallucinations:
+
+* Ask the LLM to ground its response in facts provided during training
+* Limiting the frame of context used to evaluate the message by proving specific input data
+* Be more specific in your instructions
+
+
+== Understand prompting techniques
+
+=== Zero-shot and few-shot prompting
+
+As you've seen, prompt engineering is extremely important to getting business value from an LLM and you've likely noticed that prompt quality relies on clear and concise instructions for the LLM to follow.  While experimenting with the LLM, you likely noticed that small changes to instructions sometimes had signficant impact to the LLM's response.  As you would add more detail around the prompt, you may have encountered challenges with the LLM accomodating every rule you included in the System Prompt.
+
+A very effective prompt design technique is to include 1 more examples in the system prompt.  This can enable the LLM to infer rules or expected results in a more direct and consistent way, without the effort of lengthy natural language explaination of the logic the LLM is expected to follow.
+
+* *Zero-shot prompting* is when no examples are provided.
+
+* *One-shot prompting* is when a single example is provided with the System Prompt.
+
+* *Few-shot prompting* is when multiple examples are provided to lead the LLM towards specific results.
+
+Additionally, please follow the following best practices as more examples are included in the System Prompt:
+
+* Be balanced and equatable in the verbiage used with each example.
+* Use consistent labelling of the data across examples.
+* LLMs have a limited context window, so phrase your system prompt and examples carefully and leave plenty of room for the user message and history produced during the chat session.
+
+Let's try some examples of each and compare the results.
+
+
+=== Let's try Zero-shot Prompting
+
+Click the "Start new conversation" button.
+
+Change the System Prompt to the following.
+
+[.console-input]
+[source,text,subs="+attributes,macros+"]
+----
+You are a computer system for Parasol Insurance that specializes in automotive policies and claims.
+You MUST respond only in JSON.
+----
+
+Enter the following into the Message text box and click the Send button.
+
+[.console-input]
+[source,text,subs="+attributes,macros+"]
+----
+In what states does Parasol Insurance do business and what are the average claim amounts per state?
+----
+
+Analyze the response.  Since we are giving the LLM very little information to go on, the results are somewhat unpredictable.  
+
+Try starting a new chat and using the same System Prompt and Message.  Observe how the results change.
+
+From your perspective as an AI Developer, this is not helpful since the results are not in a format that the system can parse.
+
+
+=== Let's try Few-shot Prompting
+
+Click the "Start new conversation" button.
+
+Change the System Prompt to the following.
+
+[.console-input]
+[source,text,subs="+attributes,macros+"]
+----
+You are a computer system for Parasol Insurance that specializes in automotive policies and claims. You MUST respond only in JSON.  Base your answers only on the facts on which you were trained.  Guessing is not permitted.
+----
+
+Enter the following into the Message text box and click the Send button.
+
+[.console-input]
+[source,text,subs="+attributes,macros+"]
+----
+In what states does Parasol Insurance do business and what are the average claim amounts per state?
+
+Here are examples that demonstrate how your response should be structured.  Do not include "Example:" in your response.
+
+Example:
+[
+  { "Virginia": "$5,000.00" },
+  { "North Carolina": "1,250.00" }
+]
+
+Example:
+[
+  { "New York": "$8,000.00" },
+  { "Utah": "1,250.00" },
+  { "Arizona": "3,800.00" },
+  { "Texas": "4,500.00" }
+]
+
+Example:
+[
+  { "California": "$9,000.00" },
+  { "Georgia": "6,500.00" },
+  { "Hawaii": "10,125.00" },
+  { "Alaska": "3,000.00" }
+]
+----
+
+Notice how the LLM's response more naturally conforms to a format a consuming application can consume.
+
+
+=== Chain-of-thought prompting
+
+Chain-of-thought is a more advanced prompting technique where the LLM can be taught to solve complex problems by breaking them down into smaller ones.  This technique can be applied in a few ways.  One way is by giving an example of a solution and breaking down the discrete steps in that example response for the LLM to replicate.  Another way could be to ask the LLM to break out the steps when responding, encouraging it to follow a more methodical approach and produce better results.
+
+Start a new conversation.
+
+Enter the following System Prompt:
+
+[.console-input]
+[source,text,subs="+attributes,macros+"]
+----
+TODO - System Prompt
+----
+
+Enter the following message:
+
+[.console-input]
+[source,text,subs="+attributes,macros+"]
+----
+TODO - User Message
+----
+
+
 == Solve a Business Problem with a Prompt!
 
 === Use Case and Requirements
