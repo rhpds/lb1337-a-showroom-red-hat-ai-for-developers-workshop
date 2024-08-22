@@ -110,7 +110,7 @@ You should notice that the chatbot can answer these questions based on the claim
 [start=5]
 Ask the chatbot: "Should this claim be approved based on Parasol's policies?"
 
-image::devhub/chat-policies-unknown.png[Chatbot questions about policies]
+image::private-docs/chat-policies-unknown.png[Chatbot questions about policies]
 
 You'll observe that the chatbot struggles with this question, as it doesn't have access to Parasol's specific policies. If only there was a way to automatically retrieve this information and provide it to the chatbot!
 
@@ -139,12 +139,12 @@ You will see that a new extension was added to your application:
 
 image::private-docs/quarkus-easy-rag.png[Quarkus Easy Rag Extension added]
 
-We have already added the policy documents in the app/src/main/resources/catalog folder. Now we need to tell the Easy Rag extension where to find them by adding the following line to your app/src/main/resources/application.properties:
+We have already added the policy documents in the app/src/main/resources/policies folder. Now we need to tell the Easy Rag extension where to find them by adding the following line to your app/src/main/resources/application.properties:
 
 [.console-input]
 [source,java,subs="+attributes,macros+"]
 ----
-quarkus.langchain4j.easy-rag.path=src/main/resources/catalog
+quarkus.langchain4j.easy-rag.path=src/main/resources/policies
 ----
 
 That's all there is to it! Now when we reload the application, it will parse the documents and vectorize them into an in-memory embedding store that will be used by the AI calls to the LLM.
