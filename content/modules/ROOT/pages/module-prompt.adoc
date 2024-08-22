@@ -16,148 +16,303 @@
 
 == Goals of this lab
 
-Parasol has had mixed success in the past with generative AI, and believes that better prompts can improve their results. As an AI model builder, it is your job to build in the prompts that will be combined with user input to query the custom Parasol models.
+Parasol has had mixed success in the past with generative AI, and believes that better prompts can improve their results. As an AI model builder, it is your job to build in the prompts that will be combined with user input to query the custom Parasol models. 
 
-In this exercise you as an AI model builder will delve into the art of crafting effective prompts to improve the performance of Parasol's customized generative AI models. Recognizing the importance of precise and well-structured prompts, this exercise aims to equip you with the best practices to optimize user interactions with custom AI models. You'll start by initiating the "Prompt Best Practices" recipe on Podman Desktop, configured with a tailored model. From there, you'll open the application frontend in your browser and experiment with various prompt types, including zero-shot, few-shot, and chain-of-thought prompts, using examples to showcase the reasoning capabilities of the language model. Additionally, you'll use these prompts to generate emails that meet specific content, formatting, and tone requirements. This hands-on exercise will empower you to refine your prompting techniques, ultimately enhancing the overall effectiveness of Parasol's AI initiatives.
+In this exercise you as an AI developer will delve into the art of crafting effective prompts in order to incorporate Parasol's customized generative AI models into business applications you support. Recognizing the importance of precise and well-structured prompts, this exercise aims to equip you with the best practices to optimize user interactions with custom AI models. 
 
-== Run Podman Desktop with AI Lab
+You'll start by seeing the different ways to experiment with prompt engineering around the platform and then move into understanding with the inputs that steer the LLM towards producing needed value. From there, you'll experiment with various prompt types, including zero-shot, few-shot, and chain-of-thought prompts, using examples to showcase the reasoning capabilities of the language model. Additionally, you'll use these prompts to make a business decision and generate emails that meet specific content, formatting, and tone requirements. 
 
-=== What is Podman Desktop?
+This hands-on exercise will empower you to refine your prompting techniques, ultimately enhancing the overall effectiveness of Parasol's AI initiatives.
 
-Podman Desktop is an open source tool that enables you to easily work with containerized applications in an easy to use graphical user interface that is local to your machine.  It is built upon an extensible architecture and AI Lab provides tooling for interacting with Large Language Models in an easy to use, local environment.  For this workshop, we will be connect to a remote desktop instantiated for our session today that is preconfigured for Podman Desktop with AI Lab.  This environment is also GPU enabled, helping to support expidited responses to your test queries.
+== Chat Playgrounds
+
+There are several ways that you as the AI application developer may interface a particular LLM.  We will briefly review a few of these here and then make a recommendation for you to follow with the subsequent steps of this module.
+
+Before jumping into specific tools, let's review the basics around interfacing with an LLM through a chat or agentic experience.  Since LLMs can often support a wide variety of use cases and personas, it is critical that the LLM receive upfront guidance to define its objectives, constraints, and persona.  These instructions are provided in Natural Language form and is called the "System Prompt".  Once a System Prompt is defined and a chat session begins, the System Prompt cannot be changed.  Subsequent interactions between the LLM and the end user, whether a human or even another system, are called Messages.
+
+Next, depending on use cases, it may or may not be important for the LLM to produce a more predictable response and at other times, a more creative response is needed.  This is controlled through a parameter called Temperature.  Temperature is a floating point number between 0 and 1, where 0 is more predictable and 1 is more creative.  Many tools simply use 0.8 as a default.  Please note that for various technical reasons, even with a Temperature of 0 LLMs will not produce 100% consistently repeatable results.  
+
+Lastly, while experimenting with LLMs, especially from machines without a GPU, it is recommended to constrain the LLM from producing overly verbose responses by setting the Max Tokens.  This coaches the LLM to be more concise with its responses, which can be helpful during testing.
+
+=== Podman Desktop with AI Lab
+
+Podman Desktop is an open source tool that enables you to easily work with containerized applications in an easy to use graphical user interface that is local to your machine.  It is built upon an extensible architecture and AI Lab provides tooling for interacting with Large Language Models in an easy to use, local environment.  The AI Lab extension provides a Playground feature where you can easily provide a system prompt and then have an interactive conversation with the LLM.  The most common parameters, such as temperature and token count, are easily configured within the playground UI itself.
+
+image::prompt/podman-desktop-with-ai-lab.png[Podman Desktop with AI Lab]
 
 If you would like to install Podman Desktop in your own environment, visit podman-desktop.io and click Download Now!  Once installed, click the download button next to AI Lab on either the home screen or search for it in the Extensions view.
 
-=== Access Virtual Environment
+=== Quarkus Dev UI with LangChain4j Chat Extension
 
-Open the novnc url to connect to the remote desktop.  Enter the password provided to you when prompted.
-Next, click on the Podman Desktop icon on your desktop when you login.  (TODO - this needs to happen)  Should this icon not be here, the command to run this application from the terminal is "flatpak run io.podman_desktop.PodmanDesktop".
+We are using Quarkus and LainChain4j extensively throughout this exercise, and it provides a user interface for testing system and user prompts.  Dev UI has been preconfigured to communicate with a Parasol Insurance trained LLM exposed through an OpenAI-compliant API.
 
-=== Download the Trained Parasol Insurance LLM
+image::prompt/devui-langchain4j-chat.png[Quarkus Dev UI with LangChain4j Chat]
 
-Open the terminal and use wget or curl to download the remote model in GGUF format.  GPT-Generated Unified Format (GGUF) is a file format popularized by Hugging Face designed for fast loading and saving of models.  It is centered on a singular file, simplifying reading and distribution.
+System Prompt is entered with new chat sessions using the System message text field.  To change the default value, inheritted from the last session, click within the text box and replace the existing value with your guidance.  User Messages are entered in the Message text box at the bottom of the screen.
 
-Download our specialized GGUF model that has been pretrained for Parasol Insurance specific use cases.
+Temperature and Max Tokens must be changed in the Configuration screen.  Use the Search bar in configuration and search for the following, respectively, to change the default values:
 
-* Open a terminal window using the icon on the desktop and enter the following command:
- - wget https://huggingface.co/rh-rad-ai-roadshow/parasol-merlanite-trained-GGUF/resolve/main/parasol-model-07-24-24-sdg100.gguf
-* For this lab, open the permissions so the file can be read by containerized processes:
-** chmod 666 parasol-model-07-24-24-sdg100.gguf
-- The file will be saved to demo user's home directory.  If you used a different directory to store the model, please note that location.
+*Adjust Temperature through the Dev UI Configuration View*: 
 
-=== Start Podman Desktop with AI Lab
+[.console-input]
+[source,text,subs="+attributes,macros+"]
+----
+openai.parasol-chat.chat-model.temperature
+----
 
-Start Podman Desktop with AI Lab using the Podman Desktop icon on your desktop.  Alternatively, it can also be started from a terminal using the following command:
-* flatpak run io.podman_desktop.PodmanDesktop
+image::prompt/devui-change-temperature.png[Change Temperature with Dev UI Chat Playground]
 
-You will see a list of icons along the left hand side providing functionality for a variety of features in support of containerized applications.  Containerized AI applications are a popular trend across the industry due to its ease of consistently deploying across ecosystems and runtime platforms. 
+*Adjust Max Tokens through the Dev UI Configuration View*:
 
-=== Open AI Lab and Import the LLM
+[.console-input]
+[source,text,subs="+attributes,macros+"]
+----
+openai.chat-model.max-tokens`
+----
 
-Open AI Lab using the icon towards the bottom of the bar along the left hand side.  Its the happy robot head!
+image::prompt/devui-change-max-tokens.png[Change Max Tokens with Dev UI Chat Playground]
 
-AI Lab is helpful to model builders because it simplifies direct inquiries into the model and provides GUI based tooling for packaging, should a container be appropriate for their use case.  To begin experimenting with the model, we must first important it using the following steps:
+=== Preferred Chat UI for the module
 
-* Click Catalog
-* Click the purple Import button on the top right hand side of the screen.
-* Click the "Add .GGUF Models" link in the center of the screen.
-* Navigate to the home directory and select the model we downloaded above using the wget command.   If you chose a different file location, now would be the time to use that alternative location.  Select that model in the file selection dialog.
+For the remainder of the lab, we will be assuming you are using the Quarkus Dev UI with the LangChain4j Chat extension.
 
-== Use Playgrounds to Chat with the Model
 
-=== Create a Playground
+== Chat with the Model
 
-Playgrounds is the area of AI Lab where users can experiment with  basic prompting techniques against a particular LLM.  Let's begin by creating a Playground for this workshop.
+For this section we will be exercising the model with some basic prompts to gain experience with the tooling, before moving on to more advanced and innovative asks of you.
 
-* Click Playgrounds
-* Click the purple "New Playground" button on the top right hand side of the window
-* The playground name does not matter for this experiment.  Feel free to enter one or leave blank.
-* Select the Parasol Insurance model that was imported in the prior step.  This is likely the only model in your selection and therefore selected by default.
-* Click the Create Playground button in the middle of the window.
+=== Open Dev UI with LangChain4j Chat
+
+From your parasol-app project cloned to your local machine during a prior module, run the following command from the cli:
+
+`./mvnw quarkus:dev`
+
+Open a browser tab to http://localhost:8080/q/dev-ui/extensions[^]
+
+Click on "Chat".  This is highlighted with a red box in the screenshot below.
+
+image::prompt/podman-extensions.png[Quarkus Dev UI Extensions View]
 
 === Enter the System Prompt
 
 As we reviewed before, prompting is as important to getting value from a model as training.  Prompting begins with a system prompt, which is where we recommend personas, context and guardrails be established.  The System Prompt is a required field in AI Lab.  Since our initial project for Parasol Insurance is focused on policy rules and regulatory requirements, let's go ahead and set that context here.
 
-* Click the Edit button next to the System Prompt text box.
-* Paste the following text into that dialog:
- - You are an insurance expert at Parasol Insurance who specializes in rules and regulations as they relate to insurance policies and coverages.  You are expected to be concise, emphathetic to the user or customer, and answer questions with responses grounded in facts specifically related to Parasol Insurance.  Do not answer questions unrelated to insurance or Parasol Insurance.  
-* Click the Check button next to the System Prompt text box.
+* Click the "Start a new conversation" button
+* Click in the "System message" text box and replace its contents with the following:
 
-=== Configure the Playground
+[.console-input]
+[source,text,subs="+attributes,macros+"]
+----
+You are an insurance expert at Parasol Insurance who specializes in rules and regulations as they relate to insurance policies and coverages.  
+You are expected to be concise, emphathetic to the user or customer, and answer questions with responses grounded in facts specifically related to Parasol Insurance.  
+Do not answer questions unrelated to insurance or Parasol Insurance.
+----
 
-Since we are and will be experimenting with various prompts, its best to constrain the amount of tokens expected from the LLM to help avoid unnecessary long running requests. 
-* Set the Max Tokens value to 200 by typing this directly into the text box.  It isn't required that this be exactly 200, if you want to use the slider bar instead.
+* Hit Enter
 
 === Chat with the LLM
 
 Now, let's use a simple prompt that we know uses data that was included in the previous fine tuning exercises.
 
-* Enter the following text into the User Prompt text box at the very bottom of the page.
- - Is rental car coverage included in the most basic vehicle insurance policy?
-* Click the purple action button with the arrow icon.  If the arrow button isn't clickable, it likely means that the inference service did not start and that is likely because it cannot find or have access to the model you previously imported.
+* Enter the following text into the Message text box at the very bottom of the page.
+
+`Is rental car coverage included in the most basic vehicle insurance policy?`
+
+* Click the "Send" button.
 
 The response will be negative or a direct No.
+
+image::prompt/basic-question.png[Basic Question and Response]
 
 === Propigation of Chat History
 
 Chat platgrounds in AI Lab carry the questions you previously asked with you ask further questions are asked.  This context will help the LLM provide more meaningful responses or continue with implied context for follow on inqueries.  Now ask the following question in the same chat session:
-How much does it cost?
+
+`How much does it cost?`
 
 The LLM will now respond with what factors influence the cost of adding rental car insurance.  Notice that the system was able to infer the meaning of "it".  Also notice that it didn't provide a specific dollar value as it relates to the customer inquiry.  Numbers, calculations, math and data specific context (like that associated with a specific customer) are specific challenges we will look at later.  For now, we are focusing on more general usage of the LLM.
+
+image::prompt/basic-question-with-followup.png[Response to Follow Up Question]
 
 === Ignoring Non-Insurance Related Questions
 
 Now, let's see if the LLM is still adhering to our guidance in the system prompt.  Ask it the following question about tennis shoes and confirm that it declines to comment:
 
-* What Nike tennis shoes are most popular with teenagers?
+'What Nike tennis shoes are most popular with teenagers?'
 
 The LLM should decline to answer the question.
+
+image::prompt/decline-to-answer.png[LLM Declines to Answer Question]
 
 === Have Some Fun!
 
 Take some time to ask the LLM various questions and see how it responds.  Remember, chat history influences the next response so start new playgrounds as needed for a fresh start.
 
-=== Clean Up Playgrounds
+//== Try the Summarization Recipe on an Insurance Claimed
+//
+//=== Start the Summarization Recipe
+//
+//* In Podman Desktop, go to AI Lab and click on Recipes Catalog
+//* Click Summarizer
+// - Notice that the Granite foundational model is selected instead of the model previously trained.  For this exercise, that is ok.
+//* Click Start AI Application and wait for the model to download and the application to start
+//* Once it starts, an arrow icon will appear.  Click on it to open the application in Firefox.
+//
+//=== Download a File to Summarize
+//
+//* Open a tab in the firefox window that was just opened and visit the following URL:
+// - https://github.com/rh-rad-ai-roadshow/parasol-insurance/raw/main/app/src/main/resources/claims/marty-mcfly-auto.pdf
+//* Save the file to the Downloads folder in your home directory.  (default location)
+//
+//=== Summarize an Insurance Claim PDF
+//
+//* Return to the summarizer tab in FireFox.
+//* Click on the Browse Files button.
+//* Navigate to where the previous PDF was saved.  (Downloads quick visit button on the left)
+//* Choose the Marty McFly Insurance Claim PDF
+//
+//The process will take a few moments to complete.  When it does, you will see an accurate translation of the doc using clear, easy to follow bullet points that focus on facts contained in the submitted document.
+//
+//=== Try Other Documents!
+//
+//Try downloading and submitting your own documents to experiment with performance.
+//
+//Keep in mind this is an insecure business server and confidential data should be avoided, along with offensive material.  Also, keep in mind maximum length guidance as provided in the UI.
 
-Before moving to the next section, let's free up system resources by deleting the playgrounds you previously created.
 
-* Click on Services
-* Click the checkbox at the highest point in the services list, which automatically checks everything when selected.
-* Click the Delete Items button that now appears and choose ok when prompted for confirmation.
-* Click on Playgrounds
-* Click the Trash Can icon next to each playground in the list.  Click Confirm when prompted for confirmation.
+== Hallucinations
 
-== Try the Summarization Recipe on an Insurance Claimed
+Before we begin experimenting with prompts, let's take a moment to review LLM issues known as hallucinations.  
 
-=== Start the Summarization Recipe
+LLMs have a tendancy, especially without guidance, to guess or speculate responses to user messages.  There are many reasons this may happen - flaws in its training, non-specific prompts, or the fact they generally are not good at math.  The fact LLMs are able to produce such amazing results is impressive but the expectations of those results is elevated when considered for business use cases.  As you complete the following sections, look for hallucinations in the model and experiment with phrasing your prompts to avoid them.
 
-* In Podman Desktop, go to AI Lab and click on Recipes Catalog
-* Click Summarizer
- - Notice that the Granite foundational model is selected instead of the model previously trained.  For this exercise, that is ok.
-* Click Start AI Application and wait for the model to download and the application to start
-* Once it starts, an arrow icon will appear.  Click on it to open the application in Firefox.
+Potential approaches for minimizing hallucinations:
 
-=== Download a File to Summarize
+* Ask the LLM to ground its response in facts provided during training
+* Limiting the frame of context used to evaluate the message by proving specific input data
+* Be more specific in your instructions
 
-* Open a tab in the firefox window that was just opened and visit the following URL:
- - https://github.com/rh-rad-ai-roadshow/parasol-insurance/raw/main/app/src/main/resources/claims/marty-mcfly-auto.pdf
-* Save the file to the Downloads folder in your home directory.  (default location)
 
-=== Summarize an Insurance Claim PDF
+== Understand prompting techniques
 
-* Return to the summarizer tab in FireFox.
-* Click on the Browse Files button.
-* Navigate to where the previous PDF was saved.  (Downloads quick visit button on the left)
-* Choose the Marty McFly Insurance Claim PDF
+=== Zero-shot and few-shot prompting
 
-The process will take a few moments to complete.  When it does, you will see an accurate translation of the doc using clear, easy to follow bullet points that focus on facts contained in the submitted document.
+As you've seen, prompt engineering is extremely important to getting business value from an LLM and you've likely noticed that prompt quality relies on clear and concise instructions for the LLM to follow.  While experimenting with the LLM, you likely noticed that small changes to instructions sometimes had signficant impact to the LLM's response.  As you would add more detail around the prompt, you may have encountered challenges with the LLM accomodating every rule you included in the System Prompt.
 
-=== Try Other Documents!
+A very effective prompt design technique is to include 1 more examples in the system prompt.  This can enable the LLM to infer rules or expected results in a more direct and consistent way, without the effort of lengthy natural language explaination of the logic the LLM is expected to follow.
 
-Try downloading and submitting your own documents to experiment with performance.
+* *Zero-shot prompting* is when no examples are provided.
 
-Keep in mind this is an insecure business server and confidential data should be avoided, along with offensive material.  Also, keep in mind maximum length guidance as provided in the UI.
+* *One-shot prompting* is when a single example is provided with the System Prompt.
+
+* *Few-shot prompting* is when multiple examples are provided to lead the LLM towards specific results.
+
+Additionally, please follow the following best practices as more examples are included in the System Prompt:
+
+* Be balanced and equatable in the verbiage used with each example.
+* Use consistent labelling of the data across examples.
+* LLMs have a limited context window, so phrase your system prompt and examples carefully and leave plenty of room for the user message and history produced during the chat session.
+
+Let's try some examples of each and compare the results.
+
+
+=== Let's try Zero-shot Prompting
+
+Click the "Start new conversation" button.
+
+Change the System Prompt to the following.
+
+[.console-input]
+[source,text,subs="+attributes,macros+"]
+----
+You are a computer system for Parasol Insurance that specializes in automotive policies and claims.
+You MUST respond only in JSON.
+----
+
+Enter the following into the Message text box and click the Send button.
+
+[.console-input]
+[source,text,subs="+attributes,macros+"]
+----
+In what states does Parasol Insurance do business and what are the average claim amounts per state?
+----
+
+Analyze the response.  Since we are giving the LLM very little information to go on, the results are somewhat unpredictable.  
+
+Try starting a new chat and using the same System Prompt and Message.  Observe how the results change.
+
+From your perspective as an AI Developer, this is not helpful since the results are not in a format that the system can parse.
+
+
+=== Let's try Few-shot Prompting
+
+Click the "Start new conversation" button.
+
+Change the System Prompt to the following.
+
+[.console-input]
+[source,text,subs="+attributes,macros+"]
+----
+You are a computer system for Parasol Insurance that specializes in automotive policies and claims. You MUST respond only in JSON.  Base your answers only on the facts on which you were trained.  Guessing is not permitted.
+----
+
+Enter the following into the Message text box and click the Send button.
+
+[.console-input]
+[source,text,subs="+attributes,macros+"]
+----
+In what states does Parasol Insurance do business and what are the average claim amounts per state?
+
+Here are examples that demonstrate how your response should be structured.  Do not include "Example:" in your response.
+
+Example:
+[
+  { "Virginia": "$5,000.00" },
+  { "North Carolina": "1,250.00" }
+]
+
+Example:
+[
+  { "New York": "$8,000.00" },
+  { "Utah": "1,250.00" },
+  { "Arizona": "3,800.00" },
+  { "Texas": "4,500.00" }
+]
+
+Example:
+[
+  { "California": "$9,000.00" },
+  { "Georgia": "6,500.00" },
+  { "Hawaii": "10,125.00" },
+  { "Alaska": "3,000.00" }
+]
+----
+
+Notice how the LLM's response more naturally conforms to a format a consuming application can consume.
+
+
+=== Chain-of-thought prompting
+
+Chain-of-thought is a more advanced prompting technique where the LLM can be taught to solve complex problems by breaking them down into smaller ones.  This technique can be applied in a few ways.  One way is by giving an example of a solution and breaking down the discrete steps in that example response for the LLM to replicate.  Another way could be to ask the LLM to break out the steps when responding, encouraging it to follow a more methodical approach and produce better results.
+
+Start a new conversation.
+
+Enter the following System Prompt:
+
+[.console-input]
+[source,text,subs="+attributes,macros+"]
+----
+TODO - System Prompt
+----
+
+Enter the following message:
+
+[.console-input]
+[source,text,subs="+attributes,macros+"]
+----
+TODO - User Message
+----
+
 
 == Solve a Business Problem with a Prompt!
 
@@ -165,43 +320,162 @@ Keep in mind this is an insecure business server and confidential data should be
 
 Customers frequently reach out to our customer service team to discuss their insurance claims.  These emails are very diverse and, while we can easily route them to the claims team, determining how to process from there is time consuming manual labor that Parasol Insurance would like to repurpose elsewhere within the company.  This is where you come in - Parasol Insurance leadership is eager to pilot Generative AI in the context of claims email routing.  It hopes this automation will allow it to move these claims support resources to the claims analysis team, who is getting behind in their processes and causing customer impacting delays.
 
-As the Model Builder, you have already completed training of a robust LLM that is are of Parasol Insurance's business rules.  We will use this model to analyze customer emails and determine how to best handle the customer inquiry.  Architecturally, this logic will be invoked as a simple business service written in Java that generates a simple response that guides routing.  The robust analysis must be performed by the LLM and will require solid prompt to produce quality results.
+As the AI Developer, you have been given access to a robust LLM that has already been trained on Parasol Insurance's business rules.  We will use this model to analyze customer emails and determine how to best handle the customer inquiry.  Architecturally, this logic will be invoked as a simple business service written in Java that generates a simple response that guides routing.  The robust analysis must be performed by the LLM and will require solid prompt to produce quality results.
 
-* Input/Output Specification:
- - LLM Input:  "customer email body"
- - LLM Output: { "claimStatus": "RESPONSE" } where RESPONSE is either NEW, EXISTING, UNRELATED, or UNKNOWN
+*Your Functional Requirements:*
 
-* Requirements:
- - Determine if the customer email is notifying the company of a new insurance claim or asking about an existing one.
- - If the email was misrouted to the claim team for some reason, respond with UNRELATED
- - Non-business emails should be assigned UNKNOWN
+* Determine if the customer email is notifying the company of a new insurance claim or asking about an existing one.
+* If the email was misrouted to the claim team for some reason, respond with UNRELATED
+* Non-business emails should be assigned UNKNOWN
 
-=== Prepare for Prompt Experimentation
+*Required LLM Input/Output Specifications:*
 
-* Open Podman Desktop AI Lab
-* Click on AI Lab
-* Click on Playgrounds
-* Click on New Playground
-* Choose the Parasol Insurance model 
-* Click the Create playbround button
-* Set the Max Tokens to a definitive value - something smaller like 100-200 tokens
+* Input:
+
+`"customer email body"`
+
+* Output must be one of the following:
+
+`{ "claimStatus": "NEW" }`
+
+`{ "claimStatus": "EXISTING" }`
+
+`{ "claimStatus": "UNRELATED" }`
+
+`{ "claimStatus": "UNKNOWN" }`
+
 
 === Write a prompt!
 
 Think about what we've learned so far with LLMs and ground yourself in clear communication vs the power of AI.  How would you communicate this use case to a new employee with no background at all in insurance or customer service?  How would you communicate what good looks like in a way that is descriptive of a pattern vs rigid rules that must be followed?
 
-I recommend that you start with a text editor in the shared desktop and then paste updates into Podman Desktop, as this will be an interative process.
-A hint - the user prompt will always be the customer email with no other surrounding questions or text.  This means your system prompt will contain all of the instructions for this exercise.  Each change to a system prompt requires a new playground session so pasting this in will help simplify the continuous improvement process.
+I recommend that you start with a text editor in the shared desktop and then paste updates into playground, as this will be an interative process and you will need to restart conversations as you change the system prompt.
 
+A hint - the user prompt will always be the customer email with no other surrounding questions or text.  This means your system prompt will contain all of the instructions for this exercise. 
 You can write your own sample emails and paste them into the user prompt text box or you can view them in the Parsol Insurance App.  For the latter, open the web application, click on Claims, select any of the claims in the list and emails are included in the Document tab.
 
 If you run into challenges while drafting the prompt, ask your instructor for assistance.
 
+
+=== Test emails to speed up testing
+
+*Example - NEW*
+
+[.console-input]
+[source,text,subs="+attributes,macros+"]
+----
+Dear Parasol Inc.,
+
+I hope this email finds you well. I'm writing to, uh, inform you about, well, something that happened recently. It's, um, about a car accident, and I'm not really sure how to, you know, go about all this. I'm kinda anxious and confused, to be honest.
+
+So, the accident, uh, occurred on January 15, 2024, at around 3:30 PM. I was driving, or, um, attempting to drive, my car at the intersection of Maple Street and Elm Avenue. It's kinda close to, um, a gas station and a, uh, coffee shop called Brew Haven? I'm not sure if that matters, but, yeah.
+
+So, I was just, you know, driving along, and suddenly, out of nowhere, another car, a Blue Crest Sedan, crashed into the, uh, driver's side of my car. It was like, whoa, what just happened, you know? There was this screeching noise and, uh, some honking from other cars, and I just felt really, uh, overwhelmed.
+
+The weather was, um, kinda cloudy that day, but I don't think it was raining. I mean, I can't really remember. Sorry if that's important. Anyway, the road, or, well, maybe the intersection, was kinda busy, with cars going in different directions. I guess that's, you know, a detail you might need?
+
+As for damages, my car has, uh, significant damage on the driver's side. The front door is all dented, and the side mirror is, like, hanging by a thread. It's not really drivable in its current, uh, state. The Blue Crest Sedan also had some damage, but I'm not exactly sure what because, you know, everything happened so fast.
+
+I did manage to exchange information with the other driver. Their name is Sarah Johnson, and I got their phone number (555-1234), license plate number (ABC123), and insurance information. So, yeah, I hope that's helpful.
+
+I'm not sure what, um, steps I should take now. Do I need to go to a specific, uh, repair shop? Should I get a quote for the repairs? And, uh, how do I, you know, proceed with the insurance claim? I'm kinda lost here, and any guidance or assistance you can provide would be really, um, appreciated.
+
+Sorry if this email is a bit all over the place. I'm just really, uh, anxious about the whole situation. Thank you for your understanding.
+
+Sincerely,
+
+Jane Doe
+Policy Number: AC-987654
+----
+
+*Example - NEW*
+
+[.console-input]
+[source,text,subs="+attributes,macros+"]
+----
+Dear Parasol Insurance Team,
+
+I hope this email finds you well. I'm reaching out to file a claim regarding a recent incident involving my car, which is covered under my policy with Parasol. The accident occurred last night on the streets of Los Angeles, and I wanted to provide you with all the necessary details.
+
+Location: The accident took place at the intersection of Sunset Boulevard and Vine Street in downtown Los Angeles. It was one of those crazy nights, where the streets were alive with the sound of engines and the glow of neon lights.
+
+Circumstances: So, here's the deal. I was out cruising with the crew, enjoying the vibe of the city, when suddenly we found ourselves in the middle of a high-speed chase. There was this dude, let's call him Johnny Tran for the sake of this email, who thought he could outmaneuver us. Little did he know, we don't play by the rules.
+
+Anyway, Johnny pulled some slick moves, cutting through traffic like a bat outta hell. Naturally, being the king of the streets that I am, I had to show him what real speed looks like. So, I hit the nitrous and went full throttle.
+
+But then, outta nowhere, this semi-truck decided to make a left turn without signaling. I had to make a split-second decision, and I ended up launching my car off a ramp, trying to clear the truck like we're in one of those crazy action flicks. It was like something straight outta the movies, I tell ya.
+
+Long story short, the stunt didn't exactly go as planned. My car ended up crashing into a billboard, flipping over a couple of times before finally coming to a stop. Yeah, it was a total wreck. But hey, at least we walked away without a scratch, just a little shaken, not stirred, if you catch my drift.
+
+Damage: As for the damage to my car, let's just say it's gonna need more than a few wrenches and some duct tape to fix this baby up. The front end is smashed in, the windows are shattered, and I'm pretty sure the chassis is twisted beyond recognition. It's gonna take a miracle to get her back on the road.
+
+I understand that accidents happen, but I'm counting on Parasol to have my back in times like these. I've been a loyal customer for years, and I trust that you'll handle my claim with the same speed and precision that I handle my rides.
+
+Please let me know what steps I need to take to get the ball rolling on this claim. I'm ready to do whatever it takes to get my car back in top shape and back on the streets where it belongs.
+
+Looking forward to hearing from you soon.
+
+Sincerely,
+Dominic Toretto
+----
+
+*Example - EXISTING*
+
+[.console-input]
+[source,text,subs="+attributes,macros+"]
+----
+Dear Parasol Insurance Claims Department,
+
+I am absolutely *thrilled* (read: infuriated) to be writing yet another heartfelt missive to the void that is your customer service. My recent car accident claim has vanished into the ether, much like my patience and the professionalism I expected from your company. How about we resolve this before the next ice age?
+
+Let's recap the blockbuster event:
+On March 28, 2023, at around 4:15 PM, at the intersection of 5th Avenue and Main St in Springfield, my car was passionately sideswiped by another vehicle. Why? Because the other driver blasted through a red light and T-boned my car's passenger side. It was a harrowing scene, made worse by your glacial pace of response.
+
+It's been over two weeks, and your commitment to delay is almost impressive. I demand a comprehensive review and prompt update on my claim within the next 24 hours. This isn't just a request—it's a necessity driven by sheer frustration and the urgent need for resolution.
+
+Please treat this matter with the urgency it clearly deserves. I expect a detailed plan of action and a swift response, or be assured, further actions including legal recourse will be considered.
+
+Looking forward to an expedited resolution,
+Saul Goodman
+
+CC: My 17 Twitter Followers
+
+Attach: Police Report No. 12345, Photos of the Incident, Documented Calls and Emails
+----
+
+
+*Example - EXISTING*
+
+[.console-input]
+[source,text,subs="+attributes,macros+"]
+----
+Dear Parasol Insurance Claims Department,
+
+This correspondence is from Tyrion Lannister, currently not in a tavern but rather dealing with the aftermath of an unpleasant vehicular incident. As a man known for resolving conflicts, I find myself ironically embroiled in one that requires your immediate attention.
+
+Here are the distressing details:
+On April 15, 2023, at about noon, within the confines of King's Landing, my car was struck by another. As I navigated through the bustling streets near the marketplace, a distracted driver—likely admiring the view of the Blackwater Bay instead of the road—rammed into my car's side. This not only caused significant damage to the vehicle but also disrupted my travel plans significantly.
+
+Nearly a month has elapsed since the accident, and yet, I've seen more action in the Small Council meetings than in the progress of my claim. Your lack of promptness in handling this matter is both noted and distressing. I require an exhaustive review and a swift update on my claim within the next 48 hours. This is not a mere request, but a necessity fueled by urgent needs and dwindling patience.
+
+Please address this claim with the seriousness it merits. I expect a detailed response and a rapid resolution, or rest assured, further actions, potentially involving the Crown, will be considered.
+
+I await your expedited action,
+Tyrion Lannister
+
+CC: Master of Coin
+
+Attach: Car Damage Photos, Eyewitness Accounts, Incident Report No. KL509
+----
+
+
+=== I finished early!
+
 If you finish this exercise early, can you enhance the process with the following:
 
-* If the response is NEW, is there a customer provided policy number that you can include in the response?  If not, can you return an error message with the code saying that more information is needed?
-* If the response is EXISTING, is the claim number provided?  If not, can you return an error message with the EXISTING response?
-* Enrich the JSON with the additional data fields.
+. If the response is NEW, is there a customer provided policy number that you can include in the response?  If not, can you return an error message with the code saying that more information is needed?
+. If the response is EXISTING, is the claim number provided?  If not, can you return an error message with the EXISTING response?
+. Enrich the JSON with the additional data fields.
 
 == Update the Parasol Insurance Java App w/New Prompt
 
@@ -211,9 +485,14 @@ Now that you've developed a working prompt that can help satisfy leadership obje
 
 === Working Prompt
 
+[.console-input]
+[source,text,subs="+attributes,macros+"]
+----
 You are a customer service expert in the claims management processes at Parasol Insurance. 
 
-You are the first point of contact for customer emails involving insurance claims. These emails always fall into one of the following categories - 1.) New Claim , 2.) Status Updates or Additional Details Regarding an Existing Claim, or 3.) Unrelated to Insurance Claims. 
+You are the first point of contact for customer emails involving insurance claims. 
+These emails always fall into one of the following categories - 
+1.) New Claim, 2.) Status Updates or Additional Details Regarding an Existing Claim, or 3.) Unrelated to Insurance Claims. 
 
 Emails that describe a new accident or discuss filing a new claim are always NEW claims. 
  
@@ -223,9 +502,11 @@ Emails that have nothing to do with insurance or claims are always UNRELATED.
 
 Any email that cannot be categorized into NEW, EXISTING, or UNRELATED must be categorized as UNKNOWN. 
 
-You will be provided the email body in user prompt and will review it to determine which category to which it belongs. You MUST ALWAYS respond with only one of the following words - NEW, EXISTING, UNRELATED, or UNKNOWN. 
+You will be provided the email body in user prompt and will review it to determine which category to which it belongs. 
+You MUST ALWAYS respond with only one of the following words - NEW, EXISTING, UNRELATED, or UNKNOWN. 
 
 Provide this response in JSON format in the following structure: { "claimStatus": "RESPONSE" } where "RESPONSE" contains NEW, EXISTING, UNRELATED, or UNKNOWN. 
+----
 
 === Integrate Prompt with Application
 
@@ -238,6 +519,6 @@ We hope you have enjoyed this module!
 
 Here is a quick summary of what we have learned:
 
-- Learned how to use Podman Desktop with AI Lab to chat with a trained model
-- Explored common use cases for gaining value from an LLM, such as agents, summarization and content analysis
+- Learned how to use the Quarkus Dev UI to chat with a trained model
+- Explored common use cases for gaining value from an LLM, such as agents and content analysis
 - Developed a new prompt from scratch in support of a new business use case
