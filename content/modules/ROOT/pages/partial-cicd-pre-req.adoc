@@ -17,7 +17,7 @@ image::devhub/parasol_deployment.png[]
 
 === Verify the deployment
 
-Access the https://frontend-app-{user}-globex-devhub-{user}.{openshift_cluster_ingress_domain}[Parasol web page^] to verify everything is working as expected.
+Access the https://frontend-app-{user}-globex-devhub-{user}{openshift_cluster_ingress_domain}[Parasol web page^] to verify everything is working as expected.
 
 image::devhub/parasol_ui_web.png[]
 
