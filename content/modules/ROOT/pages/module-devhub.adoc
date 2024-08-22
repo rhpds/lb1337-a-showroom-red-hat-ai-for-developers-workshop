@@ -316,7 +316,7 @@ image::devhub/dev_confirmed.png[]
 
 === Merge the pull request
 
-Go to the https://gitlab-gitlab.{openshift_cluster_ingress_domain}[Gitlab^]. Click on the *Create merge requests* to merge the pull request. 
+Go to the https://gitlab-gitlab{openshift_cluster_ingress_domain}[Gitlab^]. Click on the *Create merge requests* to merge the pull request. 
 
 image::devhub/create_merge.png[]
 
@@ -361,7 +361,7 @@ Explore Pipelines from Red Hat Developer Hub.
 
 Your source code changes triggered a new pipeline to update the version of the frontend application.
 
-Go back to your frontend component on the Red Hat Developer Hub: https://backstage-backstage.{openshift_cluster_ingress_domain}/catalog/default/component/frontend-app-{user}[Red Hat Developer Hub UI^].
+Go back to your frontend component on the Red Hat Developer Hub: https://backstage-backstage{openshift_cluster_ingress_domain}/catalog/default/component/frontend-app-{user}[Red Hat Developer Hub UI^].
 
 Explore the pipelines by clicking on the `CI` tab. *A new pipeline* will be triggered to build the new Gen AI feature. Wait for pipeline to finish for the deployment.
 
@@ -371,7 +371,7 @@ image::devhub/frontend_newpipeline.png[]
 
 == Verify the new app’s functionality
 
-Go back to the https://parasol-app-{user}-dev-parasol-app-{user}-dev.{openshift_cluster_ingress_domain}[Parasol web page^] to verify everything is working as expected.
+Go back to the https://parasol-app-{user}-dev-parasol-app-{user}-dev{openshift_cluster_ingress_domain}[Parasol web page^] to verify everything is working as expected.
 
 The new *Email Generate* menu item will appear on the left panel. Click on it.
 
