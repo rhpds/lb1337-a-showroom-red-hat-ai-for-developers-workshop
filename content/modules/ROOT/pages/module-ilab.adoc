@@ -1,0 +1,435 @@
+= Model Fine-tuning with InstructLab - x minutes
+:imagesdir: ../assets/images
+:sectnums:
+
+++++
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-3HTRSDJ3M4"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-3HTRSDJ3M4');
+</script>
+++++
+
+// Table of Contents & Work Responsibilities :)
+
+// 1. Get Started with InstructLab [Cedric/Shaaf]
+// 1.1. What is InstructLab [Cedric/Shaaf]
+// 1.2. Access Virtual Environment [Cedric/Shaaf]
+// 2. Hands on with AI Model Fine-tuning [Cedric]
+// 2.1. Starting from Example Data in VSCode (ex. 5 instructions) [Cedric]
+// 2.2. Generating Synthetic Training Data [Cedric]
+// 2.3. Training the Model with New Data [Cedric]
+// 2.4. Interacting with the Model [Cedric]
+// 3. Model Training for the Insurance Organization [Shaaf]
+// 3.1. Viewing the Synthetic Data Generated [Shaaf]
+// 3.2. Training the Model (15 mins) [Shaaf]
+// 3.3. Interacting with the Model [Shaaf]
+// 4. Integrating the Model in the Application Development Workflow [Cedric]
+// 4.1 Loading the Model in Podman Desktop [Cedric]
+// 4.2 Sharing the Model beyond the local environment [Shaaf]
+
+== Adopting AI for an Enterprise Use Case
+
+As Parasol Insurance embraces the era of AI, we face a unique challenge: leveraging cutting-edge AI technology while maintaining strict control over our proprietary data and processes. This journey requires us to develop in-house AI capabilities that are as powerful as they are secure.
+
+Our path forward involves three critical steps:
+
+. Knowledge Infusion
+* How do we incorporate Parasol's unique insurance expertise into AI models?
+. Model Customization
+* How can we fine-tune AI to address Parasol-specific scenarios and regulations?
+. Secure Deployment
+* What's the best way to integrate AI into our workflow while keeping data in-house?
+
+// image::instructlab/parasol-ai-journey.png[Parasol's Private AI Journey]
+
+== Goals of this lab
+
+In this hands-on session, you'll dive into the world of private AI development for the enterprise setting. By the end of this lab, you will:
+
+* *Understand* the fundamentals of fine-tuning and its role in creating customized, private AI models.
+* *Create* a Parasol-specific model by using the open source project InstructLab with a small amount of human-curated seed data.
+* *Generate* synthetic training data to effectively adapt a general-purpose model for Parasol's unique insurance scenarios.
+* *Train* a Large Language Model (LLM) locally with Parasol's proprietary information.
+* *Interact* with the newly trained model to verify its new domain-specific capabilities.
+* *Serve* the customized model locally before moving to production with our organization's secure infrastructure on OpenShift AI.
+
+=== Enterprise Needs for an AI Model
+
+This lab will equip you to enhance Parasol's AI capabilities in three key areas:
+
+1. Generating product-specific email templates
+2. Providing comprehensive policy and product information
+3. Offering insights on relevant local regulations
+
+Through fine-tuning, you'll learn how to provide an LLM accurate and relevant information to provide more efficient, accurate, and compliant customer service.
+
+== Get Started with Fine-tuning
+
+Now that we've outlined Parasol's AI needs, let's dive into the process of meeting them. In this section, we'll explore how to use the InstructLab project to tailor a pre-trained language model to Parasol's specific requirements, focusing on the key areas we've identified.
+
+=== What is InstructLab?
+
+https://instructlab.ai/[InstructLab] is an open-source project designed to enhance large language models (LLMs) for use in generative AI applications. It provides a novel approach to model alignment and fine-tuning, allowing developers and domain experts to add new knowledge and skills to pre-trained models with minimal data and computational resources. Key features of InstructLab include:
+
+* A taxonomy-driven approach to curating training data
+* Large-scale synthetic data generation
+* Iterative alignment tuning for continuous model improvement
+
+image::ilab/instructlab-components.png[InstructLab Overview]
+
+InstructLab is particularly useful for organizations like Parasol that want to leverage private AI and keep their data in-house while still benefiting from state-of-the-art language models.
+
+=== Access your Virtual Environment
+
+To begin working with InstructLab, you'll need to access the provided noNVC virtual environment. This environment comes pre-configured with all necessary tools and dependencies: {novnc_url}[*{novnc_url}*,window=_blank], using the password `{password}`.
+
+. Click the `Activities` label in the top-left corner of the screen.
+. Click the `Show Applications` icon to show all the applications.
+. Click the `Visual Studio Code` icon to launch Visual Studio Code.
+
+image::ilab/launch-vscode-desktop.png[Launch Podman Desktop]
+
+// [start=4]
+. From the `Terminal` menu, select `New Terminal` to open a new terminal window.
+
+image::ilab/vscode-new-terminal-menu.png[Open new VSCode terminal]
+
+== Hands on with AI Model Fine-tuning
+
+In this section, we'll walk through the process of fine-tuning an AI model using InstructLab. We'll start by setting up our environment, generating synthetic training data, training the model, and then interact with it.
+
+=== Initializing InstructLab
+
+Before we can start fine-tuning our model, we need to initialize InstructLab in our working environment. This process sets up the necessary configuration and downloads the required taxonomy for us to work with.
+
+. In your terminal, ensure you're in the InstructLab directory:
+
+[.console-input]
+[source,bash,subs="+attributes,macros+"]
+----
+mkdir instructlab && cd instructlab
+----
+
+. Activate your Python virtual environment:
+[.console-input]
+[source,bash,subs="+attributes,macros+"]
+----
+source venv/bin/activate
+----
+
+. Now, you should see the virtual environment name `(venv)` in your terminal prompt, indicating that the virtual environment is active:
+
+[.console-output]
+[source,adoc]
+----
+[student@rhel9 ~]$ mkdir instructlab && cd instructlab
+[student@rhel9 instructlab]$ source venv/bin/activate
+(venv) [student@rhel9 instructlab]$ 
+----
+
+. Now, initialize InstructLab by running the following command:
+
+[.console-input]
+[source,bash,subs="+attributes,macros+"]
+----
+ilab config init
+----
+
+. When prompted, press Enter to use the default `config.yaml` file location.
+
+. When asked if you want to clone the taxonomy repository, type `y` and press Enter.
+
+You should see output similar to this:
+
+[.console-output]
+[source,adoc]
+----
+Welcome to InstructLab CLI. This guide will help you to setup your environment.
+Please provide the following values to initiate the environment [press Enter for defaults]:
+Path to taxonomy repo [taxonomy]: 
+`taxonomy` seems to not exist or is empty. Should I clone https://github.com/instructlab/taxonomy.git for you? [y/N]: y
+Cloning https://github.com/instructlab/taxonomy.git...
+Generating `config.yaml` in the current directory...
+Initialization completed successfully, you're ready to start using `ilab`. Enjoy!
+(venv) [student@rhel9 instructlab]$
+----
+
+=== Downloading the Base Model
+
+Before we can fine-tune the model, we need to download the base model that we'll be working with.
+
+. Download the model using the following command:
+
+[.console-input]
+[source,bash,subs="+attributes,macros+"]
+----
+ilab model download
+----
+
+This command will download a compact pre-trained version of the model (~4.4GB) from HuggingFace and store it in a `models` directory (the process may take a minute or two). You should see output indicating the download progress and completion:
+
+[.console-output]
+[source,adoc]
+----
+Downloading model from instructlab/merlinite-7b-lab-GGUF@main to models...
+----
+
+=== Adding training data to the Taxonomy
+
+The InstructLab taxonomy is a structured knowledge base that guides the model fine-tuning process. By customizing the taxonomy, we can add domain-specific knowledge to the model.
+
+. Open the `instructlab` directory in Visual Studio Code through the terminal:
+
+[.console-input]
+[source,bash,subs="+attributes,macros+"]
+----
+code -r .
+----
+
+. Navigate and create a `taxonomy/knowledge/parasol/qna.yaml` file in the editor. This file will contain the questions and answers that will be used to train the model.
+// Should this be pre-done for the user? - Cedric
+. Add the following question and answer pair to the `qna.yaml` file:
+
+[source,yaml]
+----
+blabla
+----
+
+This is a simple example of a question and answer pair that will be used to train the model, through the synthetic data generation process performed later.
+
+=== Generating Synthetic Training Data
+
+// Make sure to add serving instructions for the model in this step
+
+Now that we've added some initial data, let's use InstructLab to generate synthetic training data.
+
+. Open a terminal in Visual Studio Code.
+. Run the following command to generate synthetic training data:
++
+[source,bash]
+----
+cd ~/instructlab
+----
+. Activate the Python virtual environment:
++
+[source,bash]
+----
+source venv/bin/activate
+----
+. Run the data generation command:
++
+[source,bash]
+----
+ilab data generate
+----
+
+This process may take some time, depending on the amount of data and the computational resources available. The synthetic data will be created in the `generated` directory.
+
+=== Training the Model with New Data
+
+With our synthetic data generated, we can now train the model to incorporate this new knowledge.
+
+. In the terminal, ensure you're still in the InstructLab directory and the virtual environment is activated.
+. Run the training command:
++
+[source,bash]
+----
+ilab model train
+----
+
+This process will take some time, potentially several hours depending on your hardware. The command will output progress information as it trains the model.
+
+=== Interacting with the Model
+
+Once training is complete, we can interact with the newly fine-tuned model to test its capabilities.
+
+. In the terminal, start the model server:
++
+[source,bash]
+----
+ilab model serve --model-path models/model.gguf
+----
+. Open a new terminal window, navigate to the InstructLab directory, and activate the virtual environment.
+. Start a chat session with the model:
++
+[source,bash]
+----
+ilab model chat
+----
+. Test the model with questions related to the knowledge we added, for example:
++
+[source]
+----
+What types of insurance does Parasol offer?
+----
++
+[source]
+----
+Can you explain Parasol's process for handling auto insurance claims?
+----
+
+Observe how the model incorporates the new knowledge into its responses.
+
+== Training the Model for the Insurance Organization
+
+In the previous section, we learned the basics of InstructLab by adding knowledge, generating synthetic data, and finally, training the model. This gives us the basic understanding. In this section, we will build upon that and delve further into the biggest insurance company in North America, Parasol, which has the most extensive customer base. Parasol Insurance gets many requests to process claims, questions about different products, etc. But these requests are not just internal but also external. 
+
+Parasol Insurance's primary importance is ensuring that its staff is capable of handling such requests and has access to this information through a single interface rather than going through multiple systems for scrapping through documents and internal portal pages. To this effect, you have been tasked to add knowledge that will aid the following use cases. 
+
+. Products and coverage
+. Basic knowledge of the Insurance rules
+. Responses to general claim questions and remedies.
+
+=== Preparing the Parasol Insurance Knowledge Base
+
+As part of this process, your role is crucial. You must first add a knowledge domain to the LLM. We will follow a procedure similar to the one in the previous section and add more comprehensive knowledge for the use cases. 
+
+`git`. Let's go ahead and pull that knowledge before we get into the training process.
+Assuming that you have VSCode already open. Open a new Terminal window by clicking
+
+image::ilab/vscode-new-terminal-menu.png[Open new VSCode terminal]
+
+Run the following commands into the terminal. 
+[.console-input]
+[source,adoc]
+----
+cd taxonomy
+git remote -v
+----
+
+In the above commands we first change directory to the taxonomy, this is where InstructLab has installed the default taxonomy which is also available on https://github.com/instructlab/taxonomy.git[*github*^]. The second command shows us the remote git repository we have configured on our local machine, which is also the default. You should be able to see the following output from the above commands.
+
+[.console-output]
+[source,adoc]
+----
+origin	https://github.com/instructlab/taxonomy.git (fetch)
+origin	https://github.com/instructlab/taxonomy.git (push)
+----
+
+=== Configuring the Parasol Taxonomy Repository
+
+Next we want to be able to add our own private Parasol taxonomy and train our models with it. To do that we will configure instructLab taxonomy with the following two commands. The command will configure the remote repository, and the second command prints the git repository configuration.
+
+[.console-input]
+[source,adoc]
+----
+git remote add parasol https://github.com/rh-rad-ai-roadshow/parasol-taxonomy.git
+git remote -v
+----
+
+The command output should look as follows. And this means we have now successfully configured our private taxonomy repository.
+
+[.console-output]
+[source,adoc]
+----
+origin	https://github.com/instructlab/taxonomy.git (fetch)
+origin	https://github.com/instructlab/taxonomy.git (push)
+parasol	https://github.com/rh-rad-ai-roadshow/parasol-taxonomy.git (fetch)
+parasol	https://github.com/rh-rad-ai-roadshow/parasol-taxonomy.git (push)
+----
+
+Let's go ahead and pull the changes.
+[.console-input]
+[source,adoc]
+----
+git pull parasol main
+----
+The commad should show an output similar to the following image. It shows the different taxonomy files that are additional to the current default taxonomy. 
+
+image::ilab/terminal-pull-parasol-taxonomy.png[Parasol taxonomy pull git]
+
+Lets take a look at the files that have been pulled in from our private Parasol Insurance taxonomy. You will be able to find these files under `knowledge > economy > finance > insurance` as shown in the following screenshot.
+
+image::ilab/parasol-taxonomy-structure.png[InstructLab taxonomy structure]
+
+=== Understanding the Knowledge Structure
+
+Knowledge consists of data and facts and is backed by documents. When you create knowledge for a model, you're giving it additional data to more accurately answer questions.
+
+Knowledge contributions in this project contain a few things.
+
+- A file in a https://github.com/rh-rad-ai-roadshow/parasol_knowledge[git repository] that holds your information. For example, these repositories can include markdown versions of information on: Parasol products, insurance domain knowledge, claims processing etc.
+- A `qna.yaml` file that asks and answers questions about the information in the git repository.
+- An `attribution.txt` that includes the sources for the information used in the qna.yaml.
+
+LLMs have inherent limitations that make certain tasks extremely difficult, like doing math problems. They're great at other tasks, like creative writing. And they could be better at things like logical reasoning.
+
+An LLM with knowledge helps it create a basis of information that it can learn from, then you can teach it to use this knowledge via the qna.yaml files. In our case we want the LLM to learn more about Parasol Insurance. 
+
+A knowledge file looks as follows: 
+
+[.console-input]
+[source,yaml]
+----
+version: 2
+task_description: "Teach a model more details about Parasol Insurance"
+created_by: sshaaf
+domain: insurance
+seed_examples:
+  - question: What is class imbalance in the context of Parasol insurance claims datasets?
+    answer: |
+      Class imbalance refers to the situation where the number of non-claims instances far exceeds
+      that of actual claims, posing challenges for predictive modeling.
+
+document:
+  repo: https://github.com/sshaaf/parasol_knowledge.git
+  commit: b87677d
+  patterns:
+    - Insurance_claims_data.md
+----
+
+Each `qna.yaml` file requires a minimum of five question-answer pairs. The `qna.yaml` format must include the following fields:
+
+- `version`: The value must be the number 2.
+- `task_description`: An optional description of the knowledge.
+- `created_by`: Your GitHub username.
+- `domain`: Category of the knowledge.
+- `seed_examples`: Five or more examples sourced from the provided knowledge documents.
+  - `question`: A question for the model. This key is required.
+  - `answer`: The desired response from the model. This key is required.
+- `document`: The source of your knowledge contribution.
+  - `repo`: The URL to your repository that holds your knowledge markdown files.
+  - `commit`: The SHA of the commit in your repository with your knowledge markdown files.
+  - `patterns`: A list of glob patterns specifying the markdown files in your repository. Any glob pattern that starts with `*`, such as `*.md`, must be quoted due to YAML rules. For example, `"*.md"`. In our case we have placed all the knowledge documents in the https://github.com/rh-rad-ai-roadshow/parasol_knowledge[parasol-knoledge] repository.
+
+Let’s now examine the taxonomy knowledge files for Parasol Insurance. Open each file listed and observe the questions.
+
+==== Knowledge File: Driving Age
+// - **Driving age**: 
+
+These are question-and-answer pairs for driving rules in Alaska and New Hampshire. One document file has been added to these questions so that LLM has more context. You can inspect this document in the Parasol Knowledge repository https://github.com/rh-rad-ai-roadshow/parasol_knowledge/blob/main/teen_driving_rules.md[here].
+
+image::ilab/parasol-knowledge-taxonomy-drivingage.png[InstructLab taxonomy structure]
+
+==== Knowledge File: Parasol Claims Data
+// - **Parasol claims data**
+
+Here, we are adding information about the different terms and glossary for a claim specific to Parasol Insurance and its databases. A good example is `Policy ID,` a unique ID for policy in our database systems. The LLM does not know about this. By adding this, we can ensure that once a claims agent or an application asks about a policy ID, the LLM can give reasonable answers and suggestions. In our next section, we will learn more about analyzing data and craft prompts in more detail.
+You can inspect the addtional knowledge document in the Parasol Knowledge repository https://github.com/rh-rad-ai-roadshow/parasol_knowledge/blob/main/Insurance_claims_data.md[here].
+
+image::ilab/parasol-knowledge-taxonomy-claimsdata.png[InstructLab taxonomy structure]
+
+==== Knowledge File: Parasol Insurance Overview
+// - **Parasol insurance**
+
+Here, we are adding some basic information about Parasol Insurance, an overview of product details. This will enable the LLM to give answers on a high level about the different offerings, fomulate a context about Parasol Insurance, history etc. 
+You can inspect the addtional knowledge document in the Parasol Knowledge repository https://github.com/rh-rad-ai-roadshow/parasol_knowledge/blob/main/Parasol_auto_insurance.md[here].
+
+image::ilab/parasol-knowledge-taxonomy-insurance.png[InstructLab taxonomy structure]
+
+==== Knowledge File: Parasol Policies
+// - **Parasol policies**
+
+Here, we are adding information specific to policies in relation to the different products. This will help our claims processing agents to ask questions about specific cases and scenarios to the LLM. The LLM should be able to suggest remedies or further knowledge to look into.
+You can inspect the addtional knowledge document in the Parasol Knowledge repository https://github.com/rh-rad-ai-roadshow/parasol_knowledge/blob/main/Parasol_auto_insurance.md[here].
+
+image::ilab/parasol-knowledge-taxonomy-products.png[InstructLab taxonomy structure]
+
+=== Synthetic data generation
+=== Training the Model
+=== Interacting with the Model
