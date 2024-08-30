@@ -102,17 +102,18 @@ image::devhub/claim_view.png[Chat interface]
 * "What is the status of this claim?"
 * "When was the incident reported?"
 * "What is the claimed amount?"
+* "What is the inception date of the policy?"
 
 image::devhub/chatbot_query.png[Chatbot questions]
 
 You should notice that the chatbot can answer these questions based on the claim context we provided. Now, let's ask a more complex question that requires knowledge of Parasol's policies:
 
 [start=5]
-Ask the chatbot: "Should this claim be approved based on Parasol's policies?"
+Ask the chatbot: "According to the policy term limit, should this claim be approved?"
 
 image::private-docs/chat-policies-unknown.png[Chatbot questions about policies]
 
-You'll observe that the chatbot struggles with this question, as it doesn't have access to Parasol's specific policies. If only there was a way to automatically retrieve this information and provide it to the chatbot!
+The answer you will get back might be different from the one in the screenshot above, but you'll likely observe that the chatbot struggles with this question, as it doesn't have access to Parasol's specific policies. It might even respond with an incorrect decision! If only there was a way to automatically retrieve this information and provide it to the chatbot..
 
 == Embedding Documents with RAG
 
@@ -139,21 +140,26 @@ You will see that a new extension was added to your application:
 
 image::private-docs/quarkus-easy-rag.png[Quarkus Easy Rag Extension added]
 
-We have already added the policy document (policy-info.pdf) in the app/src/main/resources/policies folder. We need to tell the Easy Rag extension where to find it by adding the following line to your app/src/main/resources/application.properties:
+We have already added the policy document (policy-info.pdf) in the app/src/main/resources/policies folder. We can tell the Easy Rag extension where to find it by adding the following line to your app/src/main/resources/application.properties:
 
 [.console-input]
 [source,java,subs="+attributes,macros+"]
 ----
-quarkus.langchain4j.easy-rag.path=src/main/resources/policies
+quarkus.langchain4j.easy-rag.path=src/main/resources/policies<1>
+quarkus.langchain4j.easy-rag.reuse-embeddings.enabled=true<2>
 ----
+<1> Path to the folder that contains the RAG documents
+<2> Reuse embeddings so when we restart the application it does not need to re-vectorize the documents
 
 That's all there is to it! Now when we reload the application, it will parse the document and vectorize it into an in-memory embedding store that will be used by the AI calls to the LLM.
 
 NOTE: Of course this is a simple use case with a document loaded into an in-memory embedding store. https://docs.quarkiverse.io/quarkus-langchain4j/dev/easy-rag.html[Click here] If you would like to learn more about Easy Rag and embedding models 
 
-Let's reload the browser window to make sure Quarkus Dev mode picks up the changes. 
+Reload the browser window to make sure Quarkus Dev mode picks up the changes. 
 
-Now ask the same questions in the chat window, eg.: "Should this claim be approved based on Parasol's policies?". This time the bot should be able to answer the questions with accurate information based on the policies document!
+Now ask the same question in the chat window: "According to the policy term limit, should this claim be approved?". This time the bot should be able to answer the questions with accurate information based on the policies document!
+
+image::private-docs/chat-response-rag.png[Chat response with RAG]
 
 
 == Build a tool/agent to notify the user by email an update to their claim
