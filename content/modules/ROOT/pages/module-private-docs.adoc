@@ -102,17 +102,18 @@ image::devhub/claim_view.png[Chat interface]
 * "What is the status of this claim?"
 * "When was the incident reported?"
 * "What is the claimed amount?"
+* "What is the inception date of the policy?"
 
 image::devhub/chatbot_query.png[Chatbot questions]
 
 You should notice that the chatbot can answer these questions based on the claim context we provided. Now, let's ask a more complex question that requires knowledge of Parasol's policies:
 
 [start=5]
-Ask the chatbot: "Should this claim be approved based on Parasol's policies?"
+Ask the chatbot: "According to the policy term limit, should this claim be approved?"
 
 image::private-docs/chat-policies-unknown.png[Chatbot questions about policies]
 
-You'll observe that the chatbot struggles with this question, as it doesn't have access to Parasol's specific policies. If only there was a way to automatically retrieve this information and provide it to the chatbot!
+The answer you will get back might be different from the one in the screenshot above, but you'll likely observe that the chatbot struggles with this question, as it doesn't have access to Parasol's specific policies. It might even respond with an incorrect decision! If only there was a way to automatically retrieve this information and provide it to the chatbot..
 
 == Embedding Documents with RAG
 
@@ -132,36 +133,171 @@ To add this extension, run the following command:
 [.console-input]
 [source,bash,subs="+attributes,macros+"]
 ----
-quarkus ext add easy-rag
+./mvnw quarkus:add-extension -Dextension=easy-rag
 ----
 
 You will see that a new extension was added to your application:
 
 image::private-docs/quarkus-easy-rag.png[Quarkus Easy Rag Extension added]
 
-We have already added the policy documents in the app/src/main/resources/policies folder. Now we need to tell the Easy Rag extension where to find them by adding the following line to your app/src/main/resources/application.properties:
+We have already added the policy document (policy-info.pdf) in the app/src/main/resources/policies folder. We can tell the Easy Rag extension where to find it by adding the following line to your app/src/main/resources/application.properties:
 
 [.console-input]
 [source,java,subs="+attributes,macros+"]
 ----
-quarkus.langchain4j.easy-rag.path=src/main/resources/policies
+quarkus.langchain4j.easy-rag.path=src/main/resources/policies<1>
+quarkus.langchain4j.easy-rag.reuse-embeddings.enabled=true<2>
 ----
+<1> Path to the folder that contains the RAG documents
+<2> Reuse embeddings so when we restart the application it does not need to re-vectorize the documents
 
-That's all there is to it! Now when we reload the application, it will parse the documents and vectorize them into an in-memory embedding store that will be used by the AI calls to the LLM.
+That's all there is to it! Now when we reload the application, it will parse the document and vectorize it into an in-memory embedding store that will be used by the AI calls to the LLM.
 
-NOTE: Of course this is a simple use case with a few text documents loaded into an in-memory embedding store. https://docs.quarkiverse.io/quarkus-langchain4j/dev/easy-rag.html[Click here] If you would like to learn more about Easy Rag and embedding models 
+NOTE: Of course this is a simple use case with a document loaded into an in-memory embedding store. https://docs.quarkiverse.io/quarkus-langchain4j/dev/easy-rag.html[Click here] If you would like to learn more about Easy Rag and embedding models 
 
-Let's reload the browser window to make sure Quarkus Dev mode picks up the changes, and then ask the same questions in the chat window. This time the bot should be able to answer the questions.
+Reload the browser window to make sure Quarkus Dev mode picks up the changes. 
+
+Now ask the same question in the chat window: "According to the policy term limit, should this claim be approved?". This time the bot should be able to answer the questions with accurate information based on the policies document!
+
+image::private-docs/chat-response-rag.png[Chat response with RAG]
 
 
 == Build a tool/agent to notify the user by email an update to their claim
 
-* Send email to user with pre-defined text that the claim status has changed to "being worked on".
-* Reuse stuff from https://redhat-developer-demos.github.io/quarkus-tutorial/quarkus-tutorial/19_agents_tools.html
+Until now we have had fairly straightforward interactions with the AI LLM model, in that we have asked it questions and it responded with some text and it was up to us to interpret the result. 
+Wouldn't it be nice if we could instruct the model to actually call some code in our application and "do" something? That's what the "Tool" concept is all about.
 
-== Re-run chat asking to notify the user that their clain is being worked on
+In this section we're going to instruct the LLM to call a piece of code that will actually send a notification email when a claim status changes.
 
-== Go to Dev UI to see email
+Add the mailer and mailpit extensions to the Quarkus application by issuing the following command in your DevSpaces terminal. (if you still have the Quarkus Dev mode running, that's fine. Just open an additional terminal to send the below command)
+
+[.console-input]
+[source,bash,subs="+attributes,macros+"]
+----
+./mvnw quarkus:add-extension -D"extensions=mailpit,mailer"
+----
+
+Now let's create a new NotificationService class that will have the functionality to send an email. Create a new file "NotificationService.java" in the 'ai' folder. 
+
+Paste the following content in the file:
+
+[.console-input]
+[source,java,subs="+attributes,macros+"]
+----
+package org.parasol.ai;
+
+import java.util.Optional;
+
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.inject.Inject;
+import jakarta.transaction.Transactional;
+
+import org.parasol.model.Claim;
+
+import io.quarkus.mailer.Mail;
+import io.quarkus.mailer.Mailer;
+
+import dev.langchain4j.agent.tool.Tool;
+
+@ApplicationScoped
+public class NotificationService {
+	static final String INVALID_STATUS = "Status \"%s\" is not a valid status";
+	static final String NOTIFICATION_SUCCESS = "%s (claim number %s) has been notified of status update \"%s\"";
+	static final String NOTIFICATION_NO_CLAIMANT_FOUND = "No claim record found in the database for the given claim";
+	static final String MESSAGE_FROM = "noreply@parasol.com";
+	static final String MESSAGE_SUBJECT = "Update to your claim";
+	static final String MESSAGE_BODY = """
+		Dear %s,
+		
+		This is an official communication from the Parasol Insurance Claims Department. We wanted to let you know that your claim (claim # %s) has changed status to "%s".
+		
+		Sincerely,
+		Parasoft Insurance Claims Department
+		
+		--------------------------------------------
+		Please note this is an unmonitored email box.
+		Should you choose to reply, nobody (not even an AI bot) will see your message.
+		Call a real human should you have any questions. 1-800-CAR-SAFE.
+		""";
+
+	@Inject
+	Mailer mailer;
+
+	@Tool("update claim status") <1>
+	@Transactional
+	public String updateClaimStatus(long claimId, String status) {
+		// We only want to actually do something if the passed in status has at least 3 characters
+		return Optional.ofNullable(status)
+			.filter(s -> s.trim().length() > 2)
+			.map(s -> updateStatus(claimId, s))
+			.orElse(INVALID_STATUS.formatted(status));
+	}
+
+	private String updateStatus(long claimId, String status) {
+		// We only want to actually do something if there is a corresponding claim in the database for the given claimId
+		return Claim.<Claim>findByIdOptional(claimId)
+			.map(claim -> updateStatus(claim, status))
+			.orElse(NOTIFICATION_NO_CLAIMANT_FOUND);
+	}
+
+	private String updateStatus(Claim claim, String status) {
+		// Capitalize the first letter
+		claim.status = status.trim().substring(0, 1).toUpperCase() + status.trim().substring(1);
+
+		// Save the claim with updated status
+		Claim.persist(claim);
+
+		// Send the email
+		sendEmail(claim);
+
+		// Return a note to the AI
+		return NOTIFICATION_SUCCESS.formatted(claim.emailAddress, claim.claimNumber, claim.status);
+	}
+
+	private void sendEmail(Claim claim) {
+		// Create the email
+		var email = Mail.withText(
+			claim.emailAddress,
+				MESSAGE_SUBJECT,
+				MESSAGE_BODY.formatted(claim.clientName, claim.claimNumber, claim.status)
+			)
+			.setFrom(MESSAGE_FROM);
+
+		// Send the email to the user
+		this.mailer.send(email);
+	}
+}
+----
+<1> The @Tool annotation's text content is parsed by the LangChain4j extension and interpreted by the LLM
+
+There is a fair bit of code in this file, but the main thing you should pay attention to is the @Tool annotation with the instruction "update claim status". This piece of natural language text you add to the annotation is interpreted by the LLM, which will now know that if you tell it to eg. "update the claim status of my case", it should call the "updateClaimStatus" method with given parameters.
+
+To wire everything up, we will need to tell the AI Service about this tool. In the app/src/main/java/org/parasol/ai folder, open the ClaimService class again, and find the @RegisterAiService annotation on line 11. You will need to register the NotificationService class as a tool. Go ahead and replace the existing line with the following:
+
+[.console-input]
+[source,java,subs="+attributes,macros+"]
+----
+@RegisterAiService(modelName = "parasol-chat", tools = NotificationService.class)
+----
+
+By doing this we have now registered the NotificationService file as class that contains one or more @Tool annotated methods.
+
+Let's try it out! Go back to the browser and refresh the /ClaimDetail/1[claim page for claim 195501]. Open the chat interface again and this time tell the chat assistant to "Update the claim status". After a few moment you should see that the chatbot answers, telling you that it updated the status and sent an email to the customer.
+
+image::private-docs/chat-response-email.png[Chatbot response]
+
+Since we're running this exercise in Quarkus Dev Mode, we can actually test if the email functionality actually works, thanks to the MailPit extension which provides a Quarkus Dev Service with a mock email server. 
+
+Go to the Quarkus Dev UI by pressing the 'w' key from the quarkus dev terminal (or go directly to the https://parasol-app-{user}-dev-parasol-app-{user}-dev.{openshift_cluster_ingress_domain}/q/dev-ui[Quarkus Dev UI^] in your browser). 
+
+image::private-docs/quarkus-dev-ui.png[Quarkus Dev UI]
+
+Find the "Mailpit" section and click on the https://parasol-app-{user}-dev-parasol-app-{user}-dev.{openshift_cluster_ingress_domain}/q/mailpit/[link] next to "Mailpit UI" and you will see a new email that was sent thanks to our newly added functionality!
+
+image::private-docs/mailpit.png[Mailpit UI]
+
+
+
 
 == Conclusion
 
