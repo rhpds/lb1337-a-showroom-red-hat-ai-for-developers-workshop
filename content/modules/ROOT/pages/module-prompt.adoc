@@ -76,6 +76,13 @@ image::prompt/devui-change-max-tokens.png[Change Max Tokens with Dev UI Chat Pla
 
 For the remainder of the lab, we will be assuming you are using the Quarkus Dev UI with the LangChain4j Chat extension.
 
+The next two sections walk you through how to setup your cloud environment.  If you previously completed these steps during a prior module, you may jump directly to <<Chat with the Model>>.
+
+
+include::partial-devhub-pre-req.adoc[]
+include::partial-dev-spaces-pre-req.adoc[]
+
+
 
 == Chat with the Model
 
@@ -193,9 +200,7 @@ Potential approaches for minimizing hallucinations:
 * Be more specific in your instructions
 
 
-== Understand prompting techniques
-
-=== Zero-shot and few-shot prompting
+== Zero-shot and Few-shot Prompt Techniques
 
 As you've seen, prompt engineering is extremely important to getting business value from an LLM and you've likely noticed that prompt quality relies on clear and concise instructions for the LLM to follow.  While experimenting with the LLM, you likely noticed that small changes to instructions sometimes had signficant impact to the LLM's response.  As you would add more detail around the prompt, you may have encountered challenges with the LLM accomodating every rule you included in the System Prompt.
 
@@ -291,27 +296,39 @@ Example:
 Notice how the LLM's response more naturally conforms to a format a consuming application can consume.
 
 
-=== Chain-of-thought prompting
+== Chain-of-Thought Prompting
 
 Chain-of-thought is a more advanced prompting technique where the LLM can be taught to solve complex problems by breaking them down into smaller ones.  This technique can be applied in a few ways.  One way is by giving an example of a solution and breaking down the discrete steps in that example response for the LLM to replicate.  Another way could be to ask the LLM to break out the steps when responding, encouraging it to follow a more methodical approach and produce better results.
 
 Start a new conversation.
 
-Enter the following System Prompt:
-
-[.console-input]
-[source,text,subs="+attributes,macros+"]
-----
-TODO - System Prompt
-----
+Clear the System Prompt / leave it blank.
 
 Enter the following message:
 
 [.console-input]
 [source,text,subs="+attributes,macros+"]
 ----
-TODO - User Message
+The IT department has $100,000 in the Project ACME budget. 
+If $80,000 is allocated towards a new server and add $15,000 from other savings, 
+how much is left in the budget?
 ----
+
+Thinking through this problem, you'll notice that the answer is not $5,000 as the LLM indicates.  Let's add a simple clarification to the prompt requesting it to break the problem down into steps.
+
+[.console-input]
+[source,text,subs="+attributes,macros+"]
+----
+The IT department has $100,000 in the Project ACME budget. 
+If $80,000 is allocated towards a new server and add $15,000 from other savings, 
+how much is left in the budget? 
+
+Think about the problem step by step
+----
+
+Notice that the response is different and is now correct - $35,000.  Isn't it interesting how one simple instruction completely changed the quality of the response?
+
+Chain-of-Thought is a very powerful technique that is frequently included in the training process of modern LLMs.  However, if you notice a gap in your own problem solving efforts, keep this technique in mind - especially when dealing with numbers and math.
 
 
 == Solve a Business Problem with a Prompt!
@@ -325,8 +342,16 @@ As the AI Developer, you have been given access to a robust LLM that has already
 *Your Functional Requirements:*
 
 * Determine if the customer email is notifying the company of a new insurance claim or asking about an existing one.
+* Respond with a JSON response that provides the following fields:
+** *claimStatus* - field indicating whether the email is in regards to a new or existing claim or is unrelated to the claims processing line of businses
+** *forwardAddress* - where the email should be forwarded to based on the content of the message
+** *customerComment* - what message should be included at the top of the email indicating to the customer explaining why the message is being forwarded
+* Scenarios:
+** *New Claim* - Forward messages regarding new insurance claims to new.claim@parasol.com
+** *Existing Claims* - Forward messages inquiring about existing claims to existing.claim@parasol.com
+** *Unrelated* - Forward messages that are unrelated to claims to customer service at customer.service@parasol.com
+** *Unknown* - In the event that the message isn't business relevant or is non-sensical, the email should be a customer reply with a generic error response.
 * If the email was misrouted to the claim team for some reason, respond with UNRELATED
-* Non-business emails should be assigned UNKNOWN
 
 *Required LLM Input/Output Specifications:*
 
@@ -334,15 +359,15 @@ As the AI Developer, you have been given access to a robust LLM that has already
 
 `"customer email body"`
 
-* Output must be one of the following:
+* Output must be one of the following, where <Customer Comment> is a brief explanation to the customer describing why the email is being forwarded and to whom:
 
-`{ "claimStatus": "NEW" }`
+`{ "claimStatus": "NEW", "forwardAddress": "new.claim@parasol.com", "customerComment": "<Customer Comment>" }`
 
-`{ "claimStatus": "EXISTING" }`
+`{ "claimStatus": "EXISTING", "forwardAddress": "existing.claim@parasol.com", "customerComment": "<Customer Comment>" }`
 
-`{ "claimStatus": "UNRELATED" }`
+`{ "claimStatus": "UNRELATED", "forwardAddress": "customer.service@parasol.com", "customerComment": "<Customer Comment>" }`
 
-`{ "claimStatus": "UNKNOWN" }`
+`{ "claimStatus": "UNKNOWN", "forwardAddress": "discard@parasol.com", "customerComment": "<Customer Comment>" }`
 
 
 === Write a prompt!
@@ -488,24 +513,55 @@ Now that you've developed a working prompt that can help satisfy leadership obje
 [.console-input]
 [source,text,subs="+attributes,macros+"]
 ----
-You are a customer service expert in the claims management processes at Parasol Insurance. 
+You are a customer service expert in the claims management processes at 
+Parasol Insurance.
 
-You are the first point of contact for customer emails involving insurance claims. 
-These emails always fall into one of the following categories - 
-1.) New Claim, 2.) Status Updates or Additional Details Regarding an Existing Claim, or 3.) Unrelated to Insurance Claims. 
+You are the first point of contact for customer emails involving insurance 
+claims. These emails always fall into one of the following categories -
+1.) New Claim, 2.) Status Updates or Additional Details Regarding an Existing 
+Claim, 3.) Parasol Insurance Business Unrelated to Insurance Claims, or 
+4.) Anything unrelated to Parasol Insurance.
 
-Emails that describe a new accident or discuss filing a new claim are always NEW claims. 
- 
-Emails that are asking for a status update, voicing concerns about taking too long to process, or providing additional details about an accident that were not previously provided are always EXISTING claims. 
+Emails that describe a new accident or discuss filing a new claim are always 
+NEW claims and should be forwarded to \new.claim@parasol.com with an 
+empathetic message to the customer letting them know we care about them as 
+a customer and hope they are ok.
 
-Emails that have nothing to do with insurance or claims are always UNRELATED. 
+Emails that are asking for a status update, voicing concerns about taking too 
+long to process, or providing additional details about an accident that were 
+not previously provided are always EXISTING claims.  Existing claim inquiries 
+should be forwarded to \existing.claim@parasol.com with a concise message 
+letting the customer know that we are looking into their inquiry and will be 
+in touch shortly.
 
-Any email that cannot be categorized into NEW, EXISTING, or UNRELATED must be categorized as UNKNOWN. 
+Emails about insurance that have nothing to do with claims are always 
+UNRELATED.  Unrelated claims should be forwarded to 
+\customer.service@parasol.com with a message letting them know we are forwarding 
+their request to our Customer Service team for assistance.
 
-You will be provided the email body in user prompt and will review it to determine which category to which it belongs. 
-You MUST ALWAYS respond with only one of the following words - NEW, EXISTING, UNRELATED, or UNKNOWN. 
+All other emails, especially those that have nothing to do with insurance and 
+are not business related, must be categorized as UNKNOWN.  Unknown emails must 
+be rejected back to the customer by forwarding to \discard@parasol.com with a 
+message letting the customer know we are confused by their email and to please 
+clarify with a business related response.
 
-Provide this response in JSON format in the following structure: { "claimStatus": "RESPONSE" } where "RESPONSE" contains NEW, EXISTING, UNRELATED, or UNKNOWN. 
+You will be provided the email body in user prompt and will review it to 
+determine which category to which it belongs.
+
+You MUST ALWAYS respond with JSON in one of the following ways:
+
+{ "claimStatus": "NEW", "forwardAddress": "\new.claim@parasol.com", "customerComment": "<Customer Comment>" }
+
+{ "claimStatus": "EXISTING", "forwardAddress": "\existing.claim@parasol.com", "customerComment": "<Customer Comment>" }
+
+{ "claimStatus": "UNRELATED", "forwardAddress": "\customer.service@parasol.com", "customerComment": "<Customer Comment>" }
+
+{ "claimStatus": "UNKNOWN", "forwardAddress": "\discard@parasol.com", "customerComment": "<Customer Comment>" }
+
+Here is an example response for a new claim:
+
+Message: "I ran a stop light yesterday and hit another vehicle."
+{ "claimStatus": "NEW", "forwardAddress": "\new.claim@parasol.com", "customerComment": "We hope you and the other party are ok!   I'm forwarding your note to a team that can assist you with your claim." }
 ----
 
 === Integrate Prompt with Application
