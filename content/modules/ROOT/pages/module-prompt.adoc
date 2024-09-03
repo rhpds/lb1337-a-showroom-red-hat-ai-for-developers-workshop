@@ -169,38 +169,6 @@ image::prompt/decline-to-answer.png[LLM Declines to Answer Question]
 
 Take some time to ask the LLM various questions and see how it responds.  Remember, chat history influences the next response so start new playgrounds as needed for a fresh start.
 
-//== Try the Summarization Recipe on an Insurance Claimed
-//
-//=== Start the Summarization Recipe
-//
-//* In Podman Desktop, go to AI Lab and click on Recipes Catalog
-//* Click Summarizer
-// - Notice that the Granite foundational model is selected instead of the model previously trained.  For this exercise, that is ok.
-//* Click Start AI Application and wait for the model to download and the application to start
-//* Once it starts, an arrow icon will appear.  Click on it to open the application in Firefox.
-//
-//=== Download a File to Summarize
-//
-//* Open a tab in the firefox window that was just opened and visit the following URL:
-// - https://github.com/rh-rad-ai-roadshow/parasol-insurance/raw/main/app/src/main/resources/claims/marty-mcfly-auto.pdf
-//* Save the file to the Downloads folder in your home directory.  (default location)
-//
-//=== Summarize an Insurance Claim PDF
-//
-//* Return to the summarizer tab in FireFox.
-//* Click on the Browse Files button.
-//* Navigate to where the previous PDF was saved.  (Downloads quick visit button on the left)
-//* Choose the Marty McFly Insurance Claim PDF
-//
-//The process will take a few moments to complete.  When it does, you will see an accurate translation of the doc using clear, easy to follow bullet points that focus on facts contained in the submitted document.
-//
-//=== Try Other Documents!
-//
-//Try downloading and submitting your own documents to experiment with performance.
-//
-//Keep in mind this is an insecure business server and confidential data should be avoided, along with offensive material.  Also, keep in mind maximum length guidance as provided in the UI.
-
-
 == Hallucinations
 
 Before we begin experimenting with prompts, let's take a moment to review LLM issues known as hallucinations.  
