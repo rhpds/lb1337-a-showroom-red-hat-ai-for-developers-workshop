@@ -326,8 +326,9 @@ As the AI Developer, you have been given access to a robust LLM that has already
 * Determine if the customer email is notifying the company of a new insurance claim or asking about an existing one.
 * Respond with a JSON response that provides the following fields:
 ** *claimStatus* - field indicating whether the email is in regards to a new or existing claim or is unrelated to the claims processing line of businses
-** *forwardAddress* - where the email should be forwarded to based on the content of the message
-** *customerComment* - what message should be included at the top of the email indicating to the customer explaining why the message is being forwarded
+** *address* - where the email should be forwarded to based on the content of the message
+** *subject* - the email subject to accompany the forwarded email
+** *message* - what message should be included at the top of the email indicating to the customer explaining why the message is being forwarded
 * Scenarios:
 ** *New Claim* - Forward messages regarding new insurance claims to new.claim@parasol.com
 ** *Existing Claims* - Forward messages inquiring about existing claims to existing.claim@parasol.com
@@ -343,13 +344,13 @@ As the AI Developer, you have been given access to a robust LLM that has already
 
 * Output must be one of the following, where <Customer Comment> is a brief explanation to the customer describing why the email is being forwarded and to whom:
 
-`{ "claimStatus": "NEW", "forwardAddress": "new.claim@parasol.com", "customerComment": "<Customer Comment>" }`
+`{ "claimStatus": "NEW", "address": "new.claim@parasol.com", "subject": "<Email Subject>", "message": "<Customer Comment>" }`
 
-`{ "claimStatus": "EXISTING", "forwardAddress": "existing.claim@parasol.com", "customerComment": "<Customer Comment>" }`
+`{ "claimStatus": "EXISTING", "address": "existing.claim@parasol.com", "subject": "<Email Subject>", "message": "<Customer Comment>" }`
 
-`{ "claimStatus": "UNRELATED", "forwardAddress": "customer.service@parasol.com", "customerComment": "<Customer Comment>" }`
+`{ "claimStatus": "UNRELATED", "address": "customer.service@parasol.com", "subject": "<Email Subject>", "message": "<Customer Comment>" }`
 
-`{ "claimStatus": "UNKNOWN", "forwardAddress": "discard@parasol.com", "customerComment": "<Customer Comment>" }`
+`{ "claimStatus": "UNKNOWN", "address": "discard@parasol.com", "subject": "<Email Subject>", "message": "<Customer Comment>" }`
 
 
 === Write a prompt!
@@ -495,61 +496,132 @@ Now that you've developed a working prompt that can help satisfy leadership obje
 [.console-input]
 [source,text,subs="+attributes,macros+"]
 ----
-You are a customer service expert in the claims management processes at 
+You are a customer service expert in the claims management processes at
 Parasol Insurance.
 
-You are the first point of contact for customer emails involving insurance 
+You are the first point of contact for customer emails involving insurance
 claims. These emails always fall into one of the following categories -
-1.) New Claim, 2.) Status Updates or Additional Details Regarding an Existing 
-Claim, 3.) Parasol Insurance Business Unrelated to Insurance Claims, or 
+1.) New Claim, 2.) Status Updates or Additional Details Regarding an Existing
+Claim, 3.) Parasol Insurance Business Unrelated to Insurance Claims, or
 4.) Anything unrelated to Parasol Insurance.
 
-Emails that describe a new accident or discuss filing a new claim are always 
-NEW claims and should be forwarded to \new.claim@parasol.com with an 
-empathetic message to the customer letting them know we care about them as 
+Emails that describe a new accident or discuss filing a new claim are always
+NEW claims and should be forwarded to \new.claim@parasol.com with an
+empathetic message to the customer letting them know we care about them as
 a customer and hope they are ok.
 
-Emails that are asking for a status update, voicing concerns about taking too 
-long to process, or providing additional details about an accident that were 
-not previously provided are always EXISTING claims.  Existing claim inquiries 
-should be forwarded to \existing.claim@parasol.com with a concise message 
-letting the customer know that we are looking into their inquiry and will be 
+Emails that are asking for a status update, voicing concerns about taking too
+long to process, or providing additional details about an accident that were
+not previously provided are always EXISTING claims.  Existing claim inquiries
+should be forwarded to \existing.claim@parasol.com with a concise message
+letting the customer know that we are looking into their inquiry and will be
 in touch shortly.
 
-Emails about insurance that have nothing to do with claims are always 
-UNRELATED.  Unrelated claims should be forwarded to 
-\customer.service@parasol.com with a message letting them know we are forwarding 
+Emails about insurance that have nothing to do with claims are always
+UNRELATED.  Unrelated claims should be forwarded to
+\customer.service@parasol.com with a message letting them know we are forwarding
 their request to our Customer Service team for assistance.
 
-All other emails, especially those that have nothing to do with insurance and 
-are not business related, must be categorized as UNKNOWN.  Unknown emails must 
-be rejected back to the customer by forwarding to \discard@parasol.com with a 
-message letting the customer know we are confused by their email and to please 
+All other emails, especially those that have nothing to do with insurance and
+are not business related, must be categorized as UNKNOWN.  Unknown emails must
+be rejected back to the customer by forwarding to \discard@parasol.com with a
+message letting the customer know we are confused by their email and to please
 clarify with a business related response.
 
-You will be provided the email body in user prompt and will review it to 
+The email subject must be a very concise summary of the customer request.
+
+You will be provided the email body in user prompt and will review it to
 determine which category to which it belongs.
 
 You MUST ALWAYS respond with JSON in one of the following ways:
 
-{ "claimStatus": "NEW", "forwardAddress": "\new.claim@parasol.com", "customerComment": "<Customer Comment>" }
+{ "claimStatus": "NEW", "address": "\new.claim@parasol.com", "subject": "<Email Subject>", "message": "<Customer Comment>" }
 
-{ "claimStatus": "EXISTING", "forwardAddress": "\existing.claim@parasol.com", "customerComment": "<Customer Comment>" }
+{ "claimStatus": "EXISTING", "address": "\existing.claim@parasol.com", "subject": "<Email Subject>", "message": "<Customer Comment>" }
 
-{ "claimStatus": "UNRELATED", "forwardAddress": "\customer.service@parasol.com", "customerComment": "<Customer Comment>" }
+{ "claimStatus": "UNRELATED", "address": "\customer.service@parasol.com", "subject": "<Email Subject>", "message": "<Customer Comment>" }
 
-{ "claimStatus": "UNKNOWN", "forwardAddress": "\discard@parasol.com", "customerComment": "<Customer Comment>" }
+{ "claimStatus": "UNKNOWN", "address": "\discard@parasol.com", "subject": "<Email Subject>", "message": "<Customer Comment>" }
 
 Here is an example response for a new claim:
 
 Message: "I ran a stop light yesterday and hit another vehicle."
-{ "claimStatus": "NEW", "forwardAddress": "\new.claim@parasol.com", "customerComment": "We hope you and the other party are ok!   I'm forwarding your note to a team that can assist you with your claim." }
+{ "claimStatus": "NEW", "address": "\new.claim@parasol.com", "subject": "Customer At-Fault in Multi-Vehicle Collision", "message": "We hope you and the other party are ok!   I'm forwarding your note to a team that can assist you with your claim." }
+
+Your response must only include the specified JSON object.
 ----
 
-=== Integrate Prompt with Application
 
+=== Integrate Prompt with the Parasol Insurance Application
+
+Now that we've developed a robust prompt that helps address the Parasol Insurance use case for email handling, we must integrate that prompt into the Parasol application.
+
+During a prior workshop activity, email response generation using LangChain4j was implemented into the web UI.  This functionality includes a new menu option on the left hand side of the screen that, when clicked, opens a web form for providing the customer email.  We are going to replace the prompt used in that module with the one you created that includes added functionality and data elements via the JSON response.
+
+image::prompt/parasol-generate-email-response-form.png[Generate Email Response Web Form]
+
+Checkout the email branch.
 TODO
 
+The Parasol Insurance application is invoking the LLM using LangChain4j's AI Service functionality.  This approach leverages Java Interfaces created by the user with decorators defined for the prompt.  Let's open the AI Service that was previously created for Email Response Generation:
+
+`parasol-insurance/app/src/main/java/org/parasol/ai/EmailService.java`
+
+Now, change the current prompt to the one we created together in the previous section.
+
+*Before:*
+
+image::prompt/email-branch-before.png[LangChain4j Email Service Before Functionality Expansion]
+
+Replace the text in the red rectangle above with the revised system prompt.
+
+Assuming your quarkus environment is still running from the prior steps, the updated prompt is automatically applied.  Let's try out the email form and see a subset of the new response:
+
+- Navigate to the Parasol Insurance application
+- Click on Email Generate at the bottom of the left hand menu bar
+- Paste one of the same emails from the prior section into the form
+- Click "Submit"
+
+image::prompt/new-email-generate-basic.png[New Generate Email Response]
+
+Now, you'll notice that this does not look drastically different from before the enhancement.  Let's now add the Forward-To Email Address to the form.
+
+Open the TypeScript source for the Generate Email view:
+
+`parasol-insurance/app/src/main/webui/src/app/components/EmailGenerate/EmailGenerate.tsx`
+
+At the top of the source file there is a data structured called EmailResponse.  Add "address" of type "string" to the end of the list.
+
+image::prompt/email-generate-view-data-structure.png[Add "address" to EmailResponse Data Structure]
+
+After the Submit button approximately half way through the source file, logic exists that is responsible for displaying the Email Subject and Email Body.  
+
+image::prompt/email-generate-web-source.png[Display Email Subject and Body]
+
+Add the following html to the "email-response" div block:
+
+`<div id="email-response-address" style={{ fontWeight: 'bold', fontFamily: 'Arial' }}>To: {response.address}</div>`
+
+image::prompt/email-generate-adddress-field-web.png[Including Address in Visualized AI Response]
+
+Additionally, we must add the address field to the REST Service's JSON Response.  Open the following source to add the field:
+
+`parasol-insurance/app/src/main/java/org/parasol/model/EmailResponse.java`
+
+Add a method parameter called "address" of type "String" to the end of the list.
+
+image::prompt/new-field-added-to-email-response.png[Add "address" field to EmailResponse Record]
+
+Now let's revisit the web form and test out the new AI-generated attribute:
+
+- Navigate to the Parasol Insurance application
+- Click on Email Generate at the bottom of the left hand menu bar
+- Paste one of the same emails from the prior section into the form
+- Click "Submit"
+
+image::prompt/modernization-complete.png[Modernization Complete!]
+
+Congratulations!  You have successfully modernized the Parasol Insurance application and improved the enterprise business processes surrounding customer email handling!  We look forward to celebrating similar successes in your own applications!
 
 == Conclusion
 
