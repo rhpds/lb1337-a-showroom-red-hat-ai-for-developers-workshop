@@ -90,11 +90,25 @@ For this section we will be exercising the model with some basic prompts to gain
 
 === Open Dev UI with LangChain4j Chat
 
-From your parasol-app project cloned to your local machine during a prior module, run the following command from the cli:
+Open your DevSpaces IDE per the instructions in the prior section.
+
+Using the file tree on the left, open the following file:
+
+`src/main/resources/application.properties`
+
+Change the quarkus.dev.ui.hosts parameter to the following value:
+
+`quarkus.dev-ui.hosts={user}-parasol-insurance-quarkus-devui{openshift_cluster_ingress_domain}`
+
+Spawn a terminal window within the IDE by clicking on the icon with three parallel bars in the upper left corner of the screen.  Choose "Terminal" and then "New Terminal" menu entry from the list.
+
+Run the following command from the cli using the terminal window just created:
 
 `./mvnw quarkus:dev`
 
-Open a browser tab to http://localhost:8080/q/dev-ui/extensions[^]
+You will be prompted that a new application was detected with an open web port.  Acknowledge this and choose to open in a new tab.  The URL will be similar to the following:
+
+http://{user}-parasol-insurance-quarkus-devui{openshift_cluster_ingress_domain}/q/dev-ui/extensions[^]
 
 Click on "Chat".  This is highlighted with a red box in the screenshot below.
 
