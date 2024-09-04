@@ -169,7 +169,7 @@ Open an existing `application.properties` file in the `src/main/resources` direc
 quarkus.langchain4j.parasol-email.chat-model.provider=openai // <1>
 quarkus.langchain4j.openai.parasol-email.chat-model.temperature=0.3 // <2>
 quarkus.langchain4j.openai.parasol-email.chat-model.model-name=parasol-instruct // <3>
-quarkus.langchain4j.openai.parasol-email.base-url=https://parasol-chat-predictor-aiworkshop.${openshift_cluster_ingress_domain}/v1 // <4>
+quarkus.langchain4j.openai.parasol-email.base-url=https://parasol-instruct-predictor.aiworkshop.svc.cluster.local:8080/v1 // <4>
 ----
 <1> Specify the model provider (e.g., openai, huggingface)
 <2> Set the model temperature
