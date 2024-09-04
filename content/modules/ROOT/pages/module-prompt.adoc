@@ -78,7 +78,8 @@ image::prompt/devui-change-max-tokens.png[Change Max Tokens with Dev UI Chat Pla
 
 For the remainder of the lab, you will be using the Quarkus Dev UI with the LangChain4j Chat extension as your prompt engineering playground.
 
-The next two sections walk you through how to setup your cloud environment also has the playground enabled.  If you previously completed these steps during a prior module, you may jump directly to <<Chat with the Model>>.
+
+IMPORTANT: If you haven't accessed *Red Hat Developer Hub and Red Hat Dev Spaces* yet, complete the following sections. Otherwise, *proceed* to the <<Chat with the Model>> section.
 
 
 include::partial-devhub-pre-req.adoc[]
