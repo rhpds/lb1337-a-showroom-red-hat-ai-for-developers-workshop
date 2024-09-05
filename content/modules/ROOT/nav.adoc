@@ -1,4 +1,4 @@
-* xref:module-devhub.adoc[Gen AI into Parasol]
+* xref:module-devhub.adoc[Parasol AI Developer Workflow]
 * xref:module-private-docs.adoc[Private Docs]
 * xref:module-model-testing.adoc[Model Testing]
 * xref:module-prompt.adoc[Prompting Basics]

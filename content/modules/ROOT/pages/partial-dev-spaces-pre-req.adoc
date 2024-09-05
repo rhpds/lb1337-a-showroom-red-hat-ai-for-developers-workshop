@@ -3,7 +3,7 @@
 
 == Log in Red Hat OpenShift Dev Spaces
 
-Go back to the https://backstage-backstage{openshift_cluster_ingress_domain}/catalog/default/component/frontend-app-{user}[Parasol component^] in the Red Hat Developer Hub. From the *OVERVIEW* tab click on `OpenShift Dev Spaces (VS Code)` to make the necessary source code changes.
+Go back to the https://backstage-backstage{openshift_cluster_ingress_domain}/catalog/default/component/parasol-app-{user}[Parasol component^] in Red Hat Developer Hub. From the *OVERVIEW* tab click on `OpenShift Dev Spaces (VS Code)` to make the necessary source code changes.
 
 image::devhub/frontend_devspaces.png[frontend_devspaces, 700]
 
@@ -23,13 +23,13 @@ Authorize *devspaces* to use your account by clicking on the *Authorize* button.
 
 image::devhub/devspaces_authorize_user.png[devspaces_authorize_user, 600]
 
-Wait for your Red Hat OpenShift Dev Spaces workspace to be ready. This can take a few minutes. 
+Wait for your Red Hat OpenShift Dev Spaces workspace to be ready. This can take a few minutes.
 
-You will see a loading screen while the workspace is being provisioned, where Red Hat OpenShift Dev Spaces is creating a workspace based on a devfile stored in the source code repository, which can be customized to include your tools and configuration.
+You will see a loading screen while the workspace is being provisioned, where Dev Spaces is creating a workspace based on a _devfile_ stored in the source code repository, which can be customized to include your tools and configuration.
 
 image::devhub/devspaces_loading.png[devspaces_loading, 700]
 
-*NOTE*: In case you fail to start the workspace, you can click on *close running workspace and restart*, then it works fine.
+*NOTE*: In case your workspace fails to start, you can click on *close running workspace and restart* to try again.
 
 image::devhub/devspaces_error.png[devspaces_error, 700]
 
@@ -37,6 +37,6 @@ Confirm the access by clicking *"Yes, I trust the authors"*.
 
 image::devhub/devspaces_trustauthors.png[devspaces_trustauthors, 800]
 
-Then, you should see this.
+Then you should see:
 
 image::devhub/devspaces_view.png[devspaces_view, 800]

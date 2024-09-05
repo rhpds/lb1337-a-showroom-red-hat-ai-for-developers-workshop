@@ -3,13 +3,13 @@
 
 === Review continuous integration and delivery (CI/CD)
 
-Click on `CI` tab to review your pipeline information. The pipeline will be triggered in a few seconds. After a few minutes, you will see the pipeline finished as *Succeeded*.
+Click on `CI` tab to review your pipeline information. The pipeline will be automatically triggered and run. After a few minutes, you will see the pipeline finished as *Succeeded*.
 
-image::devhub/parasol_pipeline.png[] 
+image::devhub/parasol_pipeline.png[]
 
 Click on `CD` to review ArgoCD History.
 
-image::devhub/frontend_argohistory.png[] 
+image::devhub/frontend_argohistory.png[]
 
 Click on `TOPOLOGY` to review your deployment status. Then, you will see the deployment *parasol-app-{user}* in the Topology.
 
@@ -17,37 +17,37 @@ image::devhub/parasol_deployment.png[]
 
 === Verify the deployment
 
-Access the https://frontend-app-{user}-globex-devhub-{user}{openshift_cluster_ingress_domain}[Parasol web page^] to verify everything is working as expected.
+Access the https://parasol-app-{user}-dev{openshift_cluster_ingress_domain}[Parasol web page^] to verify everything is working as expected.
 
 image::devhub/parasol_ui_web.png[]
 
 ==== Explore the Parasol application
 
-Select the claim number, `CLM195501` to view the claim details sucha as summary, documents, etc.
+Select the claim number, `CLM195501` to view the claim details such  as summary, documents, etc.
 
-Click on `Chatbot` icon on the right bottom to open the chatbot popup.
+Click on the `Chatbot` icon on the right bottom to open the chatbot popup.
 
 image::devhub/claim_view.png[]
 
 ==== Play with the AI chatbot
 
-Try to ask any questions about the claim to the AI chatbot. For example, you can ask if your policy is still covered or not for this car incident.
+As a Parasol customer service representative, try to ask any questions about the claim to the AI chatbot. For example, you can ask if the policy is still covered or not for this car incident.
 
 [.console-input]
 [source,bash,subs="attributes"]
 ----
-Please clarify my policy coverage for this specific claim.
+Please clarify the policy coverage for this specific claim.
 ----
 
-Then, click on `paper airplane` to send the query. The AI chatbot will connect to the trained parasol LLM model in the Parasol Insurance to respond with the answer.
+Then, click on `paper airplane` icon to send the query. The AI chatbot will connect to the trained Parasol LLM and respond with an answer.
 
 [NOTE]
 ====
 If nothing happens when you click the paper airplane icon, please refresh the page and try again.
 ====
 
-You will see the answer in a few seconds. The answer provided here varies from the output of the Parasol Chat LLM model.
+You will see the answer in a few seconds. The answer provided may differ from what is shown below, but in general it should include Parasol-specific policy requirements from the data that was used to train the model.
 
 image::devhub/chatbot_query.png[]
 
-Now, you've confirmed what the existing Parasol application look like and how it works.
+Congratulations, you've confirmed that the existing Parasol application works!
