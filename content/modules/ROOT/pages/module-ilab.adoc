@@ -89,95 +89,73 @@ InstructLab is particularly useful for organizations like Parasol that want to l
 To begin working with InstructLab, you'll need to access the provided noNVC virtual environment. This environment comes pre-configured with all necessary tools and dependencies: {novnc_url}[*{novnc_url}*,window=_blank], using the password `{password}`.
 
 . Click the `Activities` label in the top-left corner of the screen.
+
+// REMOVE Once CI is updated
+
+. CLick on "Terminal"
+
+Enter the following commands
+
+[.console-input]
+[source,bash,subs="+attributes,macros+"]
+----
+curl -L -o files/vscode.rpm 'https://code.visualstudio.com/sha/download?build=stable&os=linux-rpm-x64'
+sudo dnf install xdg-utils
+sudo rpm -ivh files/vscode.rpm
+sudo dnf -y install zip gcc glibc-devel zlib-devel 
+curl -s "https://get.sdkman.io" | bash
+source "/home/instruct/.sdkman/bin/sdkman-init.sh"
+sdk install java 21.0.3-tem
+pip install 'numpy<2.0'
+
+cat <<EOF >> /home/instruct/instructlab/config.yaml
+chat:
+  context: default
+  greedy_mode: false
+  logs_dir: data/chatlogs
+  max_tokens: null
+  model: models/merlinite-7b-lab-Q4_K_M.gguf
+  session: null
+  vi_mode: false
+  visible_overflow: true
+general:
+  log_level: INFO
+generate:
+  chunk_word_count: 1000
+  model: models/merlinite-7b-lab-Q4_K_M.gguf
+  num_cpus: 10
+  num_instructions: 100
+  output_dir: generated
+  prompt_file: prompt.txt
+  seed_file: seed_tasks.json
+  taxonomy_base: origin/main
+  taxonomy_path: taxonomy
+serve:
+  gpu_layers: -1
+  host_port: 127.0.0.1:8000
+  max_ctx_size: 4096
+  model_path: models/merlinite-7b-lab-Q4_K_M.gguf
+EOF
+----
+
+// End of Remove block
+
+
 . Click the `Show Applications` icon to show all the applications.
+
 . Click the `Visual Studio Code` icon to launch Visual Studio Code.
 
 image::ilab/launch-vscode-desktop.png[Launch Podman Desktop]
 
 // [start=4]
-. From the `Terminal` menu, select `New Terminal` to open a new terminal window.
+
+. We're going to run some commands from the terminal, so from the `Terminal` menu, select `New Terminal` to open a new terminal window.
 
 image::ilab/vscode-new-terminal-menu.png[Open new VSCode terminal]
 
 == Hands on with AI Model Fine-tuning
 
 In this section, we'll walk through the process of fine-tuning an AI model using InstructLab. We'll start by setting up our environment, generating synthetic training data, training the model, and then interact with it.
-
-=== Initializing InstructLab
-
-Before we can start fine-tuning our model, we need to initialize InstructLab in our working environment. This process sets up the necessary configuration and downloads the required taxonomy for us to work with.
-
-. In your terminal, ensure you're in the InstructLab directory:
-
-[.console-input]
-[source,bash,subs="+attributes,macros+"]
-----
-mkdir instructlab && cd instructlab
-----
-
-. Activate your Python virtual environment:
-[.console-input]
-[source,bash,subs="+attributes,macros+"]
-----
-source venv/bin/activate
-----
-
-. Now, you should see the virtual environment name `(venv)` in your terminal prompt, indicating that the virtual environment is active:
-
-[.console-output]
-[source,adoc]
-----
-[student@rhel9 ~]$ mkdir instructlab && cd instructlab
-[student@rhel9 instructlab]$ source venv/bin/activate
-(venv) [student@rhel9 instructlab]$ 
-----
-
-. Now, initialize InstructLab by running the following command:
-
-[.console-input]
-[source,bash,subs="+attributes,macros+"]
-----
-ilab config init
-----
-
-. When prompted, press Enter to use the default `config.yaml` file location.
-
-. When asked if you want to clone the taxonomy repository, type `y` and press Enter.
-
-You should see output similar to this:
-
-[.console-output]
-[source,adoc]
-----
-Welcome to InstructLab CLI. This guide will help you to setup your environment.
-Please provide the following values to initiate the environment [press Enter for defaults]:
-Path to taxonomy repo [taxonomy]: 
-`taxonomy` seems to not exist or is empty. Should I clone https://github.com/instructlab/taxonomy.git for you? [y/N]: y
-Cloning https://github.com/instructlab/taxonomy.git...
-Generating `config.yaml` in the current directory...
-Initialization completed successfully, you're ready to start using `ilab`. Enjoy!
-(venv) [student@rhel9 instructlab]$
-----
-
-=== Downloading the Base Model
-
-Before we can fine-tune the model, we need to download the base model that we'll be working with.
-
-. Download the model using the following command:
-
-[.console-input]
-[source,bash,subs="+attributes,macros+"]
-----
-ilab model download
-----
-
-This command will download a compact pre-trained version of the model (~4.4GB) from HuggingFace and store it in a `models` directory (the process may take a minute or two). You should see output indicating the download progress and completion:
-
-[.console-output]
-[source,adoc]
-----
-Downloading model from instructlab/merlinite-7b-lab-GGUF@main to models...
-----
 
 === Adding training data to the Taxonomy
 
@@ -191,20 +169,44 @@ The InstructLab taxonomy is a structured knowledge base that guides the model fi
 code -r .
 ----
 
-. Navigate and create a `taxonomy/knowledge/parasol/qna.yaml` file in the editor. This file will contain the questions and answers that will be used to train the model.
-// Should this be pre-done for the user? - Cedric
-. Add the following question and answer pair to the `qna.yaml` file:
+. Navigate to the `taxonomy/knowledge/technology` folder  and create a `qna.yaml` file in the editor. This file will contain the questions and answers that will be used to train the model.
+
+. Add the following question and answer pair sto the `qna.yaml` file and save the changes.
 
 [source,yaml]
 ----
-blabla
+
+created_by: Marty_McFly
+domain: parasol
+seed_examples:
+- answer: The DeLorean was manufactured from 1981 to 1983.
+  question: When was the DeLorean manufactured?
+- answer: The DeLorean Motor Company manufactured the DeLorean DMC-12.
+  question: Who manufactured the DeLorean DMC-12?
+- answer: Transmission Repair costs between $2,500 and $4,000 for the Delorean DMC-12.
+  question: How much does it cost to repair the transmission on a DeLorean DMC-12?
+- answer: The top speed of the DeLorean DMC-12 was 110MPH and the 0-60 time was approximately 8.8 seconds.
+  question: How fast was the Delorean DMC-12?
+- answer: The DeLorean DMC-12 weighs 2,712lb (1,230kg).
+  question: How much does the DeLorean DMC-12 weigh?
+- answer: Maintenance on a DeLorean DMC-12 includes regular oil changes every 3,000 miles or 3 months,
+    brake fluid change every 2 years, transmission fluid changes every 30,000 miles, coolant change every 2 years,
+    and regularly checking the battery for corrosion and proper connection.
+  question: What does maintenance for a DeLorean DMC12 look like?
+- answer: It costs between $800 and $1000 to repair the suspension on a DeLorean DMC-12.
+  question: How much does it cost to repair the supension on a DeLorean DMC-12?
+task_description: 'Details on instructlab community project'
+document:
+  repo: https://github.com/gshipley/backToTheFuture.git
+  commit: 8bd9220c616afe24b9673d94ec1adce85320809c
+  patterns:
+    - data.md
 ----
 
 This is a simple example of a question and answer pair that will be used to train the model, through the synthetic data generation process performed later.
 
 === Generating Synthetic Training Data
 
-// Make sure to add serving instructions for the model in this step
 
 Now that we've added some initial data, let's use InstructLab to generate synthetic training data.
 
@@ -225,55 +227,52 @@ source venv/bin/activate
 +
 [source,bash]
 ----
-ilab data generate
+ilab data generate  --num-instructions 5
 ----
 
-This process may take some time, depending on the amount of data and the computational resources available. The synthetic data will be created in the `generated` directory.
+To reduce the amount of time the generation process takes, we are setting the "--num-instructions" flag to "5", the default for this value is "100". If we were generating data for a production deployment we would likely set this value even higher.
+
+This process may take some time, depending on the amount of data and the computational resources available. 
+
+Once the generation stage is complete, you should see something like
+[source,bash]
+----
+
+Q> How long does it take to accelerate to 88 miles per hour in a DeLorean DMC-12?
+I> 
+A> Approximately 8.8 seconds is needed to reach 88 mph in a Delorean DMC-12.
+
+ 80%|███████████████████████████████████████████████████████████████████████████████████████████████████████████████▏                           | 4/5 [01:05<00:16, 16.51s/it]INFO 2024-09-05 18:49:21,781 generate_data.py:505: generate_data Selected taxonomy path knowledge->technology
+INFO 2024-09-05 18:49:24,075 generate_data.py:505: generate_data Selected taxonomy path knowledge->technology
+INFO 2024-09-05 18:49:26,285 generate_data.py:505: generate_data Selected taxonomy path knowledge->technology
+INFO 2024-09-05 18:49:28,449 generate_data.py:505: generate_data Selected taxonomy path knowledge->technology
+Q> What does the term “Flux capacitor” refer to in the context of a DeLorean DMC-12?
+I> 
+A> The term “Flux capacitor” refers to a component that enables time travel on a DeLorean DMC-12.
+
+100%|███████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 5/5 [01:25<00:00, 17.01s/it]
+INFO 2024-09-05 18:49:41,814 generate_data.py:609: generate_data 5 instructions generated, 4 discarded due to format (see generated/discarded_merlinite-7b-lab-Q4_K_M_2024-09-05T18_48_16.log), 0 discarded due to rouge score
+INFO 2024-09-05 18:49:41,815 generate_data.py:613: generate_data Generation took 85.28s
+
+----
+
+We can examine the output of the generation stage by taking a look at the "generated" folder in ~/instructlab
+
+within this folder you'll see 4 different files
+
+* discarded_merlinite-7b-lab-Q4_K_M_DATETIME.log: This contains a log of any generated instructions which were discarded during the generation process for any reason e.g. "didn't match expected format"
+* generated_merlinite-7b-lab-Q4_K_M_DATETIME.json: This contains the list of generated instructions plus context with which the model training instructions will be created
+* test_merlinite-7b-lab-Q4_K_M_DATETIME.jsonl: This file contains test prompts and responses which are used at the end of the training process
+* train_merlinite-7b-lab-Q4_K_M_DATETIME.jsonl: This file contains the instructions used during the train process to train the model.
+
 
 === Training the Model with New Data
 
-With our synthetic data generated, we can now train the model to incorporate this new knowledge.
+With our synthetic data generated, we should now be in a position to train the model.  Because we only created 5 sample instructions and due to time contrainsts we're not going to perform the actual training in this lab.
 
-. In the terminal, ensure you're still in the InstructLab directory and the virtual environment is activated.
-. Run the training command:
-+
-[source,bash]
-----
-ilab model train
-----
+If we where to do this, we would again use the "ilab" CLI with the "model train" command
 
-This process will take some time, potentially several hours depending on your hardware. The command will output progress information as it trains the model.
-
-=== Interacting with the Model
-
-Once training is complete, we can interact with the newly fine-tuned model to test its capabilities.
-
-. In the terminal, start the model server:
-+
-[source,bash]
-----
-ilab model serve --model-path models/model.gguf
-----
-. Open a new terminal window, navigate to the InstructLab directory, and activate the virtual environment.
-. Start a chat session with the model:
-+
-[source,bash]
-----
-ilab model chat
-----
-. Test the model with questions related to the knowledge we added, for example:
-+
-[source]
-----
-What types of insurance does Parasol offer?
-----
-+
-[source]
-----
-Can you explain Parasol's process for handling auto insurance claims?
-----
-
-Observe how the model incorporates the new knowledge into its responses.
+Once this process was finished we would then have a model we can serve locally with ilab to test our results.
 
 == Training the Model for the Insurance Organization
 
@@ -314,6 +313,8 @@ origin	https://github.com/instructlab/taxonomy.git (push)
 === Configuring the Parasol Taxonomy Repository
 
 Next we want to be able to add our own private Parasol taxonomy and train our models with it. To do that we will configure instructLab taxonomy with the following two commands. The command will configure the remote repository, and the second command prints the git repository configuration.
+
+// This repository won't work, the knowledge is updated to version 3
 
 [.console-input]
 [source,adoc]
@@ -431,5 +432,49 @@ You can inspect the addtional knowledge document in the Parasol Knowledge reposi
 image::ilab/parasol-knowledge-taxonomy-products.png[InstructLab taxonomy structure]
 
 === Synthetic data generation
+
+We can now perform the synthetic data generation from our new knowledge
+
+. Open a terminal in Visual Studio Code.
+. Run the following command to generate synthetic training data:
++
+[source,bash]
+----
+cd ~/instructlab
+----
+. Activate the Python virtual environment:
++
+[source,bash]
+----
+source venv/bin/activate
+----
+. Run the data generation command:
++
+[source,bash]
+----
+ilab data generate  --num-instructions 5
+----
+
 === Training the Model
+
+As with the previous example, we're not going to perform the model training in this section due to time constraints.  
+
+
 === Interacting with the Model
+
+We have provisioned a trained model in the folder `~/instructlab/models` called `parasol-model.gguf`
+
+. We can serve this model with the command
+. Run the data generation command:
++
+[source,bash]
+----
+ilab model serve --model-path ~/instructlab/models/parasol-model.gguf
+----
+
+We can now ask the trained model some parasol specific questions such as:
+
+- Who founded parasol insurance?
+
+- Will Parasol insurance cover the cost of car rental if my car is undriveable as a result of an
+ accident?
