@@ -1,4 +1,4 @@
-= Gen AI into Parasol - 70 minutes
+= Parasol AI Developer Workflow - 70 minutes
 :imagesdir: ../assets/images
 :sectnums:
 
@@ -24,11 +24,11 @@ include::partial-dev-spaces-pre-req.adoc[]
 
 == Add a new generative AI feature
 
-https://developers.redhat.com/products/openshift-dev-spaces/overview[Red Hat OpenShift Dev Spaces^] is a cloud-based development environment built on top of Kubernetes and containers. It offers a streamlined and secure way for developers to code, build, and test applications directly within the OpenShift ecosystem. You'll use the Dev Spaces to develop a new Generative AI feature (e.g.,`email generator`).
+Now you'll use the Dev Spaces to develop a new Generative AI feature, an email generator for responding to customer queries via email.
 
 === Create a new Gen AI email service
 
-You'll create a new Java AI service that generates emails based on https://developers.redhat.com/products/quarkus/overview[Quarkus^] and https://github.com/langchain4j/langchain4j[LangChain4j^] library. The https://quarkus.io/extensions/?search-regex=langchain[Quarkus LangChain4j extensions^] bridge the gap between your Quarkus application and LangChain4j, a library that allows interaction with various LLMs like OpenAI, Hugging Face, or Ollama. with the following key features and benefits:
+You'll create a new Java AI service that generates emails based on https://developers.redhat.com/products/quarkus/overview[Quarkus^] and the https://github.com/langchain4j/langchain4j[LangChain4j^] library. The https://quarkus.io/extensions/?search-regex=langchain[Quarkus LangChain4j extensions^] bridge the gap between your Quarkus application and LangChain4j, a library that allows interaction with various LLMs like OpenAI, Hugging Face models, or Ollama, with the following key features and benefits:
 
 * *Key Features*
 ** *Declarative AI Services*: Define how you want to interact with the LLM using annotations or configuration files.
@@ -57,7 +57,13 @@ git checkout -b new-gen-ai-service
 
 ==== Create Java records beans
 
-Create a new Java file, `Email.java` in the `src/main/java/org/parasol/model` directory to carry email data in a concise and immutable way. Copy the following code and paste it into the Email.java file.
+Create a new Java record, `Email.java` in the `src/main/java/org/parasol/model` directory to carry email data in a concise and immutable way.
+
+To create this file, right-click on the `model` directory in the file tree, then select "New File..." and enter the name of the new file `Email.java`. The empty file will open.
+
+image::devhub/new-file.png[new-file, 500]
+
+Copy the following code and paste it into the content editor.
 
 [.console-input]
 [source,java,subs="+attributes,macros+"]
@@ -67,16 +73,12 @@ package org.parasol.model;
 public record Email(String text) { }
 ----
 
-kbd:[Ctrl+Shift+N] will open a new incognito window.
-
 [NOTE]
 ====
 Where is the Save button? VS Code will autosave your changes, that is why you can’t find a SAVE button - no more losing code because you forgot to save. You can undo with *CTRL-Z* (or *CMD-Z* on a Mac) or by using the `Edit -> Undo` menu option.
-
-In case you see the red lines in the source code, you can't ignore it because they are the migration issues rather than compliation errors.
 ====
 
-Create a new Java file, `EmailResponse.java` in the `src/main/java/org/parasol/model` directory to store the output of the LLM server. Copy the following code and paste it into the EmailResponse.java file.
+Next, create a new Java record, `EmailResponse.java` in the `src/main/java/org/parasol/model` directory to store the response from the LLM. Copy the following code and paste it into the `EmailResponse.java` file.
 
 [.console-input]
 [source,java,subs="+attributes,macros+"]
@@ -88,7 +90,7 @@ public record EmailResponse(String subject, String message) { }
 
 ==== Create Java AI service
 
-Create a new Java file, `EmailService.java` in the `src/main/java/org/parasol/ai` directory to serve the AI Service as the core connection point between your application and the LLM. Copy the following code and paste it into the EmailService.java file.
+Create a new Java file, `EmailService.java` in the `src/main/java/org/parasol/ai` directory to serve as the AI Service connection point between your application and the LLM. Copy the following code and paste it into the `EmailService.java` file.
 
 [.console-input]
 [source,java,subs="+attributes,macros+"]
@@ -105,11 +107,11 @@ import io.quarkiverse.langchain4j.RegisterAiService;
 public interface EmailService {
     @SystemMessage(""" // <2>
       You are a helpful, respectful and honest assistant named "Parasol Assistant".
-      
+
       You work for Parasol Insurance.
-      
+
       Your response must look like the following JSON:
-      
+
       {
         "subject": "Subject of your response, suitable to use as an email subject line.",
         "message": "Response text that summarizes the information they gave, and asks for any other missing information needed from Parasol."
@@ -119,13 +121,13 @@ public interface EmailService {
 }
 
 ----
-<1> *@RegisterAiService* annotation is pivotal for registering an AI Service, placed on an interface.
-<2> *@SystemMessage* annotation defines the scope and initial instructions, serving as the first message sent to the LLM. It delineates the AI service’s role in the interaction.
+<1> *@RegisterAiService* annotation is pivotal for registering the AI Service, represented as a Java interface.
+<2> *@SystemMessage* annotation defines the scope and initial instructions, serving as the first message sent to the LLM. It delineates the AI service's role in the interaction.
 <3> *@UserMessage* annotation defines primary instructions dispatched to the LLM. It typically encompasses requests and the expected response format.
 
 ==== Create Jakarta REST resource
 
-Create a new Java file, `EmailResource.java` in the `src/main/java/org/parasol/resources` directory to serve a new Jakarta REST resource. Copy the following code and paste it into the EmailResource.java file.
+Create a new Java file, `EmailResource.java` in the `src/main/java/org/parasol/resources` directory to serve a new REST endpoint. Copy the following code and paste it into the `EmailResource.java` file.
 
 [.console-input]
 [source,java,subs="+attributes,macros+"]
@@ -161,27 +163,27 @@ public class EmailResource {
 
 ==== Add new LLM model configurations
 
-Open an existing `application.properties` file in the `src/main/resources` directory to `append` the following Langchain4j configurations.
+Open the existing `application.properties` file in the `src/main/resources` directory to append the following Langchain4j configuration values.
 
 [.console-input]
 [source,properties,subs="+attributes,macros+"]
 ----
-quarkus.langchain4j.parasol-email.chat-model.provider=openai // <1>
-quarkus.langchain4j.openai.parasol-email.chat-model.temperature=0.3 // <2>
-quarkus.langchain4j.openai.parasol-email.chat-model.model-name=parasol-instruct // <3>
-quarkus.langchain4j.openai.parasol-email.base-url=https://parasol-instruct-predictor.aiworkshop.svc.cluster.local:8080/v1 // <4>
+quarkus.langchain4j.parasol-email.chat-model.provider=openai<1>
+quarkus.langchain4j.openai.parasol-email.chat-model.temperature=0.3<2>
+quarkus.langchain4j.openai.parasol-email.chat-model.model-name=parasol-instruct<3>
+quarkus.langchain4j.openai.parasol-email.base-url=http://parasol-instruct-predictor.aiworkshop.svc.cluster.local:8080/v1<4>
 ----
 <1> Specify the model provider (e.g., openai, huggingface)
-<2> Set the model temperature
+<2> Set the model temperature. Temperature is a parameter used in natural language processing models to increase or decrease the “confidence” a model has in its most likely response.
 <3> Specify the model name to connect to
-<4> Specify the base URL of the model that the application will connect to
+<4> Specify the base URL of the LLM inference endpoint that the application will connect to
 
 
 === Update the frontend web application in Parasol Insurance
 
-Let's update the frontend web application in Parasol Insurance to represent the output of the LLM in the email subject and body content.
+Let's update the frontend React web application to give our customer service reps a nice interface for generating emails.
 
-==== Create new TypeScript component
+==== Create new React TypeScript component
 
 Create a new `EmailGenerate` directory in the `src/main/webui/src/app/components` directory. Also, create a new TypeScript XML file, `EmailGenerate.tsx` in the `src/main/webui/src/app/components/EmailGenerate` directory to render the output of the LLM in the email subject and body content. Copy the following code and paste it into the EmailGenerate.tsx file.
 
@@ -272,6 +274,8 @@ const EmailGenerate: React.FunctionComponent = () => {
 export { EmailGenerate };
 ----
 
+This interface will prompt for an email sent from a customer, and give back the email response for the customer service rep. In other modules in this workshop, you'll see how you can use other techniques to automatically send this email! But for now we'll stick to copy/paste.
+
 ==== Add a new menu item in the navigation bar
 
 Open the `routes.tsx` file in the `src/main/webui/src/app` directory and `uncomment` the following code out in line *8* and *89 - 95* to show the new menu item.
@@ -294,17 +298,29 @@ import { EmailGenerate } from './components/EmailGenerate/EmailGenerate';
 },
 ----
 
-*Great!* Now you're ready to create a new pull request (PR) to servie the new Gen AI feature in the Parasol Insurance's application.
+==== Quick sanity test
+
+Before committing, do a quick sanity build of the project to ensure you got all the changes correct. Run the following command in the Terminal:
+
+[.console-input]
+[source,shell,subs="+attributes,macros+"]
+----
+mvn -f $PROJECT_SOURCE clean package -DskipTests
+----
+
+You should see `BUILD_SUCCESS`. If you get any errors, double-check that you made all of the correct changes to the correct files and try the build again.
+
+*Great!* Now you're ready to merge this code into the application. We'll create a pull request which will automatically build the new app so taht we can test it.
 
 == Create a new pull request
 
-Create a new pull request (PR) to serve the new Gen AI feature in the Parasol Insurance's application.
+Create a new pull request (PR) to add the new Gen AI feature in the Parasol Insurance's application.
 
 === Commit your source code changes
 
 Click on the *Source Control* icon. Then, follow the next steps.
 
-* Add a *Message* (e.g., `Add a new Gen AI feature`) for the commit.
+* Add a *Message* (e.g., `Add a new email feature`) for the commit.
 * Click on Commit *arrow*.
 * Select the option *Commit & Push*.
 
@@ -316,15 +332,15 @@ image::devhub/dev_confirmed.png[]
 
 === Merge the pull request
 
-Go to the https://gitlab-gitlab{openshift_cluster_ingress_domain}[Gitlab^]. Click on the *Create merge requests* to merge the pull request. 
+Go to the https://gitlab-gitlab{openshift_cluster_ingress_domain}[Gitlab^]. Click on the *Create merge requests* to merge the pull request.
 
 image::devhub/create_merge.png[]
 
 You will see the details of the *New merge request* page. Fill out the form and click on *Create merge request*.
 
 * *Description*: This is a new Gen AI feature to generate an email body and subject in the Parasol Insurance.
-* *Assignee*: {user} GitLab - click on the *Assigne me*
-* *Reviewer*: select {user} GitLab
+* *Assignee*: **{user} GitLab** - click on the *Assign to me*
+* *Reviewer*: select **{user} GitLab**
 
 image::devhub/new_merge.png[]
 
@@ -333,7 +349,7 @@ image::devhub/new_merge.png[]
 The reviewer and assignee should be different in reality. To make the PR process easier, you can use the same user.
 ====
 
-You can also search the PR request in the Developer Hub.
+You can also search for the PR request in Developer Hub.
 
 image::devhub/pr_devhub.png[]
 
@@ -355,21 +371,19 @@ The PR merge will trigger a new pipeline that will deploy the new Gen AI feature
 
 == Monitor the new deployment
 
-Monitor if the new deployment rolls out by the OpenShift GitOps in the Dev Hub web console.
-
-Explore Pipelines from Red Hat Developer Hub.
-
 Your source code changes triggered a new pipeline to update the version of the frontend application.
 
-Go back to your frontend component on the Red Hat Developer Hub: https://backstage-backstage{openshift_cluster_ingress_domain}/catalog/default/component/frontend-app-{user}[Red Hat Developer Hub UI^].
+Monitor if the new deployment rolls out by the OpenShift GitOps in the Dev Hub web console.
 
-Explore the pipelines by clicking on the `CI` tab. *A new pipeline* will be triggered to build the new Gen AI feature. Wait for pipeline to finish for the deployment.
+Go back to your frontend component on the Red Hat Developer Hub: https://backstage-backstage{openshift_cluster_ingress_domain}/catalog/default/component/parasol-app-{user}[Red Hat Developer Hub UI^].
+
+Explore the pipelines by clicking on the `CI` tab. *A new pipeline* will be triggered to build the new Gen AI feature. Wait for pipeline to finish.
 
 image::devhub/frontend_newpipeline.png[]
 
 *Congratulations!* You have finished deploying a new Gen AI feature in the Parasol Insurance. You can now test the new feature in your git request.
 
-== Verify the new app’s functionality
+== Verify the new app's functionality
 
 Go back to the https://parasol-app-{user}-dev-parasol-app-{user}-dev{openshift_cluster_ingress_domain}[Parasol web page^] to verify everything is working as expected.
 
@@ -377,20 +391,42 @@ The new *Email Generate* menu item will appear on the left panel. Click on it.
 
 image::devhub/new_parasol_ui_web.png[]
 
-Try to submit a simple draft email content. `Type` in the follwing content in the text box.
+Try to submit a simple draft email content. Copy/paste in the following email received from a customer:
 
 [.console-input]
 [source,text]
 ----
-Hi Daniel Oh
-We have finished your claim, CLM195501.
+    Dear Parasol Insurance Team,
+
+    My name is Dominic Toretto.
+
+    I hope this email finds you well. I'm reaching out to file a claim regarding a recent incident involving my car, which is covered under my policy with Parasol. The accident occurred last night on the streets of Los Angeles, and I wanted to provide you with all the necessary details.
+
+    Location: The accident took place at the intersection of Sunset Boulevard and Vine Street in downtown Los Angeles. It was one of those crazy nights, where the streets were alive with the sound of engines and the glow of neon lights.
+
+    Circumstances: So, here's the deal. I was out cruising with the crew, enjoying the vibe of the city, when suddenly we found ourselves in the middle of a high-speed chase. There was this dude, let's call him Johnny Tran for the sake of this email, who thought he could outmaneuver us. Little did he know, we don't play by the rules.
+
+    Anyway, Johnny pulled some slick moves, cutting through traffic like a bat outta hell. Naturally, being the king of the streets that I am, I had to show him what real speed looks like. So, I hit the nitrous and went full throttle.
+
+    But then, outta nowhere, this semi-truck decided to make a left turn without signaling. I had to make a split-second decision, and I ended up launching my car off a ramp, trying to clear the truck like we're in one of those crazy action flicks. It was like something straight outta the movies, I tell ya.
+
+    Long story short, the stunt didn't exactly go as planned. My car ended up crashing into a billboard, flipping over a couple of times before finally coming to a stop. Yeah, it was a total wreck. But hey, at least we walked away without a scratch, just a little shaken, not stirred, if you catch my drift.
+
+    Damage: As for the damage to my car, let's just say its gonna need more than a few wrenches and some duct tape to fix this baby up. The front end is smashed in, the windows are shattered, and I''m pretty sure the chassis is twisted beyond recognition. It''s gonna take a miracle to get her back on the road.
+
+    I understand that accidents happen, but Im counting on Parasol to have my back in times like these. Ive been a loyal customer for years, and I trust that you'll handle my claim with the same speed and precision that I handle my rides.
+
+    Please let me know what steps I need to take to get the ball rolling on this claim. I'm ready to do whatever it takes to get my car back in top shape and back on the streets where it belongs.
+
+    Looking forward to hearing from you soon.
+
 ----
 
 Click on `Submit` to generate the email subject and body. It will take a few seconds to receive the result (generated data) from the Parasol Instruct LLM model.
 
 image::devhub/generated_email.png[]
 
-Now, you've confirmed what the new Gen AI feature (e.g, Email Generate) in the Parasol application look like and how it works.
+You've confirmed what the new Email feature in the Parasol application look like and how it works. Notice that this email includes specific details that Parasol needs, since we are using the fine-tuned model with Parasol-proprietary policy information! This will help our customer service reps in their interactions with customers.
 
 == Conclusion
 
@@ -398,6 +434,6 @@ We hope you have enjoyed this module!
 
 Here is a quick summary of what we have learned:
 
-- How Red Hat Developer Hub enables you to build, deploy, and manage AI application (Parasol).
-- How to develop a new Geneartive AI feature with LLM model using the cloud IDE, Red Hat Dev Spaces on Red Hat OpenShift.
-- How to release the new Gen AI feature using GitOps pratice in Developer Hub and Red Hat OpenShift AI.
+- How Red Hat Developer Hub enables you to build, deploy, and manage an AI application (Parasol).
+- How to develop new Generative AI features with a fine-tuned LLM model using Red Hat's cloud IDE, Red Hat Dev Spaces on Red Hat OpenShift.
+- How to release the new Gen AI feature using GitOps practices in Developer Hub and Red Hat OpenShift AI.
