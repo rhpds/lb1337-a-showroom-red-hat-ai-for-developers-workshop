@@ -286,67 +286,7 @@ Parasol Insurance's primary importance is ensuring that its staff is capable of 
 
 === Preparing the Parasol Insurance Knowledge Base
 
-As part of this process, your role is crucial. You must first add a knowledge domain to the LLM. We will follow a procedure similar to the one in the previous section and add more comprehensive knowledge for the use cases. 
-
-`git`. Let's go ahead and pull that knowledge before we get into the training process.
-Assuming that you have VSCode already open. Open a new Terminal window by clicking
-
-image::ilab/vscode-new-terminal-menu.png[Open new VSCode terminal]
-
-Run the following commands into the terminal. 
-[.console-input]
-[source,adoc]
-----
-cd taxonomy
-git remote -v
-----
-
-In the above commands we first change directory to the taxonomy, this is where InstructLab has installed the default taxonomy which is also available on https://github.com/instructlab/taxonomy.git[*github*^]. The second command shows us the remote git repository we have configured on our local machine, which is also the default. You should be able to see the following output from the above commands.
-
-[.console-output]
-[source,adoc]
-----
-origin	https://github.com/instructlab/taxonomy.git (fetch)
-origin	https://github.com/instructlab/taxonomy.git (push)
-----
-
-=== Configuring the Parasol Taxonomy Repository
-
-Next we want to be able to add our own private Parasol taxonomy and train our models with it. To do that we will configure instructLab taxonomy with the following two commands. The command will configure the remote repository, and the second command prints the git repository configuration.
-
-// This repository won't work, the knowledge is updated to version 3
-
-[.console-input]
-[source,adoc]
-----
-git remote add parasol https://github.com/rh-rad-ai-roadshow/parasol-taxonomy.git
-git remote -v
-----
-
-The command output should look as follows. And this means we have now successfully configured our private taxonomy repository.
-
-[.console-output]
-[source,adoc]
-----
-origin	https://github.com/instructlab/taxonomy.git (fetch)
-origin	https://github.com/instructlab/taxonomy.git (push)
-parasol	https://github.com/rh-rad-ai-roadshow/parasol-taxonomy.git (fetch)
-parasol	https://github.com/rh-rad-ai-roadshow/parasol-taxonomy.git (push)
-----
-
-Let's go ahead and pull the changes.
-[.console-input]
-[source,adoc]
-----
-git pull parasol main
-----
-The commad should show an output similar to the following image. It shows the different taxonomy files that are additional to the current default taxonomy. 
-
-image::ilab/terminal-pull-parasol-taxonomy.png[Parasol taxonomy pull git]
-
-Lets take a look at the files that have been pulled in from our private Parasol Insurance taxonomy. You will be able to find these files under `knowledge > economy > finance > insurance` as shown in the following screenshot.
-
-image::ilab/parasol-taxonomy-structure.png[InstructLab taxonomy structure]
+As part of this process, your role is crucial. You must first add a knowledge domain to the LLM. We will follow a procedure similar to the one in the previous section and add more comprehensive knowledge for the insurance domain. Konwledge that the LLM doesnt have and is specific to Parasol Insurance.
 
 === Understanding the Knowledge Structure
 
@@ -398,38 +338,309 @@ Each `qna.yaml` file requires a minimum of five question-answer pairs. The `qna.
   - `commit`: The SHA of the commit in your repository with your knowledge markdown files.
   - `patterns`: A list of glob patterns specifying the markdown files in your repository. Any glob pattern that starts with `*`, such as `*.md`, must be quoted due to YAML rules. For example, `"*.md"`. In our case we have placed all the knowledge documents in the https://github.com/rh-rad-ai-roadshow/parasol_knowledge[parasol-knoledge] repository.
 
-Let’s now examine the taxonomy knowledge files for Parasol Insurance. Open each file listed and observe the questions.
+
+Now that we understand the constructs of Knowledge, lets go ahead and create our knowledge base, that we will then feed into the LLM to train. This is will help our applications that ask the LLM about Parasol, furthermore it will help the Claims processing, Fraud detection or anyone who would like to ask the LLM about products, coverage, laws and some information about Parasol itself. Lets get started! 
+
+If you dont have VSCode open as explained in section 3.2, You can open it again following the instructions below:
+
+. Click the `Show Applications` icon to show all the applications.
+
+. Click the `Visual Studio Code` icon to launch Visual Studio Code.
+
+image::ilab/launch-vscode-desktop.png[Launch Podman Desktop]
+
+// [start=4]
+
+. We're going to run some commands from the terminal, so from the `Terminal` menu, select `New Terminal` to open a new terminal window.
+
+image::ilab/vscode-new-terminal-menu.png[Open new VSCode terminal] 
+
+Lets create a structure for Parasol insurance knowledge.
+To do that create folders by first right clicking on the `Knowledge` folder, and then pressing `New Folder`, as shown in the screen shot below
+
+image::ilab/ilab-taxonomy-create-folder.png[New folder] 
+
+We should create a knowledge folder structure that we can add to later as we add more knowledge and for our peers to also understand how its structured. Lets create a structure like this `knowledge > economy > finance > insurance`. In VSCode this is quite easy. In the field as shown in the image below type `economy/finance/insurance`
+
+image::ilab/ilab-taxonomy-create-folder2.png[New folder] 
+
+Perfect now we have the basic working structure. 
+
+Let’s now start adding the taxonomy knowledge files for Parasol Insurance.
 
 ==== Knowledge File: Driving Age
 // - **Driving age**: 
 
-These are question-and-answer pairs for driving rules in Alaska and New Hampshire. One document file has been added to these questions so that LLM has more context. You can inspect this document in the Parasol Knowledge repository https://github.com/rh-rad-ai-roadshow/parasol_knowledge/blob/main/teen_driving_rules.md[here].
+There are specific driving age rules for New Hampshire and Alaska for Teens driving. Lets add this information to the Model. 
 
-image::ilab/parasol-knowledge-taxonomy-drivingage.png[InstructLab taxonomy structure]
+Create a new folder `driving_age` under `knowledge > economy > finance > insurance` as shown in the image below
+
+Copy the following and add it as a new file called `qna.yaml` in the folder `driving_age` as shown in the image above. `qna.yaml` file ("qna" is short for "questions and answers")
+
+image::ilab/ilab-taxonomy-folder-driving-age.png[New folder]
+
+[.console-input]
+[source,yaml]
+----
+version: 2
+task_description: "Driving age in New hampshire and Alaska"
+created_by: sshaaf
+domain: insurance
+seed_examples:
+  - question: Whats the legal driving age for teens in Alasks?
+    answer: |
+      Drivers must be at least 14 years old to obtain an instruction permit in Alaska.
+  - question: Whats the legal driving age for teens in New Hampshire?
+    answer: |
+      Teenage drivers in New Hampshire are allowed to practice driving beginning at age 16 years and 6 months.
+  - question: When can teen drivers get a Youth Operator License?
+    answer: |
+      Beginning at age 16, teen drivers may apply for a Youth Operator license in New Hampshire,
+      assuming the teen has taken an approved driver education course.
+  - question: When does the youth operator license expire?
+    answer: |
+      It expires on the individuals 21st birthday.
+  - question: What are the rules for teens driver license in Alaska?
+    answer: |
+      Must hold permit for 6 months, and complete 40 hours driving, 10 of which should be at night.
+  - question: Can teen drive with passengers?
+    answer: |
+      Teen drivers can not drive with passengers. Restrcitons are lifted at 18 years in Alaska.
+document:
+  repo: https://github.com/sshaaf/parasol_knowledge.git
+  commit: b22cd9c
+  patterns:
+    - alaska_teen_driving_laws.md
+    - new_hampshire_driving_laws.md
+
+----
+
+And now lets also create an attribution.txt file for citing sources. Copy the following and create a new file `attribution.txt` in the folder `driving_age`
+
+[.console-input]
+[source,yaml]
+----
+Title of work: Parasol Insurance
+Link to work: https://huggingface.co/rh-rad-ai-roadshow
+License of the work: CC-BY-SA-4.0
+Creator names: Syed M Shaaf, Philip Hayes
+----
+
+A `qna.yaml` that contains a set of key/value entries with the following keys
+Each qna.yaml file requires a minimum of five question and answer pairs.
+An `attribution.txt` that includes the sources for the information used in the qna.yaml
+
 
 ==== Knowledge File: Parasol Claims Data
 // - **Parasol claims data**
 
-Here, we are adding information about the different terms and glossary for a claim specific to Parasol Insurance and its databases. A good example is `Policy ID,` a unique ID for policy in our database systems. The LLM does not know about this. By adding this, we can ensure that once a claims agent or an application asks about a policy ID, the LLM can give reasonable answers and suggestions. In our next section, we will learn more about analyzing data and craft prompts in more detail.
-You can inspect the addtional knowledge document in the Parasol Knowledge repository https://github.com/rh-rad-ai-roadshow/parasol_knowledge/blob/main/Insurance_claims_data.md[here].
+Like any insurance company on the planet, data is stored into multiple systems, files etc. Employees at Parasol Insurance either using the system for the first time or using it for e.g. detecting fraud, tyring to understand the glossary, acronyms etc. A good example is `Policy ID,` a unique ID for policy in our database systems. The LLM does not know about this. By adding this, we can ensure that once a claims agent or an application asks about a policy ID, the LLM can give reasonable answers and suggestions. 
 
-image::ilab/parasol-knowledge-taxonomy-claimsdata.png[InstructLab taxonomy structure]
+Create a new folder `parasol_claims_data` under `knowledge > economy > finance > insurance` as shown in the image below
+
+image::ilab/ilab-taxonomy-folder-claims-data.png[New folder]
+
+Copy the following and add it as a new file called `qna.yaml` in the folder `parasol_claims_data` as shown in the image above.
+
+[.console-input]
+[source,yaml]
+----
+version: 2
+task_description: "Teach a model more details about Parasol Insurance"
+created_by: sshaaf
+domain: humanities
+seed_examples:
+  - question: What is a claim status?
+    answer: |
+      Indicates the status of a cliam. 1 if a claim was made and 0 if it was not.
+  - question: Whats the application of the claims data?
+    answer: |
+      It can be used to determine Risk Assesment, Claim history, Policy detials,
+      Risk factors or external factors influencing a cliam.
+  - question: What is a policy id?
+    answer: |
+      It is the unique identifier for a Parasol insurance policy.
+      Everytime one needs to find a policy they can use this number.
+  - question: Does the number of cylinders and max_power or max_torque effect a claim?
+    answer: |
+      It does not effect the claim directly but there can be external factors such as DUI or over speeding.
+  - question: Can automatic systems, sensor, airbags reduce number of claims?
+    answer: |
+      Yes the likely hood of reducing claims increases using systems that aid the drivers.
+document:
+  repo: https://github.com/sshaaf/parasol_knowledge.git
+  commit: b22cd9c
+  patterns:
+    - Insurance_claims_data.md
+----
+
+And now lets also create an attribution.txt file for citing sources. Copy the following and create a new file `attribution.txt` in the folder `driving_age`
+
+[.console-input]
+[source,yaml]
+----
+Title of work: Parasol Insurance
+Link to work: https://huggingface.co/rh-rad-ai-roadshow
+License of the work: CC-BY-SA-4.0
+Creator names: Syed M Shaaf, Philip Hayes
+----
+
 
 ==== Knowledge File: Parasol Insurance Overview
 // - **Parasol insurance**
 
 Here, we are adding some basic information about Parasol Insurance, an overview of product details. This will enable the LLM to give answers on a high level about the different offerings, fomulate a context about Parasol Insurance, history etc. 
-You can inspect the addtional knowledge document in the Parasol Knowledge repository https://github.com/rh-rad-ai-roadshow/parasol_knowledge/blob/main/Parasol_auto_insurance.md[here].
 
-image::ilab/parasol-knowledge-taxonomy-insurance.png[InstructLab taxonomy structure]
+Create a new folder `parasol_insurance` under `knowledge > economy > finance > insurance` as shown in the image below
+
+image::ilab/ilab-taxonomy-folder-parasol-insurance.png[New folder]
+
+Copy the following and add it as a new file called `qna.yaml` in the folder `parasol_insurance` as shown in the image above.
+
+[.console-input]
+[source,yaml]
+----
+version: 2
+task_description: "Teach a model more details about Parasol Insurance"
+created_by: sshaaf
+domain: humanities
+seed_examples:
+  - question: What is Parasol Auto Insurance?
+    answer: |
+      Parasol is an Insurance company providing Car Insurance coverage to customers all over the United States.
+  - question: What products does Parasol Insurance offer?
+    answer: |
+      Bodily injury cover upto $250,000.
+      Property damage upto $100,000.
+      Medical coverage upto $5,000 per person.
+      Uninsured Motorist bodily injury upto $250,000 per person.
+      Loss of use rental cover is $50 per day.
+      The comprehensive deductable is $500.
+  - question: What is Loss of Income?
+    answer: |
+      If you are at fault, to be able to claim for your own lost wages from Parasol Insurance
+  - question: What is Uninsured and Underinsured Motorist Coverage?
+    answer: |
+      If an at-fault driver is uninsured or doesnt have enough coverage to pay for your injuries or car damage.
+  - question: What is Car Rental Insurance?
+    answer: |
+      Parasol will pay the daily rental charge incurred when an insured rents a car from a car business
+      while your car or newly acquired car is not driveable.
+  - question: What is Apex plus package?
+    answer: |
+      The Parasol insurance Apex plus package provides additional coverage to motorist on top of their insurance policy
+document:
+  repo: https://github.com/sshaaf/parasol_knowledge.git
+  commit: b22cd9c
+  patterns:
+    - Parasol_Auto_Insurance_Products.md
+    - Parasol_auto_insurance.md
+    - claims_cost_data.md
+    - vehcile_insurance_in_the_United_States.md
+
+
+----
+And now lets also create an attribution.txt file for citing sources. Copy the following and create a new file `attribution.txt` in the folder `driving_age`
+
+[.console-input]
+[source,yaml]
+----
+Title of work: Parasol Insurance
+Link to work: https://huggingface.co/rh-rad-ai-roadshow
+License of the work: CC-BY-SA-4.0
+Creator names: Syed M Shaaf, Philip Hayes
+----
 
 ==== Knowledge File: Parasol Policies
 // - **Parasol policies**
 
 Here, we are adding information specific to policies in relation to the different products. This will help our claims processing agents to ask questions about specific cases and scenarios to the LLM. The LLM should be able to suggest remedies or further knowledge to look into.
-You can inspect the addtional knowledge document in the Parasol Knowledge repository https://github.com/rh-rad-ai-roadshow/parasol_knowledge/blob/main/Parasol_auto_insurance.md[here].
 
-image::ilab/parasol-knowledge-taxonomy-products.png[InstructLab taxonomy structure]
+Create a new folder `parasol_policies` under `knowledge > economy > finance > insurance` as shown in the image below
+
+image::ilab/ilab-taxonomy-folder-parasol-policies.png[New folder]
+
+Copy the following and add it as a new file called `qna.yaml` in the folder `parasol_policies` as shown in the image above.
+
+[.console-input]
+[source,yaml]
+----
+created_by: Philip Hayes
+domain: insurance
+seed_examples:
+  - answer: Parasol will pay the daily rental charge incurred when an insured rents a car from a car business while your car or newly acquired car is not driveable or being repaired as a result of loss which would be payeable under comprehensive coverage.\n Parasol will pay this daily rental charge during the period that starts on the date the vehicle is not driveable as a result of the loss or the vehicle is left at a repair facility if the vehicle is driveable.\nPayment for car rental from Parasol insurance will end on the earliest of the date the vehicle has been repaired or replaced, the date Parasol insurance offers to pay for the loss of the vehicle if you choose to delay repairs, or seven days after Parasol insurance offers to pay for the loss if the vehicle is stolen and not recovered.\nThe amount of the car rental must be reported to Parasol insutance before we will pay such an amount.
+    question: What is the car rental policy from Parasol Insurance?
+  - answer: Parasol will pay the daily rental charge incurred when an insured rents a car from a car business while your car or newly acquired car is not driveable or being repaired as a result of loss which would be payeable under comprehensive coverage.
+    question: When will Parasol Insurance pay daily rental charge incurred?
+  - answer: Parasol will pay this daily rental charge during the period that starts on the date the vehicle is not driveable as a result of the loss or the vehicle is left at a repair facility if the vehicle is driveable.
+    question: When will Parasol Insurance start paying daily car rental charges?
+  - answer: Payment for car rental from Parasol insurance will end on the earliest of the date the vehicle has been repaired or replaced, the date Parasol insurance offers to pay for the loss of the vehicle if you choose to delay repairs, or seven days after Parasol insurance offers to pay for the loss if the vehicle is stolen and not recovered.
+    question: When will payments for Car Insurance from Parasol Insurance end?
+  - answer: The amount of the car rental must be reported to Parasol insutance before we will pay such an amount.
+    question: What needs to happen before Parasol Insurance will pay car rental charges?
+  - answer: If you are at fault, to be able to claim for your own lost wages from Parasol Insurance, you need to have the optional Apex plus package which provides coverage of loss of income insurance as part of your policy. If another driver is at fault, the at-fault driver’s auto insurance company is typically responsible for covering your lost income. 
+    question: Does Parasol insurance cover loss of income due to a car collision?
+  - answer: The Parasol insrurance Apex plus package provides additional coverage for loss of income and uninsured driver insurance on top of their insurance policy. 
+    question: What is the Parasol insurance Apex plus package?
+
+
+task_description: ""
+document:
+  repo: https://github.com/rh-rad-ai-roadshow/parasol_knowledge.git
+  commit: b22cd9c
+  patterns:
+    - Parasol_auto_insurance.md
+
+----
+And now lets also create an attribution.txt file for citing sources. Copy the following and create a new file `attribution.txt` in the folder `driving_age`
+
+[.console-input]
+[source,yaml]
+----
+Title of work: Parasol Insurance
+Link to work: https://huggingface.co/rh-rad-ai-roadshow
+License of the work: CC-BY-SA-4.0
+Creator names: Syed M Shaaf, Philip Hayes
+----
+
+=== Check that taxonomy is recognized by instructLab
+. We're going to run some commands from the terminal, so from the `Terminal` menu, select `New Terminal` to open a new terminal window.
+
+image::ilab/vscode-new-terminal-menu.png[Open new VSCode terminal]
+
+. Run the following command to check the diff:
++
+[source,bash]
+----
+cd ~/instructlab
+----
+. Activate the Python virtual environment:
++
+[source,bash]
+----
+source venv/bin/activate
+----
+. Run the data generation command:
++
+[source,bash]
+----
+ilab diff
+----
+
+After running the above command you should be able to see the following output. 
+
+[source,bash]
+----
+└─> ilab diff                                                                                                                                                                                                                                                                                    (base) 
+You are using an aliased command, this will be deprecated in a future release. Please consider using `ilab taxonomy diff` instead
+knowledge/economy/finance/insurance/parasol_claims_data/qna.yaml
+knowledge/economy/finance/insurance/driving_age/qna.yaml
+knowledge/economy/finance/insurance/parasol_insurance/qna.yaml
+knowledge/economy/finance/insurance/parasol_policies/qna.yaml
+Taxonomy in taxonomy is valid :)
+----
+
+If you do not see output similar to above. Please review all the steps above. In the next section we will genearate Synthtetic data from our QnA pairs.
 
 === Synthetic data generation
 
