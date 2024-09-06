@@ -153,130 +153,13 @@ image::ilab/launch-vscode-desktop.png[Launch Podman Desktop]
 
 image::ilab/vscode-new-terminal-menu.png[Open new VSCode terminal]
 
-== Hands on with AI Model Fine-tuning
-
-In this section, we'll walk through the process of fine-tuning an AI model using InstructLab. We'll start by setting up our environment, generating synthetic training data, training the model, and then interact with it.
-
-=== Adding training data to the Taxonomy
-
-The InstructLab taxonomy is a structured knowledge base that guides the model fine-tuning process. By customizing the taxonomy, we can add domain-specific knowledge to the model.
-
-. Open the `instructlab` directory in Visual Studio Code through the terminal:
-
-[.console-input]
-[source,bash,subs="+attributes,macros+"]
-----
-code -r .
-----
-
-. Navigate to the `taxonomy/knowledge/technology` folder  and create a `qna.yaml` file in the editor. This file will contain the questions and answers that will be used to train the model.
-
-. Add the following question and answer pair sto the `qna.yaml` file and save the changes.
-
-[source,yaml]
-----
-
-created_by: Marty_McFly
-domain: parasol
-seed_examples:
-- answer: The DeLorean was manufactured from 1981 to 1983.
-  question: When was the DeLorean manufactured?
-- answer: The DeLorean Motor Company manufactured the DeLorean DMC-12.
-  question: Who manufactured the DeLorean DMC-12?
-- answer: Transmission Repair costs between $2,500 and $4,000 for the Delorean DMC-12.
-  question: How much does it cost to repair the transmission on a DeLorean DMC-12?
-- answer: The top speed of the DeLorean DMC-12 was 110MPH and the 0-60 time was approximately 8.8 seconds.
-  question: How fast was the Delorean DMC-12?
-- answer: The DeLorean DMC-12 weighs 2,712lb (1,230kg).
-  question: How much does the DeLorean DMC-12 weigh?
-- answer: Maintenance on a DeLorean DMC-12 includes regular oil changes every 3,000 miles or 3 months,
-    brake fluid change every 2 years, transmission fluid changes every 30,000 miles, coolant change every 2 years,
-    and regularly checking the battery for corrosion and proper connection.
-  question: What does maintenance for a DeLorean DMC12 look like?
-- answer: It costs between $800 and $1000 to repair the suspension on a DeLorean DMC-12.
-  question: How much does it cost to repair the supension on a DeLorean DMC-12?
-task_description: 'Details on instructlab community project'
-document:
-  repo: https://github.com/gshipley/backToTheFuture.git
-  commit: 8bd9220c616afe24b9673d94ec1adce85320809c
-  patterns:
-    - data.md
-----
-
-This is a simple example of a question and answer pair that will be used to train the model, through the synthetic data generation process performed later.
-
-=== Generating Synthetic Training Data
-
-
-Now that we've added some initial data, let's use InstructLab to generate synthetic training data.
-
-. Open a terminal in Visual Studio Code.
-. Run the following command to generate synthetic training data:
-+
-[source,bash]
-----
-cd ~/instructlab
-----
-. Activate the Python virtual environment:
-+
-[source,bash]
-----
-source venv/bin/activate
-----
-. Run the data generation command:
-+
-[source,bash]
-----
-ilab data generate  --num-instructions 5
-----
-
-To reduce the amount of time the generation process takes, we are setting the "--num-instructions" flag to "5", the default for this value is "100". If we were generating data for a production deployment we would likely set this value even higher.
-
-This process may take some time, depending on the amount of data and the computational resources available. 
-
-Once the generation stage is complete, you should see something like
-[source,bash]
-----
-
-Q> How long does it take to accelerate to 88 miles per hour in a DeLorean DMC-12?
-I> 
-A> Approximately 8.8 seconds is needed to reach 88 mph in a Delorean DMC-12.
-
- 80%|███████████████████████████████████████████████████████████████████████████████████████████████████████████████▏                           | 4/5 [01:05<00:16, 16.51s/it]INFO 2024-09-05 18:49:21,781 generate_data.py:505: generate_data Selected taxonomy path knowledge->technology
-INFO 2024-09-05 18:49:24,075 generate_data.py:505: generate_data Selected taxonomy path knowledge->technology
-INFO 2024-09-05 18:49:26,285 generate_data.py:505: generate_data Selected taxonomy path knowledge->technology
-INFO 2024-09-05 18:49:28,449 generate_data.py:505: generate_data Selected taxonomy path knowledge->technology
-Q> What does the term “Flux capacitor” refer to in the context of a DeLorean DMC-12?
-I> 
-A> The term “Flux capacitor” refers to a component that enables time travel on a DeLorean DMC-12.
-
-100%|███████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 5/5 [01:25<00:00, 17.01s/it]
-INFO 2024-09-05 18:49:41,814 generate_data.py:609: generate_data 5 instructions generated, 4 discarded due to format (see generated/discarded_merlinite-7b-lab-Q4_K_M_2024-09-05T18_48_16.log), 0 discarded due to rouge score
-INFO 2024-09-05 18:49:41,815 generate_data.py:613: generate_data Generation took 85.28s
-
-----
-
-We can examine the output of the generation stage by taking a look at the "generated" folder in ~/instructlab
-
-within this folder you'll see 4 different files
-
-* discarded_merlinite-7b-lab-Q4_K_M_DATETIME.log: This contains a log of any generated instructions which were discarded during the generation process for any reason e.g. "didn't match expected format"
-* generated_merlinite-7b-lab-Q4_K_M_DATETIME.json: This contains the list of generated instructions plus context with which the model training instructions will be created
-* test_merlinite-7b-lab-Q4_K_M_DATETIME.jsonl: This file contains test prompts and responses which are used at the end of the training process
-* train_merlinite-7b-lab-Q4_K_M_DATETIME.jsonl: This file contains the instructions used during the train process to train the model.
-
-
-=== Training the Model with New Data
-
-With our synthetic data generated, we should now be in a position to train the model.  Because we only created 5 sample instructions and due to time contrainsts we're not going to perform the actual training in this lab.
-
-If we where to do this, we would again use the "ilab" CLI with the "model train" command
-
-Once this process was finished we would then have a model we can serve locally with ilab to test our results.
 
 == Training the Model for the Insurance Organization
 
-In the previous section, we learned the basics of InstructLab by adding knowledge, generating synthetic data, and finally, training the model. This gives us the basic understanding. In this section, we will build upon that and delve further into the biggest insurance company in North America, Parasol, which has the most extensive customer base. Parasol Insurance gets many requests to process claims, questions about different products, etc. But these requests are not just internal but also external. 
+The InstructLab taxonomy is a structured knowledge base that guides the model fine-tuning process. By customizing the taxonomy, we can add domain-specific knowledge to the model.
+
+In this section, we'll walk through the process of fine-tuning an AI model using InstructLab. We'll start by setting up our environment, generating synthetic training data, training the model, and then interact with it.
+We will build upon that and delve further into the biggest insurance company in North America, Parasol, which has the most extensive customer base. Parasol Insurance gets many requests to process claims, questions about different products, etc. But these requests are not just internal but also external. 
 
 Parasol Insurance's primary importance is ensuring that its staff is capable of handling such requests and has access to this information through a single interface rather than going through multiple systems for scrapping through documents and internal portal pages. To this effect, you have been tasked to add knowledge that will aid the following use cases. 
 
@@ -341,25 +224,22 @@ Each `qna.yaml` file requires a minimum of five question-answer pairs. The `qna.
 
 Now that we understand the constructs of Knowledge, lets go ahead and create our knowledge base, that we will then feed into the LLM to train. This is will help our applications that ask the LLM about Parasol, furthermore it will help the Claims processing, Fraud detection or anyone who would like to ask the LLM about products, coverage, laws and some information about Parasol itself. Lets get started! 
 
-If you dont have VSCode open as explained in section 3.2, You can open it again following the instructions below:
+You can open VSCode by following the instructions below:
 
-. Click the `Show Applications` icon to show all the applications.
+. Open the `instructlab` directory in Visual Studio Code through the terminal:
 
-. Click the `Visual Studio Code` icon to launch Visual Studio Code.
+[.console-input]
+[source,bash,subs="+attributes,macros+"]
+----
+code -r .
+----
 
-image::ilab/launch-vscode-desktop.png[Launch Podman Desktop]
-
-// [start=4]
-
-. We're going to run some commands from the terminal, so from the `Terminal` menu, select `New Terminal` to open a new terminal window.
-
-image::ilab/vscode-new-terminal-menu.png[Open new VSCode terminal] 
+. Navigate to the `taxonomy/knowledge/` folder  . This file will contain the questions and answers that will be used to train the model.
 
 Lets create a structure for Parasol insurance knowledge.
 To do that create folders by first right clicking on the `Knowledge` folder, and then pressing `New Folder`, as shown in the screen shot below
 
 image::ilab/ilab-taxanomy-create-folder.png[New Folder]
-
 
 We should create a knowledge folder structure that we can add to later as we add more knowledge and for our peers to also understand how its structured. Lets create a structure like this `knowledge > economy > finance > insurance`. In VSCode this is quite easy. In the field as shown in the image below type `economy/finance/insurance`
 
@@ -643,9 +523,9 @@ Taxonomy in taxonomy is valid :)
 
 If you do not see output similar to above. Please review all the steps above. In the next section we will genearate Synthtetic data from our QnA pairs.
 
-=== Synthetic data generation
+=== Generating Synthetic Training Data
 
-We can now perform the synthetic data generation from our new knowledge
+Now that we've added some initial data, let's use InstructLab to generate synthetic training data.
 
 . Open a terminal in Visual Studio Code.
 . Run the following command to generate synthetic training data:
@@ -667,9 +547,49 @@ source venv/bin/activate
 ilab data generate  --num-instructions 5
 ----
 
-=== Training the Model
+To reduce the amount of time the generation process takes, we are setting the "--num-instructions" flag to "5", the default for this value is "100". If we were generating data for a production deployment we would likely set this value even higher.
 
-As with the previous example, we're not going to perform the model training in this section due to time constraints.  
+This process may take some time, depending on the amount of data and the computational resources available. 
+
+Once the generation stage is complete, you should see something like
+[source,bash]
+----
+
+Q> How long does it take to accelerate to 88 miles per hour in a DeLorean DMC-12?
+I> 
+A> Approximately 8.8 seconds is needed to reach 88 mph in a Delorean DMC-12.
+
+ 80%|███████████████████████████████████████████████████████████████████████████████████████████████████████████████▏                           | 4/5 [01:05<00:16, 16.51s/it]INFO 2024-09-05 18:49:21,781 generate_data.py:505: generate_data Selected taxonomy path knowledge->technology
+INFO 2024-09-05 18:49:24,075 generate_data.py:505: generate_data Selected taxonomy path knowledge->technology
+INFO 2024-09-05 18:49:26,285 generate_data.py:505: generate_data Selected taxonomy path knowledge->technology
+INFO 2024-09-05 18:49:28,449 generate_data.py:505: generate_data Selected taxonomy path knowledge->technology
+Q> What does the term “Flux capacitor” refer to in the context of a DeLorean DMC-12?
+I> 
+A> The term “Flux capacitor” refers to a component that enables time travel on a DeLorean DMC-12.
+
+100%|███████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 5/5 [01:25<00:00, 17.01s/it]
+INFO 2024-09-05 18:49:41,814 generate_data.py:609: generate_data 5 instructions generated, 4 discarded due to format (see generated/discarded_merlinite-7b-lab-Q4_K_M_2024-09-05T18_48_16.log), 0 discarded due to rouge score
+INFO 2024-09-05 18:49:41,815 generate_data.py:613: generate_data Generation took 85.28s
+
+----
+
+We can examine the output of the generation stage by taking a look at the "generated" folder in ~/instructlab
+
+within this folder you'll see 4 different files
+
+* discarded_merlinite-7b-lab-Q4_K_M_DATETIME.log: This contains a log of any generated instructions which were discarded during the generation process for any reason e.g. "didn't match expected format"
+* generated_merlinite-7b-lab-Q4_K_M_DATETIME.json: This contains the list of generated instructions plus context with which the model training instructions will be created
+* test_merlinite-7b-lab-Q4_K_M_DATETIME.jsonl: This file contains test prompts and responses which are used at the end of the training process
+* train_merlinite-7b-lab-Q4_K_M_DATETIME.jsonl: This file contains the instructions used during the train process to train the model.
+
+
+=== Training the Model with New Data
+
+With our synthetic data generated, we should now be in a position to train the model.  Because we only created 5 sample instructions and due to time contrainsts we're not going to perform the actual training in this lab.
+
+If we where to do this, we would again use the "ilab" CLI with the "model train" command
+
+Once this process was finished we would then have a model we can serve locally with ilab to test our results.
 
 
 === Interacting with the Model
