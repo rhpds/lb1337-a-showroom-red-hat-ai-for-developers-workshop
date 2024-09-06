@@ -358,11 +358,12 @@ image::ilab/vscode-new-terminal-menu.png[Open new VSCode terminal]
 Lets create a structure for Parasol insurance knowledge.
 To do that create folders by first right clicking on the `Knowledge` folder, and then pressing `New Folder`, as shown in the screen shot below
 
-image::ilab/ilab-taxonomy-create-folder.png[New folder] 
+image::ilab/ilab-taxanomy-create-folder.png[New Folder]
+
 
 We should create a knowledge folder structure that we can add to later as we add more knowledge and for our peers to also understand how its structured. Lets create a structure like this `knowledge > economy > finance > insurance`. In VSCode this is quite easy. In the field as shown in the image below type `economy/finance/insurance`
 
-image::ilab/ilab-taxonomy-create-folder2.png[New folder] 
+image::ilab/ilab-taxonomy-create-folder2.png[New folder]
 
 Perfect now we have the basic working structure. 
 
