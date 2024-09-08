@@ -34,29 +34,15 @@
 
 == Adopting AI for an Enterprise Use Case
 
-As Parasol Insurance embraces the era of AI, we face a unique challenge: leveraging cutting-edge AI technology while maintaining strict control over our proprietary data and processes. This journey requires us to develop in-house AI capabilities that are as powerful as they are secure.
+As Parasol Insurance embraces the era of AI, we face a unique challenge: leveraging cutting-edge AI technology while maintaining strict control over our proprietary data and processes. This journey requires us to develop in-house AI capabilities that are as powerful as they are secure. In this exercise, you will:
 
-Our path forward involves three critical steps:
-
-. Knowledge Infusion
-* How do we incorporate Parasol's unique insurance expertise into AI models?
-. Model Customization
-* How can we fine-tune AI to address Parasol-specific scenarios and regulations?
-. Secure Deployment
-* What's the best way to integrate AI into our workflow while keeping data in-house?
+* Explore *fine-tuning* techniques for AI models, incorporating Parasol's unique insurance expertise into LLMs
+* Learn how to create and utilize a *custom knowledge base* for training AI models with organization-specific scenarios and regulations
+* Apply the *InstructLab* methodology to generate synthetic training data and specialize our model while keeping data in-house
+* Gain hands-on experience in *training and serving* a customized AI model
+* Understand the *benefits and limitations* of fine-tuning compared to other AI customization methods
 
 // image::instructlab/parasol-ai-journey.png[Parasol's Private AI Journey]
-
-== Goals of this lab
-
-In this hands-on session, you'll dive into the world of private AI development for the enterprise setting. By the end of this lab, you will:
-
-* *Understand* the fundamentals of fine-tuning and its role in creating customized, private AI models.
-* *Create* a Parasol-specific model by using the open source project InstructLab with a small amount of human-curated seed data.
-* *Generate* synthetic training data to effectively adapt a general-purpose model for Parasol's unique insurance scenarios.
-* *Train* a Large Language Model (LLM) locally with Parasol's proprietary information.
-* *Interact* with the newly trained model to verify its new domain-specific capabilities.
-* *Serve* the customized model locally before moving to production with our organization's secure infrastructure on OpenShift AI.
 
 === Enterprise Needs for an AI Model
 
@@ -82,7 +68,7 @@ https://instructlab.ai/[InstructLab] is an open-source project designed to enhan
 
 image::ilab/instructlab-components.png[InstructLab Overview]
 
-InstructLab is particularly useful for organizations like Parasol that want to leverage private AI and keep their data in-house while still benefiting from state-of-the-art language models.
+InstructLab is particularly useful for organizations that want to leverage private AI and keep their data in-house while still benefiting from state-of-the-art language models, without needing AI/ML or data science expertise.
 
 === Access your Virtual Environment
 
@@ -92,7 +78,7 @@ To begin working with InstructLab, you'll need to access the provided noNVC virt
 
 // REMOVE Once CI is updated
 
-. CLick on "Terminal"
+. Click on *Terminal*
 
 Enter the following commands
 
