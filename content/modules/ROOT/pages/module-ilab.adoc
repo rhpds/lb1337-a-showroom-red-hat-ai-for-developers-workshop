@@ -56,7 +56,7 @@ Through fine-tuning, you'll learn how to provide an LLM accurate and relevant in
 
 == Get Started with Fine-tuning
 
-Now that we've outlined Parasol's AI needs, let's dive into the process of meeting them. In this section, we'll explore how to use the InstructLab project to tailor a pre-trained language model to Parasol's specific requirements, focusing on the key areas we've identified.
+Now that we've outlined Parasol's AI needs, let's dive into the process of meeting them. In this section, we'll explore how to use the InstructLab project to tailor a foundation language model to Parasol's specific requirements, focusing on the key areas we've identified.
 
 === What is InstructLab?
 
