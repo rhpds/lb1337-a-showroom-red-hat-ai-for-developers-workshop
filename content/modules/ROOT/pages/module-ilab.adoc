@@ -14,24 +14,6 @@
 </script>
 ++++
 
-// Table of Contents & Work Responsibilities :)
-
-// 1. Get Started with InstructLab [Cedric/Shaaf]
-// 1.1. What is InstructLab [Cedric/Shaaf]
-// 1.2. Access Virtual Environment [Cedric/Shaaf]
-// 2. Hands on with AI Model Fine-tuning [Cedric]
-// 2.1. Starting from Example Data in VSCode (ex. 5 instructions) [Cedric]
-// 2.2. Generating Synthetic Training Data [Cedric]
-// 2.3. Training the Model with New Data [Cedric]
-// 2.4. Interacting with the Model [Cedric]
-// 3. Model Training for the Insurance Organization [Shaaf]
-// 3.1. Viewing the Synthetic Data Generated [Shaaf]
-// 3.2. Training the Model (15 mins) [Shaaf]
-// 3.3. Interacting with the Model [Shaaf]
-// 4. Integrating the Model in the Application Development Workflow [Cedric]
-// 4.1 Loading the Model in Podman Desktop [Cedric]
-// 4.2 Sharing the Model beyond the local environment [Shaaf]
-
 == Adapting AI Models for an Enterprise Use Case
 
 As Parasol Insurance embraces the era of AI, we face a unique challenge: leveraging cutting-edge AI technology while maintaining strict control over our proprietary data and processes. This journey requires us to develop in-house AI capabilities that are as powerful as they are secure. In this exercise, you will:
@@ -44,15 +26,15 @@ As Parasol Insurance embraces the era of AI, we face a unique challenge: leverag
 
 // image::instructlab/parasol-ai-journey.png[Parasol's Private AI Journey]
 
-=== Enterprise Needs for an AI Model
+// === Enterprise Needs for an AI Model
 
-This lab will equip you to enhance Parasol's AI capabilities in three key areas:
+// This lab will equip you to enhance Parasol's AI capabilities in three key areas:
 
-1. Generating product-specific email templates
-2. Providing comprehensive policy and product information
-3. Offering insights on relevant local regulations
+// 1. Generating product-specific email templates
+// 2. Providing comprehensive policy and product information
+// 3. Offering insights on relevant local regulations
 
-Through fine-tuning, you'll learn how to provide an LLM accurate and relevant information to provide more efficient, accurate, and compliant customer service.
+// Through fine-tuning, you'll learn how to provide an LLM accurate and relevant information to provide more efficient, accurate, and compliant customer service.
 
 === Enhancing AI Models: RAG vs Fine-Tuning
 
@@ -157,35 +139,35 @@ image::ilab/vscode-new-terminal-menu.png[Open new VSCode terminal]
 
 == Training the Model for the Insurance Organization
 
-The InstructLab taxonomy is a structured knowledge base that guides the model fine-tuning process. By customizing the taxonomy, we can add domain-specific knowledge to the model.
-
 In this section, we'll walk through the process of fine-tuning an AI model using InstructLab. We'll start by setting up our environment, generating synthetic training data, training the model, and then interacting with it. We will build upon that and delve further into the biggest insurance company in North America, Parasol, which has the most extensive customer base. Parasol Insurance gets many requests to process claims, questions about different products, etc. These requests are not just internal but also external.
 
 Parasol Insurance's primary concern is ensuring that its staff is capable of handling such requests and has access to this information through a single interface rather than going through multiple systems to scrape documents and internal portal pages. To this end, you have been tasked with adding knowledge that will aid the following use cases. 
 
-. Products and coverage
-. Basic knowledge of the Insurance rules
-. Responses to general claim questions and remedies.
+. Products and coverage (ex. providing comprehensive policy and product information)
+. Basic knowledge of the Insurance rules (ex. offering insights on relevant local regulations)
+. Responses to general claim questions and remedies (ex. generating product-specific email templates)
+
+image::ilab/parasol-insurance-chat.png[Parasol Insurance]
 
 === Preparing the Parasol Insurance Knowledge Base
 
-Your role is crucial in this process. You must first add a knowledge domain to the LLM. We will follow a procedure similar to the one in the previous section and add more comprehensive knowledge for the insurance domain. Knowledge that the LLM doesn't have and is specific to Parasol Insurance.
+The approach of fine-tuning a model allows us to shape a language model to better understand a specific domain, and fill in the gaps in its knowledge. The InstructLab taxonomy provides a structured way to guide the model fine-tuning process, enabling us to add domain-specific knowledge to the model in a heirarchical manner, similar to the example below:
+
+image::ilab/instructlab-taxonomy.png[InstructLab Taxonomy]
+
+Your role is crucial in this process. You'll be adding a knowledge domain to the LLM, using the organization's specific information, knowledge that the LLM doesn't have and is specific to Parasol Insurance. 
 
 === Understanding the Knowledge Structure
 
-Knowledge consists of data and facts and is backed by documents. When you create knowledge for a model, you're giving it additional data to more accurately answer questions.
+Knowledge consists of data and facts and is backed by documents. When you create knowledge for a model, you're giving it additional data to more accurately answer questions. Knowledge contributions in this project contain a few things:
 
-Knowledge contributions in this project contain a few things.
+* A file in a https://github.com/rh-rad-ai-roadshow/parasol_knowledge[Git repository] that holds your information. For example, these repositories can include markdown versions of information on: Parasol products, insurance domain knowledge, claims processing etc.
+* A `qna.yaml` file that asks and answers questions about the information in the git repository, with desirable responses.
+* An `attribution.txt` that includes the sources for the information used in the `qna.yaml`, which aids in transparency and accountability.
 
-- A file in a https://github.com/rh-rad-ai-roadshow/parasol_knowledge[git repository] that holds your information. For example, these repositories can include markdown versions of information on: Parasol products, insurance domain knowledge, claims processing etc.
-- A `qna.yaml` file that asks and answers questions about the information in the git repository.
-- An `attribution.txt` that includes the sources for the information used in the qna.yaml.
+LLMs have inherent limitations that make certain tasks extremely difficult, like doing math problems. They're great at other tasks, like creative writing. And they could be better at things like logical reasoning. However, these limitations can be overcome by providing them with the right knowledge (and skills, https://www.youtube.com/watch?v=_kbq-npuMC0[which InstructLab can also help with]). An LLM with knowledge helps it create a basis of information that it can learn from, then you can teach it to use this knowledge via the `qna.yaml` files. 
 
-LLMs have inherent limitations that make certain tasks extremely difficult, like doing math problems. They're great at other tasks, like creative writing. And they could be better at things like logical reasoning.
-
-An LLM with knowledge helps it create a basis of information that it can learn from, then you can teach it to use this knowledge via the qna.yaml files. In our case we want the LLM to learn more about Parasol Insurance. 
-
-A knowledge file looks as follows: 
+In our case we want the LLM to learn more about Parasol Insurance like so:
 
 [.console-input]
 [source,yaml]
@@ -197,8 +179,7 @@ domain: insurance<4>
 seed_examples:<5>
   - question: What is class imbalance in the context of Parasol insurance claims datasets?
     answer: |
-      Class imbalance refers to the situation where the number of non-claims instances far exceeds
-      that of actual claims, posing challenges for predictive modeling.
+      Class imbalance refers to the situation where the number of non-claims instances far exceeds that of actual claims, posing challenges for predictive modeling.
 
 document:<6>
   repo: https://github.com/sshaaf/parasol_knowledge.git
@@ -209,7 +190,7 @@ document:<6>
 
 Each `qna.yaml` file requires a minimum of five question-answer pairs. The `qna.yaml` format must include the following fields:
 
-<1>`version`: Defines the InstructLab taxonomy schema version
+<1> `version`: Defines the InstructLab taxonomy schema version
 <2> `task_description`: An optional description of the knowledge for easily understanding the specific knowledge contribution
 <3> `created_by`: The author of the contribution, typically a GitHub username
 <4> `domain`: Category of the knowledge
@@ -217,7 +198,9 @@ Each `qna.yaml` file requires a minimum of five question-answer pairs. The `qna.
 <6> `document`: The source of your knowledge contribution, consisting of a `repo` URL pointing to the knowlege markdown files, and `commit` SHA that contains the specific files
 <7> `patterns`: A list of glob patterns specifying the markdown files in your repository. Any glob pattern that starts with `*`, such as `*.md`, must be quoted due to YAML rules. For example, `"*.md"`. In our case we have placed all the knowledge documents in the https://github.com/rh-rad-ai-roadshow/parasol_knowledge[parasol-knoledge] repository.
 
-Now that we understand the constructs of Knowledge let's go ahead and create our knowledge base, which we will then feed into the LLM to train. This will help our applications that ask the LLM about Parasol. Furthermore, it will help with Claims processing, Fraud detection, or anyone who would like to ask the LLM about products, coverage, laws, and some information about Parasol itself. Let's get started! 
+=== Creating the Parasol Insurance Knowledge Base
+
+Now that we understand the constructs of the taxonomy's knowledge, let's go ahead and create our knowledge base, which we will then feed into the LLM to train. This will help our applications that utilize the LLM, and agents directly chatting with the model. Furthermore, it will help with claims processing, fraud detection, or anyone who would like to ask the LLM about products, coverage, laws, and some information about Parasol itself. Let's get started! 
 
 You can open VSCode by following the instructions below:
 
@@ -226,25 +209,35 @@ You can open VSCode by following the instructions below:
 [.console-input]
 [source,bash,subs="+attributes,macros+"]
 ----
-code -r .
+cd ~/instructlab && code . --reuse-window
 ----
 
+[start=2]
+. With the new window open, you can select *Yes, I trust the authors* to proceed. You'll be prompted to enter your password, `{password}`, to confirm the action.
+
+image::ilab/vscode-trust-authors.png[Trust Authors]
+
+[start=3]
 . Navigate to the `taxonomy/knowledge/` folder  . This file will contain the questions and answers that will be used to train the model.
 
-Lets create a structure for Parasol insurance knowledge.
-To do that create folders by first right clicking on the `Knowledge` folder, and then pressing `New Folder`, as shown in the screen shot below
+[start=4]
+. Lets create a structure for Parasol insurance knowledge. To do that create folders by first right clicking on the `Knowledge` folder, and then pressing `New Folder`, as shown in the screen shot below
 
 image::ilab/ilab-taxanomy-create-folder.png[New Folder]
 
-We should create a knowledge folder structure that we can add to later as we add more knowledge and for our peers to also understand how its structured. Lets create a structure like this `knowledge > economy > finance > insurance`. In VSCode this is quite easy. In the field as shown in the image below type `economy/finance/insurance`
+We should create a knowledge folder structure that we can add to later as we add more knowledge and for our peers to also understand how its structured. Lets create a structure like this `knowledge > economy > finance > insurance`. In VSCode this is quite easy. 
+
+[start=5]
+. In the field as shown in the image below type `economy/finance/insurance`
 
 image::ilab/ilab-taxonomy-create-folder2.png[New folder]
 
-Perfect now we have the basic working structure. 
+Perfect, now we have the basic working structure.  Let’s now start adding the following taxonomy knowledge files for Parasol Insurance, consisting of the following (you can expand each section to see the instructions):
 
-Let’s now start adding the taxonomy knowledge files for Parasol Insurance.
+=== Knowledge File #1: Driving Age
 
-==== Knowledge File: Driving Age
+[%collapsible]
+====
 // - **Driving age**: 
 
 There are specific driving age rules for New Hampshire and Alaska for Teens driving. Lets add this information to the Model. 
@@ -305,11 +298,12 @@ Creator names: Syed M Shaaf, Philip Hayes
 A `qna.yaml` that contains a set of key/value entries with the following keys
 Each qna.yaml file requires a minimum of five question and answer pairs.
 An `attribution.txt` that includes the sources for the information used in the qna.yaml
+====
 
-
-==== Knowledge File: Parasol Claims Data
+=== Knowledge File #2: Parasol Claims Data
 // - **Parasol claims data**
-
+[%collapsible]
+====
 Like any insurance company on the planet, data is stored into multiple systems, files etc. Employees at Parasol Insurance either using the system for the first time or using it for e.g. detecting fraud, tyring to understand the glossary, acronyms etc. A good example is `Policy ID,` a unique ID for policy in our database systems. The LLM does not know about this. By adding this, we can ensure that once a claims agent or an application asks about a policy ID, the LLM can give reasonable answers and suggestions. 
 
 Create a new folder `parasol_claims_data` under `knowledge > economy > finance > insurance` as shown in the image below
@@ -360,10 +354,14 @@ Link to work: https://huggingface.co/rh-rad-ai-roadshow
 License of the work: CC-BY-SA-4.0
 Creator names: Syed M Shaaf, Philip Hayes
 ----
+====
 
 
-==== Knowledge File: Parasol Insurance Overview
+=== Knowledge File #3: Parasol Insurance Overview
 // - **Parasol insurance**
+
+[%collapsible]
+====
 
 Here, we are adding some basic information about Parasol Insurance, an overview of product details. This will enable the LLM to give answers on a high level about the different offerings, fomulate a context about Parasol Insurance, history etc. 
 
@@ -426,9 +424,14 @@ Link to work: https://huggingface.co/rh-rad-ai-roadshow
 License of the work: CC-BY-SA-4.0
 Creator names: Syed M Shaaf, Philip Hayes
 ----
+====
 
-==== Knowledge File: Parasol Policies
+
+=== Knowledge File #4: Parasol Policies
 // - **Parasol policies**
+
+[%collapsible]
+====
 
 Here, we are adding information specific to policies in relation to the different products. This will help our claims processing agents to ask questions about specific cases and scenarios to the LLM. The LLM should be able to suggest remedies or further knowledge to look into.
 
@@ -478,6 +481,9 @@ Link to work: https://huggingface.co/rh-rad-ai-roadshow
 License of the work: CC-BY-SA-4.0
 Creator names: Syed M Shaaf, Philip Hayes
 ----
+====
+
+// Cedric has stopped here, will continue later :P
 
 === Check that taxonomy is recognized by instructLab
 . We're going to run some commands from the terminal, so from the `Terminal` menu, select `New Terminal` to open a new terminal window.
