@@ -320,7 +320,7 @@ Open `src/main/resources/application.properties` and make the following changes:
 - Add `quarkus.dev-ui.hosts={user}-parasol-insurance-quarkus-devui{openshift_cluster_ingress_domain}`
 
 [.console-input]
-[source,properties]
+[source,properties,subs="+attributes,macros+"]
 ----
 # quarkus.langchain4j.openai.parasol-chat.chat-model.stop=DONE,done,stop,STOP
 quarkus.langchain4j.openai.parasol-chat.chat-model.model-name=llama3.1
