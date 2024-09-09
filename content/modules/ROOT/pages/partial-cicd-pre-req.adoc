@@ -13,6 +13,8 @@ image::devhub/frontend_argohistory.png[]
 
 Click on `TOPOLOGY` to review your deployment status. Then, you will see the deployment *parasol-app-{user}* in the Topology.
 
+NOTE: If the deployment shows up as **red**, make sure to wait until the **Pipeline Run** on the `CI` tab completes successfully.
+
 image::devhub/parasol_deployment.png[]
 
 === Verify the deployment
@@ -39,7 +41,7 @@ As a Parasol customer service representative, try to ask any questions about the
 Please clarify the policy coverage for this specific claim.
 ----
 
-Then, click on `paper airplane` icon to send the query. The AI chatbot will connect to the trained Parasol LLM and respond with an answer.
+Then, click on `paper airplane` icon (or press `Enter`) to send the query. The AI chatbot will connect to the trained Parasol LLM and respond with an answer.
 
 [NOTE]
 ====
