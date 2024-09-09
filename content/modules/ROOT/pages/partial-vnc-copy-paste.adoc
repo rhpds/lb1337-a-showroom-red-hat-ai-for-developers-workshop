@@ -1,0 +1,25 @@
+:imagesdir: ../assets/images
+:sectnums:
+:experimental:
+
+=== Copy/Paste in your VNC environment
+
+In the noVNC environment, you cannot directly copy content from your local machine and paste into the remote desktop. Instead, there is an intermediate clipboard which you can use for this purpose. Anytime you need to copy/paste from a block of text or code from these instructions into the noVNC desktop, just click on the icon to copy it to your local clipboard:
+
+image::discovery/copypaste1.png[Copy Paste instructions]
+
+Next, click the small arrow at the far left to open the noVNC control panel, and click the _Clipboard_ icon. This will show the current content of the clipboard, which should be the content you just copied.
+
+To paste the content, position the cursor in the field in which you wish to paste into, and press the paste command (usually kbd:[CTRL+V]):
+
+image::discovery/copypaste2.png[Copy Paste instructions]
+
+In some apps (e.g. VSCode), you can position the cursor at the paste point, and right-click in the field and select _Paste_:
+
+image::discovery/copypaste3.png[Copy Paste instructions]
+
+Another option is to open these instructions in a browser within the VNC environment, which does not require using the intermediate clipboard. To do this, Click on _Activities_ and open the _Firefox_ browser, and type in `red.ht/rad-instructions` into the browser.
+
+image::discovery/copypaste4.png[Copy Paste instructions]
+
+With this option, you simply click the same button at the upper right of the text you wish to copy, and then move the cursor to where you wish to paste, and press kbd:[Ctrl+V] (or in some apps such as a Linux terminal, kbd:[Ctrl+Shift+V]).
