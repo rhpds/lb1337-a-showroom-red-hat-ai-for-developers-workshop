@@ -14,9 +14,9 @@ Red Hat Developer Hub has already been installed and configured in the workshop 
 
 === Access Red Hat Developer Hub
 
-Red Hat Developer Hub can integrate with https://access.redhat.com/products/red-hat-single-sign-on/[Red Hat Single Sign On (RH-SSO)^] to enhance security and user experience for developers within an organization. By integrating with RH-SSO, developers only need to log in once to access both RHDH and other applications secured by RH-SSO. This eliminates the need to manage multiple login credentials for different developer tools and services. RH-SSO can centralize user authentication and authorization to strengthen security by ensuring only authorized users can access RHDH and other protected resources. In addition, The platform engineer team can manage user access and permissions centrally through RH-SSO, simplifying administration and reducing the risk of unauthorized access.
+Red Hat Developer Hub integrates with https://access.redhat.com/products/red-hat-single-sign-on/[Red Hat Single Sign On (RH-SSO)^] to enhance security and user experience for developers within an organization. By integrating with RH-SSO, developers only need to log in once to access both RHDH and other applications secured by RH-SSO. This eliminates the need to manage multiple login credentials for different developer tools and services. RH-SSO centralizes user authentication and authorization to strengthen security by ensuring only authorized users can access RHDH and other protected resources. In addition, The platform engineering team can manage user access and permissions centrally through RH-SSO, simplifying administration and reducing the risk of unauthorized access.
 
-To get started, *access* https://backstage-backstage{openshift_cluster_ingress_domain}[Red Hat Developer Hub Dashboard^] to authenticate by the *GitLab*.
+To get started, *access* https://backstage-backstage{openshift_cluster_ingress_domain}[Red Hat Developer Hub Dashboard^] to authenticate by *GitLab*.
 
 Choose the *GitLab* option.
 
@@ -68,7 +68,7 @@ parasol-app-{user}
 
 * *Group Id*: Maven Group Id. (leave this as-is)
 * *Artifact Id*: Maven Artifact Id. (leave this as-is)
-* *Java Package Name*: Name for the java package. e.g., (com.redhat.example) (leave this as-is)
+* *Java Package Name*: Name for the java package. (e.g. `org.redhat.janus` - leave this as-is)
 
 image::devhub/st_app_info.png[]
 
@@ -96,7 +96,7 @@ When you click on *Review*, you will see the following review information.
 
 image::devhub/st_component_review.png[]
 
-click on *Create* to proceed.
+Click on *Create* to proceed.
 
 == Observe the application overview
 
@@ -109,6 +109,8 @@ When all of the initialization steps are successful (green check mark), click `O
 image::devhub/task_activity.png[]
 
 Dev Hub will open a new tab with the component information. Take a few moments to review the Deployment summary on the overview page.
+
+NOTE: It may take a minute or two for items to appear in the **Deployment summary** section.
 
 image::devhub/parasol_overview.png[]
 
