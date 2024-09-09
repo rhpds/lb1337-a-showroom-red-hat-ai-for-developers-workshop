@@ -22,7 +22,7 @@ In this lab we're going to use a trained model which has been fine tuned with Pa
 
 To test the responses to ensure they are accurate we're going to use another model (an embedding model) to test for similarity between two sentences.
 
-Embedding is a means of representing objects like text, images and audio as points in a continuous vector space where the locations of those points in space are semantically meaningful to machine learning (ML) algorithms. Embedding enables machine learning models to find similar objects.  Our tests will use an embedding model served by OpenShift AI to compare two strings semantically to ensure there are similar enough to pass a threshold.
+NOTE: Embedding is a means of representing objects like text, images and audio as points in a continuous vector space where the locations of those points in space are semantically meaningful to machine learning (ML) algorithms. Embedding enables machine learning models to find similar objects.  Our tests will use an embedding model served by OpenShift AI to compare two strings semantically to ensure there are similar enough to pass a threshold.
 
 :imagesdir: ../assets/images
 :sectnums:
@@ -57,16 +57,39 @@ As we mentioned in the goals section, we're going to use two models to perform t
 
 There are a four things to take note of in this JSON file.
 
-1. "PARASOL_MODEL_URL": This is the url of the pre-trained model with knowledge of the Parasol inurance company and it's products.  This model is hosted by OpenShift AI.
+1. "PARASOL_MODEL_URL": This is the url of the pre-trained model with knowledge of the Parasol inurance company and it's products.  This model is hosted by OpenShift AI.  Because we're accessing the model from an application running on OpenShift Dev Spaces, we are able to use the internal OpenShift route to connect.
 2. "PARASOL_MODEL_NAME": The name of the model as configured in OpenShift AI
 3. "EMBEDDING_MODEL_URL": This is the url of the embedding model hosted by OpenShift AI.  The embedding model is used by our tests to compare the response from the trained model with a pre-defined example for similarity.
-4. "NODE_TLS_REJECT_UNAUTHORIZED": This is disabled allowing Node.js to make calls to SSL connections with self signed certs.  Our models served by OpenShift AI are using self signed certs, in a production environment this would not be the case.
+
+== The initial set of tests
+
+We have included an initial set of tests which should pass when run against the "Parasol Chat" model.  
+
+For each of these tests we're provided an expected response, so for example, when we ask the question: "In one sentence, who founded Parasol Insurance?" we should get a response similar to: "Parasol Insurance was founded in 1936 by James Falkner and James Labocki."
+
+This test is described using:
+
+[source,javascript]
+----
+  test('should pass when model is asked who founded Parasol insurance', async () => {
+    await expect(await callModel('In one sentence, who founded Parasol Insurance? ')).toMatchSemanticSimilarity(
+      "Parasol Insurance was founded in 1936 by James Falkner and James Labocki.",
+      0.9
+    );
+  }, 10000);
+----
+
+If you take a look at the code above, you can see we are calling the model with the Asynchronous function "callModel".
+
+We are then testing the response from the model to ensure it matches semantic similarity a given sample response using "toMatchSemanticSimilarity".
+
+The semantic similarity between the response and the example response needs to be above 0.9 (with a similiarity of 1 being an exact match)
 
 == Install Node modules
 
 Before we get started running these tests, we need to install the required NPM modules, to do this, follow these instructions.
 
-Open a Terminal window.
+Open a Terminal window in your OpenShift Dev Spaces workspace.
 
 image::devhub/new-terminal.png[new-terminal, 500]
 
@@ -99,6 +122,8 @@ image::model-testing/run-tests.png[npm_output, 800]
 When the test run is complete you should see
 
 image::model-testing/run-complete.png[npm_output, 800]
+
+Both of the tests should have passed successfully.  
 
 == Adding a new test
 
@@ -176,8 +201,8 @@ We hope you have enjoyed this module!
 
 Here is a quick summary of what we have learned:
 
-- How to use prompt testing tool "promptfoo" to test responses from a trained LLM
-- How an embedding model can be used to test for the similarity of two strings
-- How to add and run a new test to test a response from a customer claim query.
+- Responses from LLMs are not deterministic, we need to use different techniques to test LLM integrations.
+- Embedding models can be used to test for the similarity of two strings
+- How to add and run a new test to ensure an LLM response from a customer claim query is similar to an expected example.
 
 
