@@ -32,7 +32,7 @@
 // 4.1 Loading the Model in Podman Desktop [Cedric]
 // 4.2 Sharing the Model beyond the local environment [Shaaf]
 
-== Adopting AI for an Enterprise Use Case
+== Adapting AI Models for an Enterprise Use Case
 
 As Parasol Insurance embraces the era of AI, we face a unique challenge: leveraging cutting-edge AI technology while maintaining strict control over our proprietary data and processes. This journey requires us to develop in-house AI capabilities that are as powerful as they are secure. In this exercise, you will:
 
@@ -53,6 +53,14 @@ This lab will equip you to enhance Parasol's AI capabilities in three key areas:
 3. Offering insights on relevant local regulations
 
 Through fine-tuning, you'll learn how to provide an LLM accurate and relevant information to provide more efficient, accurate, and compliant customer service.
+
+=== Enhancing AI Models: RAG vs Fine-Tuning
+
+When customizing AI models, two techniques stand out: Retrieval-Augmented Generation (RAG) and fine-tuning. 
+
+* *Fine-tuning* excels when you need precise, controlled outputs for specialized tasks using curated data. It's ideal for applications where security and compliance require embedding all data within the model. Fine-tuning is also suitable when you have clear use cases with specific task requirements.
+
+* In contrast, *Retrieval-Augmented Generation (RAG)* is best when you need real-time access to dynamic knowledge bases, especially in environments with constantly updating information. RAG allows for scalability and handles out-of-domain queries effectively without the need for retraining, making it quick solution for improving model output. However, by providing contextual information to the model for each prompt, your expenses and computer resources may be higher than "baking-in" information into the model through fine-tuning.
 
 == Get Started with Fine-tuning
 
