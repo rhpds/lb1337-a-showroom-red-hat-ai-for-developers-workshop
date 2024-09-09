@@ -1,4 +1,4 @@
-= Parasol AI Developer Workflow - 70 minutes
+= Parasol AI Developer Workflow - 50 minutes
 :imagesdir: ../assets/images
 :sectnums:
 
