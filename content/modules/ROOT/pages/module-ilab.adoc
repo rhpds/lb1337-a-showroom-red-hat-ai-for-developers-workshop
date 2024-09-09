@@ -193,6 +193,8 @@ Perfect! Now we have the basic working structure.
 
 Let's now start adding the taxonomy knowledge files for Parasol Insurance.
 
+include::partial-vnc-copy-paste.adoc[]
+
 ==== Knowledge File: Driving Age
 // - **Driving age**:
 
