@@ -359,6 +359,12 @@ image::discovery/text-summarization-app-retest.png[Podman AI Lab Text Summarizat
 
 Compare this new output with the previous summarization to see how the changes in the `refine_template` have improved the relevance and specificity of the summary for insurance claim processing.
 
+== Cleanup
+
+To save resources, be sure to stop the containers running our apps and services. To do this, in Podman Desktop, click the _Containers_ tab, select all containers, and click the trash can icon, and confirm that you wish to delete them:
+
+image::discovery/cleanup.png[Cleanup]
+
 == Conclusion
 
 This demonstrates how developers can leverage the Podman AI Lab to quickly prototype, test, and refine AI-powered applications for their organization's unique requirements. Here's a quick summary of what we have learned:
