@@ -8,6 +8,10 @@ content:
   - url: .
     start_path: content
 
+asciidoc:
+  extensions:
+    - ./content/lib/remote-include-processor.js
+
 ui:
   bundle:
     url: https://github.com/rhpds/rhdp_showroom_theme/releases/download/v0.0.1/ui-bundle.zip
