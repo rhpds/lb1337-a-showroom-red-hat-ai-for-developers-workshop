@@ -77,15 +77,18 @@ To begin working with InstructLab, you'll need to access the provided noNVC virt
 NOTE: The following step will be removed once the CI is updated.
 
 [start=2]
-. Click on *Terminal*, and enter the following commands:
+. Click on *Terminal*, and enter the following commands that can be found in the *Details*:
+
+[%collapsible]
+====
 
 [.console-input]
 [source,bash,subs="+attributes,macros+"]
 ----
 curl -L -o files/vscode.rpm 'https://code.visualstudio.com/sha/download?build=stable&os=linux-rpm-x64'
-sudo dnf install xdg-utils
+sudo dnf install -y xdg-utils
 sudo rpm -ivh files/vscode.rpm
-sudo dnf -y install zip gcc glibc-devel zlib-devel 
+sudo dnf -y install zip gcc glibc-devel zlib-devel firefox
 curl -s "https://get.sdkman.io" | bash
 source "/home/instruct/.sdkman/bin/sdkman-init.sh"
 sdk install java 21.0.3-tem
@@ -119,7 +122,20 @@ serve:
   max_ctx_size: 4096
   model_path: models/merlinite-7b-lab-Q4_K_M.gguf
 EOF
+
+curl -Lo ~/instructlab/models/parasol-model.gguf https://huggingface.co/rh-rad-ai-roadshow/parasol-merlanite-trained-GGUF/resolve/main/parasol-model-0715-sdg400.gguf?download=true
+
+
+curl -Lo ~/Documents/marty-mcfly-auto.pdf https://raw.githubusercontent.com/rh-rad-ai-roadshow/parasol-insurance/main/app/src/main/resources/claims/marty-mcfly-auto.pdf
+
+cd ~
+git clone https://github.com/rh-rad-ai-roadshow/parasol-insurance.git
+cd parasol-insurance/app
+./mvnw clean package -DskipTests
+nohup java -jar -Dquarkus.langchain4j.openai.parasol-chat.base-url=http://localhost:8000/v1 target/quarkus-app/quarkus-run.jar > ~/quarkus.out 2>&1 &
 ----
+
+====
 
 // End of Remove block
 
@@ -139,9 +155,9 @@ image::ilab/launch-vscode-desktop.png[Launch Podman Desktop]
 image::ilab/vscode-new-terminal-menu.png[Open new VSCode terminal]
 
 
-== Training the Model for the Insurance Organization
+== Model Fine-Tuning for the Insurance Organization
 
-In this section, we'll walk through the process of fine-tuning an AI model using InstructLab. We'll start by setting up our environment, generating synthetic training data, training the model, and then interacting with it. We will build upon that and delve further into the biggest insurance company in North America, Parasol, which has the most extensive customer base. Parasol Insurance gets many requests to process claims, questions about different products, etc. These requests are not just internal but also external.
+In the next few sections, we'll walk through the process of fine-tuning an AI model using InstructLab. We'll start by setting up our environment, generating synthetic training data, training the model, and then interacting with it. We will build upon that and delve further into the biggest insurance company in North America, Parasol, which has the most extensive customer base. Parasol Insurance gets many requests to process claims, questions about different products, etc. These requests are not just internal but also external.
 
 Parasol Insurance's primary concern is ensuring that its staff is capable of handling such requests and has access to this information through a single interface rather than going through multiple systems to scrape documents and internal portal pages. To this end, you have been tasked with adding knowledge that will aid the following use cases.
 
@@ -234,7 +250,11 @@ We should create a knowledge folder structure that we can add to later as we add
 
 image::ilab/ilab-taxonomy-create-folder2.png[New folder]
 
-Perfect, now we have the basic working structure.  Let’s now start adding the following taxonomy knowledge files for Parasol Insurance, consisting of the following (you can expand each section to see the instructions):
+Perfect, now we have the basic working structure to add in specific knowledge about our organization.
+
+== Curating the Data for our AI Model
+
+Let’s now start adding the following taxonomy knowledge files for Parasol Insurance, consisting of the following (you can expand each section to see the instructions):
 
 === Knowledge File #1: Driving Age
 
@@ -487,7 +507,10 @@ Creator names: Syed M Shaaf, Philip Hayes
 
 // Cedric has stopped here, will continue later :P
 
-=== Check that taxonomy is recognized by instructLab
+=== Check that the Taxonomy is Recognized by InstructLab
+
+Now that we've added data, let's check that the taxonomy is recognized by InstructLab. This will help us ensure that the data we've added is valid and can be used to generate synthetic training data.
+
 . We're going to run some commands from the terminal, so from the `Terminal` menu, select `New Terminal` to open a new terminal window.
 
 image::ilab/vscode-new-terminal-menu.png[Open new VSCode terminal]
@@ -524,30 +547,39 @@ knowledge/economy/finance/insurance/parasol_policies/qna.yaml
 Taxonomy in taxonomy is valid :)
 ----
 
-If you do not see output similar to above. Please review all the steps above. In the next section we will generate synthtetic data from our Q&A pairs.
+If you do not see output similar to above, you may not have added in all of the Q&A files. This is important as the model will use these files to generate synthetic data in the next section.
 
-=== Generating Synthetic Training Data
+== Generating Synthetic Training Data & Training the New Model
 
-Now that we've added some initial data, let's use InstructLab to generate synthetic training data.
+Now that we've added some initial data, let's use InstructLab to generate synthetic training data. Large Language Models inherently require a large amount of data to be effective, and it can be difficult to find enough real-world data for a niche domain. However, by using InstructLab, we can generate synthetic data that can be used to train the model. 
 
 . Open a terminal in Visual Studio Code.
+
+image::ilab/vscode-new-terminal-menu.png[Open new VSCode terminal]
+
+[start=2]
 . Run the following command to generate synthetic training data:
 +
-[source,bash]
+[.console-input]
+[source,bash,subs="+attributes,macros+"]
 ----
 cd ~/instructlab
 ----
 
+[start=3]
 . Activate the Python virtual environment:
 +
-[source,bash]
+[.console-input]
+[source,bash,subs="+attributes,macros+"]
 ----
 source venv/bin/activate
 ----
 
+[start=4]
 . Run the data generation command:
 +
-[source,bash]
+[.console-input]
+[source,bash,subs="+attributes,macros+"]
 ----
 ilab data generate  --num-instructions 5
 ----
@@ -616,7 +648,8 @@ If we were to do this, we would again use the "ilab" CLI with the "model train" 
 
 We have provisioned a trained model in the folder `~/instructlab/models` called `parasol-model.gguf`. Serve this model by running the following command in the terminal:
 
-[source,bash]
+[.console-input]
+[source,bash,subs="+attributes,macros+"]
 ----
 ilab model serve --model-path ~/instructlab/models/parasol-model.gguf
 ----
@@ -638,7 +671,8 @@ image::ilab/second-terminal.png[Launch Activities]
 
 In the new terminal, run the following command to begin a chat session with the model:
 
-[source,bash]
+[.console-input]
+[source,bash,subs="+attributes,macros+"]
 ----
 cd ~/instructlab
 source venv/bin/activate
@@ -653,7 +687,9 @@ We can now ask the trained model some parasol specific questions such as:
 
 - What is Apex plus from parasol insurance?
 
-The answers are specific to Parasol's policies and demonstrate the ability for organizations to fine-tune models with their own data, to improve the accuracy of responses, which can be used in many use cases.
+image::ilab/new-model-responses.png[Launch Activities]
+
+The answers are specific to Parasol's policies and demonstrate the ability for organizations to fine-tune models with their own data, to improve the accuracy of responses, which can be used in many use cases. 
 
 == Conclusion
 
@@ -661,12 +697,13 @@ This exercise showed how organizations can leverage fine tuning with InstructLab
 
 * You Learned about *fine-tuning* techniques for AI models, incorporating Parasol's unique insurance expertise into LLMs
 * Your also learned how to create and utilize a *custom knowledge base* for training AI models with organization-specific scenarios and regulations
-* You applied the *InstructLab* methodology to generate synthetic training data and specialize our model while keeping data in-house
+* Apply the https://arxiv.org/abs/2403.01081[*LAB methodology*] to generate synthetic training data and specialize our model while keeping data in-house
 * You gained hands-on experience in *training and serving* a customized AI model
 * You understand the *benefits and limitations* of fine-tuning compared to other AI customization methods
 
 These skills and tools will be invaluable as you continue to develop AI-enabled applications at Parasol Insurance, allowing you to quickly iterate on ideas and integrate powerful AI capabilities into your workflow.
 
+[#appendix]
 == Appendix
 
 These commands install VSCode and a few other needed tools. You should not have to run these, it's only here for reference.
@@ -682,6 +719,7 @@ curl -s "https://get.sdkman.io" | bash
 source "/home/instruct/.sdkman/bin/sdkman-init.sh"
 sdk install java 21.0.3-tem
 pip install 'numpy<2.0'
+
 cat <<EOF >> /home/instruct/instructlab/config.yaml
 chat:
   context: default
@@ -710,4 +748,15 @@ serve:
   max_ctx_size: 4096
   model_path: models/merlinite-7b-lab-Q4_K_M.gguf
 EOF
+
+curl -Lo ~/instructlab/models/parasol-model.gguf https://huggingface.co/rh-rad-ai-roadshow/parasol-merlanite-trained-GGUF/resolve/main/parasol-model-0715-sdg400.gguf?download=true
+
+
+curl -Lo ~/Documents/marty-mcfly-auto.pdf https://raw.githubusercontent.com/rh-rad-ai-roadshow/parasol-insurance/main/app/src/main/resources/claims/marty-mcfly-auto.pdf
+
+cd ~
+git clone https://github.com/rh-rad-ai-roadshow/parasol-insurance.git
+cd parasol-insurance/app
+./mvnw clean package -DskipTests
+nohup java -jar -Dquarkus.langchain4j.openai.parasol-chat.base-url=http://localhost:8000/v1 target/quarkus-app/quarkus-run.jar > ~/quarkus.out 2>&1 &
 ----
