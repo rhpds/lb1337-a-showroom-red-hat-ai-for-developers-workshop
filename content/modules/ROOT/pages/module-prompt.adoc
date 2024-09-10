@@ -24,6 +24,16 @@ You'll start by reviewing examples of tools that can be used to experiment with 
 
 This hands-on exercise will empower you to refine your prompting techniques, ultimately enhancing the overall effectiveness of Parasol's AI initiatives.
 
+== Prompt Engineering vs. Other Techniques
+
+In this workshop you'll explore a variety of techniques you as a developer can use to interact with LLMs. Understanding the tradeoffs between different techniques can help you make strategic decisions about which AI resource to deploy for your needs - and it's possible you may use more than one method at a time.
+
+Prompt engineering is the most basic and least technical way to interact with an LLM Compared to other techniques you'll encounter in this workshop (such as Retrieval Augmented Generation (RAG), Tools/Agents, or model fine-tuning), prompt engineering requires less data (it uses only what the model was pretrained on) and has a low cost (it uses only existing tools and models), but is unable to create outputs based on up-to-date or changing information. Additionally, output quality is dependent on phrasing of the prompt, meaning that responses can be inconsistent.
+
+image::prompt/prompt-rag-tuning-graph.png[comparison of tuning techniques]
+
+You might choose to use prompt engineering over other techniques if you're looking for a user-friendly and cost-effective way to extract information about general topics without requiring a lot of detail.
+
 == Chat Playgrounds
 
 There are many tools and approaches available to you as the AI application developer to interface an LLM.  We will briefly review a few of these and then make a recommendation for you to follow with the subsequent steps of this module.
@@ -54,7 +64,7 @@ The *system prompt* is entered with new chat sessions using the System text fiel
 
 _Temperature_ and _Max Tokens_ can be changed in the Dev UI Configuration view.  If necessary, navigate to the configuration screen and then use the Search bar to find and change the default values.  (Please note that the default settings are sufficient for completing today's exercises.)
 
-==== Adjust Temperature through the Dev UI Configuration View 
+==== Adjust Temperature through the Dev UI Configuration View
 
 [.console-output]
 [source,text]
@@ -111,7 +121,7 @@ Run the following command from the cli using the terminal window just created:
 ./mvnw quarkus:dev
 ----
 
-You will be prompted that a new application was detected with an open web port. Acknowledge this and choose to open in a new tab.  
+You will be prompted that a new application was detected with an open web port. Acknowledge this and choose to open in a new tab.
 
 Access the http://{user}-parasol-insurance-quarkus-devui{openshift_cluster_ingress_domain}/q/dev-ui[Quarkus Dev UI^].
 
@@ -310,7 +320,7 @@ If $80,000 is allocated towards a new server and add $15,000 from other savings,
 how much is left in the budget?
 ----
 
-Thinking through this problem, you'll notice that the answer is not *$5,000* as the LLM indicates. 
+Thinking through this problem, you'll notice that the answer is not *$5,000* as the LLM indicates.
 
 image::prompt/wrong_answer_cot.png[wrong_answer_cot]
 
