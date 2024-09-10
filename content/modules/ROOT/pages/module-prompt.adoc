@@ -69,7 +69,7 @@ image::prompt/devui-change-temperature.png[Change Temperature with Dev UI Chat P
 [.console-input]
 [source,text,subs="+attributes,macros+"]
 ----
-openai.chat-model.max-tokens`
+openai.chat-model.max-tokens
 ----
 
 image::prompt/devui-change-max-tokens.png[Change Max Tokens with Dev UI Chat Playground]
@@ -341,9 +341,9 @@ As the AI Developer, you have been given access to a robust LLM that has already
 *Your Functional Requirements:*
 
 * Analyze the customer email and provide the email address of the team best suited to respond.
-** *New Claim* - New insurance claims should be sent to the claims representatives team at `new.claim@parasol.com`
-** *Existing Claims* - Follow-ups about existing claims should be sent to the claims adjusters team at `existing.claim@parasol.com`
-** *Unrelated* - Forward messages that are generic Parasol Insurance questions and unrelated to claims to customer service at `customer.service@parasol.com`
+** *New Claim* - New insurance claims should be sent to the claims representatives team at `\new.claim@parasol.com`
+** *Existing Claims* - Follow-ups about existing claims should be sent to the claims adjusters team at `\existing.claim@parasol.com`
+** *Unrelated* - Forward messages that are generic Parasol Insurance questions and unrelated to claims to customer service at `\customer.service@parasol.com`
 ** *Unknown* - In the event that the message isn't business relevant or is nonsensical, the email should be a customer reply with a generic error response.
 * Generate an email response for the customer indicating the action we are taking from their email.
 * Respond with a JSON response that provides the following fields:
@@ -360,13 +360,13 @@ As the AI Developer, you have been given access to a robust LLM that has already
 
 * Output must be one of the following, where <Customer Comment> is a brief explanation to the customer describing why the email is being forwarded and to whom:
 
-`{ "address": "new.claim@parasol.com", "subject": "<Email Subject>", "message": "<Customer Comment>" }`
+`{ "address": "\new.claim@parasol.com", "subject": "<Email Subject>", "message": "<Customer Comment>" }`
 
-`{ "address": "existing.claim@parasol.com", "subject": "<Email Subject>", "message": "<Customer Comment>" }`
+`{ "address": "\existing.claim@parasol.com", "subject": "<Email Subject>", "message": "<Customer Comment>" }`
 
-`{ "address": "customer.service@parasol.com", "subject": "<Email Subject>", "message": "<Customer Comment>" }`
+`{ "address": "\customer.service@parasol.com", "subject": "<Email Subject>", "message": "<Customer Comment>" }`
 
-`{ "address": "discard@parasol.com", "subject": "<Email Subject>", "message": "<Customer Comment>" }`
+`{ "address": "\discard@parasol.com", "subject": "<Email Subject>", "message": "<Customer Comment>" }`
 
 
 === Write a prompt!
