@@ -56,8 +56,8 @@ _Temperature_ and _Max Tokens_ can be changed in the Dev UI Configuration view. 
 
 ==== Adjust Temperature through the Dev UI Configuration View 
 
-[.console-input]
-[source,text,subs="+attributes,macros+"]
+[.console-output]
+[source,text]
 ----
 openai.parasol-chat.chat-model.temperature
 ----
@@ -66,8 +66,8 @@ image::prompt/devui-change-temperature.png[Change Temperature with Dev UI Chat P
 
 ==== Adjust Max Tokens through the Dev UI Configuration View
 
-[.console-input]
-[source,text,subs="+attributes,macros+"]
+[.console-output]
+[source,text]
 ----
 openai.chat-model.max-tokens
 ----
