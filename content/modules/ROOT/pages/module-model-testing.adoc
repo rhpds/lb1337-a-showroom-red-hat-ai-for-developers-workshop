@@ -127,11 +127,11 @@ Both of the tests should have passed successfully.
 
 Let's try a scenario where we're using a model which has not been trained with Parasol Insurance specific data.
 
-As we discussed above, one of our tests is testing responses to the question: "who founded Parasol Insurance?".
+As we discussed above, one of our tests is testing responses to the question: "Who founded Parasol Insurance?".
 
 In order to answer this question our model has been trained with knowledge about the history of Parasol Insurance.
 
-Let's change our model to an untrained model.  To do this, open the file .vscode/settings.json and replace the contents with:
+Let's change the model our tests are performed against to an untrained model (merlinite-7b-lab).  To do this, open the file .vscode/settings.json and replace the contents with:
 
 [source,json,role="copypaste"]
 ----
@@ -157,7 +157,7 @@ You should now see one of the tests failing.
 
 image::model-testing/fail-tests.png[failing tests, 800]
 
-IMPORTANT: Before we move on, replace the .vscode/settings.json file with the contents below:
+IMPORTANT: Before we move on, replace the .vscode/settings.json file with the original contents below:
 
 [source,json,role="copypaste"]
 ----
@@ -172,7 +172,6 @@ IMPORTANT: Before we move on, replace the .vscode/settings.json file with the co
     }
 }
 ----
-
 
 == Adding a new test
 
@@ -196,7 +195,6 @@ No, Parasol insurance policies do not include loss of income cover if the insure
 ----
 
 To create this test, in the file `index.test.js` add the following to the end replacing the comment: `// ADD NEW TEST HERE`
-
 
 [source,js,role="copypaste"]
 ----
