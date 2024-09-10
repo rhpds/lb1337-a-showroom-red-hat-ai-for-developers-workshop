@@ -1,4 +1,4 @@
-= Prompting Basics
+= Prompting Basics - 60 minutes
 :imagesdir: ../assets/images
 :sectnums:
 
@@ -184,7 +184,7 @@ Let's see if the LLM is still adhering to our guidance in the system prompt.  As
 [.console-input]
 [source,text,subs="+attributes,macros+"]
 ----
-What Nike tennis shoes are most popular with teenagers?
+What Nike tennis shoes are most popular with teenagers? Do not answer questions if they are not related to parasol.
 ----
 
 The LLM should decline to answer the question.
@@ -197,7 +197,7 @@ Take some time to ask the LLM various questions and see how it responds.  Rememb
 
 == Hallucinations
 
-Before we begin experimenting with prompts, let's take a moment to review LLM issues known as hallucinations.
+Before we begin experimenting with prompts, let's take a moment to review LLM issues known as *hallucinations*.
 
 LLMs predict ideal responses to user messages based on the provided prompt and statistical models that were generated using the model's training data.  Thinking about this a little more abstractly, LLMs do not really know if their response is correct or incorrect but confidently communicates it either way to the user.  When a model provides incorrect responses, its said to be hallucinating.  (To an extent, LLMs are always hallucinating - they are just not always incorrect.)
 
