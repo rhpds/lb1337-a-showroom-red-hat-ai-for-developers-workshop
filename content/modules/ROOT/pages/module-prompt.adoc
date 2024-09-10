@@ -191,9 +191,7 @@ The LLM should decline to answer the question.
 
 image::prompt/decline-to-answer.png[LLM Declines to Answer Question]
 
-=== Have Some Fun!
-
-Take some time to ask the LLM various questions and see how it responds.  Remember, chat history influences the next response so start new playgrounds as needed for a fresh start.
+Take some time to ask the LLM various questions and see how it responds. Remember, chat history influences the next response so start new playgrounds as needed for a fresh start.
 
 == Hallucinations
 
