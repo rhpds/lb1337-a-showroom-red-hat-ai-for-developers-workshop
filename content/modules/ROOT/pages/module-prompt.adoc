@@ -54,7 +54,7 @@ The *system prompt* is entered with new chat sessions using the System text fiel
 
 _Temperature_ and _Max Tokens_ can be changed in the Dev UI Configuration view.  If necessary, navigate to the configuration screen and then use the Search bar to find and change the default values.  (Please note that the default settings are sufficient for completing today's exercises.)
 
-==== Adjust Temperature through the Dev UI Configuration View
+==== Adjust Temperature through the Dev UI Configuration View 
 
 [.console-input]
 [source,text,subs="+attributes,macros+"]
