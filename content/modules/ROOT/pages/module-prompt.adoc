@@ -16,11 +16,11 @@
 
 == Goals of this lab
 
-Parasol has had mixed success in the past with generative AI, and believes that better prompts can improve their results. As an enterprise developer applying AI towards Natural Language Processing (NLP) use cases, it is your job to create and modify prompts that will be combined with user input to query the custom Parasol models. 
+Parasol has had mixed success in the past with generative AI, and believes that better prompts can improve their results. As an enterprise developer applying AI towards Natural Language Processing (NLP) use cases, it is your job to create and modify prompts that will be combined with user input to query the custom Parasol models.
 
-In this exercise you as an AI developer will delve into the art of crafting effective prompts in order to incorporate Parasol's customized generative AI models into business applications you support. Recognizing the importance of precise and well-structured prompts, this exercise aims to equip you with best practices to optimize user interactions with custom AI models. 
+In this exercise you as an AI developer will delve into the art of crafting effective prompts in order to incorporate Parasol's customized generative AI models into business applications you support. Recognizing the importance of precise and well-structured prompts, this exercise aims to equip you with best practices to optimize user interactions with custom AI models.
 
-You'll start by reviewing examples of tools that can be used to experiment with prompts and reviewing common parameters that influence the LLM's responses.  You will also learn how to control formatting, content, and tone using the system prompt.  From there, you will be exposed to various prompting techniques, such as zero-shot, few-shot, and chain-of-thought prompts, and will be given examples to try that showcase the reasoning capabilities of the language model.  Lastly, you will use all that you've learned to build a complex prompt that satisfies a business need and then integrate that prompt into the Parasol application. 
+You'll start by reviewing examples of tools that can be used to experiment with prompts and reviewing common parameters that influence the LLM's responses.  You will also learn how to control formatting, content, and tone using the system prompt.  From there, you will be exposed to various prompting techniques, such as zero-shot, few-shot, and chain-of-thought prompts, and will be given examples to try that showcase the reasoning capabilities of the language model.  Lastly, you will use all that you've learned to build a complex prompt that satisfies a business need and then integrate that prompt into the Parasol application.
 
 This hands-on exercise will empower you to refine your prompting techniques, ultimately enhancing the overall effectiveness of Parasol's AI initiatives.
 
@@ -28,7 +28,7 @@ This hands-on exercise will empower you to refine your prompting techniques, ult
 
 There are many tools and approaches available to you as the AI application developer to interface an LLM.  We will briefly review a few of these and then make a recommendation for you to follow with the subsequent steps of this module.
 
-Before jumping into specific tools, let's review the basics of interfacing with an LLM through a chat or agentic experience.  Since LLMs can often support a wide variety of use cases and personas, it is important that the LLM receive clear, upfront guidance to define its objectives, constraints, persona, and tone.  These instructions are provided in natural language form and are form the "System Prompt".  Once a System Prompt is defined and a chat session begins, the System Prompt cannot be changed.  
+Before jumping into specific tools, let's review the basics of interfacing with an LLM through a chat or agentic experience.  Since LLMs can often support a wide variety of use cases and personas, it is important that the LLM receive clear, upfront guidance to define its objectives, constraints, persona, and tone.  These instructions are provided in natural language form and are form the "System Prompt".  Once a System Prompt is defined and a chat session begins, the System Prompt cannot be changed.
 
 Depending on use case, it may be necessary for the LLM to produce a more creative or a more predictable response to the user message.  Temperature is a floating point number, usually between 0 and 1, that is used to steer the model accordingly.  Lower temperature values (such as 0) are more predictable and higher values (such as 1) are more creative, although even at 0 LLMs will never product 100% repeatable responses.  Many tools simply use 0.8 as a default.
 
@@ -44,17 +44,17 @@ If you would like to install Podman Desktop in your own environment, visit http:
 
 === Quarkus Dev UI with LangChain4j Chat Extension
 
-We are using Quarkus and LangChain4j extensively throughout this workshop, and LangChain4j provides a Dev UI extension for testing system and user prompts.  While it is a simpler experience compared to other tools, Dev UI is preconfigured to communicate with the same model and settings that our Parasol application is using.  That model is exposed with an OpenAI-compliant API through OpenShift AI and has already been trained with Parasol Insurance business rules and content.
+We are using https://quarkus.io[Quarkus^] and https://docs.quarkiverse.io/quarkus-langchain4j/dev/index.html[LangChain4j^] extensively throughout this workshop, and LangChain4j provides a Dev UI extension for testing system and user prompts.  While it is a simpler experience compared to other tools, Dev UI is pre-configured to communicate with the same model and settings that our Parasol application is using.  That model is exposed with an https://platform.openai.com/docs/api-reference[OpenAI-compliant API^] through https://www.redhat.com/en/technologies/cloud-computing/openshift/openshift-ai[OpenShift AI^] and has already been trained with Parasol Insurance business rules and content.
 
 image::prompt/devui-langchain4j-chat.png[Quarkus Dev UI with LangChain4j Chat]
 
 The system prompt is entered with new chat sessions using the System text field.  To change the default value, click within the Ssytem text box and replace the existing value with your new system prompt.  Once chat sessions begin when the first user message is submitted, system prompts cannot be changed until a new chat session is started.
 
-User Messages are entered in the Message text box at the bottom of the screen.  
+User Messages are entered in the Message text box at the bottom of the screen.
 
-Temperature and Max Tokens must be changed in the Dev UI Configuration view.  If necessary, navigate to the configuration screen and then use the Search bar to find and change the default values.  (Please note that the default settings are sufficient for completing today's exercises.)
+_Temperature_ and _Max Tokens_ can be changed in the Dev UI Configuration view.  If necessary, navigate to the configuration screen and then use the Search bar to find and change the default values.  (Please note that the default settings are sufficient for completing today's exercises.)
 
-*Adjust Temperature through the Dev UI Configuration View*: 
+*Adjust Temperature through the Dev UI Configuration View*:
 
 [.console-input]
 [source,text,subs="+attributes,macros+"]
@@ -98,7 +98,7 @@ Using the file tree on the left, open the following file:
 
 `src/main/resources/application.properties`
 
-Change the quarkus.dev.ui.hosts parameter to the following value:
+Change the `quarkus.dev-ui.hosts` parameter to the following value:
 
 `quarkus.dev-ui.hosts={user}-parasol-insurance-quarkus-devui{openshift_cluster_ingress_domain}`
 
@@ -126,9 +126,9 @@ As we reviewed before, prompting is as important to getting value from a model a
 [.console-input]
 [source,text,subs="+attributes,macros+"]
 ----
-You are an insurance expert at Parasol Insurance who specializes in rules and regulations as they relate to insurance policies and coverages.  
+You are an insurance expert at Parasol Insurance who specializes in rules and regulations as they relate to insurance policies and coverages.
 
-You are expected to be concise, emphathetic to the user or customer, and answer questions with responses grounded in facts specifically related to Parasol Insurance.  
+You are expected to be concise, empathetic to the user or customer, and answer questions with responses grounded in facts specifically related to Parasol Insurance.
 
 Do not answer questions unrelated to insurance or Parasol Insurance.
 ----
@@ -144,7 +144,7 @@ Now let's use a simple prompt that we know uses data that was included in the pr
 [.console-input]
 [source,text,subs="+attributes,macros+"]
 ----
-Is rental car coverage included in the most basic vehicle insurance policy?`
+Is rental car coverage included in the most basic vehicle insurance policy?
 ----
 
 * Click the "Send" button.
@@ -155,7 +155,7 @@ image::prompt/basic-question.png[Basic Question and Response]
 
 === Propagation of Chat History
 
-Chat playgrounds carry your previous AI interactions from that same session forward when interacting with the model.  The LLM itself is essentially stateless from that perspective and the client application or service is responsible for accumulating and transmitting this history.  Within the context of that session, this provides additional context to the LLM and is as influential to its response as the system prompt.  How a user responded to its previous response helps it provide more meaningful responses or continue with similar levels of implied context in future inquiries.  
+Chat playgrounds carry your previous AI interactions from that same session forward when interacting with the model.  The LLM itself is essentially stateless from that perspective and the client application or service is responsible for accumulating and transmitting this history.  Within the context of that session, this provides additional context to the LLM and is as influential to its response as the system prompt.  How a user responded to its previous response helps it provide more meaningful responses or continue with similar levels of implied context in future inquiries.
 
 Now ask the following question in the same chat session:
 
@@ -189,9 +189,9 @@ Take some time to ask the LLM various questions and see how it responds.  Rememb
 
 == Hallucinations
 
-Before we begin experimenting with prompts, let's take a moment to review LLM issues known as hallucinations.  
+Before we begin experimenting with prompts, let's take a moment to review LLM issues known as hallucinations.
 
-LLMs predict ideal responses to user messages based on the provided prompt and statisical models that were generated using the model's training data.  Thinking about this a little more abstractly, LLMs do not really know if their response is correct or incorrect but confidently communicates it either way to the user.  When a model provides incorrect responses, its said to be hallucinating.  (To an extent, LLMs are always hallucinating - they are just not always incorrect.)  
+LLMs predict ideal responses to user messages based on the provided prompt and statistical models that were generated using the model's training data.  Thinking about this a little more abstractly, LLMs do not really know if their response is correct or incorrect but confidently communicates it either way to the user.  When a model provides incorrect responses, its said to be hallucinating.  (To an extent, LLMs are always hallucinating - they are just not always incorrect.)
 
 There are many reasons this may happen - flaws in its training, non-specific prompts, or the fact they generally are not good at math.  The fact LLMs are able to produce such amazing results is impressive but expectations are elevated when considered for business use cases.  As you complete the following sections, look for hallucinations in the model and experiment with phrasing your prompts to avoid them.
 
@@ -204,7 +204,7 @@ Potential approaches for minimizing hallucinations:
 
 == Zero-shot and Few-shot Prompt Techniques
 
-A very effective prompt design technique is to include 1 more examples in the system prompt.  This can enable the LLM to infer expected formatting or results in a more direct and consistent way, without the effort of lengthy natural language explaination of the logic the LLM is expected to follow.
+A very effective prompt design technique is to include 1 more examples in the system prompt.  This can enable the LLM to infer expected formatting or results in a more direct and consistent way, without the effort of lengthy natural language explanation of the logic the LLM is expected to follow.
 
 * *Zero-shot prompting* is when no examples are provided.
 
@@ -240,7 +240,7 @@ Enter the following into the Message text box and click the Send button.
 In what states does Parasol Insurance do business and what are the average claim amounts per state?
 ----
 
-Analyze the response.  Since we are giving the LLM very little information to go on, the results are somewhat unpredictable.  
+Analyze the response.  Since we are giving the LLM very little information to go on, the results are somewhat unpredictable.
 
 Try starting a new chat and using the same System Prompt and Message.  Observe how the results vary each session.
 
@@ -307,8 +307,8 @@ Enter the following message:
 [.console-input]
 [source,text,subs="+attributes,macros+"]
 ----
-The IT department has $100,000 in the Project ACME budget. 
-If $80,000 is allocated towards a new server and add $15,000 from other savings, 
+The IT department has $100,000 in the Project ACME budget.
+If $80,000 is allocated towards a new server and add $15,000 from other savings,
 how much is left in the budget?
 ----
 
@@ -317,9 +317,9 @@ Thinking through this problem, you'll notice that the answer is not $5,000 as th
 [.console-input]
 [source,text,subs="+attributes,macros+"]
 ----
-The IT department has $100,000 in the Project ACME budget. 
-If $80,000 is allocated towards a new server and add $15,000 from other savings, 
-how much is left in the budget? 
+The IT department has $100,000 in the Project ACME budget.
+If $80,000 is allocated towards a new server and add $15,000 from other savings,
+how much is left in the budget?
 
 Think about the problem step by step
 ----
@@ -340,13 +340,13 @@ As the AI Developer, you have been given access to a robust LLM that has already
 *Your Functional Requirements:*
 
 * Analyze the customer email and provide the email address of the team best suited to respond.
-** *New Claim* - New insurance claims should be sent to the claims representatives team at new.claim@parasol.com
-** *Existing Claims* - Follow-ups about existing claims should be sent to the claims adjusters team at existing.claim@parasol.com
-** *Unrelated* - Forward messages that are generic Parasol Insurance questions and unrelated to claims to customer service at customer.service@parasol.com
-** *Unknown* - In the event that the message isn't business relevant or is non-sensical, the email should be a customer reply with a generic error response.
+** *New Claim* - New insurance claims should be sent to the claims representatives team at `new.claim@parasol.com`
+** *Existing Claims* - Follow-ups about existing claims should be sent to the claims adjusters team at `existing.claim@parasol.com`
+** *Unrelated* - Forward messages that are generic Parasol Insurance questions and unrelated to claims to customer service at `customer.service@parasol.com`
+** *Unknown* - In the event that the message isn't business relevant or is nonsensical, the email should be a customer reply with a generic error response.
 * Generate an email response for the customer indicating the action we are taking from their email.
 * Respond with a JSON response that provides the following fields:
-** *claimStatus* - field indicating whether the email is in regards to a new or existing claim or is unrelated to the claims processing line of businses
+** *claimStatus* - field indicating whether the email is in regards to a new or existing claim or is unrelated to the claims processing line of business
 ** *address* - where the email should be forwarded to based on the content of the message
 ** *subject* - the email subject to accompany the forwarded email
 ** *message* - what message should be included at the top of the email indicating to the customer explaining why the message is being forwarded
@@ -373,9 +373,9 @@ As the AI Developer, you have been given access to a robust LLM that has already
 
 Think about what you've learned so far with LLMs and ground yourself in clear communication vs a traditional programmatic solution to this problem.  How would you communicate this use case to a new employee with no background at all in insurance or customer service?  How would you communicate what good looks like in a way that is descriptive of a pattern?
 
-We recommend that you create a new text file in the DevSpaces IDE and then paste into playground for testing, as this will be an interative process and you will need to restart conversations many times as you evolve your system prompt.
+We recommend that you create a new text file in the DevSpaces IDE and then paste into playground for testing, as this will be an iterative process and you will need to restart conversations many times as you evolve your system prompt.
 
-You can write your own sample emails and paste them into the user prompt text box or you can use the ones below that were copied from the Parasol Insurance application.  
+You can write your own sample emails and paste them into the user prompt text box or you can use the ones below that were copied from the Parasol Insurance application.
 
 If you run into challenges while drafting the prompt, ask your instructor for assistance.
 
@@ -496,7 +496,7 @@ Attach: Car Damage Photos, Eyewitness Accounts, Incident Report No. KL509
 
 === Objectives
 
-Now that you've developed a working prompt that can help satisfy leadership objectives with its first Generative AI initiative, you need to incorporate this logic into the Parasol Insurance application so that ongoing business value may be realized.  For this exercise that involves updating the Email Response REST service and UI to provide an recommended recipient, email subject, and automated response based on a given customer email.  
+Now that you've developed a working prompt that can help satisfy leadership objectives with its first Generative AI initiative, you need to incorporate this logic into the Parasol Insurance application so that ongoing business value may be realized.  For this exercise that involves updating the Email Response REST service and UI to provide an recommended recipient, email subject, and automated response based on a given customer email.
 
 === Working Prompt
 
@@ -513,25 +513,25 @@ Claim, 3.) Parasol Insurance Business Unrelated to Insurance Claims, or
 4.) Anything unrelated to Parasol Insurance.
 
 Emails that describe a new accident or discuss filing a new claim are always
-forwarded to \new.claim@parasol.com with an empathetic message to the customer 
+forwarded to \new.claim@parasol.com with an empathetic message to the customer
 letting them know we are concerned about their health and safety.  Additionally,
 this message must summarize the information they provided and ask for any other
 missing information needed to process the claim.
 
 Emails that are asking for a status update, voicing concerns about taking too
 long to process, or providing additional details about an accident that were
-not previously provided are always EXISTING claims and must be forwarded to 
-\existing.claim@parasol.com with a concise message letting the customer know 
+not previously provided are always EXISTING claims and must be forwarded to
+existing.claim@parasol.com with a concise message letting the customer know
 that we are looking into their inquiry and will be in touch shortly.
 
-Emails about insurance that have nothing to do with claims are always unrelated 
-and must be forwarded to \customer.service@parasol.com with a message letting 
+Emails about insurance that have nothing to do with claims are always unrelated
+and must be forwarded to customer.service@parasol.com with a message letting
 the customer know we are forwarding their request to our Customer Service team
 for assistance.
 
 All other emails, especially those that have nothing to do with insurance and
-are not business related, must be rejected back to the customer by forwarding 
-to \discard@parasol.com with a message letting them customer know we are confused 
+are not business related, must be rejected back to the customer by forwarding
+to discard@parasol.com with a message letting them customer know we are confused
 by their email and to clarify with a business related response.
 
 The email message can be up to 3 paragraphs long.
@@ -543,18 +543,18 @@ determine which category to which it belongs.
 
 You MUST ALWAYS respond only with JSON in one of the following ways:
 
-{ "address": "\new.claim@parasol.com", "subject": "<Email Subject>", "message": "<Customer Comment>" }
+{ "address": "new.claim@parasol.com", "subject": "<Email Subject>", "message": "<Customer Comment>" }
 
-{ "address": "\existing.claim@parasol.com", "subject": "<Email Subject>", "message": "<Customer Comment>" }
+{ "address": "existing.claim@parasol.com", "subject": "<Email Subject>", "message": "<Customer Comment>" }
 
-{ "address": "\customer.service@parasol.com", "subject": "<Email Subject>", "message": "<Customer Comment>" }
+{ "address": "customer.service@parasol.com", "subject": "<Email Subject>", "message": "<Customer Comment>" }
 
-{ "address": "\discard@parasol.com", "subject": "<Email Subject>", "message": "<Customer Comment>" }
+{ "address": "discard@parasol.com", "subject": "<Email Subject>", "message": "<Customer Comment>" }
 
 Here is an example response for a new claim:
 
 Message: "I ran a stop light yesterday and hit another vehicle."
-{ "address": "\new.claim@parasol.com", "subject": "Customer At-Fault in Multi-Vehicle Collision", "message": "We hope you and the other party are ok!   I'm forwarding your note to a team that can assist you with your claim." }
+{ "address": "new.claim@parasol.com", "subject": "Customer At-Fault in Multi-Vehicle Collision", "message": "We hope you and the other party are ok!   I'm forwarding your note to a team that can assist you with your claim." }
 
 Your response must only include the specified JSON object.
 ----
@@ -582,7 +582,7 @@ image::prompt/email-branch-before.png[LangChain4j Email Service Before Functiona
 
 Replace the text in the red rectangle above with the revised system prompt.
 
-Assuming your quarkus environment is still running from the prior steps, the updated prompt is automatically compiled and applied.  Let's try out the email form and see a subset of the new response:
+Assuming your Quarkus environment is still running from the prior steps, the updated prompt is automatically compiled and applied.  Let's try out the email form and see a subset of the new response:
 
 - Navigate to the Parasol Insurance application
 - Click on Email Generate at the bottom of the left hand menu bar
@@ -601,7 +601,7 @@ At the top of the source file there is a data structured called EmailResponse.  
 
 image::prompt/email-generate-view-data-structure.png[Add "address" to EmailResponse Data Structure]
 
-After the Submit button approximately half way through the source file, logic exists that is responsible for displaying the Email Subject and Email Body.  
+After the Submit button approximately half way through the source file, logic exists that is responsible for displaying the Email Subject and Email Body.
 
 image::prompt/email-generate-web-source.png[Display Email Subject and Body]
 
