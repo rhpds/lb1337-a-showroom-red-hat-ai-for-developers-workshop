@@ -48,7 +48,7 @@ We are using https://quarkus.io[Quarkus^] and https://docs.quarkiverse.io/quarku
 
 image::prompt/devui-langchain4j-chat.png[Quarkus Dev UI with LangChain4j Chat]
 
-The system prompt is entered with new chat sessions using the System text field.  To change the default value, click within the Ssytem text box and replace the existing value with your new system prompt.  Once chat sessions begin when the first user message is submitted, system prompts cannot be changed until a new chat session is started.
+The system prompt is entered with new chat sessions using the System text field.  To change the default value, click within the system text box and replace the existing value with your new system prompt.  Once chat sessions begin when the first user message is submitted, system prompts cannot be changed until a new chat session is started.
 
 User Messages are entered in the Message text box at the bottom of the screen.
 
