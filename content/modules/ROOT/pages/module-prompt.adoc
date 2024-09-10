@@ -18,7 +18,7 @@
 
 Parasol has had mixed success in the past with generative AI, and believes that better prompts can improve their results. As an enterprise developer applying AI towards Natural Language Processing (NLP) use cases, it is your job to create and modify prompts that will be combined with user input to query the custom Parasol models.
 
-In this exercise you as an AI app developer will delve into the art of crafting effective prompts in order to incorporate Parasol's customized generative AI models into business applications you support. Recognizing the importance of precise and well-structured prompts, this exercise aims to equip you with best practices to optimize user interactions with custom AI models.
+In this exercise you as an AI application developer will delve into the art of crafting effective prompts in order to incorporate Parasol's customized generative AI models into business applications you support. Recognizing the importance of precise and well-structured prompts, this exercise aims to equip you with best practices to optimize user interactions with custom AI models.
 
 You'll start by reviewing examples of tools that can be used to experiment with prompts and reviewing common parameters that influence the LLM's responses.  You will also learn how to control formatting, content, and tone using the system prompt.  From there, you will be exposed to various prompting techniques, such as zero-shot, few-shot, and chain-of-thought prompts, and will be given examples to try that showcase the reasoning capabilities of the language model.  Lastly, you will use all that you've learned to build a complex prompt that satisfies a business need and then integrate that prompt into the Parasol application.
 
