@@ -56,7 +56,7 @@ image::private-docs/quarkus-codebase.png[Quarkus codebase]
 
 In the `src/main/java/org/parasol/ai/ClaimService.java` file, you'll find the main AI chatbot class that processes the customer claim emails with a `@SystemMessage` and `@UserMessage` annotation, and a `chat` method. The `chat` method processes the claim details and question, then generates a response based on the claim and references provided.
 
-TIP: If you're unfamiliar with what a system or user message is, you might want to read through the xref:module-prompt.adoc[Prompting Basics^] module first.
+TIP: If you're unfamiliar with what a system or user message is, you might want to read through the xref:module-prompt.adoc[Prompting Basics,window=_blank] module first.
 
 .src/main/java/org/parasol/ai/ClaimService.java
 [source,java,subs="+attributes,macros+"]
@@ -144,7 +144,7 @@ Use Retrieval-Augmented Generation (RAG) when you need to access a dynamic knowl
 
 On the other hand, choose fine-tuning when your task is specialized and you need precise control over the model's behavior. Fine-tuning is better suited for homogeneous data, offline or low-latency applications, and situations where security or compliance requires all data to be embedded within the model. It's also preferable when you have a well-defined use case with specific task requirements.
 
-TIP: See the xref:module-ilab.adoc[AI Model Fine-Tuning module^] for more information on fine-tuning models.
+TIP: See the xref:module-ilab.adoc[AI Model Fine-Tuning module,window=_blank] for more information on fine-tuning models.
 
 === Add Parasol-specific policies to the LLM's knowledge base with RAG
 
