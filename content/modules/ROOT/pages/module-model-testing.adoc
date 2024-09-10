@@ -51,11 +51,9 @@ As we mentioned in the goals section, we're going to use two models to perform t
         "rootPath": "prompt-testing"
     }
 }
-
-
 ----
 
-There are a four things to take note of in this JSON file.
+There are a three things to take note of in this JSON file.
 
 1. "PARASOL_MODEL_URL": This is the url of the pre-trained model with knowledge of the Parasol inurance company and it's products.  This model is hosted by OpenShift AI.  Because we're accessing the model from an application running on OpenShift Dev Spaces, we are able to use the internal OpenShift route to connect.
 2. "PARASOL_MODEL_NAME": The name of the model as configured in OpenShift AI
@@ -109,7 +107,7 @@ image::model-testing/npm-output.png[npm_output, 800]
 
 We can now run the tests to ensure they pass.
 
-Navigate to `prompt-testing/index.test.js`
+In the VSCode Explorer, navigate to `prompt-testing/index.test.js`
 
 On the left hand panel, click on the "Testing" icon
 
@@ -117,66 +115,99 @@ image::model-testing/testing-panel.png[npm_output, 800]
 
 Click on the "Run Tests" icon at the top as shown below
 
-image::model-testing/run-tests.png[npm_output, 800]
+image::model-testing/run-tests.png[run tests, 800]
 
 When the test run is complete you should see
 
-image::model-testing/run-complete.png[npm_output, 800]
+image::model-testing/run-complete.png[run complete, 800]
 
 Both of the tests should have passed successfully.  
 
+== Failing the tests
+
+Let's try a scenario where we're using a model which has not been trained with Parasol Insurance specific data.
+
+As we discussed above, one of our tests is testing responses to the question: "who founded Parasol Insurance?".
+
+In order to answer this question our model has been trained with knowledge about the history of Parasol Insurance.
+
+Let's change our model to an untrained model.  To do this, open the file .vscode/settings.json and replace the contents with:
+
+[source,json,role="copypaste"]
+----
+{
+    "jest": {
+        "nodeEnv": {
+            "PARASOL_MODEL_URL": "http://merlinite-7b-lab-predictor.aiworkshop.svc.cluster.local:8080/v1/chat/completions",
+            "EMBEDDING_MODEL_URL": "http://parasol-embedding-predictor.aiworkshop.svc.cluster.local:8080/v1",
+            "PARASOL_MODEL_NAME": "merlinite-7b-lab"
+        },
+        "rootPath": "prompt-testing"
+    }
+}
+----
+
+On the left hand panel, click on the "Testing" icon.
+
+Click on the "Run Tests" icon as we did previously to re-run the tests.  
+
+image::model-testing/run-tests.png[run tests, 800]
+
+You should now see one of the tests failing.
+
+image::model-testing/fail-tests.png[failing tests, 800]
+
+IMPORTANT: Before we move on, replace the .vscode/settings.json file with the contents below:
+
+[source,json,role="copypaste"]
+----
+{
+    "jest": {
+        "nodeEnv": {
+            "PARASOL_MODEL_URL": "http://parasol-chat-predictor.aiworkshop.svc.cluster.local:8080/v1/chat/completions",
+            "EMBEDDING_MODEL_URL": "http://parasol-embedding-predictor.aiworkshop.svc.cluster.local:8080/v1",
+            "PARASOL_MODEL_NAME": "parasol-chat"
+        },
+        "rootPath": "prompt-testing"
+    }
+}
+----
+
+
 == Adding a new test
 
-We're now going to add a new test to test some new functionality we've added to the application.
+We're now going to add a new test to test some new functionality we've added to our model.
 
-This test is going to generate a response to a claim submission from a customer and compare this response with a pre-defined example for simularity.  We're also going to use a system prompt designed to ensure an accurate and polite reponse to the claim query.
+Our model has recently been trained to understand the "Apex plus" policy option which will cover drivers for loss of income even if they are at fault.
 
-The text of the claim we're going to use for the test is:
-
-[source,text]
-----
-On January 2nd, 1955, at around 3:30 PM, a car accident occurred at the intersection of Colima Road and Azusa Avenue in Hill Vallet. The involved parties were Marty McFly, driving a silver Delorean DMC-12 (OUTA-TIME), and Biff Tanner in a blue Type 2 Volkswagen Bus (BIF-RULZ).
-
-Marty was heading south on Colima Road when Biff failed to stop at the red traffic signal on Asuza Avenue, causing a collision with Marty''s vehicle. Both drivers exchanged information and took photos of the accident scene, which included damages to the front driver and passenger side of Marty''s Delorean DMC-12 and the front driver''s side of Biff''s Volkswagen Bus. No injuries were reported.
-
-Marty has attached necessary documents, such as photos, a police report, and an estimate for repair costs, to his email. He requests prompt attention to the claim and is available at (916) 555-4385 or marty.mcfly@email.com for any additional information or documentation needed
-----
-
-The text of the prompt we're going to use for the test is:
+To test this we're going to ask our model:
 
 [source,text]
 ----
-You are a helpful, respectful and honest assistant named 'Parasol Assistant'. You will be given a claim summary, references to provide you with information, and a question. You must answer the question based as much as possible on this claim with the help of the references. Always answer as helpfully as possible, while being safe. Your answers should not include any harmful, unethical, racist, sexist, toxic, dangerous, or illegal content. Please ensure that your responses are socially unbiased and positive in nature. If a question does not make any sense, or is not factually coherent, explain why instead of answering something not correct. If you don't know the answer to a question, please don't share false information.
+Does Parasol insurance policies include loss of income cover if the insured driver is at fault?
+
 ----
 
-The sample response we're going to use for the test is as follows:
-[source,text]
-----
-Based on the claim summary provided, the accident occurred on January 2nd, 1955, at the intersection of Colima Road and Azusa Avenue in Hill Vallet. Marty McFly, driving a silver Delorean DMC-12, was heading south on Colima Road, and Biff Tanner, in a blue Type 2 Volkswagen Bus, failed to stop at the red signal on Asuza Avenue, resulting in a collision with Marty's vehicle.
+We expect the response from this question to be similar to the following, mentioning the "Apex plus" policy.
 
-Both drivers exchanged their contact information, took photos of the accident scene and the damages to their vehicles, and no injuries were reported. Marty has attached necessary documentation to his claim, including photos, a police report, and an estimate for repair costs. He is available at (916) 555-4385 or marty.mcfly@email.com for further information or documentation if required.
+[source, text]
+----
+No, Parasol insurance policies do not include loss of income cover if the insured driver is at fault. However, Parasol does offer additional coverage options, such as Apex plus package, which provides reimbursement for loss of income if the policyholder is at fault.
 ----
 
 To create this test, in the file `index.test.js` add the following to the end replacing the comment: `// ADD NEW TEST HERE`
+
 
 [source,js,role="copypaste"]
 ----
 
 describe('Parasol Claim response test', () => {
-  const prompt = `On January 2nd, 1955, at around 3:30 PM, a car accident occurred at the intersection of Colima Road and Azusa Avenue in Hill Vallet. The involved parties were Marty McFly, driving a silver Delorean DMC-12 (OUTA-TIME), and Biff Tanner in a blue Type 2 Volkswagen Bus (BIF-RULZ).
+  const prompt = 'Does Parasol insurance policies include loss of income cover if the insured driver is at fault?';
 
-  Marty was heading south on Colima Road when Biff failed to stop at the red traffic signal on Asuza Avenue, causing a collision with Marty''s vehicle. Both drivers exchanged information and took photos of the accident scene, which included damages to the front driver and passenger side of Marty''s Delorean DMC-12 and the front driver''s side of Biff''s Volkswagen Bus. No injuries were reported.
+  const response = 'No, Parasol insurance policies do not include loss of income cover if the insured driver is at fault. However, Parasol does offer additional coverage options, such as Apex plus package, which provides reimbursement for loss of income if the policyholder is at fault.';
 
-  Marty has attached necessary documents, such as photos, a police report, and an estimate for repair costs, to his email. He requests prompt attention to the claim and is available at (916) 555-4385 or marty.mcfly@email.com for any additional information or documentation needed.`;
-
-  const systemPrompt = "You are a helpful, respectful and honest assistant named 'Parasol Assistant'. You will be given a claim summary, references to provide you with information, and a question. You must answer the question based as much as possible on this claim with the help of the references. Always answer as helpfully as possible, while being safe. Your answers should not include any harmful, unethical, racist, sexist, toxic, dangerous, or illegal content. Please ensure that your responses are socially unbiased and positive in nature. If a question does not make any sense, or is not factually coherent, explain why instead of answering something not correct. If you don't know the answer to a question, please don't share false information."
-
-  const response = `Based on the claim summary provided, the accident occurred on January 2nd, 1955, at the intersection of Colima Road and Azusa Avenue in Hill Vallet. Marty McFly, driving a silver Delorean DMC-12, was heading south on Colima Road, and Biff Tanner, in a blue Type 2 Volkswagen Bus, failed to stop at the red signal on Asuza Avenue, resulting in a collision with Marty's vehicle.
-
-  Both drivers exchanged their contact information, took photos of the accident scene and the damages to their vehicles, and no injuries were reported. Marty has attached necessary documentation to his claim, including photos, a police report, and an estimate for repair costs. He is available at (916) 555-4385 or marty.mcfly@email.com for further information or documentation if required.`;
-
-  test('should pass when response to claim summary is accurate', async () => {
-    await expect(await callModel(prompt, systemPrompt)).toMatchSemanticSimilarity(
+  test('should pass when response to policy question is accurate', async () => {
+    await expect(await callModel(prompt)).toMatchSemanticSimilarity(
       response,
       0.8
     );
@@ -201,8 +232,8 @@ We hope you have enjoyed this module!
 
 Here is a quick summary of what we have learned:
 
-- Responses from LLMs are not deterministic, we need to use different techniques to test LLM integrations.
-- Embedding models can be used to test for the similarity of two strings
-- How to add and run a new test to ensure an LLM response from a customer claim query is similar to an expected example.
+- Responses from LLMs are not deterministic, we need to use different techniques to test LLM integrations. Tools are available to help write this tests for example: Promptfoo.
+- Embedding models can be used to test for the similarity of strings.  For LLM testing we can use an embedding model to ensure responses are similar to an expected response within a threshold.
+- How to add a new test to ensure an LLM response from a customer claim query is similar to an expected example.
 
 
