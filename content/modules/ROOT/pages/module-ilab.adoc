@@ -154,6 +154,8 @@ image::ilab/launch-vscode-desktop.png[Launch Podman Desktop]
 
 image::ilab/vscode-new-terminal-menu.png[Open new VSCode terminal]
 
+include::partial-vnc-copy-paste.adoc[]
+
 
 == Model Fine-Tuning for the Insurance Organization
 
@@ -505,33 +507,36 @@ Creator names: Syed M Shaaf, Philip Hayes
 ----
 ====
 
-// Cedric has stopped here, will continue later :P
-
 === Check that the Taxonomy is Recognized by InstructLab
 
 Now that we've added data, let's check that the taxonomy is recognized by InstructLab. This will help us ensure that the data we've added is valid and can be used to generate synthetic training data.
 
-. We're going to run some commands from the terminal, so from the `Terminal` menu, select `New Terminal` to open a new terminal window.
+. We're going to run some commands from the terminal, so from the `Terminal` menu, select `New Terminal` to open a new terminal window (or use the terminal you already have open).
 
 image::ilab/vscode-new-terminal-menu.png[Open new VSCode terminal]
 
-. Run the following command to check the diff:
+. Let's navigate to the `instructlab` directory:
 +
-[source,bash]
+[.console-input]
+[source,bash,subs="+attributes,macros+"]
 ----
 cd ~/instructlab
 ----
-. Activate the Python virtual environment:
+
+. Now, activate the Python virtual environment:
 +
-[source,bash]
+[.console-input]
+[source,bash,subs="+attributes,macros+"]
 ----
 source venv/bin/activate
 ----
-. Run the data generation command:
+
+. Run the following command to check the validity of the taxonomy:
 +
-[source,bash]
+[.console-input]
+[source,bash,subs="+attributes,macros+"]
 ----
-ilab diff
+ilab taxonomy diff
 ----
 
 After running the above command you should be able to see the following output. 
@@ -539,7 +544,6 @@ After running the above command you should be able to see the following output.
 [source,bash]
 ----
 └─> ilab diff                                                                                                                                                                                                                                                                                    (base) 
-You are using an aliased command, this will be deprecated in a future release. Please consider using `ilab taxonomy diff` instead
 knowledge/economy/finance/insurance/parasol_claims_data/qna.yaml
 knowledge/economy/finance/insurance/driving_age/qna.yaml
 knowledge/economy/finance/insurance/parasol_insurance/qna.yaml
