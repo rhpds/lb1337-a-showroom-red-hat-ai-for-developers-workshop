@@ -101,18 +101,21 @@ Add the following line to the end of the file.
 quarkus.dev-ui.hosts={user}-parasol-insurance-quarkus-devui{openshift_cluster_ingress_domain}
 ----
 
-
 Spawn a terminal window within the IDE by clicking on the icon with three parallel bars in the upper left corner of the screen.  Choose "Terminal" and then "New Terminal" menu entry from the list.
 
 Run the following command from the cli using the terminal window just created:
 
-`./mvnw quarkus:dev`
+[.console-input]
+[source,properties,subs="+attributes,macros+"]
+----
+./mvnw quarkus:dev
+----
 
-You will be prompted that a new application was detected with an open web port.  Acknowledge this and choose to open in a new tab.  The URL will be similar to the following:
+You will be prompted that a new application was detected with an open web port. Acknowledge this and choose to open in a new tab.  
 
-http://{user}-parasol-insurance-quarkus-devui{openshift_cluster_ingress_domain}/q/dev-ui/extensions[^]
+Access the (http://{user}-parasol-insurance-quarkus-devui{openshift_cluster_ingress_domain}/q/dev-ui)[Quarkus Dev UI^].
 
-Click on "Chat".  This is highlighted with a red box in the screenshot below.
+Click on `Chat`.  This is highlighted with a red box in the screenshot below.
 
 image::prompt/podman-extensions.png[Quarkus Dev UI Extensions View]
 
@@ -120,8 +123,7 @@ image::prompt/podman-extensions.png[Quarkus Dev UI Extensions View]
 
 As we reviewed before, prompting is as important to getting value from a model as training.  Prompting begins with a system prompt, which is where we recommend personas, context and guardrails be established.  The System Prompt is a required field in AI Lab.  Since our initial project for Parasol Insurance is focused on policy rules and regulatory requirements, let's go ahead and set that context here.
 
-* Click the "Start a new conversation" button
-* Click in the "System message" text box and replace its contents with the following:
+==== Click in the "System message" text box and replace its contents with the following:
 
 [.console-input]
 [source,text,subs="+attributes,macros+"]
@@ -133,13 +135,17 @@ You are expected to be concise, empathetic to the user or customer, and answer q
 Do not answer questions unrelated to insurance or Parasol Insurance.
 ----
 
-* Hit Enter
+image::prompt/system_prompt.png[system_prompt]
+
+==== Click the "Start a new conversation" button
+
+image::prompt/start_new_convosation.png[start_new_convosation]
 
 === Chat with the LLM
 
 Now let's use a simple prompt that we know uses data that was included in the previous fine tuning exercises.
 
-* Enter the following text into the Message text box at the very bottom of the page.
+Copy the following text into the Message text box at the very bottom of the page.
 
 [.console-input]
 [source,text,subs="+attributes,macros+"]
@@ -147,7 +153,9 @@ Now let's use a simple prompt that we know uses data that was included in the pr
 Is rental car coverage included in the most basic vehicle insurance policy?
 ----
 
-* Click the "Send" button.
+Click the `Send` button.
+
+image::prompt/basic_question_send.png[basic_question_send]
 
 The response will be negative or a direct No.
 
