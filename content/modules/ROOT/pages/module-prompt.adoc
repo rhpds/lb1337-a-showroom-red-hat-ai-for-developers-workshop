@@ -78,14 +78,10 @@ image::prompt/devui-change-max-tokens.png[Change Max Tokens with Dev UI Chat Pla
 
 For the remainder of the lab, you will be using the Quarkus Dev UI with the LangChain4j Chat extension as your prompt engineering playground.
 
-
 IMPORTANT: If you haven't accessed *Red Hat Developer Hub and Red Hat Dev Spaces* yet, complete the following sections. Otherwise, *proceed* to the <<Chat with the Model>> section.
-
 
 include::partial-devhub-pre-req.adoc[]
 include::partial-dev-spaces-pre-req.adoc[]
-
-
 
 == Chat with the Model
 
@@ -93,15 +89,18 @@ For this section we will be exercising the model with some basic prompts to gain
 
 === Open Dev UI with LangChain4j Chat
 
-Open your DevSpaces IDE per the instructions in the prior section.
+Open your workspace in the Dev Spaces per the instructions in the prior section.
 
-Using the file tree on the left, open the following file:
+Open the `src/main/resources/application.properties` file in the left explorer pane.
 
-`src/main/resources/application.properties`
+Add the following line to the end of the file.
 
-Change the `quarkus.dev-ui.hosts` parameter to the following value:
+[.console-input]
+[source,properties,subs="+attributes,macros+"]
+----
+quarkus.dev-ui.hosts={user}-parasol-insurance-quarkus-devui{openshift_cluster_ingress_domain}
+----
 
-`quarkus.dev-ui.hosts={user}-parasol-insurance-quarkus-devui{openshift_cluster_ingress_domain}`
 
 Spawn a terminal window within the IDE by clicking on the icon with three parallel bars in the upper left corner of the screen.  Choose "Terminal" and then "New Terminal" menu entry from the list.
 
