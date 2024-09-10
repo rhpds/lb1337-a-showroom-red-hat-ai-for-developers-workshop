@@ -1,4 +1,4 @@
-= Model Fine-tuning with InstructLab - x minutes
+= Model Fine-tuning with InstructLab - 45 minutes
 :imagesdir: ../assets/images
 :sectnums:
 
@@ -20,7 +20,7 @@ As Parasol Insurance embraces the era of AI, we face a unique challenge: leverag
 
 * Explore *fine-tuning* techniques for AI models, incorporating Parasol's unique insurance expertise into LLMs
 * Learn how to create and utilize a *custom knowledge base* for training AI models with organization-specific scenarios and regulations
-* Apply the *InstructLab* methodology to generate synthetic training data and specialize our model while keeping data in-house
+* Apply the https://arxiv.org/abs/2403.01081[*LAB methodology*] to generate synthetic training data and specialize our model while keeping data in-house
 * Gain hands-on experience in *training and serving* a customized AI model
 * Understand the *benefits and limitations* of fine-tuning compared to other AI customization methods
 
@@ -38,7 +38,7 @@ As Parasol Insurance embraces the era of AI, we face a unique challenge: leverag
 
 === Enhancing AI Models: RAG vs Fine-Tuning
 
-When customizing AI models, two techniques stand out: Retrieval-Augmented Generation (RAG) and fine-tuning. 
+When customizing AI models, two techniques stand out: Retrieval-Augmented Generation (RAG) and fine-tuning.
 
 * *Fine-tuning* excels when you need precise, controlled outputs for specialized tasks using curated data. It's ideal for applications where security and compliance require embedding all data within the model. Fine-tuning is also suitable when you have clear use cases with specific task requirements.
 
@@ -64,17 +64,20 @@ image::ilab/instructlab-components.png[InstructLab Overview]
 
 InstructLab is particularly useful for organizations that want to leverage private AI and keep their data in-house while still benefiting from state-of-the-art language models, without needing AI/ML or data science expertise.
 
+As you work with InstructLab, you will see the terms _Skills_ and _Knowledge_. What is the difference between Skills and Knowledge? A simple analogy is to think of a skill as teaching someone how to fish. Knowledge, on the other hand, is knowing that the best place to catch a Bass is when the sun is setting while casting your line near the trunk of a tree along the bank.
+
 === Access your Virtual Environment
 
 To begin working with InstructLab, you'll need to access the provided noNVC virtual environment. This environment comes pre-configured with all necessary tools and dependencies: {novnc_url}[*{novnc_url}*,window=_blank], using the password `{password}`.
 
-==== Click the `Activities` label in the top-left corner of the screen.
+. Click the `Activities` label in the top-left corner of the screen.
 
 // REMOVE Once CI is updated
 
 NOTE: The following step will be removed once the CI is updated.
 
-==== Click on *Terminal*, and enter the following commands:
+[start=2]
+. Click on *Terminal*, and enter the following commands:
 
 [.console-input]
 [source,bash,subs="+attributes,macros+"]
@@ -118,27 +121,33 @@ serve:
 EOF
 ----
 
-==== Click the `Show Applications` icon to show all the applications.
+// End of Remove block
 
-==== Click the `Visual Studio Code` icon to launch Visual Studio Code.
+[start=3]
+. Click the `Show Applications` icon to show all the applications.
+
+[start=4]
+. Click the `Visual Studio Code` icon to launch Visual Studio Code.
 
 image::ilab/launch-vscode-desktop.png[Launch Podman Desktop]
 
-==== Open a new Terminal in VS Code
+// [start=4]
 
-InstructLab mainly relies on the https://github.com/instructlab/instructlab[`ilab`] command-line interface (CLI) to interact with the project. To access the `ilab` CLI, open a new terminal in Visual Studio Code by clicking on the `Terminal` menu and selecting `New Terminal`.
+[start=5]
+. InstructLab mainly relies on the https://github.com/instructlab/instructlab[`ilab`] command-line interface (CLI) to interact with the project. To access the `ilab` CLI, open a new terminal in Visual Studio Code by clicking on the `Terminal` menu and selecting `New Terminal`.
 
 image::ilab/vscode-new-terminal-menu.png[Open new VSCode terminal]
+
 
 == Training the Model for the Insurance Organization
 
 In this section, we'll walk through the process of fine-tuning an AI model using InstructLab. We'll start by setting up our environment, generating synthetic training data, training the model, and then interacting with it. We will build upon that and delve further into the biggest insurance company in North America, Parasol, which has the most extensive customer base. Parasol Insurance gets many requests to process claims, questions about different products, etc. These requests are not just internal but also external.
 
-Parasol Insurance's primary concern is ensuring that its staff is capable of handling such requests and has access to this information through a single interface rather than going through multiple systems to scrape documents and internal portal pages. To this end, you have been tasked with adding knowledge that will aid the following use cases. 
+Parasol Insurance's primary concern is ensuring that its staff is capable of handling such requests and has access to this information through a single interface rather than going through multiple systems to scrape documents and internal portal pages. To this end, you have been tasked with adding knowledge that will aid the following use cases.
 
-* Products and coverage (e.g., providing comprehensive policy and product information)
-* Basic knowledge of the Insurance rules (e.g., offering insights on relevant local regulations)
-* Responses to general claim questions and remedies (e.g., generating product-specific email templates)
+. Products and coverage (ex. providing comprehensive policy and product information)
+. Basic knowledge of the Insurance rules (ex. offering insights on relevant local regulations)
+. Responses to general claim questions and remedies (ex. generating product-specific email templates)
 
 image::ilab/parasol-insurance-chat.png[Parasol Insurance]
 
@@ -158,7 +167,7 @@ Knowledge consists of data and facts and is backed by documents. When you create
 * A `qna.yaml` file that asks and answers questions about the information in the git repository, with desirable responses.
 * An `attribution.txt` that includes the sources for the information used in the `qna.yaml`, which aids in transparency and accountability.
 
-LLMs have inherent limitations that make certain tasks extremely difficult, like doing math problems. They're great at other tasks, like creative writing. And they could be better at things like logical reasoning. However, these limitations can be overcome by providing them with the right knowledge (and skills, https://www.youtube.com/watch?v=_kbq-npuMC0[which InstructLab can also help with]). An LLM with knowledge helps it create a basis of information that it can learn from, then you can teach it to use this knowledge via the `qna.yaml` files. 
+LLMs have inherent limitations that make certain tasks extremely difficult, like doing math problems. They're great at other tasks, like creative writing. And they could be better at things like logical reasoning. However, these limitations can be overcome by providing them with the right knowledge (and skills, https://www.youtube.com/watch?v=_kbq-npuMC0[which InstructLab can also help with]). An LLM with knowledge helps it create a basis of information that it can learn from, then you can teach it to use this knowledge via the `qna.yaml` files.
 
 In our case we want the LLM to learn more about Parasol Insurance like so:
 
@@ -197,7 +206,7 @@ Now that we understand the constructs of the taxonomy's knowledge, let's go ahea
 
 You can open VSCode by following the instructions below:
 
-==== Open the `instructlab` directory in Visual Studio Code through the terminal:
+. Open the `instructlab` directory in Visual Studio Code through the terminal:
 
 [.console-input]
 [source,bash,subs="+attributes,macros+"]
@@ -205,33 +214,33 @@ You can open VSCode by following the instructions below:
 cd ~/instructlab && code . --reuse-window
 ----
 
-==== With the new window open, you can select *Yes, I trust the authors* to proceed. 
-
-You'll be prompted to enter your password, `{password}`, to confirm the action.
+[start=2]
+. With the new window open, you can select *Yes, I trust the authors* to proceed. You'll be prompted to enter your password, `{password}`, to confirm the action.
 
 image::ilab/vscode-trust-authors.png[Trust Authors]
 
-==== Navigate to the `taxonomy/knowledge/` folder. 
+[start=3]
+. Navigate to the `taxonomy/knowledge/` folder  . This file will contain the questions and answers that will be used to train the model.
 
-This file will contain the questions and answers that will be used to train the model.
-
-==== Lets create a structure for Parasol insurance knowledge. 
-
-To do that create folders by first right clicking on the `Knowledge` folder, and then pressing `New Folder`, as shown in the screen shot below
+[start=4]
+. Lets create a structure for Parasol insurance knowledge. To do that create folders by first right clicking on the `Knowledge` folder, and then pressing `New Folder`, as shown in the screen shot below
 
 image::ilab/ilab-taxanomy-create-folder.png[New Folder]
 
 We should create a knowledge folder structure that we can add to later as we add more knowledge and for our peers to also understand how its structured. Lets create a structure like this `knowledge > economy > finance > insurance`. In VSCode this is quite easy. 
 
-==== In the field as shown in the image below type `economy/finance/insurance`
+[start=5]
+. In the field as shown in the image below type `economy/finance/insurance`
 
 image::ilab/ilab-taxonomy-create-folder2.png[New folder]
 
-Perfect, now we have the basic working structure. Let’s now start adding the following taxonomy knowledge files for Parasol Insurance, consisting of the following (you can expand each section to see the instructions):
+Perfect, now we have the basic working structure.  Let’s now start adding the following taxonomy knowledge files for Parasol Insurance, consisting of the following (you can expand each section to see the instructions):
 
 === Knowledge File #1: Driving Age
 
-include::partial-vnc-copy-paste.adoc[]
+[%collapsible]
+====
+// - **Driving age**: 
 
 There are specific driving age rules for New Hampshire and Alaska for Teens driving. Lets add this information to the Model. 
 
@@ -274,6 +283,7 @@ document:
   patterns:
     - alaska_teen_driving_laws.md
     - new_hampshire_driving_laws.md
+
 ----
 
 And now lets also create an attribution.txt file for citing sources. Copy the following and create a new file `attribution.txt` in the folder `driving_age`
@@ -290,9 +300,12 @@ Creator names: Syed M Shaaf, Philip Hayes
 A `qna.yaml` that contains a set of key/value entries with the following keys
 Each qna.yaml file requires a minimum of five question and answer pairs.
 An `attribution.txt` that includes the sources for the information used in the qna.yaml
+====
 
 === Knowledge File #2: Parasol Claims Data
-
+// - **Parasol claims data**
+[%collapsible]
+====
 Like any insurance company on the planet, data is stored into multiple systems, files etc. Employees at Parasol Insurance either using the system for the first time or using it for e.g. detecting fraud, tyring to understand the glossary, acronyms etc. A good example is `Policy ID,` a unique ID for policy in our database systems. The LLM does not know about this. By adding this, we can ensure that once a claims agent or an application asks about a policy ID, the LLM can give reasonable answers and suggestions. 
 
 Create a new folder `parasol_claims_data` under `knowledge > economy > finance > insurance` as shown in the image below
@@ -343,8 +356,14 @@ Link to work: https://huggingface.co/rh-rad-ai-roadshow
 License of the work: CC-BY-SA-4.0
 Creator names: Syed M Shaaf, Philip Hayes
 ----
+====
+
 
 === Knowledge File #3: Parasol Insurance Overview
+// - **Parasol insurance**
+
+[%collapsible]
+====
 
 Here, we are adding some basic information about Parasol Insurance, an overview of product details. This will enable the LLM to give answers on a high level about the different offerings, fomulate a context about Parasol Insurance, history etc. 
 
@@ -407,8 +426,14 @@ Link to work: https://huggingface.co/rh-rad-ai-roadshow
 License of the work: CC-BY-SA-4.0
 Creator names: Syed M Shaaf, Philip Hayes
 ----
+====
+
 
 === Knowledge File #4: Parasol Policies
+// - **Parasol policies**
+
+[%collapsible]
+====
 
 Here, we are adding information specific to policies in relation to the different products. This will help our claims processing agents to ask questions about specific cases and scenarios to the LLM. The LLM should be able to suggest remedies or further knowledge to look into.
 
@@ -458,33 +483,29 @@ Link to work: https://huggingface.co/rh-rad-ai-roadshow
 License of the work: CC-BY-SA-4.0
 Creator names: Syed M Shaaf, Philip Hayes
 ----
+====
 
 // Cedric has stopped here, will continue later :P
 
 === Check that taxonomy is recognized by instructLab
-
-==== Open a new terminal
-
-We're going to run some commands from the terminal, so from the `Terminal` menu, select `New Terminal` to open a new terminal window.
+. We're going to run some commands from the terminal, so from the `Terminal` menu, select `New Terminal` to open a new terminal window.
 
 image::ilab/vscode-new-terminal-menu.png[Open new VSCode terminal]
 
-==== Run the following command to check the diff:
-
+. Run the following command to check the diff:
++
 [source,bash]
 ----
 cd ~/instructlab
 ----
-
-==== Activate the Python virtual environment:
-
+. Activate the Python virtual environment:
++
 [source,bash]
 ----
 source venv/bin/activate
 ----
-
-==== Run the data generation command:
-
+. Run the data generation command:
++
 [source,bash]
 ----
 ilab diff
@@ -503,30 +524,29 @@ knowledge/economy/finance/insurance/parasol_policies/qna.yaml
 Taxonomy in taxonomy is valid :)
 ----
 
-If you do not see output similar to above. Please review all the steps above. In the next section we will genearate Synthtetic data from our QnA pairs.
+If you do not see output similar to above. Please review all the steps above. In the next section we will generate synthtetic data from our Q&A pairs.
 
 === Generating Synthetic Training Data
 
 Now that we've added some initial data, let's use InstructLab to generate synthetic training data.
 
-==== Open a terminal in Visual Studio Code.
-
-==== Run the following command to generate synthetic training data:
-
+. Open a terminal in Visual Studio Code.
+. Run the following command to generate synthetic training data:
++
 [source,bash]
 ----
 cd ~/instructlab
 ----
 
-==== Activate the Python virtual environment:
-
+. Activate the Python virtual environment:
++
 [source,bash]
 ----
 source venv/bin/activate
 ----
 
-==== Run the data generation command:
-
+. Run the data generation command:
++
 [source,bash]
 ----
 ilab data generate  --num-instructions 5
@@ -534,61 +554,160 @@ ilab data generate  --num-instructions 5
 
 To reduce the amount of time the generation process takes, we are setting the "--num-instructions" flag to "5", the default for this value is "100". If we were generating data for a production deployment we would likely set this value even higher.
 
-This process may take some time, depending on the amount of data and the computational resources available. 
+This process may take some time, depending on the amount of data and the computational resources available. Once the generation stage is complete, you should see something like this:
 
-Once the generation stage is complete, you should see something like
 [source,bash]
 ----
+$ ilab data generate --num-instructions 5
+Generating synthetic data using 'models/merlinite-7b-lab-Q4_K_M.gguf' model, taxonomy:'taxonomy' against http://127.0.0.1:60385/v1 server
+Cannot find prompt.txt. Using default prompt depending on model-family.
+  Synthesizing new instructions. If you aren't satisfied with the generated instructions, interrupt training (Ctrl-C) and try adjusting your YAML files. Adding more examples may help.
+INFO 2024-09-09 15:32:37,674 generate_data.py:505: generate_data Selected taxonomy path knowledge->economy->finance->insurance->parasol_insurance
+  INFO 2024-09-09 15:32:45,955 generate_data.py:505: generate_data Selected taxonomy path knowledge->economy->finance->insurance->driving_age
+
+Q> How long must supervised driving practice be before applying for a license?
+I>
+A> 10 hours of nighttime driving are required.
+
+Q> What happens to the license when a driver reaches 21 years old?
+I>
+A> It expires on the individual's 21st birthday, at which time they can obtain a horizontally-oriented driver’s license.
+
+INFO 2024-09-09 15:33:15,263 generate_data.py:505: generate_data Selected taxonomy path knowledge->economy->finance->insurance->parasol_claims_data
+Q> What does the engine type mean?
+I> 
+A> It can refer to either a fuel source or type of engine that powers a vehicle.
+This engine type can affect how powerful a car is,
+or how much it costs to run it.
+
+INFO 2024-09-09 15:33:34,454 generate_data.py:505: generate_data Selected taxonomy path knowledge->economy->finance->insurance->parasol_policies
 
 Q> How long does it take to accelerate to 88 miles per hour in a DeLorean DMC-12?
 I> 
 A> Approximately 8.8 seconds is needed to reach 88 mph in a Delorean DMC-12.
 
- 80%|███████████████████████████████████████████████████████████████████████████████████████████████████████████████▏                           | 4/5 [01:05<00:16, 16.51s/it]INFO 2024-09-05 18:49:21,781 generate_data.py:505: generate_data Selected taxonomy path knowledge->technology
-INFO 2024-09-05 18:49:24,075 generate_data.py:505: generate_data Selected taxonomy path knowledge->technology
-INFO 2024-09-05 18:49:26,285 generate_data.py:505: generate_data Selected taxonomy path knowledge->technology
-INFO 2024-09-05 18:49:28,449 generate_data.py:505: generate_data Selected taxonomy path knowledge->technology
-Q> What does the term “Flux capacitor” refer to in the context of a DeLorean DMC-12?
-I> 
-A> The term “Flux capacitor” refers to a component that enables time travel on a DeLorean DMC-12.
+A> If you are at fault, to be able to claim for your own lost wages from Parasol Insurance, you need to have the optional Apex plus package which provides coverage of loss of income insurance as part of your policy. If another driver is at fault, the at-fault driver’s auto insurance company is typically responsible for covering your lost income. But if an at-fault driver is uninsured or doesn’t have enough coverage to pay for your injuries or car damage, Parasol underinsured motorist coverage can help pay the difference. Uninsured motorist coverage is provided as part of the optional Apex plus package.
 
-100%|███████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 5/5 [01:25<00:00, 17.01s/it]
-INFO 2024-09-05 18:49:41,814 generate_data.py:609: generate_data 5 instructions generated, 4 discarded due to format (see generated/discarded_merlinite-7b-lab-Q4_K_M_2024-09-05T18_48_16.log), 0 discarded due to rouge score
-INFO 2024-09-05 18:49:41,815 generate_data.py:613: generate_data Generation took 85.28s
+Q> What is Bodily Injury Limit?
+I>
+A> It means how much a company will cover in case you or someone else was hurt, not including property damage.
+
+100%|██████████████████████████████████████████████████| 5/5 [02:03<00:00, 24.77s/it]
+INFO 2024-09-09 15:34:41,519 generate_data.py:609: generate_data 5 instructions generated, 8 discarded due to format (see generated/discarded_merlinite-7b-lab-Q4_K_M_2024-09-09T15_32_37.log), 0 discarded due to rouge score
+INFO 2024-09-09 15:34:41,519 generate_data.py:613: generate_data Generation took 132.15s
 
 ----
 
-We can examine the output of the generation stage by taking a look at the "generated" folder in ~/instructlab
+We can examine the output of the generation stage by taking a look at the "generated" folder in `~/instructlab`. Within this folder you'll see 4 different files:
 
-within this folder you'll see 4 different files
+* `discarded_merlinite-7b-lab-Q4_K_M_DATETIME.log`: This contains a log of any generated instructions which were discarded during the generation process for any reason e.g. "didn't match expected format"
+* `generated_merlinite-7b-lab-Q4_K_M_DATETIME.json`: This contains the list of generated instructions plus context with which the model training instructions will be created
+* `test_merlinite-7b-lab-Q4_K_M_DATETIME.jsonl`: This file contains test prompts and responses which are used at the end of the training process
+* `train_merlinite-7b-lab-Q4_K_M_DATETIME.jsonl`: This file contains the instructions used during the train process to train the model.
 
-* discarded_merlinite-7b-lab-Q4_K_M_DATETIME.log: This contains a log of any generated instructions which were discarded during the generation process for any reason e.g. "didn't match expected format"
-* generated_merlinite-7b-lab-Q4_K_M_DATETIME.json: This contains the list of generated instructions plus context with which the model training instructions will be created
-* test_merlinite-7b-lab-Q4_K_M_DATETIME.jsonl: This file contains test prompts and responses which are used at the end of the training process
-* train_merlinite-7b-lab-Q4_K_M_DATETIME.jsonl: This file contains the instructions used during the train process to train the model.
 
 === Training the Model with New Data
 
-With our synthetic data generated, we should now be in a position to train the model.  Because we only created 5 sample instructions and due to time contrainsts we're not going to perform the actual training in this lab.
+With our synthetic data generated, we should now be in a position to train the model.  Because we only created 5 sample instructions and due to time constraints we're not going to perform the actual training in this lab.
 
-If we where to do this, we would again use the "ilab" CLI with the "model train" command
+If we were to do this, we would again use the "ilab" CLI with the "model train" command. Something like `ilab model train --iters 10 --device cuda`. Depending on the hardware available, this can take anywhere from several minutes to several hours or days. Once this process was finished we would then have a model we can serve locally with ilab to test our results.
 
-Once this process was finished we would then have a model we can serve locally with ilab to test our results.
+=== Serve the new the Model
 
-=== Interacting with the Model
-
-We have provisioned a trained model in the folder `~/instructlab/models` called `parasol-model.gguf`
-
-Run the data generation command to serve the model:
+We have provisioned a trained model in the folder `~/instructlab/models` called `parasol-model.gguf`. Serve this model by running the following command in the terminal:
 
 [source,bash]
 ----
 ilab model serve --model-path ~/instructlab/models/parasol-model.gguf
 ----
+It may take a minute to start, but you should see the following:
+
+[source,bash]
+----
+(venv) [instruct@bastion instructlab]$ ilab model serve --model-path ~/instructlab/models/parasol-model.gguf
+INFO 2024-09-09 16:01:01,652 serve.py:51: serve Using model '/home/instruct/instructlab/models/parasol-model.gguf' with -1 gpu-layers and 4096 max context size.
+INFO 2024-09-09 16:02:14,664 server.py:218: server Starting server process, press CTRL+C to shutdown server...
+INFO 2024-09-09 16:02:14,664 server.py:219: server After application startup complete see http://127.0.0.1:8000/docs for API.
+----
+
+=== Interacting with the Model
+
+To chat, open a new terminal using the `+` button above the terminal:
+
+image::ilab/second-terminal.png[Launch Activities]
+
+In the new terminal, run the following command to begin a chat session with the model:
+
+[source,bash]
+----
+cd ~/instructlab
+source venv/bin/activate
+ilab chat
+----
 
 We can now ask the trained model some parasol specific questions such as:
 
-- Who founded parasol insurance?
+- Does Parasol insurance policies include  loss of income cover if the insured driver is at fault?
 
-- Will Parasol insurance cover the cost of car rental if my car is undriveable as a result of an
- accident?
+- Will Parasol insurance cover the cost of car rental if my car is undriveable as a result of an accident?
+
+- What is Apex plus from parasol insurance?
+
+The answers are specific to Parasol's policies and demonstrate the ability for organizations to fine-tune models with their own data, to improve the accuracy of responses, which can be used in many use cases.
+
+== Conclusion
+
+This exercise showed how organizations can leverage fine tuning with InstructLab to improve the accuracy of LLM responses. Here's a quick summary of what we have learned:
+
+* You Learned about *fine-tuning* techniques for AI models, incorporating Parasol's unique insurance expertise into LLMs
+* Your also learned how to create and utilize a *custom knowledge base* for training AI models with organization-specific scenarios and regulations
+* You applied the *InstructLab* methodology to generate synthetic training data and specialize our model while keeping data in-house
+* You gained hands-on experience in *training and serving* a customized AI model
+* You understand the *benefits and limitations* of fine-tuning compared to other AI customization methods
+
+These skills and tools will be invaluable as you continue to develop AI-enabled applications at Parasol Insurance, allowing you to quickly iterate on ideas and integrate powerful AI capabilities into your workflow.
+
+== Appendix
+
+These commands install VSCode and a few other needed tools. You should not have to run these, it's only here for reference.
+
+[.console-input]
+[source,bash,subs="+attributes,macros+"]
+----
+curl -L -o files/vscode.rpm 'https://code.visualstudio.com/sha/download?build=stable&os=linux-rpm-x64'
+sudo dnf install -y xdg-utils
+sudo rpm -ivh files/vscode.rpm
+sudo dnf -y install zip gcc glibc-devel zlib-devel firefox
+curl -s "https://get.sdkman.io" | bash
+source "/home/instruct/.sdkman/bin/sdkman-init.sh"
+sdk install java 21.0.3-tem
+pip install 'numpy<2.0'
+cat <<EOF >> /home/instruct/instructlab/config.yaml
+chat:
+  context: default
+  greedy_mode: false
+  logs_dir: data/chatlogs
+  max_tokens: null
+  model: models/merlinite-7b-lab-Q4_K_M.gguf
+  session: null
+  vi_mode: false
+  visible_overflow: true
+general:
+  log_level: INFO
+generate:
+  chunk_word_count: 1000
+  model: models/merlinite-7b-lab-Q4_K_M.gguf
+  num_cpus: 10
+  num_instructions: 100
+  output_dir: generated
+  prompt_file: prompt.txt
+  seed_file: seed_tasks.json
+  taxonomy_base: origin/main
+  taxonomy_path: taxonomy
+serve:
+  gpu_layers: -1
+  host_port: 127.0.0.1:8000
+  max_ctx_size: 4096
+  model_path: models/merlinite-7b-lab-Q4_K_M.gguf
+EOF
+----
