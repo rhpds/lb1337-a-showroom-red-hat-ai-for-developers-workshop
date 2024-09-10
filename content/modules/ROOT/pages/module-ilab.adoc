@@ -236,9 +236,9 @@ Perfect, now we have the basic working structure.  Let’s now start adding the 
 
 === Knowledge File #1: Driving Age
 
+include::partial-vnc-copy-paste.adoc[]
+
 [%collapsible]
-====
-// - **Driving age**: 
 
 There are specific driving age rules for New Hampshire and Alaska for Teens driving. Lets add this information to the Model. 
 

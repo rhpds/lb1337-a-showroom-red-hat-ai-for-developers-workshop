@@ -1,6 +1,7 @@
 = Podman Desktop AI Lab - 40 minutes
 :imagesdir: ../assets/images
 :sectnums:
+:experimental:
 
 ++++
 <!-- Google tag (gtag.js) -->
@@ -58,9 +59,11 @@ With Podman AI Lab, we're provided a curated catalog of open-source recipes, rea
 
 == Exploring the Podman AI Lab Interface
 
-Your developer environment includes Podman Desktop pre-installed with the AI Lab extension, allowing you to instantly get started exploring and working with Generative AI in your application development workflow.
+Your developer environment includes Podman Desktop with an AI Lab extension that you will install, allowing you to instantly get started exploring and working with Generative AI in your application development workflow.
 
 === Launch Podman Desktop AI Lab
+
+To provide you with an easy to use desktop, we have provisioned a Red Hat Enterprise Linux machine, and setup noVNC to allow you to access the desktop from your browser.
 
 If you have not already connected to your noVNC server, connect to it now: {novnc_url}[*{novnc_url}*,window=_blank], using the password `{password}`.
 
@@ -139,6 +142,8 @@ Specifically, the `Client Code` section provides developers with code snippets i
 * *Sample prompt*: A basic example query to test the model's functionality.
 
 image::discovery/model-service-client-code.png[Podman AI Lab Model Service Client Code]
+
+include::partial-vnc-copy-paste.adoc[]
 
 === Testing out Playground Environments
 
