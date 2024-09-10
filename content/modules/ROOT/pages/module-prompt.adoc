@@ -111,7 +111,9 @@ Run the following command from the cli using the terminal window just created:
 ./mvnw quarkus:dev
 ----
 
-You will be prompted that a new application was detected with an open web port. Acknowledge this and choose to open in a new tab.  
+In a minute or so, you will be prompted that a new application was detected with an open web port.  Disregard this confirmation dialog.  Instead, let's use the "Endpoints" section at the bottom of the "Explorer" window on the left-hand side of the screen.  In that view, click the middle icon adacent to "quarkus-devui" that opens Dev UI in a new tab.  See the following screenshot for guidance.
+
+image::prompt/open_devui_from_endpoints.png[Open Dev-UI Using Endpoints Explorer]
 
 Access the http://{user}-parasol-insurance-quarkus-devui{openshift_cluster_ingress_domain}/q/dev-ui[Quarkus Dev UI^].
 
