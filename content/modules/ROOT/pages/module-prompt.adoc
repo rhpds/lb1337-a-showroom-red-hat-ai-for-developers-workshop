@@ -347,7 +347,6 @@ As the AI Developer, you have been given access to a robust LLM that has already
 ** *Unknown* - In the event that the message isn't business relevant or is non-sensical, the email should be a customer reply with a generic error response.
 * Generate an email response for the customer indicating the action we are taking from their email.
 * Respond with a JSON response that provides the following fields:
-** *claimStatus* - field indicating whether the email is in regards to a new or existing claim or is unrelated to the claims processing line of businses
 ** *address* - where the email should be forwarded to based on the content of the message
 ** *subject* - the email subject to accompany the forwarded email
 ** *message* - what message should be included at the top of the email indicating to the customer explaining why the message is being forwarded
@@ -361,13 +360,13 @@ As the AI Developer, you have been given access to a robust LLM that has already
 
 * Output must be one of the following, where <Customer Comment> is a brief explanation to the customer describing why the email is being forwarded and to whom:
 
-`{ "claimStatus": "NEW", "address": "new.claim@parasol.com", "subject": "<Email Subject>", "message": "<Customer Comment>" }`
+`{ "address": "new.claim@parasol.com", "subject": "<Email Subject>", "message": "<Customer Comment>" }`
 
-`{ "claimStatus": "EXISTING", "address": "existing.claim@parasol.com", "subject": "<Email Subject>", "message": "<Customer Comment>" }`
+`{ "address": "existing.claim@parasol.com", "subject": "<Email Subject>", "message": "<Customer Comment>" }`
 
-`{ "claimStatus": "UNRELATED", "address": "customer.service@parasol.com", "subject": "<Email Subject>", "message": "<Customer Comment>" }`
+`{ "address": "customer.service@parasol.com", "subject": "<Email Subject>", "message": "<Customer Comment>" }`
 
-`{ "claimStatus": "UNKNOWN", "address": "discard@parasol.com", "subject": "<Email Subject>", "message": "<Customer Comment>" }`
+`{ "address": "discard@parasol.com", "subject": "<Email Subject>", "message": "<Customer Comment>" }`
 
 
 === Write a prompt!
