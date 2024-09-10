@@ -1,7 +1,7 @@
 :imagesdir: ../assets/images
 :sectnums:
 
-== Deploy the existing Parasol applications in Red Hat Developer Hub
+== Deploy the existing Parasol application in Red Hat Developer Hub
 
 https://access.redhat.com/products/red-hat-developer-hub[Red Hat Developer Hub (RHDH)^] is an enterprise-grade, self-managed, and customizable *developer portal* built on top of https://backstage.io/[Backstage.io^]. It's designed to streamline the development process for organizations, specifically those using Red Hat products and services. Here's a breakdown of its key benefits:
 
@@ -14,17 +14,17 @@ Red Hat Developer Hub has already been installed and configured in the workshop 
 
 === Access Red Hat Developer Hub
 
-Red Hat Developer Hub can integrate with https://access.redhat.com/products/red-hat-single-sign-on/[Red Hat Single Sign On (RH-SSO)^] to enhance security and user experience for developers within an organization. By integrating with RH-SSO, developers only need to log in once to access both RHDH and other applications secured by RH-SSO. This eliminates the need to manage multiple login credentials for different developer tools and services. RH-SSO can centralize user authentication and authorization to strengthen security by ensuring only authorized users can access RHDH and other protected resources. In addition, The platform engineer team can manage user access and permissions centrally through RH-SSO, simplifying administration and reducing the risk of unauthorized access.
+Red Hat Developer Hub integrates with https://access.redhat.com/products/red-hat-single-sign-on/[Red Hat Single Sign On (RH-SSO)^] to enhance security and user experience for developers within an organization. By integrating with RH-SSO, developers only need to log in once to access both RHDH and other applications secured by RH-SSO. This eliminates the need to manage multiple login credentials for different developer tools and services. RH-SSO centralizes user authentication and authorization to strengthen security by ensuring only authorized users can access RHDH and other protected resources. In addition, The platform engineering team can manage user access and permissions centrally through RH-SSO, simplifying administration and reducing the risk of unauthorized access.
 
-To get started, *access* https://backstage-backstage{openshift_cluster_ingress_domain}[Red Hat Developer Hub Dashboard^] to authenticate by the *GitLab*. 
+To get started, *access* https://backstage-backstage{openshift_cluster_ingress_domain}[Red Hat Developer Hub Dashboard^] to authenticate by *GitLab*.
 
 Choose the *GitLab* option.
- 
+
 image::devhub/authentication.png[]
 
 Enter the following credential in the Gitlab login page.
 
-* *Username*: 
+* *Username*:
 
 [.console-input]
 [source,yaml,subs="attributes"]
@@ -32,7 +32,7 @@ Enter the following credential in the Gitlab login page.
 {user}
 ----
 
-* *Password*: 
+* *Password*:
 
 [.console-input]
 [source,yaml,subs="attributes"]
@@ -40,13 +40,15 @@ Enter the following credential in the Gitlab login page.
 {password}
 ----
 
-image::devhub/gitlab_authentication.png[] 
+image::devhub/gitlab_authentication.png[]
+
+Click `Authorize` to allow the authentication to proceed.
 
 Find more information about the Red Hat Developer Hub https://developers.redhat.com/rhdh[here^].
 
-=== Create a Parasol LLM software template
+=== Use software templates to deploy the Parasol Customer Service App
 
-In Red Hat Developer Hub, a software template serves as a pre-configured blueprint for creating development environments and infrastructure. Here's a closer look at software templates in Dev Hub. Software templates streamline the process of setting up development environments by encapsulating pre-defined configurations. This saves developers time and effort compared to manually configuring everything from scratch.
+In Red Hat Developer Hub, a software template serves as a pre-configured blueprint for creating development environments and infrastructure. Software templates streamline the process of setting up development environments by encapsulating pre-defined configurations. This saves developers time and effort compared to manually configuring everything from scratch.
 
 Click on `Create...` on the left menu. Then, type *Parasol* in the search bar. Then, `Choose` the *Parasol Insurance for Red Hat AI App Development (RAD) Workshop* template.
 
@@ -56,7 +58,7 @@ Follow the next steps to create a component based on the pre-defined Software Te
 
 ==== Provide Information for Application
 
-* *Name*: The name of the component. Replace the *Name* with the following domain.
+* *Name*: The name of the component. Replace the *Name* with the following domain:
 
 [.console-input]
 [source,bash,subs="attributes"]
@@ -64,11 +66,11 @@ Follow the next steps to create a component based on the pre-defined Software Te
 parasol-app-{user}
 ----
 
-* *Group Id*: Maven Group Id.
-* *Artifact Id*: Maven Artifact Id.
-* *Java Package Name*: Name for the java package. e.g., (com.redhat.example)
+* *Group Id*: Maven Group Id. (leave this as-is)
+* *Artifact Id*: Maven Artifact Id. (leave this as-is)
+* *Java Package Name*: Name for the java package. (e.g. `org.redhat.janus` - leave this as-is)
 
-image::devhub/st_app_info.png[]  
+image::devhub/st_app_info.png[]
 
 Click on *Next*.
 
@@ -94,27 +96,29 @@ When you click on *Review*, you will see the following review information.
 
 image::devhub/st_component_review.png[]
 
-click on *Create* to proceed.
+Click on *Create* to proceed.
 
 == Observe the application overview
 
-You have just created the Parasol application with Red Hat Developer Hub. Explore the components and the application overview.
+You have just created the Parasol application with Red Hat Developer Hub. This application is used by Parasol Customer Service Representatives to enter, organize, and update existing insurance claims for its customers. An AI-powered chatbot is included for reps to use to answer questions about the claims. This chatbot is driven by an LLM that has been fine-tuned with Parasol Insurance private data, including corporate policies around insurance claims.
 
 === Open component in catalog
 
-With all your activities in green, click `Open Component in catalog`. 
+When all of the initialization steps are successful (green check mark), click `Open Component in catalog`.
 
 image::devhub/task_activity.png[]
 
-The Dev Hub will open a new tab with the component information. It will take some time to review the Deployment summary on the overview page.
+Dev Hub will open a new tab with the component information. Take a few moments to review the Deployment summary on the overview page.
 
-image::devhub/parasol_overview.png[] 
+NOTE: It may take a minute or two for items to appear in the **Deployment summary** section.
+
+image::devhub/parasol_overview.png[]
 
 === View source
 
 Click on `VIEW SOURCE` to access the new source code repository created.
 
-image::devhub/parasol_source.png[] 
+image::devhub/parasol_source.png[]
 
-Go back to your parasol component on the Red Hat Developer Hub: https://backstage-backstage{openshift_cluster_ingress_domain}/catalog/default/component/parasol-app-{user}[Red Hat Developer Hub UI^].
+Go back to your Parasol component on Red Hat Developer Hub: https://backstage-backstage{openshift_cluster_ingress_domain}/catalog/default/component/parasol-app-{user}[Red Hat Developer Hub UI^].
 
