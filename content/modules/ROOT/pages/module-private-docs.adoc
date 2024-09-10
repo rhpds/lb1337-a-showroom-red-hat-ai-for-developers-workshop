@@ -332,6 +332,10 @@ Let's try it out! Go back to the browser and refresh the claim page for claim 19
 
 image::private-docs/chat-response-email.png[Chatbot response]
 
+If you refresh the chat page you should also see that the claim's status has now been changed to denied:
+
+image::private-docs/claim-denied.png[Claim denied]
+
 Since we're running this exercise in Quarkus Dev Mode, we can actually test if the email functionality actually works, thanks to the MailPit extension which provides a Quarkus Dev Service with a mock email server. 
 
 Go to the Quarkus Dev UI by opening the **Endpoints** view within Dev Spaces and finding **quarkus-devui**, then click the **Open in a new tab** button.
