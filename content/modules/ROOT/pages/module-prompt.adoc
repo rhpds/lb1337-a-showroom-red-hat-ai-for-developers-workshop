@@ -113,7 +113,7 @@ Run the following command from the cli using the terminal window just created:
 
 You will be prompted that a new application was detected with an open web port. Acknowledge this and choose to open in a new tab.  
 
-Access the (http://{user}-parasol-insurance-quarkus-devui{openshift_cluster_ingress_domain}/q/dev-ui)[Quarkus Dev UI^].
+Access the http://{user}-parasol-insurance-quarkus-devui{openshift_cluster_ingress_domain}/q/dev-ui[Quarkus Dev UI^].
 
 Click on `Chat`.  This is highlighted with a red box in the screenshot below.
 
