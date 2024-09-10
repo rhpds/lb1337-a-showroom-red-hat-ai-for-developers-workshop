@@ -148,7 +148,7 @@ TIP: See the xref:module-ilab.adoc[AI Model Fine-Tuning module^] for more inform
 
 === Add Parasol-specific policies to the LLM's knowledge base with RAG
 
-While we could use a https://www.ibm.com/topics/vector-database[vector database] to store vectorized data to use with RAG, we can also simply specify a directory where text-based files are stored. We can then parse this data, retrieve similar data, vectorize it, and pass it along to our LLM calls. This process is made very easy with the aptly named https://docs.quarkiverse.io/quarkus-langchain4j/dev/easy-rag.html["Easy RAG" extension in Quarkus^].
+While we could use a https://www.ibm.com/topics/vector-database[vector database^] to store vectorized data to use with RAG, we can also simply specify a directory where text-based files are stored. We can then parse this data, retrieve similar data, vectorize it, and pass it along to our LLM calls. This process is made very easy with the aptly named https://docs.quarkiverse.io/quarkus-langchain4j/dev/easy-rag.html["Easy RAG" extension in Quarkus^].
 
 Return to Dev Spaces and open a new terminal window as you did before (click on the **hamburger** menu button in the top left, then click on **Terminal** and finally on **New Terminal**), or click the **+** button on the top-right of your current terminal.
 
