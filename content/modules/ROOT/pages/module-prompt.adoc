@@ -397,7 +397,20 @@ If you run into challenges while drafting the prompt, ask your instructor for as
 
 === Test emails to speed up prompt development
 
-*Example - NEW*
+[IMPORTANT]
+====
+If you haven't created *a new Gen AI email service* in the previous module yet, create the new email service by running the following magic bash script in VS Code terminal. If you're still running the Quarkus dev mode, open a new terminal window to run the script.
+
+[.console-input]
+[source,shell,subs="+attributes,macros+"]
+----
+sh ${PROJECT_SOURCE}/scripts/create-email-ai-service.sh
+----
+
+Access the https://parasol-app-{user}-dev-parasol-app-{user}-dev{openshift_cluster_ingress_domain}[Parasol web page^] to verify the Gen AI email service.
+====
+
+==== Generate an email for `new claim #1` to the new.claim@parasol.com
 
 [.console-input]
 [source,text,subs="+attributes,macros+"]
@@ -426,7 +439,11 @@ Jane Doe
 Policy Number: AC-987654
 ----
 
-*Example - NEW*
+The response should look like this:
+
+image::prompt/output_example_new_1.png[output_example_new_1]
+
+==== Generate an email for `new claim #2` to the new.claim@parasol.com
 
 [.console-input]
 [source,text,subs="+attributes,macros+"]
@@ -457,6 +474,12 @@ Sincerely,
 Dominic Toretto
 ----
 
+The response should look like this:
+
+image::prompt/output_example_new_2.png[output_example_new_2]
+
+==== Generate an email for `existing claim #1` to the existing.claim@parasol.com
+
 *Example - EXISTING*
 
 [.console-input]
@@ -481,8 +504,11 @@ CC: My 17 Twitter Followers
 Attach: Police Report No. 12345, Photos of the Incident, Documented Calls and Emails
 ----
 
+The response should look like this:
 
-*Example - EXISTING*
+image::prompt/output_example_existing_1.png[output_example_existing_1]
+
+==== Generate an email for `existing claim #2` to the existing.claim@parasol.com
 
 [.console-input]
 [source,text,subs="+attributes,macros+"]
@@ -506,8 +532,11 @@ CC: Master of Coin
 Attach: Car Damage Photos, Eyewitness Accounts, Incident Report No. KL509
 ----
 
+The response should look like this:
 
-== Update the Parasol Insurance Java App w/New Prompt
+image::prompt/output_example_existing_2.png[output_example_existing_2]
+
+== Update the Parasol Insurance Java App with New Prompt
 
 === Objectives
 
@@ -584,8 +613,6 @@ During a prior workshop activity, email response generation using LangChain4j wa
 image::prompt/parasol-generate-email-response-form.png[Generate Email Response Web Form]
 
 IMPORTANT: Section 5 of the Parasol AI Developer Workflow module provides steps for introducing a new email feature into the application using generative AI.  The following section builds upon this feature with new capabilities. If you have not yet completed that section, you should either do so now or use the following script to automatically incorporate those changes for modification here.
-
-*TODO -- <<<<Instructions for Magic Script>>>>*
 
 The Parasol Insurance application is invoking the LLM using LangChain4j's AI Service framework.  This approach leverages Java Interfaces created by the user with annotations that define the prompt using a String.  Let's open the AI Service that was previously created for Email Response Generation:
 
