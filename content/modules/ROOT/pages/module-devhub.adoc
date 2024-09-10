@@ -1,4 +1,4 @@
-= Parasol AI Developer Workflow - 50 minutes
+= Parasol AI Developer Workflow - 60 minutes
 :imagesdir: ../assets/images
 :sectnums:
 
@@ -394,7 +394,7 @@ image::devhub/new_parasol_ui_web.png[]
 Try to submit a simple draft email content. Copy/paste in the following email received from a customer:
 
 [.console-input]
-[source,text]
+[source,text,subs="+attributes,macros+"]
 ----
     Dear Parasol Insurance Team,
 
