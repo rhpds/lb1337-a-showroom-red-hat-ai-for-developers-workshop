@@ -164,7 +164,12 @@ In the new terminal, add this extension by running the following command:
 
 You will see that a new extension was added to your application:
 
-image::private-docs/quarkus-easy-rag.png[Quarkus Easy Rag Extension added]
+[.console-output]
+[source,java]
+----
+[INFO] Looking for the newly published extensions in registry.quarkus.io
+[INFO] [SUCCESS] ✅  Extension io.quarkiverse.langchain4j:quarkus-langchain4j-easy-rag:xx.xx.xx has been installed
+----
 
 [NOTE]
 ====
@@ -199,7 +204,7 @@ That's all there is to it! When Quarkus restarts it will read the `src/main/reso
 
 Reload the browser window to make sure Quarkus Dev mode picks up the changes. 
 
-Now ask the same question in the chat window: "According to the policy term limit, should this claim be approved?". This time the bot should be able to answer the questions with accurate information based on the policies document!
+Now ask the same question in the chat window: *"According to the policy term limit, should this claim be approved?"*. This time the bot should be able to answer the questions with accurate information based on the policies document!
 
 image::private-docs/chat-response-rag.png[Chat response with RAG]
 
