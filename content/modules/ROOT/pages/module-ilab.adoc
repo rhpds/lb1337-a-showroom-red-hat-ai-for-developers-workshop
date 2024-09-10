@@ -232,13 +232,11 @@ We should create a knowledge folder structure that we can add to later as we add
 
 image::ilab/ilab-taxonomy-create-folder2.png[New folder]
 
-Perfect, now we have the basic working structure.  Let’s now start adding the following taxonomy knowledge files for Parasol Insurance, consisting of the following (you can expand each section to see the instructions):
+Perfect, now we have the basic working structure. Let’s now start adding the following taxonomy knowledge files for Parasol Insurance, consisting of the following (you can expand each section to see the instructions):
 
 === Knowledge File #1: Driving Age
 
 include::partial-vnc-copy-paste.adoc[]
-
-[%collapsible]
 
 There are specific driving age rules for New Hampshire and Alaska for Teens driving. Lets add this information to the Model. 
 
@@ -281,7 +279,6 @@ document:
   patterns:
     - alaska_teen_driving_laws.md
     - new_hampshire_driving_laws.md
-
 ----
 
 And now lets also create an attribution.txt file for citing sources. Copy the following and create a new file `attribution.txt` in the folder `driving_age`
@@ -300,9 +297,7 @@ Each qna.yaml file requires a minimum of five question and answer pairs.
 An `attribution.txt` that includes the sources for the information used in the qna.yaml
 
 === Knowledge File #2: Parasol Claims Data
-// - **Parasol claims data**
-[%collapsible]
-====
+
 Like any insurance company on the planet, data is stored into multiple systems, files etc. Employees at Parasol Insurance either using the system for the first time or using it for e.g. detecting fraud, tyring to understand the glossary, acronyms etc. A good example is `Policy ID,` a unique ID for policy in our database systems. The LLM does not know about this. By adding this, we can ensure that once a claims agent or an application asks about a policy ID, the LLM can give reasonable answers and suggestions. 
 
 Create a new folder `parasol_claims_data` under `knowledge > economy > finance > insurance` as shown in the image below
@@ -357,10 +352,6 @@ Creator names: Syed M Shaaf, Philip Hayes
 
 
 === Knowledge File #3: Parasol Insurance Overview
-// - **Parasol insurance**
-
-[%collapsible]
-====
 
 Here, we are adding some basic information about Parasol Insurance, an overview of product details. This will enable the LLM to give answers on a high level about the different offerings, fomulate a context about Parasol Insurance, history etc. 
 
@@ -427,10 +418,6 @@ Creator names: Syed M Shaaf, Philip Hayes
 
 
 === Knowledge File #4: Parasol Policies
-// - **Parasol policies**
-
-[%collapsible]
-====
 
 Here, we are adding information specific to policies in relation to the different products. This will help our claims processing agents to ask questions about specific cases and scenarios to the LLM. The LLM should be able to suggest remedies or further knowledge to look into.
 
@@ -480,7 +467,6 @@ Link to work: https://huggingface.co/rh-rad-ai-roadshow
 License of the work: CC-BY-SA-4.0
 Creator names: Syed M Shaaf, Philip Hayes
 ----
-====
 
 // Cedric has stopped here, will continue later :P
 
