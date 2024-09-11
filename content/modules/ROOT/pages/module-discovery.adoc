@@ -88,7 +88,7 @@ image::discovery/podman-ext.png[Launch Podman Desktop]
 
 ==== From the extensions sidebar of Podman Desktop
 
-Navigate to the AI Lab icon
+Navigate to the AI Lab icon.
 
 image::discovery/ai-lab-extension-menu.png[Podman AI Lab Extension]
 
