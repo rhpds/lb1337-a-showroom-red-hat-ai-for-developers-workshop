@@ -72,16 +72,15 @@ As you work with InstructLab, you will see the terms _Skills_ and _Knowledge_. W
 
 === Access your Virtual Environment
 
-To begin working with InstructLab, you'll need to access the provided noNVC virtual environment. This environment comes pre-configured with all necessary tools and dependencies: {novnc_url}[*{novnc_url}*,window=_blank], using the password `{password}`.
+To begin working with InstructLab, you'll need to access the provided noNVC virtual environment. This environment comes pre-configured with all necessary tools and dependencies. Connect to {novnc_url}[noVNC server,window=_blank] using the password `{password}`.
 
-. Click the `Activities` label in the top-left corner of the screen.
+==== Click the `Activities` label in the top-left corner of the screen
 
 // REMOVE Once CI is updated
 
 NOTE: The following step will be removed once the CI is updated.
 
-[start=2]
-. Click on *Terminal*, and enter the following commands that can be found in the *Details*:
+==== Click on *Terminal*, and enter the following commands that can be found in the *Details*
 
 [%collapsible]
 ====
@@ -143,23 +142,19 @@ nohup java -jar -Dquarkus.langchain4j.openai.parasol-chat.base-url=http://localh
 
 // End of Remove block
 
-[start=3]
-. Click the `Show Applications` icon to show all the applications.
+==== Click the `Show Applications` icon to show all the applications.
 
-[start=4]
-. Click the `Visual Studio Code` icon to launch Visual Studio Code.
+==== Click the `Visual Studio Code` icon to launch Visual Studio Code.
 
 image::ilab/launch-vscode-desktop.png[Launch Podman Desktop]
 
-// [start=4]
+==== InstructLab mainly relies on the https://github.com/instructlab/instructlab[`ilab`] command-line interface (CLI) to interact with the project. 
 
-[start=5]
-. InstructLab mainly relies on the https://github.com/instructlab/instructlab[`ilab`] command-line interface (CLI) to interact with the project. To access the `ilab` CLI, open a new terminal in Visual Studio Code by clicking on the `Terminal` menu and selecting `New Terminal`.
+To access the `ilab` CLI, open a new terminal in Visual Studio Code by clicking on the `Terminal` menu and selecting `New Terminal`.
 
 image::ilab/vscode-new-terminal-menu.png[Open new VSCode terminal]
 
 include::partial-vnc-copy-paste.adoc[]
-
 
 == Model Fine-Tuning for the Insurance Organization
 
@@ -167,9 +162,9 @@ In the next few sections, we'll walk through the process of fine-tuning an AI mo
 
 Parasol Insurance's primary concern is ensuring that its staff is capable of handling such requests and has access to this information through a single interface rather than going through multiple systems to scrape documents and internal portal pages. To this end, you have been tasked with adding knowledge that will aid the following use cases.
 
-. Products and coverage (ex. providing comprehensive policy and product information)
-. Basic knowledge of the Insurance rules (ex. offering insights on relevant local regulations)
-. Responses to general claim questions and remedies (ex. generating product-specific email templates)
+* Products and coverage (ex. providing comprehensive policy and product information)
+* Basic knowledge of the Insurance rules (ex. offering insights on relevant local regulations)
+* Responses to general claim questions and remedies (ex. generating product-specific email templates)
 
 image::ilab/parasol-insurance-chat.png[Parasol Insurance]
 
@@ -228,7 +223,7 @@ Now that we understand the constructs of the taxonomy's knowledge, let's go ahea
 
 You can open VSCode by following the instructions below:
 
-. Open the `instructlab` directory in Visual Studio Code through the terminal:
+==== Open the `instructlab` directory in Visual Studio Code through the terminal:
 
 [.console-input]
 [source,bash,subs="+attributes,macros+"]
@@ -237,22 +232,26 @@ cd ~/instructlab && code . --reuse-window
 ----
 
 [start=2]
-. With the new window open, you can select *Yes, I trust the authors* to proceed. You'll be prompted to enter your password, `{password}`, to confirm the action.
+==== With the new window open, you can select *Yes, I trust the authors* to proceed
+
+You'll be prompted to enter your password, `{password}`, to confirm the action.
 
 image::ilab/vscode-trust-authors.png[Trust Authors]
 
 [start=3]
-. Navigate to the `taxonomy/knowledge/` folder  . This file will contain the questions and answers that will be used to train the model.
+==== Navigate to the `taxonomy/knowledge/` folder
 
-[start=4]
-. Lets create a structure for Parasol insurance knowledge. To do that create folders by first right clicking on the `Knowledge` folder, and then pressing `New Folder`, as shown in the screen shot below
+This file will contain the questions and answers that will be used to train the model.
+
+==== Create a structure for Parasol insurance knowledge
+
+To do that create folders by first right clicking on the `Knowledge` folder, and then pressing `New Folder`, as shown in the screen shot below
 
 image::ilab/ilab-taxanomy-create-folder.png[New Folder]
 
 We should create a knowledge folder structure that we can add to later as we add more knowledge and for our peers to also understand how its structured. Lets create a structure like this `knowledge > economy > finance > insurance`. In VSCode this is quite easy. 
 
-[start=5]
-. In the field as shown in the image below type `economy/finance/insurance`
+==== In the field as shown in the image below type `economy/finance/insurance`
 
 image::ilab/ilab-taxonomy-create-folder2.png[New folder]
 
@@ -515,11 +514,11 @@ Creator names: Syed M Shaaf, Philip Hayes
 
 Now that we've added data, let's check that the taxonomy is recognized by InstructLab. This will help us ensure that the data we've added is valid and can be used to generate synthetic training data.
 
-. We're going to run some commands from the terminal, so from the `Terminal` menu, select `New Terminal` to open a new terminal window (or use the terminal you already have open).
+We're going to run some commands from the terminal, so from the `Terminal` menu, select `New Terminal` to open a new terminal window (or use the terminal you already have open).
 
 image::ilab/vscode-new-terminal-menu.png[Open new VSCode terminal]
 
-. Let's navigate to the `instructlab` directory:
+Let's navigate to the `instructlab` directory:
 +
 [.console-input]
 [source,bash,subs="+attributes,macros+"]
@@ -527,7 +526,7 @@ image::ilab/vscode-new-terminal-menu.png[Open new VSCode terminal]
 cd ~/instructlab
 ----
 
-. Now, activate the Python virtual environment:
+Now, activate the Python virtual environment:
 +
 [.console-input]
 [source,bash,subs="+attributes,macros+"]
@@ -535,7 +534,7 @@ cd ~/instructlab
 source venv/bin/activate
 ----
 
-. Run the following command to check the validity of the taxonomy:
+Run the following command to check the validity of the taxonomy:
 +
 [.console-input]
 [source,bash,subs="+attributes,macros+"]
@@ -561,31 +560,28 @@ If you do not see output similar to above, you may not have added in all of the 
 
 Now that we've added some initial data, let's use InstructLab to generate synthetic training data. Large Language Models inherently require a large amount of data to be effective, and it can be difficult to find enough real-world data for a niche domain. However, by using InstructLab, we can generate synthetic data that can be used to train the model. 
 
-. Open a terminal in Visual Studio Code.
+=== Open a terminal in Visual Studio Code
 
 image::ilab/vscode-new-terminal-menu.png[Open new VSCode terminal]
 
-[start=2]
-. Run the following command to generate synthetic training data:
-+
+=== Run the following command to generate synthetic training data
+
 [.console-input]
 [source,bash,subs="+attributes,macros+"]
 ----
 cd ~/instructlab
 ----
 
-[start=3]
-. Activate the Python virtual environment:
-+
+=== Activate the Python virtual environment
+
 [.console-input]
 [source,bash,subs="+attributes,macros+"]
 ----
 source venv/bin/activate
 ----
 
-[start=4]
-. Run the data generation command:
-+
+=== Run the data generation command:
+
 [.console-input]
 [source,bash,subs="+attributes,macros+"]
 ----
@@ -690,9 +686,7 @@ ilab chat
 We can now ask the trained model some parasol specific questions such as:
 
 - Does Parasol insurance policies include  loss of income cover if the insured driver is at fault?
-
 - Will Parasol insurance cover the cost of car rental if my car is undriveable as a result of an accident?
-
 - What is Apex plus from parasol insurance?
 
 image::ilab/new-model-responses.png[Launch Activities]
