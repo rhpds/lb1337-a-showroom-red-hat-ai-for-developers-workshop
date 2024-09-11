@@ -16,11 +16,7 @@
 
 == Goals of this lab
 
-Need to add the goals here.
-
-== Integrating AI into an Existing Application
-
-Parasol Insurance is looking to not only build new apps but also integrate generative AI into their existing applications, such as their customer service representative tools used to respond to customer claim emails. In this exercise, you will:
+Parasol Insurance is looking to not only build new apps but also *integrate generative AI into their existing applications*, such as their customer service representative tools used to respond to customer claim emails. The goal of this lab is to integrate private data from internal documents and other data sources into the existing application, improving accuracy of the responses from the assistant AI service and ultimately improving customer satisfaction. To achieve this goal, you will:
 
 * Dive into advanced application integration techniques for AI, exploring how to *integrate* AI into applications for Parasol's unique needs
 * Learn how to ingest and utilize *private* documents securely
@@ -68,7 +64,7 @@ TIP: If you're unfamiliar with what a system or user message is, you might want 
 include::https://raw.githubusercontent.com/rh-rad-ai-roadshow/ai-llm-template/main/scaffolder-templates/parasol-java-template/skeleton/src/main/java/org/parasol/ai/ClaimService.java[]
 ----
 
-You can also explore the `src/main/resources/application.properties` file to review the application configuration, including the Quarkus configuration and the LangChain4j extension settings. 
+You can also explore the `src/main/resources/application.properties` file to review the application configuration, including the Quarkus configuration and the LangChain4j extension settings.
 
 .src/main/resources/application.properties
 [source,properties,subs="+attributes,macros+"]
@@ -86,7 +82,7 @@ Open a terminal window within Dev Spaces by clicking on the **hamburger** menu b
 
 image::private-docs/new-terminal.png[New Terminal]
 
-In the terminal window that has appeared at the bottom of the editor, run the following command: 
+In the terminal window that has appeared at the bottom of the editor, run the following command:
 
 [.console-input]
 [source,bash,subs="+attributes,macros+"]
@@ -140,7 +136,7 @@ The answer you will get back might be different from the one in the screenshot a
 
 == Embedding Documents with RAG
 
-https://research.ibm.com/blog/retrieval-augmented-generation-RAG[Retrieval-Augmented Generation (RAG)^] is a technique that enhances language models by providing them with relevant information retrieved from a knowledge base. This is particularly useful when dealing with domain-specific knowledge or private data. 
+https://research.ibm.com/blog/retrieval-augmented-generation-RAG[Retrieval-Augmented Generation (RAG)^] is a technique that enhances language models by providing them with relevant information retrieved from a knowledge base. This is particularly useful when dealing with domain-specific knowledge or private data.
 
 === When to use RAG vs fine-tuning
 Use Retrieval-Augmented Generation (RAG) when you need to access a dynamic knowledge base in real-time, especially for tasks that involve varied or constantly updating information. RAG is ideal if you require scalability, need to handle out-of-domain queries, or want to deploy quickly without the resource demands of fine-tuning - which often requires specialized knowledge of working with AI models, something application developers often don't possess.
@@ -205,7 +201,7 @@ TIP: In production, these embeddings would most likely be pre-computed as part o
 
 That's all there is to it! When Quarkus restarts it will read the `src/main/resources/policies/policy-info.pdf` file and compute vectorized embeddings for all the text in the document. It will then store these embeddings into an in-memory vector store. When chatting with the chatbot the application will first query the vector store for relevant information, which it will then pass to the LLM with the user's query.
 
-Reload the browser window to make sure Quarkus Dev mode picks up the changes. 
+Reload the browser window to make sure Quarkus Dev mode picks up the changes.
 
 Now ask the same question in the chat window: *"According to the policy term limit, should this claim be approved?"*. This time the bot should be able to answer the questions with accurate information based on the policies document!
 
@@ -215,7 +211,7 @@ NOTE: The actual result you see may differ from the screenshot due to the non-de
 
 == Enhancing functionality with tools and agents
 
-Until now we have had fairly straightforward interactions with the AI LLM model, in that we have asked it questions and it responded with some text and it was up to us to interpret the result. 
+Until now we have had fairly straightforward interactions with the AI LLM model, in that we have asked it questions and it responded with some text and it was up to us to interpret the result.
 
 Wouldn't it be nice if we could instruct the model to actually call some code in our application and "do" something? That's what the https://docs.quarkiverse.io/quarkus-langchain4j/dev/agent-and-tools.html["Tool"] concept is all about.
 
@@ -344,7 +340,7 @@ If you refresh the chat page you should also see that the claim's status has now
 
 image::private-docs/claim-denied.png[Claim denied]
 
-Since we're running this exercise in Quarkus Dev Mode, we can actually test if the email functionality actually works, thanks to the MailPit extension which provides a Quarkus Dev Service with a mock email server. 
+Since we're running this exercise in Quarkus Dev Mode, we can actually test if the email functionality actually works, thanks to the MailPit extension which provides a Quarkus Dev Service with a mock email server.
 
 Go to the Quarkus Dev UI by opening the **Endpoints** view within Dev Spaces and finding **quarkus-devui**, then click the **Open in a new tab** button.
 
