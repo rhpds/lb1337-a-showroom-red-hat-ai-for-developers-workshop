@@ -371,7 +371,7 @@ document:
     - Insurance_claims_data.md
 ----
 
-And now lets also create an attribution.txt file for citing sources. Copy the following and create a new file `attribution.txt` in the folder `driving_age`
+And now lets also create an attribution.txt file for citing sources. Copy the following and create a new file `attribution.txt` in the folder `parasol_claims_data`
 
 [.console-input]
 [source,yaml]
@@ -441,7 +441,7 @@ document:
 
 
 ----
-And now lets also create an attribution.txt file for citing sources. Copy the following and create a new file `attribution.txt` in the folder `driving_age`
+And now lets also create an attribution.txt file for citing sources. Copy the following and create a new file `attribution.txt` in the folder `parasol_insurance`
 
 [.console-input]
 [source,yaml]
@@ -498,7 +498,7 @@ document:
     - Parasol_auto_insurance.md
 
 ----
-And now lets also create an attribution.txt file for citing sources. Copy the following and create a new file `attribution.txt` in the folder `driving_age`
+And now lets also create an attribution.txt file for citing sources. Copy the following and create a new file `attribution.txt` in the folder `parasol_policies`
 
 [.console-input]
 [source,yaml]
