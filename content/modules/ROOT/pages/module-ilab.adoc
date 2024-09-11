@@ -98,11 +98,11 @@ Your role is crucial in this process. You'll be adding a knowledge domain to the
 
 Knowledge consists of data and facts and is backed by documents. When you create knowledge for a model, you're giving it additional data to more accurately answer questions. Knowledge contributions in this project contain a few things:
 
-* A file in a https://github.com/rh-rad-ai-roadshow/parasol_knowledge[Git repository] that holds your information. For example, these repositories can include markdown versions of information on: Parasol products, insurance domain knowledge, claims processing etc.
+* A file in a https://github.com/rh-rad-ai-roadshow/parasol_knowledge[Git repository^] that holds your information. For example, these repositories can include markdown versions of information on: Parasol products, insurance domain knowledge, claims processing etc.
 * A `qna.yaml` file that asks and answers questions about the information in the git repository, with desirable responses.
 * An `attribution.txt` that includes the sources for the information used in the `qna.yaml`, which aids in transparency and accountability.
 
-LLMs have inherent limitations that make certain tasks extremely difficult, like doing math problems. They're great at other tasks, like creative writing. And they could be better at things like logical reasoning. However, these limitations can be overcome by providing them with the right knowledge (and skills, https://www.youtube.com/watch?v=_kbq-npuMC0[which InstructLab can also help with]). An LLM with knowledge helps it create a basis of information that it can learn from, then you can teach it to use this knowledge via the `qna.yaml` files.
+LLMs have inherent limitations that make certain tasks extremely difficult, like doing math problems. They're great at other tasks, like creative writing. And they could be better at things like logical reasoning. However, these limitations can be overcome by providing them with the right knowledge (and skills, https://www.youtube.com/watch?v=_kbq-npuMC0[which InstructLab can also help with^]). An LLM with knowledge helps it create a basis of information that it can learn from, then you can teach it to use this knowledge via the `qna.yaml` files.
 
 In our case we want the LLM to learn more about Parasol Insurance like so:
 
