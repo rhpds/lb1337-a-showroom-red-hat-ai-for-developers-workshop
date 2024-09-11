@@ -681,6 +681,8 @@ Now let's revisit the web form and test out the new AI-generated attribute:
 
 image::prompt/modernization-complete.png[Modernization Complete!]
 
+Stop the Quarkus dev mode environment by kbd:[Ctrl+C].
+
 Congratulations! You have successfully modernized the Parasol Insurance application and improved the enterprise business processes surrounding customer email handling!  We look forward to celebrating similar successes in your own applications!
 
 == Conclusion
