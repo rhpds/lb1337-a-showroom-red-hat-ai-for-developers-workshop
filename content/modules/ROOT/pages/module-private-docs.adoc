@@ -48,6 +48,8 @@ You'll be building new features in this application, based on https://developers
 ** *Embedding Support*: Integrates with document embedding stores like Redis, Chroma, or Infinispan to store and retrieve document context for the LLM.
 ** *Observability Integration*: Allows monitoring and logging of LLM interactions within your Quarkus application.
 
+include::partial-revert-devspaces-workspace.adoc[]
+
 === Understanding the application's codebase
 
 This Quarkus application is a customer service processing tool that handles customer claim emails for Parasol insurance. The team has recently improved the application with a chatbot to interact with the agent and to generate responses based on the email content. In the VS Code environment, navigate to the `src/main/java/org/parasol` directory, which contains the main source code of the application.
@@ -76,13 +78,9 @@ NOTE: The application is currently configured to be able to communicate with eit
 
 == Testing out the existing chatbot
 
-Now that we've checked out the chatbot code, let's test it locally.
+Now that we've checked out the chatbot code and gotten to a clean state, let's test it locally.
 
-Open a terminal window within Dev Spaces by clicking on the **hamburger** menu button in the top left, then click on **Terminal** and finally on **New Terminal** as seen below:
-
-image::private-docs/new-terminal.png[New Terminal]
-
-In the terminal window that has appeared at the bottom of the editor, run the following command:
+In the terminal window that you opened earlier at the bottom of the editor, run the following command:
 
 [.console-input]
 [source,bash,subs="+attributes,macros+"]

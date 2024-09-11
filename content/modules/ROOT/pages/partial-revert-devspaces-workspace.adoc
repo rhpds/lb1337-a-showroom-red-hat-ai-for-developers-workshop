@@ -1,0 +1,18 @@
+:imagesdir: ../assets/images
+:sectnums:
+
+=== Reset your workspaace
+
+Before examining the application's code we need to first ensure you are starting from a clean state. Whether this is the first module you are completing or not, this module assumes starting from scratch.
+
+Open a terminal window within Dev Spaces by clicking on the **hamburger** menu button in the top left, then click on **Terminal** and finally on **New Terminal** as seen below:
+
+image::private-docs/new-terminal.png[New Terminal]
+
+In the terminal window that has appeared at the bottom of the editor, run the following command:
+
+[.console-input]
+[source,bash,subs="+attributes,macros+"]
+----
+sh ${PROJECT_SOURCE}/scripts/clean-up.sh
+----
