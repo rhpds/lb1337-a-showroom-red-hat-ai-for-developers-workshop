@@ -80,9 +80,9 @@ In the next few sections, we'll walk through the process of fine-tuning an AI mo
 
 Parasol Insurance's primary concern is ensuring that its staff is capable of handling such requests and has access to this information through a single interface rather than going through multiple systems to scrape documents and internal portal pages. To this end, you have been tasked with adding knowledge that will aid the following use cases.
 
-* Products and coverage (ex. providing comprehensive policy and product information)
-* Basic knowledge of the Insurance rules (ex. offering insights on relevant local regulations)
-* Responses to general claim questions and remedies (ex. generating product-specific email templates)
+* Products and coverage (e.g., providing comprehensive policy and product information)
+* Basic knowledge of the Insurance rules (e.g., offering insights on relevant local regulations)
+* Responses to general claim questions and remedies (e.g., generating product-specific email templates)
 
 image::ilab/parasol-insurance-chat.png[Parasol Insurance]
 
