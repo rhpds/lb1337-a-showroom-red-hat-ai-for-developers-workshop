@@ -102,7 +102,7 @@ After a minute or 2, depending on network speeds, your application will be up an
 
 image::private-docs/quarkus-dev.png[Quarkus dev]
 
-==== Go ahead and click the **Open In New Tab** button that shows up in the bottom right
+=== Go ahead and click the **Open In New Tab** button that shows up in the bottom right
 
 [NOTE]
 ====
@@ -115,13 +115,14 @@ You should now see the Parasol UI in the new tab.
 
 image::private-docs/parasol-ui.png[Parasol UI]
 
-[start=4]
-Click on the first claim with number **CLM195501** to open the claim, and then on the chat icon in the bottom right corner to open the chat interface.
+=== Click on the first claim with number **CLM195501** to open the claim
+
+Then on the chat icon in the bottom right corner to open the chat interface.
 
 image::devhub/claim_view.png[Chat interface]
 
-[start=4]
-. In the chat interface, try asking the following questions about a specific claim:
+=== In the chat interface, try asking the following questions about a specific claim
+
 * "What is the status of this claim?"
 * "When was the incident reported?"
 * "What is the claimed amount?"
@@ -131,8 +132,7 @@ image::devhub/chatbot_query.png[Chatbot questions]
 
 You should notice that the chatbot can answer these questions based on the claim context we provided. Now, let's ask a more complex question that requires knowledge of Parasol's policies:
 
-[start=5]
-Ask the chatbot: "According to the policy term limit, should this claim be approved?"
+=== Ask the chatbot: "According to the policy term limit, should this claim be approved?"
 
 image::private-docs/chat-policies-unknown.png[Chatbot questions about policies]
 
