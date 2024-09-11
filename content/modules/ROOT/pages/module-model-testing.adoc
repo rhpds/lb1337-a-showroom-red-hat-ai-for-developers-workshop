@@ -1,4 +1,4 @@
-= Model Testing - OO minutes
+= Model Testing - 30 minutes
 :imagesdir: ../assets/images
 :sectnums:
 
@@ -42,7 +42,6 @@ As we mentioned in the goals section, we're going to use two models to perform t
 [.console-output]
 [source,json]
 ----
-----
 {
     "jest": {
         "nodeEnv": {
@@ -57,18 +56,19 @@ As we mentioned in the goals section, we're going to use two models to perform t
 
 There are a three things to take note of in this JSON file.
 
-1. "PARASOL_MODEL_URL": This is the url of the pre-trained model with knowledge of the Parasol inurance company and it's products.  This model is hosted by OpenShift AI.  Because we're accessing the model from an application running on OpenShift Dev Spaces, we are able to use the internal OpenShift route to connect.
-2. "PARASOL_MODEL_NAME": The name of the model as configured in OpenShift AI
-3. "EMBEDDING_MODEL_URL": This is the url of the embedding model hosted by OpenShift AI.  The embedding model is used by our tests to compare the response from the trained model with a pre-defined example for similarity.
+* *PARASOL_MODEL_URL*: This is the url of the pre-trained model with knowledge of the Parasol inurance company and it's products.  This model is hosted by OpenShift AI.  Because we're accessing the model from an application running on OpenShift Dev Spaces, we are able to use the internal OpenShift route to connect.
+* *PARASOL_MODEL_NAME*: The name of the model as configured in OpenShift AI
+* *EMBEDDING_MODEL_URL*: This is the url of the embedding model hosted by OpenShift AI.  The embedding model is used by our tests to compare the response from the trained model with a pre-defined example for similarity.
 
 == The initial set of tests
 
-We have included an initial set of tests which should pass when run against the "Parasol Chat" model.  
+We have included an initial set of tests which should pass when run against the *Parasol Chat* model.  
 
-For each of these tests we're provided an expected response, so for example, when we ask the question: "In one sentence, who founded Parasol Insurance?" we should get a response similar to: "Parasol Insurance was founded in 1936 by James Falkner and James Labocki."
+For each of these tests we're provided an expected response, so for example, when we ask the question: *"In one sentence, who founded Parasol Insurance?"* we should get a response similar to: *"Parasol Insurance was founded in 1936 by James Falkner and James Labocki."*
 
 This test is described using:
 
+[.console-output]
 [source,javascript]
 ----
   test('should pass when model is asked who founded Parasol insurance', async () => {
@@ -79,11 +79,11 @@ This test is described using:
   }, 10000);
 ----
 
-If you take a look at the code above, you can see we are calling the model with the Asynchronous function "callModel".
+If you take a look at the code above, you can see we are calling the model with the Asynchronous function, *callModel*.
 
-We are then testing the response from the model to ensure it matches semantic similarity a given sample response using "toMatchSemanticSimilarity".
+We are then testing the response from the model to ensure it matches semantic similarity a given sample response using *toMatchSemanticSimilarity*.
 
-The semantic similarity between the response and the example response needs to be above 0.9 (with a similiarity of 1 being an exact match)
+The semantic similarity between the response and the example response needs to be above *0.9* (with a similiarity of 1 being an exact match)
 
 == Install Node modules
 
@@ -91,35 +91,54 @@ Before we get started running these tests, we need to install the required NPM m
 
 Open a Terminal window in your OpenShift Dev Spaces workspace.
 
-image::devhub/new-terminal.png[new-terminal, 500]
+image::devhub/new-terminal.png[new-terminal]
 
 Enter the following commands:
 
-[source,bash,role="copypaste"]
+[.console-input]
+[source,bash,subs="+attributes,macros+"]
 ----
 cd prompt-testing
 npm install
 ----
 
-Once this command has completed you should see the following.
+The output should be similar to the following.
 
-image::model-testing/npm-output.png[npm_output, 800]
+[.console-output]
+[source,bash]
+----
+npm WARN skipping integrity check for git dependency ssh://git@github.com/kenlimmj/rouge.git 
+npm WARN deprecated glob@7.2.3: Glob versions prior to v9 are no longer supported
+npm WARN deprecated inflight@1.0.6: This module is not supported, and leaks memory. Do not use it. Check out lru-cache if you want a good and tested way to coalesce async requests by a key value, which is much more comprehensive and powerful.
+
+added 773 packages, and audited 774 packages in 1m
+
+82 packages are looking for funding
+  run `npm fund` for details
+
+4 moderate severity vulnerabilities
+
+To address all issues (including breaking changes), run:
+  npm audit fix --force
+
+Run `npm audit` for details.
+----
 
 == Run tests
 
 We can now run the tests to ensure they pass.
 
-In the VSCode Explorer, navigate to `prompt-testing/index.test.js`
+Open the `prompt-testing/index.test.js` file in the VSCode Explorer.
 
-On the left hand panel, click on the "Testing" icon
+Then, click on the `Testing` icon On the left hand panel.
 
-image::model-testing/testing-panel.png[npm_output, 800]
+image::model-testing/testing-panel.png[npm_output]
 
-Click on the "Run Tests" icon at the top as shown below
+Click on the `Run Tests` icon at the top as shown below.
 
-image::model-testing/run-tests.png[run tests, 800]
+image::model-testing/run-tests.png[run tests]
 
-When the test run is complete you should see
+When the test run is complete you should see.
 
 image::model-testing/run-complete.png[run complete, 800]
 
@@ -129,13 +148,14 @@ Both of the tests should have passed successfully.
 
 Let's try a scenario where we're using a model which has not been trained with Parasol Insurance specific data.
 
-As we discussed above, one of our tests is testing responses to the question: "Who founded Parasol Insurance?".
+As we discussed above, one of our tests is testing responses to the question: *"Who founded Parasol Insurance?"*.
 
-In order to answer this question our model has been trained with knowledge about the history of Parasol Insurance.
+To answer this question our model has been trained with knowledge about the history of Parasol Insurance.
 
-Let's change the model our tests are performed against to an untrained model (merlinite-7b-lab).  To do this, open the file .vscode/settings.json and replace the contents with:
+Let's change the model our tests are performed against to an untrained model (*merlinite-7b-lab*).  To do this, open the `.vscode/settings.json` file to `replace` the contents with:
 
-[source,json,role="copypaste"]
+[.console-input]
+[source,json,subs="+attributes,macros+"]
 ----
 {
     "jest": {
@@ -149,19 +169,18 @@ Let's change the model our tests are performed against to an untrained model (me
 }
 ----
 
-On the left hand panel, click on the "Testing" icon.
+Go back to the `Testing` panel. Then, click on the `Run Tests` to run the tests again.  
 
-Click on the "Run Tests" icon as we did previously to re-run the tests.  
-
-image::model-testing/run-tests.png[run tests, 800]
+image::model-testing/run-tests.png[run tests]
 
 You should now see one of the tests failing.
 
-image::model-testing/fail-tests.png[failing tests, 800]
+image::model-testing/fail-tests.png[failing tests]
 
-IMPORTANT: Before we move on, replace the .vscode/settings.json file with the original contents below:
+IMPORTANT: Before we move on, replace the `.vscode/settings.json` file with the original contents below:
 
-[source,json,role="copypaste"]
+[.console-input]
+[source,json,subs="+attributes,macros+"]
 ----
 {
     "jest": {
@@ -179,26 +198,29 @@ IMPORTANT: Before we move on, replace the .vscode/settings.json file with the or
 
 We're now going to add a new test to test some new functionality we've added to our model.
 
-Our model has recently been trained to understand the "Apex plus" policy option which will cover drivers for loss of income even if they are at fault.
+Our model has recently been trained to understand the *Apex plus* policy option which will cover drivers for loss of income even if they are at fault.
 
 To test this we're going to ask our model:
 
+[.console-output]
 [source,text]
 ----
 Does Parasol insurance policies include loss of income cover if the insured driver is at fault?
 
 ----
 
-We expect the response from this question to be similar to the following, mentioning the "Apex plus" policy.
+We expect the response from this question to be similar to the following, mentioning the *Apex plus* policy.
 
-[source, text]
+[.console-output]
+[source,text]
 ----
 No, Parasol insurance policies do not include loss of income cover if the insured driver is at fault. However, Parasol does offer additional coverage options, such as Apex plus package, which provides reimbursement for loss of income if the policyholder is at fault.
 ----
 
-To create this test, in the file `index.test.js` add the following to the end replacing the comment: `// ADD NEW TEST HERE`
+To create this test, open the `index.test.js` file. Then, add the following code below this comment, `// ADD NEW TEST HERE`.
 
-[source,js,role="copypaste"]
+[.console-input]
+[source,javascript,subs="+attributes,macros+"]
 ----
 
 describe('Parasol Claim response test', () => {
@@ -216,13 +238,11 @@ describe('Parasol Claim response test', () => {
 
 ----
 
-On the left hand panel, click on the "Testing" icon, you should see our new test is listed but has not yet been run.
+Let's test the model again by clicking on the `Run Tests` button.
 
-Click on the "Run Tests" icon at the top as shown below
+image::model-testing/run-tests-2.png[npm_output]
 
-image::model-testing/run-tests-2.png[npm_output, 800]
-
-When the test run is complete you should see
+When the test run is complete you should see.
 
 image::model-testing/run-complete-2.png[npm_output, 800]
 
@@ -235,5 +255,3 @@ Here is a quick summary of what we have learned:
 - Responses from LLMs are not deterministic, we need to use different techniques to test LLM integrations. Tools are available to help write this tests for example: Promptfoo.
 - Embedding models can be used to test for the similarity of strings.  For LLM testing we can use an embedding model to ensure responses are similar to an expected response within a threshold.
 - How to add a new test to ensure an LLM response from a customer claim query is similar to an expected example.
-
-
