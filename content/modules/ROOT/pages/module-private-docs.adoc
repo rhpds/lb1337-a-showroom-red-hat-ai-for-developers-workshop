@@ -330,7 +330,7 @@ quarkus.langchain4j.openai.parasol-chat.base-url=http://parasol-tools.aiworkshop
 quarkus.dev-ui.hosts={user}-parasol-insurance-quarkus-devui{openshift_cluster_ingress_domain}
 ----
 
-Let's try it out! Go back to the browser and refresh the claim page for claim 195501 (Marty McFly). Open the chat interface again and this time tell the chat assistant to "Update the claim status to denied". After a few moment you should see that the chatbot answers, telling you that it updated the status and sent an email to the customer.
+Let's try it out! Go back to the browser and refresh the claim page for claim 195501 (Marty McFly). Open the chat interface again and this time tell the chat assistant to *"Update the claim status to denied"*. After a few moment you should see that the chatbot answers, telling you that it updated the status and sent an email to the customer.
 
 image::private-docs/chat-response-email.png[Chatbot response]
 
