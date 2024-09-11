@@ -42,7 +42,7 @@ Now that we've outlined Parasol's AI needs, let's dive into the process of meeti
 
 === What is InstructLab?
 
-https://instructlab.ai/[InstructLab] is an open-source project designed to enhance large language models (LLMs) for use in generative AI applications. It provides a novel approach to model alignment and fine-tuning, allowing developers and domain experts to add new knowledge and skills to pre-trained models with minimal data and computational resources. Key features of InstructLab include:
+https://instructlab.ai/[InstructLab^] is an open-source project designed to enhance large language models (LLMs) for use in generative AI applications. It provides a novel approach to model alignment and fine-tuning, allowing developers and domain experts to add new knowledge and skills to pre-trained models with minimal data and computational resources. Key features of InstructLab include:
 
 * A taxonomy-driven approach to curating training data
 * Large-scale synthetic data generation
