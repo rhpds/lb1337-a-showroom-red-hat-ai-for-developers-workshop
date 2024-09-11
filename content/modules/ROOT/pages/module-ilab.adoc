@@ -16,29 +16,13 @@
 
 == Goals of this lab
 
-Need to add the goals here.
-
-== Adapting AI Models for an Enterprise Use Case
-
-As Parasol Insurance embraces the era of AI, we face a unique challenge: leveraging cutting-edge AI technology while maintaining strict control over our proprietary data and processes. This journey requires us to develop in-house AI capabilities that are as powerful as they are secure. In this exercise, you will:
+As Parasol Insurance embraces the era of AI, we face a unique challenge: leveraging cutting-edge AI technology while maintaining strict control over our proprietary data and processes. This journey requires us to develop in-house AI capabilities that are as powerful as they are secure. The goal of this lab is to show you as a developer how to use open source AI tooling to fine-tune a foundation model using Parasol's proprietary data, producing an optimized and efficient LLM that can be used across a variety of use cases at Parasol. In this lab, you will:
 
 * Explore *fine-tuning* techniques for AI models, incorporating Parasol's unique insurance expertise into LLMs
 * Learn how to create and utilize a *custom knowledge base* for training AI models with organization-specific scenarios and regulations
 * Apply the https://arxiv.org/abs/2403.01081[*LAB methodology*] to generate synthetic training data and specialize our model while keeping data in-house
 * Gain hands-on experience in *training and serving* a customized AI model
 * Understand the *benefits and limitations* of fine-tuning compared to other AI customization methods
-
-// image::instructlab/parasol-ai-journey.png[Parasol's Private AI Journey]
-
-// === Enterprise Needs for an AI Model
-
-// This lab will equip you to enhance Parasol's AI capabilities in three key areas:
-
-// 1. Generating product-specific email templates
-// 2. Providing comprehensive policy and product information
-// 3. Offering insights on relevant local regulations
-
-// Through fine-tuning, you'll learn how to provide an LLM accurate and relevant information to provide more efficient, accurate, and compliant customer service.
 
 === Enhancing AI Models: RAG vs Fine-Tuning
 
@@ -76,79 +60,13 @@ To begin working with InstructLab, you'll need to access the provided noNVC virt
 
 ==== Click the `Activities` label in the top-left corner of the screen
 
-// REMOVE Once CI is updated
-
-NOTE: The following step will be removed once the CI is updated.
-
-==== Click on *Terminal*, and enter the following commands that can be found in the *Details*
-
-[%collapsible]
-====
-
-[.console-input]
-[source,bash,subs="+attributes,macros+"]
-----
-curl -L -o files/vscode.rpm 'https://code.visualstudio.com/sha/download?build=stable&os=linux-rpm-x64'
-sudo dnf install -y xdg-utils
-sudo rpm -ivh files/vscode.rpm
-sudo dnf -y install zip gcc glibc-devel zlib-devel firefox
-curl -s "https://get.sdkman.io" | bash
-source "/home/instruct/.sdkman/bin/sdkman-init.sh"
-sdk install java 21.0.3-tem
-pip install 'numpy<2.0'
-
-cat <<EOF >> /home/instruct/instructlab/config.yaml
-chat:
-  context: default
-  greedy_mode: false
-  logs_dir: data/chatlogs
-  max_tokens: null
-  model: models/merlinite-7b-lab-Q4_K_M.gguf
-  session: null
-  vi_mode: false
-  visible_overflow: true
-general:
-  log_level: INFO
-generate:
-  chunk_word_count: 1000
-  model: models/merlinite-7b-lab-Q4_K_M.gguf
-  num_cpus: 10
-  num_instructions: 100
-  output_dir: generated
-  prompt_file: prompt.txt
-  seed_file: seed_tasks.json
-  taxonomy_base: origin/main
-  taxonomy_path: taxonomy
-serve:
-  gpu_layers: -1
-  host_port: 127.0.0.1:8000
-  max_ctx_size: 4096
-  model_path: models/merlinite-7b-lab-Q4_K_M.gguf
-EOF
-
-curl -Lo ~/instructlab/models/parasol-model.gguf https://huggingface.co/rh-rad-ai-roadshow/parasol-merlanite-trained-GGUF/resolve/main/parasol-model-0715-sdg400.gguf?download=true
-
-
-curl -Lo ~/Documents/marty-mcfly-auto.pdf https://raw.githubusercontent.com/rh-rad-ai-roadshow/parasol-insurance/main/app/src/main/resources/claims/marty-mcfly-auto.pdf
-
-cd ~
-git clone https://github.com/rh-rad-ai-roadshow/parasol-insurance.git
-cd parasol-insurance/app
-./mvnw clean package -DskipTests
-nohup java -jar -Dquarkus.langchain4j.openai.parasol-chat.base-url=http://localhost:8000/v1 target/quarkus-app/quarkus-run.jar > ~/quarkus.out 2>&1 &
-----
-
-====
-
-// End of Remove block
-
 ==== Click the `Show Applications` icon to show all the applications
 
 ==== Click the `Visual Studio Code` icon to launch Visual Studio Code
 
 image::ilab/launch-vscode-desktop.png[Launch Podman Desktop]
 
-==== InstructLab mainly relies on the https://github.com/instructlab/instructlab[`ilab`] command-line interface (CLI) to interact with the project 
+==== InstructLab mainly relies on the https://github.com/instructlab/instructlab[`ilab`] command-line interface (CLI) to interact with the project
 
 To access the `ilab` CLI, open a new terminal in Visual Studio Code by clicking on the `Terminal` menu and selecting `New Terminal`.
 
@@ -174,7 +92,7 @@ The approach of fine-tuning a model allows us to shape a language model to bette
 
 image::ilab/instructlab-taxonomy.png[InstructLab Taxonomy]
 
-Your role is crucial in this process. You'll be adding a knowledge domain to the LLM, using the organization's specific information, knowledge that the LLM doesn't have and is specific to Parasol Insurance. 
+Your role is crucial in this process. You'll be adding a knowledge domain to the LLM, using the organization's specific information, knowledge that the LLM doesn't have and is specific to Parasol Insurance.
 
 === Understanding the Knowledge Structure
 
@@ -219,7 +137,7 @@ Each `qna.yaml` file requires a minimum of five question-answer pairs. The `qna.
 
 === Creating the Parasol Insurance Knowledge Base
 
-Now that we understand the constructs of the taxonomy's knowledge, let's go ahead and create our knowledge base, which we will then feed into the LLM to train. This will help our applications that utilize the LLM, and agents directly chatting with the model. Furthermore, it will help with claims processing, fraud detection, or anyone who would like to ask the LLM about products, coverage, laws, and some information about Parasol itself. Let's get started! 
+Now that we understand the constructs of the taxonomy's knowledge, let's go ahead and create our knowledge base, which we will then feed into the LLM to train. This will help our applications that utilize the LLM, and agents directly chatting with the model. Furthermore, it will help with claims processing, fraud detection, or anyone who would like to ask the LLM about products, coverage, laws, and some information about Parasol itself. Let's get started!
 
 You can open VSCode by following the instructions below:
 
@@ -249,7 +167,7 @@ To do that create folders by first right clicking on the `Knowledge` folder, and
 
 image::ilab/ilab-taxanomy-create-folder.png[New Folder]
 
-We should create a knowledge folder structure that we can add to later as we add more knowledge and for our peers to also understand how its structured. Lets create a structure like this `knowledge > economy > finance > insurance`. In VSCode this is quite easy. 
+We should create a knowledge folder structure that we can add to later as we add more knowledge and for our peers to also understand how its structured. Lets create a structure like this `knowledge > economy > finance > insurance`. In VSCode this is quite easy.
 
 ==== In the field as shown in the image below type `economy/finance/insurance`
 
@@ -265,9 +183,9 @@ Let’s now start adding the following taxonomy knowledge files for Parasol Insu
 
 [%collapsible]
 ====
-// - **Driving age**: 
+// - **Driving age**:
 
-There are specific driving age rules for New Hampshire and Alaska for Teens driving. Lets add this information to the Model. 
+There are specific driving age rules for New Hampshire and Alaska for Teens driving. Lets add this information to the Model.
 
 Create a new folder `driving_age` under `knowledge > economy > finance > insurance` as shown in the image below
 
@@ -331,7 +249,7 @@ An `attribution.txt` that includes the sources for the information used in the q
 // - **Parasol claims data**
 [%collapsible]
 ====
-Like any insurance company on the planet, data is stored into multiple systems, files etc. Employees at Parasol Insurance either using the system for the first time or using it for e.g. detecting fraud, tyring to understand the glossary, acronyms etc. A good example is `Policy ID,` a unique ID for policy in our database systems. The LLM does not know about this. By adding this, we can ensure that once a claims agent or an application asks about a policy ID, the LLM can give reasonable answers and suggestions. 
+Like any insurance company on the planet, data is stored into multiple systems, files etc. Employees at Parasol Insurance either using the system for the first time or using it for e.g. detecting fraud, tyring to understand the glossary, acronyms etc. A good example is `Policy ID,` a unique ID for policy in our database systems. The LLM does not know about this. By adding this, we can ensure that once a claims agent or an application asks about a policy ID, the LLM can give reasonable answers and suggestions.
 
 Create a new folder `parasol_claims_data` under `knowledge > economy > finance > insurance` as shown in the image below
 
@@ -390,7 +308,7 @@ Creator names: Syed M Shaaf, Philip Hayes
 [%collapsible]
 ====
 
-Here, we are adding some basic information about Parasol Insurance, an overview of product details. This will enable the LLM to give answers on a high level about the different offerings, fomulate a context about Parasol Insurance, history etc. 
+Here, we are adding some basic information about Parasol Insurance, an overview of product details. This will enable the LLM to give answers on a high level about the different offerings, fomulate a context about Parasol Insurance, history etc.
 
 Create a new folder `parasol_insurance` under `knowledge > economy > finance > insurance` as shown in the image below
 
@@ -484,9 +402,9 @@ seed_examples:
     question: When will payments for Car Insurance from Parasol Insurance end?
   - answer: The amount of the car rental must be reported to Parasol insutance before we will pay such an amount.
     question: What needs to happen before Parasol Insurance will pay car rental charges?
-  - answer: If you are at fault, to be able to claim for your own lost wages from Parasol Insurance, you need to have the optional Apex plus package which provides coverage of loss of income insurance as part of your policy. If another driver is at fault, the at-fault driver’s auto insurance company is typically responsible for covering your lost income. 
+  - answer: If you are at fault, to be able to claim for your own lost wages from Parasol Insurance, you need to have the optional Apex plus package which provides coverage of loss of income insurance as part of your policy. If another driver is at fault, the at-fault driver’s auto insurance company is typically responsible for covering your lost income.
     question: Does Parasol insurance cover loss of income due to a car collision?
-  - answer: The Parasol insrurance Apex plus package provides additional coverage for loss of income and uninsured driver insurance on top of their insurance policy. 
+  - answer: The Parasol insrurance Apex plus package provides additional coverage for loss of income and uninsured driver insurance on top of their insurance policy.
     question: What is the Parasol insurance Apex plus package?
 
 
@@ -542,11 +460,11 @@ Run the following command to check the validity of the taxonomy:
 ilab taxonomy diff
 ----
 
-After running the above command you should be able to see the following output. 
+After running the above command you should be able to see the following output.
 
 [source,bash]
 ----
-└─> ilab diff                                                                                                                                                                                                                                                                                    (base) 
+└─> ilab diff                                                                                                                                                                                                                                                                                    (base)
 knowledge/economy/finance/insurance/parasol_claims_data/qna.yaml
 knowledge/economy/finance/insurance/driving_age/qna.yaml
 knowledge/economy/finance/insurance/parasol_insurance/qna.yaml
@@ -558,7 +476,7 @@ If you do not see output similar to above, you may not have added in all of the 
 
 == Generating Synthetic Training Data & Training the New Model
 
-Now that we've added some initial data, let's use InstructLab to generate synthetic training data. Large Language Models inherently require a large amount of data to be effective, and it can be difficult to find enough real-world data for a niche domain. However, by using InstructLab, we can generate synthetic data that can be used to train the model. 
+Now that we've added some initial data, let's use InstructLab to generate synthetic training data. Large Language Models inherently require a large amount of data to be effective, and it can be difficult to find enough real-world data for a niche domain. However, by using InstructLab, we can generate synthetic data that can be used to train the model.
 
 === Open a terminal in Visual Studio Code
 
@@ -611,7 +529,7 @@ A> It expires on the individual's 21st birthday, at which time they can obtain a
 
 INFO 2024-09-09 15:33:15,263 generate_data.py:505: generate_data Selected taxonomy path knowledge->economy->finance->insurance->parasol_claims_data
 Q> What does the engine type mean?
-I> 
+I>
 A> It can refer to either a fuel source or type of engine that powers a vehicle.
 This engine type can affect how powerful a car is,
 or how much it costs to run it.
@@ -619,7 +537,7 @@ or how much it costs to run it.
 INFO 2024-09-09 15:33:34,454 generate_data.py:505: generate_data Selected taxonomy path knowledge->economy->finance->insurance->parasol_policies
 
 Q> How long does it take to accelerate to 88 miles per hour in a DeLorean DMC-12?
-I> 
+I>
 A> Approximately 8.8 seconds is needed to reach 88 mph in a Delorean DMC-12.
 
 A> If you are at fault, to be able to claim for your own lost wages from Parasol Insurance, you need to have the optional Apex plus package which provides coverage of loss of income insurance as part of your policy. If another driver is at fault, the at-fault driver’s auto insurance company is typically responsible for covering your lost income. But if an at-fault driver is uninsured or doesn’t have enough coverage to pay for your injuries or car damage, Parasol underinsured motorist coverage can help pay the difference. Uninsured motorist coverage is provided as part of the optional Apex plus package.
@@ -691,7 +609,7 @@ We can now ask the trained model some parasol specific questions such as:
 
 image::ilab/new-model-responses.png[Launch Activities]
 
-The answers are specific to Parasol's policies and demonstrate the ability for organizations to fine-tune models with their own data, to improve the accuracy of responses, which can be used in many use cases. 
+The answers are specific to Parasol's policies and demonstrate the ability for organizations to fine-tune models with their own data, to improve the accuracy of responses, which can be used in many use cases.
 
 == Conclusion
 
