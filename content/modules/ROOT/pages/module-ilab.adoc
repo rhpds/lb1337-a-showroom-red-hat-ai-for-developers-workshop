@@ -506,7 +506,7 @@ source venv/bin/activate
 ilab data generate  --num-instructions 5
 ----
 
-To reduce the amount of time the generation process takes, we are setting the "--num-instructions" flag to "5", the default for this value is "100". If we were generating data for a production deployment we would likely set this value even higher.
+To reduce the amount of time the generation process takes, we are setting the *"--num-instructions"* flag to *"5"*, the default for this value is *"100"*. If we were generating data for a production deployment we would likely set this value even higher.
 
 This process may take some time, depending on the amount of data and the computational resources available. Once the generation stage is complete, you should see something like this:
 
