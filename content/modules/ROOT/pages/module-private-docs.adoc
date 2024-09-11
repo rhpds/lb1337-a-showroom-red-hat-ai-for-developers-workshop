@@ -102,8 +102,7 @@ After a minute or 2, depending on network speeds, your application will be up an
 
 image::private-docs/quarkus-dev.png[Quarkus dev]
 
-[start=2]
-Go ahead and click the **Open In New Tab** button that shows up in the bottom right.
+==== Go ahead and click the **Open In New Tab** button that shows up in the bottom right
 
 [NOTE]
 ====
