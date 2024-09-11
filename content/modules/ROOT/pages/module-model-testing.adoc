@@ -37,7 +37,7 @@ include::partial-dev-spaces-pre-req.adoc[]
 
 == Model Testing Overview
 
-As we mentioned in the goals section, we're going to use two models to perform these tests. The configuration for these models can be found in `.vscode/settings`.json.  Open this file and examine it's contents, it should look like this:
+As we mentioned in the goals section, we're going to use two models to perform these tests. The configuration for these models can be found in `.vscode/settings.json.`  Open this file and examine it's contents, it should look like this:
 
 [.console-output]
 [source,json]
