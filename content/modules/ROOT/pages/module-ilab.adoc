@@ -1,4 +1,4 @@
-= Model Fine-tuning with InstructLab - 45 minutes
+= AI Model Fine-Tuning - 45 minutes
 :imagesdir: ../assets/images
 :sectnums:
 
