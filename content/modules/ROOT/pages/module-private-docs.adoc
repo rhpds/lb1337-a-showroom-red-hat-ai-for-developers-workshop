@@ -235,6 +235,7 @@ Open `src/main/resources/application.properties` and add the mail configuration:
 # Mail
 %dev.quarkus.mailer.mock=false
 quarkus.mailer.tls=false
+quarkus.mailpit.image-name=quay.io/rhappsvcs/mailpit:latest
 ----
 
 Now let's create a new NotificationService class that will have the functionality to update claim status and send an email. Create a new file `NotificationService.java` in the `src/main/java/org/parasol/ai` folder.
