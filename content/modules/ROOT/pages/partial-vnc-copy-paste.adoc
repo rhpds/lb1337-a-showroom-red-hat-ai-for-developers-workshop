@@ -2,7 +2,7 @@
 :sectnums:
 :experimental:
 
-==== Copy/Paste in your VNC environment
+==== Copy and Paste in your VNC environment
 
 In the noVNC environment, you cannot directly copy content from your local machine and paste into the remote desktop. Instead, there is an intermediate clipboard which you can use for this purpose. Anytime you need to copy/paste from a block of text or code from these instructions into the noVNC desktop, just click on the icon to copy it to your local clipboard:
 

@@ -15,24 +15,6 @@
 </script>
 ++++
 
-== The AI Journey for an Application Developer
-
-"More Than 80% of Enterprises Will Have Used Generative AI APIs or Deployed Generative AI-Enabled Applications by 2026"
--- https://www.gartner.com/en/newsroom/press-releases/2023-10-11-gartner-says-more-than-80-percent-of-enterprises-will-have-used-generative-ai-apis-or-deployed-generative-ai-enabled-applications-by-2026[Gartner]
-
-This is why, as a developer at Parasol Insurance, it's important to understand the different steps of the journey to learning, understanding, and working with AI:
-
-. Ideation & Prototyping
-* How do I *evaluate* models and pick the best one for my use case?
-. Building & Refining
-* How do I *build* an application with LLMs?
-. Operationalizing
-* How do I *deploy* my application with LLMs?
-
-This module will focus on *Ideation and Prototyping*.
-
-image::discovery/adopting-gen-ai.png[Adopting Gen AI]
-
 == Goals of this lab
 
 Your first step is to start learning and experimenting with AI for enterprise applications. In this section, you'll understand how you can work with the https://podman-desktop.io/docs/ai-lab[Podman AI Lab] for building AI-enabled applications. You will accomplish this with the following steps:
@@ -41,6 +23,21 @@ Your first step is to start learning and experimenting with AI for enterprise ap
 * *Test* out the different features of the AI Lab, including the model catalog, playground environments, and more.
 * *Deploy* a basic summarization application, upload a claim, and view summarization to quickly understand how AI can assist with insurance claims.
 * *Change* the prompt, restart, and observe changes.
+
+== The AI Journey for an Application Developer
+
+"More Than 80% of Enterprises Will Have Used Generative AI APIs or Deployed Generative AI-Enabled Applications by 2026"
+-- https://www.gartner.com/en/newsroom/press-releases/2023-10-11-gartner-says-more-than-80-percent-of-enterprises-will-have-used-generative-ai-apis-or-deployed-generative-ai-enabled-applications-by-2026[Gartner]
+
+This is why, as a developer at Parasol Insurance, it's important to understand the different steps of the journey to learning, understanding, and working with AI:
+
+* *Ideation & Prototyping* - How do I *evaluate* models and pick the best one for my use case?
+* *Building & Refining* - How do I *build* an application with LLMs?
+* *Operationalizing* - How do I *deploy* my application with LLMs?
+
+This module will focus on *Ideation and Prototyping*.
+
+image::discovery/adopting-gen-ai.png[Adopting Gen AI]
 
 == Getting Started with Your Developer Environment for Generative AI
 
@@ -65,11 +62,13 @@ Your developer environment includes Podman Desktop with an AI Lab extension that
 
 To provide you with an easy to use desktop, we have provisioned a Red Hat Enterprise Linux machine, and setup noVNC to allow you to access the desktop from your browser.
 
-If you have not already connected to your noVNC server, connect to it now: {novnc_url}[*{novnc_url}*,window=_blank], using the password `{password}`.
+If you have not already connected to your noVNC server, connect to {novnc_url}[noVNC server,window=_blank] using the password `{password}`.
 
-. Click the `Activities` label in the top-left corner of the screen.
-. Click the `Show Applications` icon to show all the applications.
-. Click the `Podman Desktop` icon to launch Podman Desktop.
+==== Click the `Activities` label in the top-left corner of the screen
+
+==== Click the `Show Applications` icon to show all the applications
+
+==== Click the `Podman Desktop` icon to launch Podman Desktop
 
 image::discovery/launch-podman-desktop.png[Launch Podman Desktop]
 
@@ -87,8 +86,9 @@ Click the *Extensions* puzzle piece icon on the left, and navigate to the _Catal
 
 image::discovery/podman-ext.png[Launch Podman Desktop]
 
-[start=4]
-. From the extensions sidebar of Podman Desktop, navigate to the AI Lab icon.
+==== From the extensions sidebar of Podman Desktop
+
+Navigate to the AI Lab icon
 
 image::discovery/ai-lab-extension-menu.png[Podman AI Lab Extension]
 
@@ -115,7 +115,6 @@ image::discovery/model-catalog-tabs.png[Podman AI Lab Model Catalog Tabs]
 If the icon next to the _granite_7b-lab_ model is green, then the https://huggingface.co/instructlab/granite-7b-lab-GGUF[`instructlab/granite-7b-lab-GGUF`] model has been pre-installed for you. if not, click the _Download_ button to download it (this should only take a minute or two):
 
 image::discovery/granite-download.png[Podman AI Lab Model Catalog Tabs]
-
 
 === Model Serving and Integration
 
@@ -157,8 +156,9 @@ By selecting `New Playground`, you can select a pre-downloaded model from the dr
 
 This action deploys two key components:
 
-. A `Model Service` that exposes the AI model via an inference endpoint API.
-. An `ai-lab-playground-chat` container that provides the user interface for model interaction.
+==== A `Model Service` that exposes the AI model via an inference endpoint API
+
+==== An `ai-lab-playground-chat` container that provides the user interface for model interaction
 
 image::discovery/playground-new.png[Podman AI Lab Playground New]
 
@@ -175,13 +175,15 @@ By systematically testing various configurations and prompts related to insuranc
 
 Now let's play with it a bit:
 
-. Click on the name of the new playground `playground1` (or whatever you called it)
-. Click the `Open` icon next to `Define a system prompt`
+==== Click on the name of the new playground `playground1` (or whatever you called it)
+
+==== Click the `Open` icon next to `Define a system prompt`
 
 image::discovery/playground-settings-1.png[Podman AI Lab Playground Settings]
 
-[start=2]
-. Paste in the following text and click the checkmark to save the system prompt:
+==== Paste in the following text
+
+Click the checkmark to save the system prompt
 
 [.console-input]
 [source,text,subs="+attributes,macros+"]
@@ -193,9 +195,11 @@ Provide accurate, helpful information on insurance policies, claims, and risk as
 
 image::discovery/playground-system-prompt.png[Podman AI Lab Playground save system prompt]
 
-[start=3]
-. In the `Type your prompt here` text box, enter `Should I approve claims?`.
-. Click the `Submit` button to submit the question.
+==== In the `Type your prompt here` text box
+
+Enter `Should I approve claims?`
+
+==== Click the `Submit` button to submit the question
 
 image::discovery/playground-query.png[Podman AI Lab Playground execute query]
 
@@ -203,9 +207,13 @@ NOTE: It may take a minute or two for the response to be displayed.
 
 image::discovery/playground-prompt-response-1.png[Podman AI Lab Playground prompt response]
 
-[start=5]
-. Try "lowering" the *temperature* and reducing the *top-p* each to `0.1` to try and make responses more deterministic.
-. Re-enter the same prompt (`Should I approve claims?`) and re-submit the question.
+==== Try "lowering" the *temperature*
+
+Reducing the *top-p* each to `0.1` to try and make responses more deterministic.
+
+==== Re-enter the same prompt (`Should I approve claims?`)
+
+Submit the question again.
 
 image::discovery/playground-lower-temperature-result.png[Podman AI Lab Playground lower temperature result]
 
@@ -229,16 +237,21 @@ These recipes can help you quickly prototype new AI and LLM-based applications l
 
 Let's explore the `Text Summarization` recipe, which can be particularly useful for processing insurance claim documents:
 
-. In the `Recipes Catalog`, select the `Summarizer` application under the `Natural Language Processing` category. Click the *More Details* link.
-. Review the `Summary` tab for details about the application and its capabilities.
-. Click the *Start* button to begin the application's building process, where one container will act as an AI model server and another as the application interface. Be sure to choose the model you downloaded previously (it should be auto-selected). Then click *Start Summarizer recipe*. This will kick off the build and deploy process within Podman Desktop.
+==== In the `Recipes Catalog`, select the `Summarizer` application under the `Natural Language Processing` category. 
+
+Click the *More Details* link.
+
+==== Review the `Summary` tab for details about the application and its capabilities
+
+==== Click the *Start* button to begin the application's building process
+
+In the this step, one container will act as an AI model server and another as the application interface. Be sure to choose the model you downloaded previously (it should be auto-selected). Then click *Start Summarizer recipe*. This will kick off the build and deploy process within Podman Desktop.
 
 image::discovery/text-summarization-recipe.png[Podman AI Lab Text Summarization Recipe]
 
 Once the app build and deploy finishes, click *Open Details* and then click the *Open* icon on the _Running_ tab to open the UI for the app:
 
 image::discovery/text-summarization-open.png[Podman AI Lab Text Summarization Recipe]
-
 
 === Testing the Text Summarization Application
 
@@ -248,17 +261,17 @@ Once the application is running, you can upload a sample insurance claim PDF doc
 
 Here, you can upload a sample insurance claim PDF document and observe the summarization output generated by the AI model.
 
-. Click the `Browse files` button
+==== Click the `Browse files` button
 
 image::discovery/text-summarization-app-browse-files.png[Podman AI Lab Text Summarization Browse files]
 
-[start=2]
-. Navigate to the `Documents` directory, select the file `marty-mcfly-auto.pdf`, and click `Open`.
+==== Navigate to the `Documents` directory
+
+Select the file `marty-mcfly-auto.pdf`, and click `Open`.
 
 image::discovery/text-summarization-open-claim.png[Podman AI Lab Text Summarization Open Claim]
 
-[start=3]
-. Review the summarization that is generated from the claim.
+==== Review the summarization that is generated from the claim
 
 NOTE: It may take a minute or two to process.
 
@@ -296,7 +309,7 @@ IMPORTANT: If you are asked to create a keyring password, enter `password`.
 
 Let's examine the code briefly to understand how the application interacts with the AI model and processes the input data. This application uses https://www.langchain.com/langchain[Langchain] for making calls to the model server.
 
-. Open the `summarizer.py` file in the `app` folder.
+==== Open the `summarizer.py` file in the `app` folder
 
 IMPORTANT: If you are asked to install the VSCode Python extension, click `Install`.
 
@@ -309,9 +322,9 @@ image::discovery/text-summarization-app-code.png[Podman AI Lab Text Summarizatio
 
 For our specific use case, let's make an adjustment to the summarization behavior to better align with Parasol Insurance's claim processing requirements:
 
-[start=2]
-. Find the `refine_template` variable in the `summarizer.py` file.
-. Modify the template to include additional details about the claimant, including policy number, and claim type:
+==== Find the `refine_template` variable in the `summarizer.py` file
+
+==== Modify the template to include additional details about the claimant
 
 [.console-input]
 [source,puthon,subs="+attributes,macros+"]
@@ -338,10 +351,11 @@ image::discovery/text-summarization-app-refine.png[Podman AI Lab Text Summarizat
 
 By updating the template with these specific requirements, you can tailor the summarization output to provide more detailed and relevant information for insurance claims processing at Parasol Insurance.
 
-[start=4]
-. Save your changes.
-. Switch back to Podman Desktop and to the running `Summarizer` recipe
-. Restart the recipe to re-build the container with the updated code.
+==== Save your changes
+
+==== Switch back to Podman Desktop and to the running `Summarizer` recipe
+
+==== Restart the recipe to re-build the container with the updated code
 
 image::discovery/text-summarization-app-restart.png[Podman AI Lab Text Summarization Application Restart]
 
@@ -355,10 +369,13 @@ NOTE: Since the source code has changed, you may be notified from Podman AI Lab 
 
 Now that we've updated the code and restarted the recipe, let's test the Text Summarization application again to see the improvements:
 
-. Open the application by clicking the *link* button you clicked earlier in the AI App Details section.
-. Upload the same sample insurance claim document you used earlier.
-. Observe the new summarization output generated by the AI model.
-* You should notice that the summary now includes more specific details related to insurance claims, such as incident date, claim type, and policy details.
+==== Open the application by clicking the *link* button you clicked earlier in the AI App Details section.
+
+==== Upload the same sample insurance claim document you used earlier
+
+==== Observe the new summarization output generated by the AI model
+
+You should notice that the summary now includes more specific details related to insurance claims, such as incident date, claim type, and policy details.
 
 image::discovery/text-summarization-app-retest.png[Podman AI Lab Text Summarization Application Retest]
 
