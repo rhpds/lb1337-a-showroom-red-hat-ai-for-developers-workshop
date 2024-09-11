@@ -14,6 +14,10 @@
 </script>
 ++++
 
+== Goals of this lab
+
+Need to add the goals here.
+
 == Adapting AI Models for an Enterprise Use Case
 
 As Parasol Insurance embraces the era of AI, we face a unique challenge: leveraging cutting-edge AI technology while maintaining strict control over our proprietary data and processes. This journey requires us to develop in-house AI capabilities that are as powerful as they are secure. In this exercise, you will:
