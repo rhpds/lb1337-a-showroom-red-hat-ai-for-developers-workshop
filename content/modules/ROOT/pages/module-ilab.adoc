@@ -142,13 +142,13 @@ nohup java -jar -Dquarkus.langchain4j.openai.parasol-chat.base-url=http://localh
 
 // End of Remove block
 
-==== Click the `Show Applications` icon to show all the applications.
+==== Click the `Show Applications` icon to show all the applications
 
-==== Click the `Visual Studio Code` icon to launch Visual Studio Code.
+==== Click the `Visual Studio Code` icon to launch Visual Studio Code
 
 image::ilab/launch-vscode-desktop.png[Launch Podman Desktop]
 
-==== InstructLab mainly relies on the https://github.com/instructlab/instructlab[`ilab`] command-line interface (CLI) to interact with the project. 
+==== InstructLab mainly relies on the https://github.com/instructlab/instructlab[`ilab`] command-line interface (CLI) to interact with the project 
 
 To access the `ilab` CLI, open a new terminal in Visual Studio Code by clicking on the `Terminal` menu and selecting `New Terminal`.
 
@@ -519,7 +519,7 @@ We're going to run some commands from the terminal, so from the `Terminal` menu,
 image::ilab/vscode-new-terminal-menu.png[Open new VSCode terminal]
 
 Let's navigate to the `instructlab` directory:
-+
+
 [.console-input]
 [source,bash,subs="+attributes,macros+"]
 ----
@@ -527,7 +527,7 @@ cd ~/instructlab
 ----
 
 Now, activate the Python virtual environment:
-+
+
 [.console-input]
 [source,bash,subs="+attributes,macros+"]
 ----
@@ -535,7 +535,7 @@ source venv/bin/activate
 ----
 
 Run the following command to check the validity of the taxonomy:
-+
+
 [.console-input]
 [source,bash,subs="+attributes,macros+"]
 ----
