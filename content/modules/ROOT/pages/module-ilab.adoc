@@ -240,7 +240,7 @@ License of the work: CC-BY-SA-4.0
 Creator names: Syed M Shaaf, Philip Hayes
 ----
 
-A `qna.yaml` that contains a set of key/value entries with the following keys
+A `qna.yaml` that contains a set of key/value entries with the following keys.
 Each qna.yaml file requires a minimum of five question and answer pairs.
 An `attribution.txt` that includes the sources for the information used in the qna.yaml
 ====
