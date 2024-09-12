@@ -43,7 +43,7 @@ You'll create a new Java AI service that generates emails based on https://devel
 
 ==== Create a new branch in Gitlab
 
-Open a Terminal window.
+Open a Terminal window in the VS Code workspace.
 
 image::devhub/new-terminal.png[new-terminal, 500]
 
@@ -173,7 +173,7 @@ quarkus.langchain4j.openai.parasol-email.chat-model.temperature=0.3<2>
 quarkus.langchain4j.openai.parasol-email.chat-model.model-name=parasol-instruct<3>
 quarkus.langchain4j.openai.parasol-email.base-url=http://parasol-instruct-predictor.aiworkshop.svc.cluster.local:8080/v1<4>
 ----
-<1> Specify the model provider (e.g., openai, huggingface)
+<1> Specify the model provider (e.g., openai, huggingface). Note that you use the Open AI API specification when you connedt to the LLM (parasol-instruct) inference endpoint.
 <2> Set the model temperature. Temperature is a parameter used in natural language processing models to increase or decrease the “confidence” a model has in its most likely response.
 <3> Specify the model name to connect to
 <4> Specify the base URL of the LLM inference endpoint that the application will connect to
