@@ -369,7 +369,6 @@ with:
 # quarkus.langchain4j.openai.parasol-chat.chat-model.stop=DONE,done,stop,STOP
 quarkus.langchain4j.openai.parasol-chat.chat-model.model-name=llama3.1
 quarkus.langchain4j.openai.parasol-chat.base-url=http://parasol-tools.aiworkshop.svc.cluster.local/v1
-quarkus.dev-ui.hosts={user}-parasol-insurance-quarkus-devui{openshift_cluster_ingress_domain}
 ----
 
 Let's try it out! Go back to the browser and refresh the claim page for claim 195501 (Marty McFly). Open the chat interface again and this time tell the chat assistant:

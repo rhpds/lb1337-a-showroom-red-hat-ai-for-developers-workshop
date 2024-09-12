@@ -101,16 +101,6 @@ For this section we will be exercising the model with some basic prompts to gain
 
 Open your workspace in the Dev Spaces per the instructions in the prior section.
 
-Open the `src/main/resources/application.properties` file in the left explorer pane.
-
-Add the following line to the end of the file.
-
-[.console-input]
-[source,properties,subs="+attributes,macros+"]
-----
-quarkus.dev-ui.hosts={user}-parasol-insurance-quarkus-devui{openshift_cluster_ingress_domain}
-----
-
 Spawn a terminal window within the IDE by clicking on the icon with three parallel bars in the upper left corner of the screen.  Choose "Terminal" and then "New Terminal" menu entry from the list.
 
 Run the following command from the cli using the terminal window just created:
