@@ -334,7 +334,7 @@ image::devhub/dev_confirmed.png[]
 
 === Merge the pull request
 
-Go to the https://gitlab-gitlab{openshift_cluster_ingress_domain}[Gitlab^]. Click on the *Create merge requests* to merge the pull request.
+Go to the https://gitlab-gitlab{openshift_cluster_ingress_domain}[Gitlab^]. Click on the *Create merge requests* to merge the pull request. If you don't see the merge request, refresh the page.
 
 image::devhub/create_merge.png[]
 
@@ -388,6 +388,11 @@ image::devhub/frontend_newpipeline.png[]
 == Verify the new app's functionality
 
 Go back to the https://parasol-app-{user}-dev-parasol-app-{user}-dev{openshift_cluster_ingress_domain}[Parasol web page^] to verify everything is working as expected.
+
+[NOTE]
+====
+If you're still seeing the old page, try refreshing the page without the browser caches by pressing kbd:[Ctrl+F5] or kbd:[Cmd+Shift+F5] on macOS.
+====
 
 The new *Email Generate* menu item will appear on the left panel. Click on it.
 
