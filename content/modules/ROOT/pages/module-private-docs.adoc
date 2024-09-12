@@ -117,10 +117,29 @@ image::devhub/claim_view.png[Chat interface]
 
 === In the chat interface, try asking the following questions about a specific claim
 
-* "What is the status of this claim?"
-* "When was the incident reported?"
-* "What is the claimed amount?"
-* "What is the inception date of the policy?"
+[.console-input]
+[source,text,subs="+attributes,macros+"]
+----
+What is the status of this claim?
+----
+
+[.console-input]
+[source,text,subs="+attributes,macros+"]
+----
+When was the incident reported?
+----
+
+[.console-input]
+[source,text,subs="+attributes,macros+"]
+----
+What is the claimed amount?
+----
+
+[.console-input]
+[source,text,subs="+attributes,macros+"]
+----
+What is the inception date of the policy?
+----
 
 image::devhub/chatbot_query.png[Chatbot questions]
 
@@ -201,7 +220,15 @@ That's all there is to it! When Quarkus restarts it will read the `src/main/reso
 
 Reload the browser window to make sure Quarkus Dev mode picks up the changes.
 
-Now ask the same question in the chat window: *"According to the policy term limit, should this claim be approved?"*. This time the bot should be able to answer the questions with accurate information based on the policies document!
+Now ask the same question in the chat window: 
+
+[.console-input]
+[source,text,subs="+attributes,macros+"]
+----
+According to the policy term limit, should this claim be approved?
+----
+
+This time the bot should be able to answer the questions with accurate information based on the policies document!
 
 image::private-docs/chat-response-rag.png[Chat response with RAG]
 
@@ -216,6 +243,8 @@ Wouldn't it be nice if we could instruct the model to actually call some code in
 In this section we're going to instruct the LLM to call a piece of code that will change the status of a claim and send a notification email to the claimant.
 
 For sending emails we will use the Quarkus https://quarkus.io/guides/mailer[Mailer^] and https://quarkus.io/extensions/io.quarkiverse.mailpit/quarkus-mailpit/?tab=docs[Mailpit^] extensions.
+
+=== Add and configure mail extensions
 
 In Dev Spaces, switch to the second terminal you opened previously (NOT the one currently running Quarkus dev mode).
 
@@ -238,6 +267,8 @@ quarkus.mailer.tls=false
 quarkus.mailpit.image-name=quay.io/rhappsvcs/mailpit:latest
 ----
 
+=== Create Notification tool
+
 Now let's create a new NotificationService class that will have the functionality to update claim status and send an email. Create a new file `NotificationService.java` in the `src/main/java/org/parasol/ai` folder.
 
 image::private-docs/new-notification-service.png[Create New File]
@@ -255,6 +286,8 @@ include::https://raw.githubusercontent.com/rh-rad-ai-roadshow/parasol-insurance/
 
 There is a fair bit of code in this file, but the main thing you should pay attention to is the `@Tool` annotation with the instruction "update claim status". This piece of natural language text you add to the annotation is interpreted by the LLM, which will now know that if you tell it to "update the claim status of my case", it should call the `updateClaimStatus` method with given parameters.
 
+=== Wire tool to the chat service
+
 To wire everything up, we will need to tell the AI Service about this tool. In the `src/main/java/org/parasol/ai` folder, open the `ClaimService.java` class again.
 
 Find the `@RegisterAiService` annotation. We need to register the `NotificationService` class as a tool. Go ahead and replace the existing line with the following:
@@ -266,6 +299,8 @@ Find the `@RegisterAiService` annotation. We need to register the `NotificationS
 ----
 
 By doing this we have now registered the `NotificationService` file as class that contains one or more `@Tool` annotated methods.
+
+=== Convert chat from streaming to synchronous
 
 We now need to make a few more changes. Currently when we chat with the assistant the responses stream back to us one word at a time. Unfortunately when using tools you can't use this feature. Instead, we need to make a request and wait for the entire response from the LLM.
 
@@ -313,14 +348,20 @@ public ClaimBotQueryResponse onMessage(ClaimBotQuery query) {
 }
 ----
 
+=== Configure new LLM with tool support
+
 The last thing we need to do is to switch to a different LLM for our chat bot because the `parasol-chat` model does not currently support tools integration.
 
-Open `src/main/resources/application.properties` and make the following changes:
+Open `src/main/resources/application.properties` and overwrite these lines:
 
-- Change `quarkus.langchain4j.openai.parasol-chat.base-url=http://parasol-chat-predictor.aiworkshop.svc.cluster.local:8080/v1` to be `quarkus.langchain4j.openai.parasol-chat.base-url=http://parasol-tools.aiworkshop.svc.cluster.local/v1`
-- Change `quarkus.langchain4j.openai.parasol-chat.chat-model.model-name=parasol-chat` to be `quarkus.langchain4j.openai.parasol-chat.chat-model.model-name=llama3.1`
-- Remove (or comment out) `quarkus.langchain4j.openai.parasol-chat.chat-model.stop=DONE,done,stop,STOP`
-- Add `quarkus.dev-ui.hosts={user}-parasol-insurance-quarkus-devui{openshift_cluster_ingress_domain}`
+[source,properties]
+----
+quarkus.langchain4j.openai.parasol-chat.chat-model.stop=DONE,done,stop,STOP
+quarkus.langchain4j.openai.parasol-chat.chat-model.model-name=parasol-chat
+quarkus.langchain4j.openai.parasol-chat.base-url=http://parasol-chat-predictor.aiworkshop.svc.cluster.local:8080/v1
+----
+
+with:
 
 [.console-input]
 [source,properties,subs="+attributes,macros+"]
@@ -331,7 +372,15 @@ quarkus.langchain4j.openai.parasol-chat.base-url=http://parasol-tools.aiworkshop
 quarkus.dev-ui.hosts={user}-parasol-insurance-quarkus-devui{openshift_cluster_ingress_domain}
 ----
 
-Let's try it out! Go back to the browser and refresh the claim page for claim 195501 (Marty McFly). Open the chat interface again and this time tell the chat assistant to *"Update the claim status to denied"*. After a few moment you should see that the chatbot answers, telling you that it updated the status and sent an email to the customer.
+Let's try it out! Go back to the browser and refresh the claim page for claim 195501 (Marty McFly). Open the chat interface again and this time tell the chat assistant:
+
+[.console-input]
+[source,text,subs="+attributes,macros+"]
+----
+Update the claim status to denied
+----
+
+After a few moment you should see that the chatbot answers, telling you that it updated the status and sent an email to the customer.
 
 image::private-docs/chat-response-email.png[Chatbot response]
 
