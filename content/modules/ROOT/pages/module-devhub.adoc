@@ -326,7 +326,9 @@ Click on the *Source Control* icon. Then, follow the next steps.
 
 image::devhub/dev_commit.png[]]
 
-Confirm the changes.
+In Git, code changes are typically staged before being committed. This staging process allows you to selectively choose which parts of your code to include in the next commit. While using remote branches is generally recommended for collaborative development and managing code across multiple machines, in this workshop, we'll streamline the process by creating a pull request directly to your working repository. This will help us focus on the core concepts and techniques without getting bogged down in the complexities of remote branches.
+
+Confirm the following 3 popups.
 
 image::devhub/dev_confirmed.png[]
 
