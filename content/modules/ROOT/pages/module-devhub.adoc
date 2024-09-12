@@ -239,7 +239,7 @@ const EmailGenerate: React.FunctionComponent = () => {
     return (
         <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
 
-        <Form onSubmit={handleSubmit} style={{ width: '600px', textAlign: 'center' }}>
+        <Form onSubmit={handleSubmit} style={{ width: '800px', textAlign: 'center' }}>
         <FormGroup label="Your Feedback" fieldId="text-area">
           <TextArea
             onChange={(value) => setText(value.target.value)}
