@@ -103,7 +103,7 @@ Open your workspace in the Dev Spaces per the instructions in the prior section.
 
 Spawn a terminal window within the IDE by clicking on the icon with three parallel bars in the upper left corner of the screen.  Choose "Terminal" and then "New Terminal" menu entry from the list.
 
-Run the following command from the cli using the terminal window just created:
+Run the following command from the cli using the terminal window just created.
 
 [.console-input]
 [source,properties,subs="+attributes,macros+"]
