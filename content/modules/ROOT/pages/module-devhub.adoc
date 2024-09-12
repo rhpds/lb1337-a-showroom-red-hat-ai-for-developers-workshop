@@ -274,7 +274,7 @@ const EmailGenerate: React.FunctionComponent = () => {
 export { EmailGenerate };
 ----
 
-This interface will prompt for an email sent from a customer, and give back the email response for the customer service rep. In other modules in this workshop, you'll see how you can use other techniques to automatically send this email! But for now we'll stick to copy/paste.
+This interface allows customer service representatives to copy and paste the customer email into the box, and then it generates a response email. That's the feature you are adding here.
 
 ==== Add a new menu item in the navigation bar
 
