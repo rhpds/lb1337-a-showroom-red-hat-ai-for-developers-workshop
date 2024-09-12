@@ -6,6 +6,8 @@ This workshop is centered around use cases in the insurance industry.
 
 **Parasol Insurance** is a fictional company specializing in providing comprehensive insurance solutions for various sectors. The company's goal is to help customers navigate complex financial landscapes by offering tailored insurance products and services. Recently, the company hired a new CIO and CTO, and they are pushing Parasol to modernize their business using AI technology, introducing new products, and adding features to existing products to address new market opportunities and remain competitive. The company is just getting started understanding how AI can help them and are evaluating Red Hat for their primary AI solution based on their longstanding trust and use of Red Hat's platforms including RHEL and OpenShift. Parasol's technical staff of app developers and platform engineers are beginning their own AI journey to understand how each of them can play a role in modernizing Parasol's business and trying to understand which new roles may be needed.
 
+Although we use the insurance industry in this workshop the principles are widely applicable.
+
 == Red Hat Products and Technologies
 
 In this workshop, you'll gain hands-on experience with several cutting-edge Red Hat products and technologies that together form the basis of Red Hat's Hybrid Cloud AI solution. Depending on your role at your company, you will be more interested in certain subsets. For this Developer track, we'll focus on Podman Desktop AI Lab,
