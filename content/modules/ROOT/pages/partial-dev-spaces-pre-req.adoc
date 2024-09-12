@@ -1,17 +1,17 @@
 // :imagesdir: ../assets/images
 // :sectnums:
 
-== Log in Red Hat OpenShift Dev Spaces
+== Log into Red Hat OpenShift Dev Spaces
 
 Go back to the https://backstage-backstage{openshift_cluster_ingress_domain}/catalog/default/component/parasol-app-{user}[Parasol component^] in Red Hat Developer Hub. From the *OVERVIEW* tab click on `OpenShift Dev Spaces (VS Code)` to make the necessary source code changes.
 
 image::devhub/frontend_devspaces.png[frontend_devspaces, 700]
 
-Click on `Log in with OpenShift`.
+Click on `Log into with OpenShift`.
 
 image::devhub/devspaces_login.png[devspaces_login, 700]
 
-Log in with the following OpenShift credential on the Red Hat Single Sign-On (RH-SSO) page.
+Log into with the following OpenShift credential on the Red Hat Single Sign-On (RH-SSO) page.
 
  ** *Username*: `{user}`
  ** *Password*: `{password}`
