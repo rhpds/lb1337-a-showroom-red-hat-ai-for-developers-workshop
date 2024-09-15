@@ -116,6 +116,8 @@ If the icon next to the _granite_7b-lab_ model is green, then the https://huggin
 
 image::discovery/granite-download.png[Podman AI Lab Model Catalog Tabs]
 
+NOTE: Before moving on to the next section, ensure that the model has completed downloading, or you may encounter issues when trying to serve it.
+
 === Model Serving and Integration
 
 Model serving is a crucial step in making AI models accessible for application integration. Podman AI Lab simplifies this process by allowing you to run inference servers for downloaded models, exposing them through OpenAI-compatible API endpoints. From the AI Lab menu, select *Models / Services*.
