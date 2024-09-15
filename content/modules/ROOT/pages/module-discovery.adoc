@@ -205,7 +205,7 @@ Enter `Should I approve claims?`
 
 image::discovery/playground-query.png[Podman AI Lab Playground execute query]
 
-NOTE: It may take a minute or two for the response to be displayed.
+NOTE: It may take a minute or two for the response to be displayed. Also, responses from the LLM will be unique per request, per user, so what you see in the screenshot will not be exact.
 
 image::discovery/playground-prompt-response-1.png[Podman AI Lab Playground prompt response]
 
@@ -251,7 +251,7 @@ In the this step, one container will act as an AI model server and another as th
 
 image::discovery/text-summarization-recipe.png[Podman AI Lab Text Summarization Recipe]
 
-Once the app build and deploy finishes, click *Open Details* and then click the *Open* icon on the _Running_ tab to open the UI for the app:
+Once the app build and deploy finishes, click *Open Details* (which you may need to scroll down to see) and then click the *Open* icon on the _Running_ tab to open the UI for the app:
 
 image::discovery/text-summarization-open.png[Podman AI Lab Text Summarization Recipe]
 
