@@ -12,6 +12,8 @@ Next, click the small arrow at the far left to open the noVNC control panel, and
 
 To paste the content, position the cursor in the field in which you wish to paste into, and press the paste command (usually kbd:[CTRL+V] on Windows/Linux and kbd:[CMD+V] on Mac):
 
+NOTE: The following screenshots are examples, to detail the process of copying and pasting text from the instructions into the noVNC environment. The actual content may vary.
+
 image::discovery/copypaste2.png[Copy Paste instructions]
 
 In some apps (e.g. VSCode), you can position the cursor at the paste point, and right-click in the field and select _Paste_:
