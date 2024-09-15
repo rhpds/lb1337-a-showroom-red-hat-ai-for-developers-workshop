@@ -273,7 +273,7 @@ image::discovery/text-summarization-open-claim.png[Podman AI Lab Text Summarizat
 
 ==== Review the summarization that is generated from the claim
 
-NOTE: It may take a minute or two to process.
+NOTE: It may take a minute or longer to process, depending on if CPU or GPU inference is being used.
 
 image::discovery/text-summarization-app-upload.png[Podman AI Lab Text Summarization Application Upload]
 
