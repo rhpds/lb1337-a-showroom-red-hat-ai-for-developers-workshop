@@ -365,7 +365,9 @@ You may also restart it from the drop-down menu on the _Running_ tab:
 
 image::discovery/text-summarization-restart.png[Podman AI Lab Text Summarization Application Restart]
 
-NOTE: Since the source code has changed, you may be notified from Podman AI Lab that the hash has changed. This is expected behavior.
+Since the source code has changed, you may be notified from Podman AI Lab that the hash has changed. This is expected behavior, and you can select *Continue* to proceed building the application container image with the updated code.
+
+image::discovery/text-summarization-hash-change.png[Podman AI Lab Text Summarization Hash Change]
 
 === Re-Testing the Text Summarization Application
 
