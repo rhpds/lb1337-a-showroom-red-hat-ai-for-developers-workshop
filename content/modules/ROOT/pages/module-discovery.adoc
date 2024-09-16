@@ -72,7 +72,9 @@ If you have not already connected to your noVNC server, connect to {novnc_url}[n
 
 image::discovery/launch-podman-desktop.png[Launch Podman Desktop]
 
-=== Install AI Lab
+NOTE: Screenshots may look slightly different based on the size of your window, feel free to resize the window larger for a better experience.
+
+=== Install Podman AI Lab
 
 At the initial screen, click **Go to Podman Desktop**:
 
