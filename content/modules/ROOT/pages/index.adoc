@@ -8,6 +8,20 @@ This workshop is centered around use cases in the insurance industry.
 
 Although we use the insurance industry in this workshop the principles are widely applicable.
 
+== AI Models used in this workshop
+
+Throughout this workshop, you as a developer will be interfacing with a variety of LLMs deployed on *Red Hat OpenShift AI* and designed for different use cases. Some of these have been fine-tuned with Parasol's private corporate data to demonstrate how organizations like Parasol can achieve business value with AI without giving away their secrets. The models you will use:
+
+* https://huggingface.co/instructlab/merlinite-7b-lab[Merlinite 7B^] - This model is derived from a https://huggingface.co/mistralai[Mistral model^], and trained with the https://arxiv.org/abs/2403.01081[LAB methodology^] and a https://github.com/instructlab/taxonomy[community taxonomy] of data. It has not been tuned with Parasol-specific data.
+
+* **parasol-chat** - This model is derived from the https://huggingface.co/instructlab/granite-7b-lab[InstructLab's Granite model^] and has been fine-tuned using the https://github.com/instructlab/community[InstructLAB project] with a https://github.com/rh-rad-ai-roadshow/parasol-taxonomy[Parasol-specific dataset^]. The name _chat_ implies that this is primarily useful for conversations, and can respond with knowledge of Parasol's private data.
+
+* **parasol-instruct** - This model is derived from https://huggingface.co/ibm-granite/granite-7b-instruct[IBM Granite Instruct], and also fine-tuned as above with Parasol-specific data. The name _instruct_ implies that this is primarily good at following instructions to complete a task. This is useful when you want the model to follow explicit instructions, such as "Respond only with JSON with the following schema: {...}".
+
+* **parasol-tools** - This model is based on the https://huggingface.co/meta-llama/Meta-Llama-3.1-8B-Instruct[Meta Llama Instruct^] model(s) and has specifically been trained to use agents (also called tools) to complete tasks that you as a developer instruct give it. This is used for "Agentic" applications that provide agents that can do specific tasks like send an email, calculate math problems, and more.
+
+* **parasol-embeddings** - This model is a _Sentence Transformer_ model and uses the https://huggingface.co/nomic-ai/nomic-embed-text-v1.5[Nomic Embed] model. It is used to capture semantic meaning of text and encode it to a multi-dimensional vector, often used for implementing RAG (Retrieval Augmented Generation) patterns, which you will explore in this workshop.
+
 == Red Hat Products and Technologies
 
 In this workshop, you'll gain hands-on experience with several cutting-edge Red Hat products and technologies that together form the basis of Red Hat's Hybrid Cloud AI solution. Depending on your role at your company, you will be more interested in certain subsets. For this Developer track, we'll focus on Podman Desktop AI Lab,
