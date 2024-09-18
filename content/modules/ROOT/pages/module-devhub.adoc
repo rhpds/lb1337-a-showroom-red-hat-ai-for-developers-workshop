@@ -55,6 +55,40 @@ Before you begin developing your new feature, you need to create a new branch in
 git checkout -b new-gen-ai-service
 ----
 
+==== Get started with live coding
+
+Before you start coding, you need to start with the *Quarkus Dev Mode* that is a powerful feature to significantly speed up the development lifecycle of Quarkus applications. It provides hot reload capabilitiesn (Live Coding), allowing you to see the results of your code changes instantly without requiring a full application restart.
+
+Run the following command in the VS Code terminal to start Quarkus Dev Mode.
+
+[.console-input]
+[source,bash,subs="+attributes,macros+"]
+----
+./mvnw clean quarkus:dev
+----
+
+The output should look similar to the following.
+
+[.console-output]
+[source,bash]
+----
+....
+ --/ __ \/ / / / _ | / _ \/ //_/ / / / __/ 
+ -/ /_/ / /_/ / __ |/ , _/ ,< / /_/ /\ \   
+--\___\_\____/_/ |_/_/|_/_/|_|\____/___/   
+INFO  [io.quarkus] (Quarkus Main Thread) insurance-app 1.0.0-SNAPSHOT on JVM (powered by Quarkus xx.xx.xx) started in 19.615s. Listening on: http://0.0.0.0:8080
+INFO  [io.quarkus] (Quarkus Main Thread) Profile dev activated. Live Coding activated.
+INFO  [io.quarkus] (Quarkus Main Thread) Installed features: [agroal, cdi, hibernate-orm, hibernate-orm-panache, jdbc-h2, langchain4j, langchain4j-ollama, langchain4j-openai, langchain4j-websockets-next, narayana-jta, quinoa, qute, rest, rest-client, rest-client-jackson, rest-jackson, smallrye-context-propagation, vertx, websockets-next]
+
+--
+Tests paused
+Press [e] to edit command line args (currently ''), [r] to resume testing, [o] Toggle test output, [:] for the terminal, [h] for more options>
+----
+
+Validate your local Parasol application against the production version by accessing the https://{user}-parasol-insurance-parasol-webui{openshift_cluster_ingress_domain}[Parasol web page^].
+
+image::devhub/parasol_ui_web.png[]
+
 ==== Create Java records beans
 
 Create a new Java record, `Email.java` in the `src/main/java/org/parasol/model` directory to carry email data in a concise and immutable way.
@@ -170,13 +204,15 @@ Open the existing `application.properties` file in the `src/main/resources` dire
 ----
 quarkus.langchain4j.parasol-email.chat-model.provider=openai<1>
 quarkus.langchain4j.openai.parasol-email.chat-model.temperature=0.3<2>
-quarkus.langchain4j.openai.parasol-email.chat-model.model-name=parasol-instruct<3>
-quarkus.langchain4j.openai.parasol-email.base-url=http://parasol-instruct-predictor.aiworkshop.svc.cluster.local:8080/v1<4>
+quarkus.langchain4j.openai.parasol-email.timeout=600s<3>
+quarkus.langchain4j.openai.parasol-email.chat-model.model-name=parasol-instruct<4>
+quarkus.langchain4j.openai.parasol-email.base-url=http://parasol-instruct-predictor.aiworkshop.svc.cluster.local:8080/v1<5>
 ----
-<1> Specify the model provider (e.g., openai, huggingface). Note that you use the Open AI API specification when you connedt to the LLM (parasol-instruct) inference endpoint.
-<2> Set the model temperature. Temperature is a parameter used in natural language processing models to increase or decrease the “confidence” a model has in its most likely response.
-<3> Specify the model name to connect to
-<4> Specify the base URL of the LLM inference endpoint that the application will connect to
+<1> Specify the model provider (e.g., openai, huggingface). Note that you use the Open AI API specification when you connedt to the LLM (parasol-instruct) inference endpoint
+<2> Set the model temperature. Temperature is a parameter used in natural language processing models to increase or decrease the “confidence” a model has in its most likely response
+<3> Specify the timeout between question and response in the LLM
+<4> Specify the model name to connect to
+<5> Specify the base URL of the LLM inference endpoint that the application will connect to
 
 
 === Update the frontend web application in Parasol Insurance
@@ -298,17 +334,55 @@ import { EmailGenerate } from './components/EmailGenerate/EmailGenerate';
 },
 ----
 
-==== Quick sanity test
+==== Local test the new feature
 
-Before committing, do a quick sanity build of the project to ensure you got all the changes correct. Run the following command in the Terminal:
+Before committing, do a quick functional test locally to ensure you got all the changes correct. If you stopped the Quarkus dev mode, start it again.
+
+Reload the https://{user}-parasol-insurance-parasol-webui{openshift_cluster_ingress_domain}[Parasol web page^].
+
+[NOTE]
+====
+If you're still seeing the old page, try refreshing the page without the browser caches by pressing kbd:[Ctrl+F5] or kbd:[Cmd+Shift+F5] on macOS.
+====
+
+The new *Email Generate* menu item will appear on the left panel. Click on it.
+
+image::devhub/new_parasol_ui_web.png[]
+
+Try to submit a simple draft email content. Copy/paste in the following email received from a customer:
 
 [.console-input]
-[source,shell,subs="+attributes,macros+"]
+[source,text,subs="+attributes,macros+"]
 ----
-mvn -f $PROJECT_SOURCE clean package -DskipTests
+    Dear Parasol Insurance Team,
+
+    My name is Dominic Toretto.
+
+    I hope this email finds you well. I'm reaching out to file a claim regarding a recent incident involving my car, which is covered under my policy with Parasol. The accident occurred last night on the streets of Los Angeles, and I wanted to provide you with all the necessary details.
+
+    Location: The accident took place at the intersection of Sunset Boulevard and Vine Street in downtown Los Angeles. It was one of those crazy nights, where the streets were alive with the sound of engines and the glow of neon lights.
+
+    Circumstances: So, here's the deal. I was out cruising with the crew, enjoying the vibe of the city, when suddenly we found ourselves in the middle of a high-speed chase. There was this dude, let's call him Johnny Tran for the sake of this email, who thought he could outmaneuver us. Little did he know, we don't play by the rules.
+
+    Anyway, Johnny pulled some slick moves, cutting through traffic like a bat outta hell. Naturally, being the king of the streets that I am, I had to show him what real speed looks like. So, I hit the nitrous and went full throttle.
+
+    But then, outta nowhere, this semi-truck decided to make a left turn without signaling. I had to make a split-second decision, and I ended up launching my car off a ramp, trying to clear the truck like we're in one of those crazy action flicks. It was like something straight outta the movies, I tell ya.
+
+    Long story short, the stunt didn't exactly go as planned. My car ended up crashing into a billboard, flipping over a couple of times before finally coming to a stop. Yeah, it was a total wreck. But hey, at least we walked away without a scratch, just a little shaken, not stirred, if you catch my drift.
+
+    Damage: As for the damage to my car, let's just say its gonna need more than a few wrenches and some duct tape to fix this baby up. The front end is smashed in, the windows are shattered, and I''m pretty sure the chassis is twisted beyond recognition. It''s gonna take a miracle to get her back on the road.
+
+    I understand that accidents happen, but Im counting on Parasol to have my back in times like these. Ive been a loyal customer for years, and I trust that you'll handle my claim with the same speed and precision that I handle my rides.
+
+    Please let me know what steps I need to take to get the ball rolling on this claim. I'm ready to do whatever it takes to get my car back in top shape and back on the streets where it belongs.
+
+    Looking forward to hearing from you soon.
+
 ----
 
-You should see `BUILD_SUCCESS`. If you get any errors, double-check that you made all of the correct changes to the correct files and try the build again.
+Click on `Submit` to generate the email subject and body. It will take a few seconds to receive the result (generated data) from the Parasol Instruct LLM model.
+
+image::devhub/generated_email.png[]
 
 *Great!* Now you're ready to merge this code into the application. We'll create a pull request which will automatically build the new app so taht we can test it.
 
@@ -387,7 +461,7 @@ image::devhub/frontend_newpipeline.png[]
 
 == Verify the new app's functionality
 
-Go back to the https://parasol-app-{user}-dev-parasol-app-{user}-dev{openshift_cluster_ingress_domain}[Parasol web page^] to verify everything is working as expected.
+Reload the https://parasol-app-{user}-dev-parasol-app-{user}-dev{openshift_cluster_ingress_domain}[Parasol web page^] in `production` to verify everything is working as expected. Ensure *not to reload the local page* when you were testing using Quarkus dev mode.
 
 [NOTE]
 ====
