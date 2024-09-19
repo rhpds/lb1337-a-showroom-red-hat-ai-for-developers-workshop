@@ -23,6 +23,10 @@ You may need to authorize the access to DevSpaces by clicking on *Allow selected
 image::devhub/devspaces_authorize.png[devspaces_authorize, 600]
 ====
 
+Click `Continue` to proceed creating a new workspace from this source.
+
+image::devhub/devspaces_trust_authors.png[devspaces_trust_authors, 600]
+
 Authorize *devspaces* to use your account by clicking on the *Authorize* button.
 
 image::devhub/devspaces_authorize_user.png[devspaces_authorize_user, 600]
