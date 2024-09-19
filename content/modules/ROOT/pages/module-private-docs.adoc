@@ -149,7 +149,7 @@ You should notice that the chatbot can answer these questions based on the claim
 
 image::private-docs/chat-policies-unknown.png[Chatbot questions about policies]
 
-The answer you will get back might be different from the one in the screenshot above, but you'll likely observe that the chatbot struggles with this question, as it doesn't have access to Parasol's specific policies. It might even respond with an incorrect decision! If only there was a way to automatically retrieve this information and provide it to the chatbot..
+The answer you will get back might be different from the one in the screenshot above, but you'll likely observe that the chatbot struggles with this question, as it doesn't have access to Parasol's specific policies, *in particular the 6 month policy term limit*. It might even respond with an incorrect decision! If only there was a way to automatically retrieve this information and provide it to the chatbot.
 
 == Embedding Documents with RAG
 
