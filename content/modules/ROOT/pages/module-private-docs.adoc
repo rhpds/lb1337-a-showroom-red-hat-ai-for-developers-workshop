@@ -324,6 +324,7 @@ Then open `src/main/java/org/parasol/resources/ClaimWebsocketChatBot.java` and r
 [source,java]
 ----
 @OnTextMessage
+@WithSpan("ChatMessage")
 public Multi<ClaimBotQueryResponse> onMessage(ClaimBotQuery query) {
     Log.infof("Got chat query: %s", query);
 
@@ -339,6 +340,7 @@ with
 [source,java]
 ----
 @OnTextMessage
+@WithSpan("ChatMessage")
 public ClaimBotQueryResponse onMessage(ClaimBotQuery query) {
     Log.infof("Got chat query: %s", query);
     var response = new ClaimBotQueryResponse("token", this.bot.chat(query), "");
