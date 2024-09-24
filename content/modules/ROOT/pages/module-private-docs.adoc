@@ -85,7 +85,7 @@ In the terminal window that you opened earlier at the bottom of the editor, run 
 [.console-input]
 [source,bash,subs="+attributes,macros+"]
 ----
-./mvnw clean quarkus:dev
+./mvnw clean quarkus:dev -Dquarkus.otel.exporter.otlp.traces.endpoint=http://jaeger.parasol-app-{user}-dev.svc.cluster.local:4137
 ----
 
 This will download some dependencies and start the application in Quarkus Dev Mode.
@@ -373,7 +373,9 @@ quarkus.langchain4j.openai.parasol-chat.chat-model.model-name=llama3.1
 quarkus.langchain4j.openai.parasol-chat.base-url=http://parasol-tools.aiworkshop.svc.cluster.local/v1
 ----
 
-Let's try it out! Go back to the browser and refresh the claim page for claim 195501 (Marty McFly). Open the chat interface again and this time tell the chat assistant:
+Let's try it out! Go back to the browser and refresh the claim page for claim 195501 (Marty McFly). 
+
+Open the chat interface again and this time tell the chat assistant:
 
 [.console-input]
 [source,text,subs="+attributes,macros+"]
@@ -405,11 +407,91 @@ Click on the email to open it
 
 image::private-docs/mailpit-message.png[Mailpit message]
 
-You can now return to the terminal where Quarkus dev mode is running and terminate the application by using the `q` key or hitting `CTRL-C`.
+You can now verify that the user received the email!
+
+== Observability of AI-infused applications
+
+=== What is OpenTelemetry?
+
+OpenTelemetry is a collection of tools, APIs, and SDKs. Use it to instrument, generate, collect, and export telemetry data (metrics, logs, and traces) to help you analyze your software's performance and behavior.
+
+OpenTelemetry was created by merging the popular https://opentracing.io/[OpenTracing^] and https://opencensus.io/[OpenCensus^] projects. It is a standard that integrates with many open source and commercial products written in many programming languages. Implementations of OpenTelemetry are in varying stages of maturity.
+
+At its core, OpenTelemetry contains the https://opentelemetry.io/docs/collector[Collector^], a vendor-agnostic way to receive, process, and export telemetry data.
+
+image::private-docs/otel-collector-architecture.png[OTel Collector Architecture]
+
+=== Integrating OpenTelemetry into our application
+
+Integrating OpenTelemetry is easy! In fact, simply adding the https://quarkus.io/guides/opentelemetry[`quarkus-opentelemetry`] extension to an application will automatically configure many other extensions to use it!
+
+You might not have realized that everything you've done in this module thus far has been recorded and stored in a local https://opentelemetry.io/docs/collector/[OpenTelemetry Collector^] instance and can be observed in a local https://www.jaegertracing.io/[Jaeger^] instance, an open source distributed tracing platform.
+
+Observability is automatically built into AI services created via `@RegisterAiService`. The traces follow through any tool invocations, and even down to the database queries used during the workflow.
+
+Let's take a look!
+
+=== Looking at our traces
+
+. https://jaeger-parasol-app-{user}-dev{openshift_cluster_ingress_domain}[Click here^] to open the Jaeger UI.
+    - This Jaeger instance is specific to your instance of the application and does not contain any data from any other users in the workshop.
+. Once in the Jaeger UI, expand the **Service** dropdown and choose the **insurance-app** service.
+    - This narrows the scope of observed traces just to our application
+. Expand the **Operation** dropdown and choose the **ChatMessage** operation.
+    - This narrows the scope of observed traces just to the chat interactions with our chat bot.
+    - Feel free to explore other traces afterwards!
+. Click the **Find Traces** button.
+
+You should see something resembling the following:
+
+image::private-docs/find-jaeger-traces.png[Jaeger traces]
+
+NOTE: Your screenshot may look different than what is shown above. You may have more or less traces.
+
+Click on the top trace in the list to see a detailed view of that trace:
+
+image::private-docs/jaeger-trace.png[Jaeger trace]
+
+A trace consists of a series of _spans_. Each span is a time interval representing a unit of work. Spans often have parent/child relationships and form a hierarchy. Spans can also indicate the parallelization of work running concurrently. Each span also indicates its duration, so you can see exactly how much time each unit of work takes.
+
+In our case there isn't any parallelization, since all the units of work execute sequentially. You can start to drill-down through the units of work to see what actually happened when you told the chat bot to update the claim's status to denied:
+
+image::private-docs/jaeger-trace-details.png[Jaeger trace details]
+
+. The entrypoint to the chat interface (`org.parasol.resources.ClaimWebsocketChatBot` class, `onMessage` method).
+. Entrypoint into the `ClaimService` AI service's `chat` method.
+. REST HTTP call to the embedding model to retrieve appropriate embeddings based on the chat query.
+. Call to the `llama3.1` model.
+. REST HTTP call to the model server.
+. Callback from the model to invoke the `updateClaimStatus` tool.
+. Call into our `NotificationService.updateClaimStatus` method.
+. Get a connection to the database.
+. **Select** the `Claim` record from the database to update.
+. **Update** the `Claim` record from the database and set the claim's status to **denied**.
+. Send the result of the tool invocation back to the `llama3.1` model.
+. REST HTTP call to the model server including the result from the tool invocation.
+
+You can click on any span to show more contextual information about the span:
+
+image::private-docs/jaeger-trace-attributes.png[Trace attributes]
+
+As you can see in the above screenshot, the arguments to the `NotificationService.updateClaimStatus` are shown so we know that the claim with `claimId=1` had it's status updated to `denied`.
+
+For spans that encompass database interactions you can also see relevant information:
+
+image::private-docs/jaeger-trace-database.png[Trace Database info]
+
+For interactions with the AI model you can also see information related to the model, such as what model was requested, how many tokens were in the prompt, what the temperature was, as well as what the URL to the model was:
+
+image::private-docs/jaeger-trace-model-http-info.png[Trace Model info]
+
+This is all very useful information!
 
 == Conclusion
 
 We hope you have enjoyed this module!
+
+You can now return to the terminal where Quarkus dev mode is running and terminate the application by using the `q` key or hitting `CTRL-C`.
 
 Here is a quick summary of what we have learned:
 
@@ -417,3 +499,4 @@ Here is a quick summary of what we have learned:
 - How to run the chatbot in local development mode
 - What Retrieval-Augmented Generation (RAG) is and how easy it is to use with Quarkus
 - How to enhance a chat bot's functionality with your own business logic
+- How to observe and debug the flow of an AI-infused application
