@@ -42,7 +42,9 @@ Enter the following credential in the Gitlab login page.
 
 image::devhub/gitlab_authentication.png[]
 
-Click `Authorize` to allow the authentication to proceed.
+Click `Authorize Keycloak` to allow the authentication to proceed.
+
+image::devhub/gitlab_kc_authentication.png[]
 
 Find more information about the Red Hat Developer Hub https://developers.redhat.com/rhdh[here^].
 
@@ -59,7 +61,7 @@ Follow the next steps to create a component based on the pre-defined Software Te
 ==== Provide Information for Application
 
 * *Name*: The name of the component. Replace the *Name* with the following domain:
-
+ß
 [.console-input]
 [source,bash,subs="attributes"]
 ----
