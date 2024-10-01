@@ -194,7 +194,7 @@ Dev Spaces may also ask if you would like to open the application again. This is
 Don't open the application again yet, we first need to add some configuration for the new extension.
 ====
 
-We have already added a policy document (`policy-info.pdf`) in the `src/main/resources/policies` folder. {gitlab_url}/development/parasol-app-{gitlab_user}/-/blob/master/src/main/resources/policies/policy-info.pdf[Click here^] to view it.
+We have already added a policy document (`policy-info.pdf`) in the `src/main/resources/policies` folder. https://gitlab-gitlab{openshift_cluster_ingress_domain}/development/parasol-app-{user}/-/blob/master/src/main/resources/policies/policy-info.pdf[Click here^] to view it.
 
 We can tell the Easy Rag extension where to find it by adding the following lines in your `src/main/resources/application.properties`:
 
@@ -220,7 +220,7 @@ That's all there is to it! When Quarkus restarts it will read the `src/main/reso
 
 Reload the browser window to make sure Quarkus Dev mode picks up the changes.
 
-Now ask the same question in the chat window: 
+Now ask the same question in the chat window:
 
 [.console-input]
 [source,text,subs="+attributes,macros+"]
@@ -373,7 +373,7 @@ quarkus.langchain4j.openai.parasol-chat.chat-model.model-name=llama3.1
 quarkus.langchain4j.openai.parasol-chat.base-url=http://parasol-tools.aiworkshop.svc.cluster.local/v1
 ----
 
-Let's try it out! Go back to the browser and refresh the claim page for claim 195501 (Marty McFly). 
+Let's try it out! Go back to the browser and refresh the claim page for claim 195501 (Marty McFly).
 
 Open the chat interface again and this time tell the chat assistant:
 
