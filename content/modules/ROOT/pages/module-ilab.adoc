@@ -1,6 +1,7 @@
 = AI Model Fine-Tuning - 45 minutes
 :imagesdir: ../assets/images
 :sectnums:
+:experimental:
 
 ++++
 <!-- Google tag (gtag.js) -->
@@ -104,60 +105,81 @@ Knowledge consists of data and facts and is backed by documents. When you create
 
 LLMs have inherent limitations that make certain tasks extremely difficult, like doing math problems. They're great at other tasks, like creative writing. And they could be better at things like logical reasoning. However, these limitations can be overcome by providing them with the right knowledge (and skills, https://www.youtube.com/watch?v=_kbq-npuMC0[which InstructLab can also help with^]). An LLM with knowledge helps it create a basis of information that it can learn from, then you can teach it to use this knowledge via the `qna.yaml` files.
 
-In our case we want the LLM to learn more about Parasol Insurance like so:
+In our case we want the LLM to learn more about Parasol Insurance by supplying this specific information in the form of a basic YAML file named `qna.yaml`:
 
-[.console-input]
 [source,yaml]
 ----
-version: 2<1>
-task_description: "Teach a model more details about Parasol Insurance"<2>
+version: 3<1>
+domain: insurance<2>
 created_by: sshaaf<3>
-domain: insurance<4>
-seed_examples:<5>
-  - question: What is class imbalance in the context of Parasol insurance claims datasets?
-    answer: |
-      Class imbalance refers to the situation where the number of non-claims instances far exceeds that of actual claims, posing challenges for predictive modeling.
-
-document:<6>
-  repo: https://github.com/sshaaf/parasol_knowledge.git
-  commit: b87677d
-  patterns: <7>
+seed_examples:<4>
+  - context: |<5>
+      In the insurance industry, accurately predicting the likelihood of claims is
+      essential for risk assessment and policy pricing. However, Parasol insurance
+      claims datasets frequently suffer from class imbalance, where the number of
+      non-claims instances far exceeds that of actual claims.
+    questions_and_answers:
+      - question: What is class imbalance in the context of Parasol insurance claims datasets?
+        answer: |
+          Class imbalance refers to the situation where the number of non-claims
+          instances far exceeds that of actual claims, making predictive modeling
+          difficult and potentially leading to biased models.
+      - question: What types of information are included in the Policyholder Information feature?
+        answer: |
+          Policyholder Information includes demographic details like age, gender,
+          occupation, marital status, and geographical location, which are critical
+          for assessing risk.
+      # more questions and answers
+document_outline: |<6>
+  Information about the Parasol insruance claims data glossary, terms and how
+  to read and understand claims. The information is related to the Parasol
+  insurance internal records and systems.
+document:<7>
+  repo: https://github.com/rh-rad-ai-roadshow/parasol_knowledge.git
+  commit: 07227df21a3a786d15ae5b88ece2c33bd78ee36a
+  patterns:<8>
+    - Parasol_auto_insurance.md
     - Insurance_claims_data.md
+    - teen_driving_rules.md
+    - claims_cost_data.md
 ----
 
 Each `qna.yaml` file requires a minimum of five question-answer pairs. The `qna.yaml` format must include the following fields:
 
 <1> `version`: Defines the InstructLab taxonomy schema version
-<2> `task_description`: An optional description of the knowledge for easily understanding the specific knowledge contribution
+<2> `domain`: Category of the knowledge
 <3> `created_by`: The author of the contribution, typically a GitHub username
-<4> `domain`: Category of the knowledge
-<5> `seed_examples`: Five or more examples sourced from the provided knowledge documents, representing a `question` for the model and desired `response`
-<6> `document`: The source of your knowledge contribution, consisting of a `repo` URL pointing to the knowlege markdown files, and `commit` SHA that contains the specific files
-<7> `patterns`: A list of glob patterns specifying the markdown files in your repository. Any glob pattern that starts with `*`, such as `*.md`, must be quoted due to YAML rules. For example, `"*.md"`. In our case we have placed all the knowledge documents in the https://github.com/rh-rad-ai-roadshow/parasol_knowledge[parasol-knoledge] repository.
+<4> `seed_examples`: Five or more examples sourced from the provided knowledge documents, representing a `question` for the model and desired `response`
+<5> `context`: A chunk of information from the knowledge document.
+<6> `document_outline`: An outline of the document containing the knowledge you're adding to the model.
+<7> `document`: The source of your knowledge contribution, consisting of a `repo` URL pointing to the knowledge markdown files, and `commit` identifier for the specific commit that contains the files
+<8> `patterns`: A list of glob patterns specifying the markdown files in your repository that should be used during training. We have placed all the knowledge documents in the https://github.com/rh-rad-ai-roadshow/parasol_knowledge[parasol-knowledge] repository.
 
 === Creating the Parasol Insurance Knowledge Base
 
 Now that we understand the constructs of the taxonomy's knowledge, let's go ahead and create our knowledge base, which we will then feed into the LLM to train. This will help our applications that utilize the LLM, and agents directly chatting with the model. Furthermore, it will help with claims processing, fraud detection, or anyone who would like to ask the LLM about products, coverage, laws, and some information about Parasol itself. Let's get started!
 
-You can open VSCode by following the instructions below:
+==== Open the `instructlab` taxonomy directory in Visual Studio Code
 
-==== Open the `instructlab` directory in Visual Studio Code through the terminal:
+You can open VSCode by following the instructions below:
 
 [.console-input]
 [source,bash,subs="+attributes,macros+"]
 ----
-cd ~/instructlab && code . --reuse-window
+code ~/.local/share/instructlab/taxonomy --reuse-window
 ----
+
+If you are prompted to create a new _keyring_ passcode, simply enter any password here (you won't need this again):
+
+image::ilab/ilab-keyring.png[Keyring]
 
 [start=2]
 ==== With the new window open, you can select *Yes, I trust the authors* to proceed
 
-You'll be prompted to enter your password, `{password}`, to confirm the action.
-
 image::ilab/vscode-trust-authors.png[Trust Authors]
 
 [start=3]
-==== Navigate to the `taxonomy/knowledge/` folder
+==== Navigate to the `knowledge/` folder
 
 This file will contain the questions and answers that will be used to train the model.
 
@@ -167,9 +189,9 @@ To do that create folders by first right clicking on the `Knowledge` folder, and
 
 image::ilab/ilab-taxanomy-create-folder.png[New Folder]
 
-We should create a knowledge folder structure that we can add to later as we add more knowledge and for our peers to also understand how its structured. Lets create a structure like this `knowledge > economy > finance > insurance`. In VSCode this is quite easy.
+We should create a knowledge folder structure that we can add to later as we add more knowledge and for our peers to also understand how its structured. Lets create a structure like this `knowledge > economy > finance > insurance > parasol`. In VSCode this is quite easy.
 
-==== In the field as shown in the image below type `economy/finance/insurance`
+==== In the field as shown in the image below type `economy/finance/insurance/parasol`
 
 image::ilab/ilab-taxonomy-create-folder2.png[New folder]
 
@@ -177,256 +199,37 @@ Perfect, now we have the basic working structure to add in specific knowledge ab
 
 == Curating the Data for our AI Model
 
-Let’s now start adding the following taxonomy knowledge files for Parasol Insurance, consisting of the following (you can expand each section to see the instructions):
+Let's now add the following taxonomy knowledge file for Parasol Insurance. Each section of this file addresses different aspects of Parasol's insurance policies:
 
-=== Knowledge File #1: Driving Age
+* Like any insurance company on the planet, data is stored into multiple systems, files etc. Employees at Parasol Insurance either using the system for the first time or using it for e.g. detecting fraud, trying to understand the glossary, acronyms etc. A good example is `Policy ID`, a unique ID for policy in our database systems. The LLM does not know about this. By adding this, we can ensure that once a claims agent or an application asks about a policy ID, the LLM can give reasonable answers and suggestions.
 
-[%collapsible]
-====
-// - **Driving age**:
+* Information about the Parasol Insurance company, and an overview of product details. This will enable the LLM to give answers on a high level about the different offerings, formulate a context about Parasol Insurance, its history, etc.
 
-There are specific driving age rules for New Hampshire and Alaska for Teens driving. Lets add this information to the Model.
+* Information specific to policies in relation to the different products. This will help our claims processing agents to ask questions about specific cases and scenarios to the LLM. The LLM should be able to suggest remedies or further knowledge to look into.
 
-Create a new folder `driving_age` under `knowledge > economy > finance > insurance` as shown in the image below
+The questions covered in the questions & answered should be answerable through the knowledge document(s) defined at the end of this file.
 
-Copy the following and add it as a new file called `qna.yaml` in the folder `driving_age` as shown in the image above. `qna.yaml` file ("qna" is short for "questions and answers")
+=== Create knowledge file
 
-image::ilab/ilab-taxonomy-folder-driving-age.png[New folder]
+Copy the following and add it as a new file called `qna.yaml` in the folder `parasol` as shown in the image above. "qna" is short for "questions and answers". To do this, right-click on `parasol` folder name and select `New File...`:
 
-[.console-input]
-[source,yaml]
-----
-version: 2
-task_description: "Driving age in New hampshire and Alaska"
-created_by: sshaaf
-domain: insurance
-seed_examples:
-  - question: Whats the legal driving age for teens in Alasks?
-    answer: |
-      Drivers must be at least 14 years old to obtain an instruction permit in Alaska.
-  - question: Whats the legal driving age for teens in New Hampshire?
-    answer: |
-      Teenage drivers in New Hampshire are allowed to practice driving beginning at age 16 years and 6 months.
-  - question: When can teen drivers get a Youth Operator License?
-    answer: |
-      Beginning at age 16, teen drivers may apply for a Youth Operator license in New Hampshire,
-      assuming the teen has taken an approved driver education course.
-  - question: When does the youth operator license expire?
-    answer: |
-      It expires on the individuals 21st birthday.
-  - question: What are the rules for teens driver license in Alaska?
-    answer: |
-      Must hold permit for 6 months, and complete 40 hours driving, 10 of which should be at night.
-  - question: Can teen drive with passengers?
-    answer: |
-      Teen drivers can not drive with passengers. Restrcitons are lifted at 18 years in Alaska.
-document:
-  repo: https://github.com/sshaaf/parasol_knowledge.git
-  commit: b22cd9c
-  patterns:
-    - alaska_teen_driving_laws.md
-    - new_hampshire_driving_laws.md
+image::ilab/ilab-taxonomy-qna.png[New folder]
 
-----
-
-And now lets also create an attribution.txt file for citing sources. Copy the following and create a new file `attribution.txt` in the folder `driving_age`
+Enter the filename `qna.yaml` to create the file. Then, copy in the following content into the file (using the special copy/paste procedure as before):
 
 [.console-input]
 [source,yaml]
 ----
-Title of work: Parasol Insurance
-Link to work: https://huggingface.co/rh-rad-ai-roadshow
-License of the work: CC-BY-SA-4.0
-Creator names: Syed M Shaaf, Philip Hayes
+include::https://raw.githubusercontent.com/rh-rad-ai-roadshow/parasol-taxonomy/refs/heads/main/knowledge/economy/finance/insurance/parasol/qna.yaml[]
 ----
 
-A `qna.yaml` that contains a set of key/value entries with the following keys.
-Each qna.yaml file requires a minimum of five question and answer pairs.
-An `attribution.txt` that includes the sources for the information used in the qna.yaml
-====
-
-=== Knowledge File #2: Parasol Claims Data
-// - **Parasol claims data**
-[%collapsible]
-====
-Like any insurance company on the planet, data is stored into multiple systems, files etc. Employees at Parasol Insurance either using the system for the first time or using it for e.g. detecting fraud, tyring to understand the glossary, acronyms etc. A good example is `Policy ID,` a unique ID for policy in our database systems. The LLM does not know about this. By adding this, we can ensure that once a claims agent or an application asks about a policy ID, the LLM can give reasonable answers and suggestions.
-
-Create a new folder `parasol_claims_data` under `knowledge > economy > finance > insurance` as shown in the image below
-
-image::ilab/ilab-taxonomy-folder-claims-data.png[New folder]
-
-Copy the following and add it as a new file called `qna.yaml` in the folder `parasol_claims_data` as shown in the image above.
+And now lets also create an attribution.txt file for citing sources. Copy the following and create a new file `attribution.txt` in the same folder `parasol`:
 
 [.console-input]
 [source,yaml]
 ----
-version: 2
-task_description: "Teach a model more details about Parasol Insurance"
-created_by: sshaaf
-domain: humanities
-seed_examples:
-  - question: What is a claim status?
-    answer: |
-      Indicates the status of a cliam. 1 if a claim was made and 0 if it was not.
-  - question: Whats the application of the claims data?
-    answer: |
-      It can be used to determine Risk Assesment, Claim history, Policy detials,
-      Risk factors or external factors influencing a cliam.
-  - question: What is a policy id?
-    answer: |
-      It is the unique identifier for a Parasol insurance policy.
-      Everytime one needs to find a policy they can use this number.
-  - question: Does the number of cylinders and max_power or max_torque effect a claim?
-    answer: |
-      It does not effect the claim directly but there can be external factors such as DUI or over speeding.
-  - question: Can automatic systems, sensor, airbags reduce number of claims?
-    answer: |
-      Yes the likely hood of reducing claims increases using systems that aid the drivers.
-document:
-  repo: https://github.com/sshaaf/parasol_knowledge.git
-  commit: b22cd9c
-  patterns:
-    - Insurance_claims_data.md
+include::https://raw.githubusercontent.com/rh-rad-ai-roadshow/parasol-taxonomy/refs/heads/main/knowledge/economy/finance/insurance/parasol/attribution.txt[]
 ----
-
-And now lets also create an attribution.txt file for citing sources. Copy the following and create a new file `attribution.txt` in the folder `parasol_claims_data`
-
-[.console-input]
-[source,yaml]
-----
-Title of work: Parasol Insurance
-Link to work: https://huggingface.co/rh-rad-ai-roadshow
-License of the work: CC-BY-SA-4.0
-Creator names: Syed M Shaaf, Philip Hayes
-----
-====
-
-
-=== Knowledge File #3: Parasol Insurance Overview
-// - **Parasol insurance**
-
-[%collapsible]
-====
-
-Here, we are adding some basic information about Parasol Insurance, an overview of product details. This will enable the LLM to give answers on a high level about the different offerings, fomulate a context about Parasol Insurance, history etc.
-
-Create a new folder `parasol_insurance` under `knowledge > economy > finance > insurance` as shown in the image below
-
-image::ilab/ilab-taxonomy-folder-parasol-insurance.png[New folder]
-
-Copy the following and add it as a new file called `qna.yaml` in the folder `parasol_insurance` as shown in the image above.
-
-[.console-input]
-[source,yaml]
-----
-version: 2
-task_description: "Teach a model more details about Parasol Insurance"
-created_by: sshaaf
-domain: humanities
-seed_examples:
-  - question: What is Parasol Auto Insurance?
-    answer: |
-      Parasol is an Insurance company providing Car Insurance coverage to customers all over the United States.
-  - question: What products does Parasol Insurance offer?
-    answer: |
-      Bodily injury cover upto $250,000.
-      Property damage upto $100,000.
-      Medical coverage upto $5,000 per person.
-      Uninsured Motorist bodily injury upto $250,000 per person.
-      Loss of use rental cover is $50 per day.
-      The comprehensive deductable is $500.
-  - question: What is Loss of Income?
-    answer: |
-      If you are at fault, to be able to claim for your own lost wages from Parasol Insurance
-  - question: What is Uninsured and Underinsured Motorist Coverage?
-    answer: |
-      If an at-fault driver is uninsured or doesnt have enough coverage to pay for your injuries or car damage.
-  - question: What is Car Rental Insurance?
-    answer: |
-      Parasol will pay the daily rental charge incurred when an insured rents a car from a car business
-      while your car or newly acquired car is not driveable.
-  - question: What is Apex plus package?
-    answer: |
-      The Parasol insurance Apex plus package provides additional coverage to motorist on top of their insurance policy
-document:
-  repo: https://github.com/sshaaf/parasol_knowledge.git
-  commit: b22cd9c
-  patterns:
-    - Parasol_Auto_Insurance_Products.md
-    - Parasol_auto_insurance.md
-    - claims_cost_data.md
-    - vehcile_insurance_in_the_United_States.md
-
-
-----
-And now lets also create an attribution.txt file for citing sources. Copy the following and create a new file `attribution.txt` in the folder `parasol_insurance`
-
-[.console-input]
-[source,yaml]
-----
-Title of work: Parasol Insurance
-Link to work: https://huggingface.co/rh-rad-ai-roadshow
-License of the work: CC-BY-SA-4.0
-Creator names: Syed M Shaaf, Philip Hayes
-----
-====
-
-
-=== Knowledge File #4: Parasol Policies
-// - **Parasol policies**
-
-[%collapsible]
-====
-
-Here, we are adding information specific to policies in relation to the different products. This will help our claims processing agents to ask questions about specific cases and scenarios to the LLM. The LLM should be able to suggest remedies or further knowledge to look into.
-
-Create a new folder `parasol_policies` under `knowledge > economy > finance > insurance` as shown in the image below
-
-image::ilab/ilab-taxonomy-folder-parasol-policies.png[New folder]
-
-Copy the following and add it as a new file called `qna.yaml` in the folder `parasol_policies` as shown in the image above.
-
-[.console-input]
-[source,yaml]
-----
-created_by: Philip Hayes
-domain: insurance
-seed_examples:
-  - answer: Parasol will pay the daily rental charge incurred when an insured rents a car from a car business while your car or newly acquired car is not driveable or being repaired as a result of loss which would be payeable under comprehensive coverage.\n Parasol will pay this daily rental charge during the period that starts on the date the vehicle is not driveable as a result of the loss or the vehicle is left at a repair facility if the vehicle is driveable.\nPayment for car rental from Parasol insurance will end on the earliest of the date the vehicle has been repaired or replaced, the date Parasol insurance offers to pay for the loss of the vehicle if you choose to delay repairs, or seven days after Parasol insurance offers to pay for the loss if the vehicle is stolen and not recovered.\nThe amount of the car rental must be reported to Parasol insutance before we will pay such an amount.
-    question: What is the car rental policy from Parasol Insurance?
-  - answer: Parasol will pay the daily rental charge incurred when an insured rents a car from a car business while your car or newly acquired car is not driveable or being repaired as a result of loss which would be payeable under comprehensive coverage.
-    question: When will Parasol Insurance pay daily rental charge incurred?
-  - answer: Parasol will pay this daily rental charge during the period that starts on the date the vehicle is not driveable as a result of the loss or the vehicle is left at a repair facility if the vehicle is driveable.
-    question: When will Parasol Insurance start paying daily car rental charges?
-  - answer: Payment for car rental from Parasol insurance will end on the earliest of the date the vehicle has been repaired or replaced, the date Parasol insurance offers to pay for the loss of the vehicle if you choose to delay repairs, or seven days after Parasol insurance offers to pay for the loss if the vehicle is stolen and not recovered.
-    question: When will payments for Car Insurance from Parasol Insurance end?
-  - answer: The amount of the car rental must be reported to Parasol insutance before we will pay such an amount.
-    question: What needs to happen before Parasol Insurance will pay car rental charges?
-  - answer: If you are at fault, to be able to claim for your own lost wages from Parasol Insurance, you need to have the optional Apex plus package which provides coverage of loss of income insurance as part of your policy. If another driver is at fault, the at-fault driver’s auto insurance company is typically responsible for covering your lost income.
-    question: Does Parasol insurance cover loss of income due to a car collision?
-  - answer: The Parasol insrurance Apex plus package provides additional coverage for loss of income and uninsured driver insurance on top of their insurance policy.
-    question: What is the Parasol insurance Apex plus package?
-
-
-task_description: ""
-document:
-  repo: https://github.com/rh-rad-ai-roadshow/parasol_knowledge.git
-  commit: b22cd9c
-  patterns:
-    - Parasol_auto_insurance.md
-
-----
-And now lets also create an attribution.txt file for citing sources. Copy the following and create a new file `attribution.txt` in the folder `parasol_policies`
-
-[.console-input]
-[source,yaml]
-----
-Title of work: Parasol Insurance
-Link to work: https://huggingface.co/rh-rad-ai-roadshow
-License of the work: CC-BY-SA-4.0
-Creator names: Syed M Shaaf, Philip Hayes
-----
-====
 
 === Check that the Taxonomy is Recognized by InstructLab
 
@@ -464,15 +267,12 @@ After running the above command you should be able to see the following output.
 
 [source,bash]
 ----
-└─> ilab diff                                                                                                                                                                                                                                                                                    (base)
-knowledge/economy/finance/insurance/parasol_claims_data/qna.yaml
-knowledge/economy/finance/insurance/driving_age/qna.yaml
-knowledge/economy/finance/insurance/parasol_insurance/qna.yaml
-knowledge/economy/finance/insurance/parasol_policies/qna.yaml
-Taxonomy in taxonomy is valid :)
+└─> ilab diff
+knowledge/economy/finance/insurance/parasol/qna.yaml
+Taxonomy in /home/instruct/.local/share/instructlab/taxonomy is valid :)
 ----
 
-If you do not see output similar to above, you may not have added in all of the Q&A files. This is important as the model will use these files to generate synthetic data in the next section.
+If you do not see output similar to above, you may not have added in all of the Q&A file. This is important as the model will use this file to generate synthetic data in the next section.
 
 == Generating Synthetic Training Data & Training the New Model
 
@@ -503,68 +303,49 @@ source venv/bin/activate
 [.console-input]
 [source,bash,subs="+attributes,macros+"]
 ----
-ilab data generate  --num-instructions 5
+ilab data generate --sdg-scale-factor 1 --enable-serving-output
 ----
 
-To reduce the amount of time the generation process takes, we are setting the *"--num-instructions"* flag to *"5"*, the default for this value is *"100"*. If we were generating data for a production deployment we would likely set this value even higher.
+To reduce the amount of time the generation process takes, we are setting the *"--sdg-scale-factor"* to `1` (The number of instructions to generate for each seed
+example), the default for this value is `30`. If we were generating data for a production deployment we would likely set this value higher.
 
-This process may take some time, depending on the amount of data and the computational resources available. Once the generation stage is complete, you should see something like this:
+This process may take some time (up to 25 minutes for this lab), depending on the amount of data and the computational resources available. Feel free to wait, or stop the process with kbd:[CTRL+C] as we will not be using these files in the next step in the interest of time. You may also want to open a separate Terminal and run the `nvtop` command to see the use of your GPU during this generation phase. Click the `+` button and run `nvtop` in the new terminal:
 
-[source,bash]
+image::ilab/nvtop.png[nvtop]
+
+You can switch back to the original terminal by clicking on it on the right side of the screen (named `python`) to check on the progress of the generation.
+
+Once the generation stage is complete, you should see something like this:
+
+[source,console]
 ----
-$ ilab data generate --num-instructions 5
-Generating synthetic data using 'models/merlinite-7b-lab-Q4_K_M.gguf' model, taxonomy:'taxonomy' against http://127.0.0.1:60385/v1 server
-Cannot find prompt.txt. Using default prompt depending on model-family.
-  Synthesizing new instructions. If you aren't satisfied with the generated instructions, interrupt training (Ctrl-C) and try adjusting your YAML files. Adding more examples may help.
-INFO 2024-09-09 15:32:37,674 generate_data.py:505: generate_data Selected taxonomy path knowledge->economy->finance->insurance->parasol_insurance
-  INFO 2024-09-09 15:32:45,955 generate_data.py:505: generate_data Selected taxonomy path knowledge->economy->finance->insurance->driving_age
-
-Q> How long must supervised driving practice be before applying for a license?
-I>
-A> 10 hours of nighttime driving are required.
-
-Q> What happens to the license when a driver reaches 21 years old?
-I>
-A> It expires on the individual's 21st birthday, at which time they can obtain a horizontally-oriented driver’s license.
-
-INFO 2024-09-09 15:33:15,263 generate_data.py:505: generate_data Selected taxonomy path knowledge->economy->finance->insurance->parasol_claims_data
-Q> What does the engine type mean?
-I>
-A> It can refer to either a fuel source or type of engine that powers a vehicle.
-This engine type can affect how powerful a car is,
-or how much it costs to run it.
-
-INFO 2024-09-09 15:33:34,454 generate_data.py:505: generate_data Selected taxonomy path knowledge->economy->finance->insurance->parasol_policies
-
-Q> How long does it take to accelerate to 88 miles per hour in a DeLorean DMC-12?
-I>
-A> Approximately 8.8 seconds is needed to reach 88 mph in a Delorean DMC-12.
-
-A> If you are at fault, to be able to claim for your own lost wages from Parasol Insurance, you need to have the optional Apex plus package which provides coverage of loss of income insurance as part of your policy. If another driver is at fault, the at-fault driver’s auto insurance company is typically responsible for covering your lost income. But if an at-fault driver is uninsured or doesn’t have enough coverage to pay for your injuries or car damage, Parasol underinsured motorist coverage can help pay the difference. Uninsured motorist coverage is provided as part of the optional Apex plus package.
-
-Q> What is Bodily Injury Limit?
-I>
-A> It means how much a company will cover in case you or someone else was hurt, not including property damage.
-
-100%|██████████████████████████████████████████████████| 5/5 [02:03<00:00, 24.77s/it]
-INFO 2024-09-09 15:34:41,519 generate_data.py:609: generate_data 5 instructions generated, 8 discarded due to format (see generated/discarded_merlinite-7b-lab-Q4_K_M_2024-09-09T15_32_37.log), 0 discarded due to rouge score
-INFO 2024-09-09 15:34:41,519 generate_data.py:613: generate_data Generation took 132.15s
-
+$ ilab data generate --sdg-scale-factor 1
+Filter: 100%|████████████████████████████████████████████████| 42/42 [00:00<00:00, 2836.45 examples/s]
+Filter: 100%|████████████████████████████████████████████████| 28/28 [00:00<00:00, 4355.46 examples/s]
+Flattening the indices: 100%|████████████████████████████████| 22/22 [00:00<00:00, 3207.77 examples/s]
+Map: 100%|███████████████████████████████████████████████████| 22/22 [00:00<00:00, 2485.04 examples/s]
+Flattening the indices: 100%|████████████████████████████████| 20/20 [00:00<00:00, 2395.65 examples/s]
+Casting to class labels: 100%|███████████████████████████████| 20/20 [00:00<00:00, 1306.68 examples/s]
+INFO 2024-10-02 16:47:28,764 instructlab.sdg.eval_data:126: Saving MMLU Dataset /home/instruct/.local/share/instructlab/datasets/node_datasets_2024-10-02T16_21_57/mmlubench_knowledge_economy_finance_insurance_parasol.jsonl
+Creating json from Arrow format: 100%|█████████████████████████████████| 1/1 [00:00<00:00, 567.10ba/s]
+INFO 2024-10-02 16:47:28,780 instructlab.sdg.eval_data:130: Saving MMLU Task yaml /home/instruct/.local/share/instructlab/datasets/node_datasets_2024-10-02T16_21_57/knowledge_economy_finance_insurance_parasol_task.yaml
+Map:   0%|                                                             | 0/722 [00:00<?, ? examples/s]WARNING 2024-10-02 16:47:28,802 instructlab.sdg.datamixing:223: Failed to split generated q&a: Parasol Insurance Company', founded in 1936 by James Falkner and James Labocki, is one of the largest and most well-known auto insurance companies in the United States, offering various insurance products for personal vehicles, motorcycles, homeowners, renters, boats, RVs, life insurance, business insurance, and identity theft protection. Parasol is known for its memorable advertising campaigns, user-friendly digital platforms, and competitive pricing, as well as its strong financial strength indicated by high ratings from agencies like A.M. Best.
 ----
 
-We can examine the output of the generation stage by taking a look at the "generated" folder in `~/instructlab`. Within this folder you'll see 4 different files:
+The result of this is a number of files which you can inspect in the `~/.local/share/instructlab/datasets` directory. These files are used in the following _training_ phase. Open this directory by running the following command in the Terminal:
 
-* `discarded_merlinite-7b-lab-Q4_K_M_DATETIME.log`: This contains a log of any generated instructions which were discarded during the generation process for any reason e.g. "didn't match expected format"
-* `generated_merlinite-7b-lab-Q4_K_M_DATETIME.json`: This contains the list of generated instructions plus context with which the model training instructions will be created
-* `test_merlinite-7b-lab-Q4_K_M_DATETIME.jsonl`: This file contains test prompts and responses which are used at the end of the training process
-* `train_merlinite-7b-lab-Q4_K_M_DATETIME.jsonl`: This file contains the instructions used during the train process to train the model.
-
+[.console-input]
+[source,bash,subs="+attributes,macros+"]
+----
+xdg-open ~/.local/share/instructlab/datasets
+----
+you can examine the contents of the files by double-clicking on them. For example, check out the file whose name starts with `messages_merlinite`. These are sample questions generated based on the content of our Parasol data.
 
 === Training the Model with New Data
 
-With our synthetic data generated, we should now be in a position to train the model.  Because we only created 5 sample instructions and due to time constraints we're not going to perform the actual training in this lab.
+With our synthetic data generated, we should now be in a position to train the model.  Because we only created 1 sample and due to time constraints we're not going to perform the actual training in this lab.
 
-If we were to do this, we would again use the "ilab" CLI with the "model train" command. Something like `ilab model train --iters 10 --device cuda`. Depending on the hardware available, this can take anywhere from several minutes to several hours or days. Once this process was finished we would then have a model we can serve locally with ilab to test our results.
+If we were to do this, we would again use the "ilab" CLI with the "model train" command. Something like `ilab model train --device cuda`. Depending on the hardware available, this can take anywhere from several minutes to several hours or days. Once this process was finished we would then have a model we can serve locally with ilab to test our results.
 
 === Serve the new the Model
 
@@ -611,6 +392,43 @@ image::ilab/new-model-responses.png[Launch Activities]
 
 The answers are specific to Parasol's policies and demonstrate the ability for organizations to fine-tune models with their own data, to improve the accuracy of responses, which can be used in many use cases.
 
+=== Bonus: Graphical UI
+
+In reality, Parasol employees would not be using `ilab` to ask the model(s) questions. For this lab, feel free to use the same application you may have seen in other exercises in this workshop. To open the application, run the following command in your Terminal:
+
+[.console-input]
+[source,bash]
+----
+xdg-open http://localhost:8005
+----
+This is the same Java application built on https://quarkus.io[Quarkus^] which Parasol customer service reps use to organize claims. On the *Claims* page, click on the first Claim for the customer named _Marty McFly_.
+
+image::ilab/mcfly-1.png[App]
+
+Click on the assistant chat tool at the lower right and enter the same prompts as before.
+
+image::ilab/mcfly-tool.png[App]
+
+Try this one as well:
+
+[.console-input]
+[source,console,subs="+attributes,macros+"]
+----
+Should Parasol approve this claim?
+----
+
+and
+
+[.console-input]
+[source,console,subs="+attributes,macros+"]
+----
+Who was at fault?
+----
+
+image::ilab/mcfly-2.png[App]
+
+In this case, the claim information is also included in the prompt, in addition to your questions, so that the assistant can make reasonable answers based on the claim in question!
+
 == Conclusion
 
 This exercise showed how organizations can leverage fine tuning with InstructLab to improve the accuracy of LLM responses. Here's a quick summary of what we have learned:
@@ -631,6 +449,7 @@ These commands install VSCode and a few other needed tools. You should not have 
 [.console-input]
 [source,bash,subs="+attributes,macros+"]
 ----
+cd ~
 curl -L -o files/vscode.rpm 'https://code.visualstudio.com/sha/download?build=stable&os=linux-rpm-x64'
 sudo dnf install -y xdg-utils
 sudo rpm -ivh files/vscode.rpm
@@ -638,43 +457,17 @@ sudo dnf -y install zip gcc glibc-devel zlib-devel firefox
 curl -s "https://get.sdkman.io" | bash
 source "/home/instruct/.sdkman/bin/sdkman-init.sh"
 sdk install java 21.0.3-tem
-pip install 'numpy<2.0'
-
-cat <<EOF >> /home/instruct/instructlab/config.yaml
-chat:
-  context: default
-  greedy_mode: false
-  logs_dir: data/chatlogs
-  max_tokens: null
-  model: models/merlinite-7b-lab-Q4_K_M.gguf
-  session: null
-  vi_mode: false
-  visible_overflow: true
-general:
-  log_level: INFO
-generate:
-  chunk_word_count: 1000
-  model: models/merlinite-7b-lab-Q4_K_M.gguf
-  num_cpus: 10
-  num_instructions: 100
-  output_dir: generated
-  prompt_file: prompt.txt
-  seed_file: seed_tasks.json
-  taxonomy_base: origin/main
-  taxonomy_path: taxonomy
-serve:
-  gpu_layers: -1
-  host_port: 127.0.0.1:8000
-  max_ctx_size: 4096
-  model_path: models/merlinite-7b-lab-Q4_K_M.gguf
-EOF
 
 curl -Lo ~/instructlab/models/parasol-model.gguf https://huggingface.co/rh-rad-ai-roadshow/parasol-merlanite-trained-GGUF/resolve/main/parasol-model-0715-sdg400.gguf?download=true
 
 
 curl -Lo ~/Documents/marty-mcfly-auto.pdf https://raw.githubusercontent.com/rh-rad-ai-roadshow/parasol-insurance/main/app/src/main/resources/claims/marty-mcfly-auto.pdf
 
-cd ~
+cd ~/instructlab
+rm -rf taxonomy
+source venv/bin/activate
+ilab config init --non-interactive
+
 git clone https://github.com/rh-rad-ai-roadshow/parasol-insurance.git
 cd parasol-insurance/app
 ./mvnw clean package -DskipTests
