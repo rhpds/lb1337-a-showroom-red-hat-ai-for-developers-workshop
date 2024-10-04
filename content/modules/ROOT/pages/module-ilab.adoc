@@ -347,7 +347,7 @@ With our synthetic data generated, we should now be in a position to train the m
 
 If we were to do this, we would again use the "ilab" CLI with the "model train" command. Something like `ilab model train --device cuda`. Depending on the hardware available, this can take anywhere from several minutes to several hours or days. Once this process was finished we would then have a model we can serve locally with ilab to test our results.
 
-=== Serve the new the Model
+=== Serve the new Model
 
 We have provisioned a trained model in the folder `~/instructlab/models` called `parasol-model.gguf`. Serve this model by running the following command in the terminal:
 
