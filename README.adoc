@@ -47,7 +47,7 @@ In addition, many modern editors such as Visual Studio Code offer live Asciidoc 
 == Configuring your Lab 
 
 Project Zero Lab repos have 3 *yaml* files that control the build and deployment of your lab.
-However _typically_ you will only need to only make very few edits 
+However, _typically_, you will only need to make a few edits. 
 
 [source,sh]
 ----
