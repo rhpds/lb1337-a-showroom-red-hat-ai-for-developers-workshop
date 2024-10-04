@@ -3,7 +3,7 @@
 
 == Log into Red Hat OpenShift Dev Spaces
 
-Go back to the https://backstage-backstage{openshift_cluster_ingress_domain}/catalog/default/component/parasol-app-{user}[Parasol component^] in Red Hat Developer Hub. From the *OVERVIEW* tab click on `OpenShift Dev Spaces (VS Code)` to make the necessary source code changes.
+Go back to the https://backstage-backstage.{openshift_cluster_ingress_domain}/catalog/default/component/parasol-app-{user}[Parasol component^] in Red Hat Developer Hub. From the *OVERVIEW* tab click on `OpenShift Dev Spaces (VS Code)` to make the necessary source code changes.
 
 image::devhub/frontend_devspaces.png[frontend_devspaces, 700]
 

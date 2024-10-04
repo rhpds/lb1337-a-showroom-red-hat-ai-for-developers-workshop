@@ -16,7 +16,7 @@ Red Hat Developer Hub has already been installed and configured in the workshop 
 
 Red Hat Developer Hub integrates with https://access.redhat.com/products/red-hat-single-sign-on/[Red Hat Single Sign On (RH-SSO)^] to enhance security and user experience for developers within an organization. By integrating with RH-SSO, developers only need to log in once to access both RHDH and other applications secured by RH-SSO. This eliminates the need to manage multiple login credentials for different developer tools and services. RH-SSO centralizes user authentication and authorization to strengthen security by ensuring only authorized users can access RHDH and other protected resources. In addition, The platform engineering team can manage user access and permissions centrally through RH-SSO, simplifying administration and reducing the risk of unauthorized access.
 
-To get started, *access* https://backstage-backstage{openshift_cluster_ingress_domain}[Red Hat Developer Hub Dashboard^] to authenticate by *GitLab*.
+To get started, *access* https://backstage-backstage.{openshift_cluster_ingress_domain}[Red Hat Developer Hub Dashboard^] to authenticate by *GitLab*.
 
 Choose the *GitLab* option.
 
@@ -122,5 +122,5 @@ Click on `VIEW SOURCE` to access the new source code repository created.
 
 image::devhub/parasol_source.png[]
 
-Go back to your Parasol component on Red Hat Developer Hub: https://backstage-backstage{openshift_cluster_ingress_domain}/catalog/default/component/parasol-app-{user}[Red Hat Developer Hub UI^].
+Go back to your Parasol component on Red Hat Developer Hub: https://backstage-backstage.{openshift_cluster_ingress_domain}/catalog/default/component/parasol-app-{user}[Red Hat Developer Hub UI^].
 

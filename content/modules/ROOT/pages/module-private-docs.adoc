@@ -194,7 +194,7 @@ Dev Spaces may also ask if you would like to open the application again. This is
 Don't open the application again yet, we first need to add some configuration for the new extension.
 ====
 
-We have already added a policy document (`policy-info.pdf`) in the `src/main/resources/policies` folder. https://gitlab-gitlab{openshift_cluster_ingress_domain}/development/parasol-app-{user}/-/blob/master/src/main/resources/policies/policy-info.pdf[Click here^] to view it.
+We have already added a policy document (`policy-info.pdf`) in the `src/main/resources/policies` folder. https://gitlab-gitlab.{openshift_cluster_ingress_domain}/development/parasol-app-{user}/-/blob/master/src/main/resources/policies/policy-info.pdf[Click here^] to view it.
 
 We can tell the Easy Rag extension where to find it by adding the following lines in your `src/main/resources/application.properties`:
 
@@ -399,7 +399,7 @@ image::private-docs/open-quarkus-devui.png[Open Quarkus Dev UI]
 
 image::private-docs/quarkus-dev-ui.png[Quarkus Dev UI]
 
-Find the "Mailpit" section and click on the https://{user}-parasol-insurance-quarkus-devui{openshift_cluster_ingress_domain}/q/mailpit/[link^] next to "Mailpit UI" and you will see a new email that was sent thanks to our newly added functionality!
+Find the "Mailpit" section and click on the https://{user}-parasol-insurance-quarkus-devui.{openshift_cluster_ingress_domain}/q/mailpit/[link^] next to "Mailpit UI" and you will see a new email that was sent thanks to our newly added functionality!
 
 image::private-docs/mailpit.png[Mailpit UI]
 
@@ -433,7 +433,7 @@ Let's take a look!
 
 === Looking at our traces
 
-. https://jaeger-parasol-app-{user}-dev{openshift_cluster_ingress_domain}[Click here^] to open the Jaeger UI.
+. https://jaeger-parasol-app-{user}-dev.{openshift_cluster_ingress_domain}[Click here^] to open the Jaeger UI.
     - This Jaeger instance is specific to your instance of the application and does not contain any data from any other users in the workshop.
 . Once in the Jaeger UI, expand the **Service** dropdown and choose the **insurance-app** service.
     - This narrows the scope of observed traces just to our application

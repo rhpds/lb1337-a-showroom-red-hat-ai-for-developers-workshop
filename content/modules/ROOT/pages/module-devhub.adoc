@@ -85,7 +85,7 @@ Tests paused
 Press [e] to edit command line args (currently ''), [r] to resume testing, [o] Toggle test output, [:] for the terminal, [h] for more options>
 ----
 
-Validate your local Parasol application against the production version by accessing the https://{user}-parasol-insurance-parasol-webui{openshift_cluster_ingress_domain}[Parasol web page^].
+Validate your local Parasol application against the production version by accessing the https://{user}-parasol-insurance-parasol-webui.{openshift_cluster_ingress_domain}[Parasol web page^].
 
 image::devhub/parasol_ui_web.png[]
 
@@ -338,7 +338,7 @@ import { EmailGenerate } from './components/EmailGenerate/EmailGenerate';
 
 Before committing, do a quick functional test locally to ensure you got all the changes correct. If you stopped the Quarkus dev mode, start it again.
 
-Reload the https://{user}-parasol-insurance-parasol-webui{openshift_cluster_ingress_domain}[Parasol web page^].
+Reload the https://{user}-parasol-insurance-parasol-webui.{openshift_cluster_ingress_domain}[Parasol web page^].
 
 [NOTE]
 ====
@@ -408,7 +408,7 @@ image::devhub/dev_confirmed.png[]
 
 === Merge the pull request
 
-Go to the https://gitlab-gitlab{openshift_cluster_ingress_domain}[Gitlab^]. Click on the *Create merge requests* to merge the pull request. If you don't see the merge request, refresh the page.
+Go to the https://gitlab-gitlab.{openshift_cluster_ingress_domain}[Gitlab^]. Click on the *Create merge requests* to merge the pull request. If you don't see the merge request, refresh the page.
 
 image::devhub/create_merge.png[]
 
@@ -451,7 +451,7 @@ Your source code changes triggered a new pipeline to update the version of the f
 
 Monitor if the new deployment rolls out by the OpenShift GitOps in the Dev Hub web console.
 
-Go back to your frontend component on the Red Hat Developer Hub: https://backstage-backstage{openshift_cluster_ingress_domain}/catalog/default/component/parasol-app-{user}[Red Hat Developer Hub UI^].
+Go back to your frontend component on the Red Hat Developer Hub: https://backstage-backstage.{openshift_cluster_ingress_domain}/catalog/default/component/parasol-app-{user}[Red Hat Developer Hub UI^].
 
 Explore the pipelines by clicking on the `CI` tab. *A new pipeline* will be triggered to build the new Gen AI feature. Wait for pipeline to finish.
 
@@ -461,7 +461,7 @@ image::devhub/frontend_newpipeline.png[]
 
 == Verify the new app's functionality
 
-Reload the https://parasol-app-{user}-dev-parasol-app-{user}-dev{openshift_cluster_ingress_domain}[Parasol web page^] in `production` to verify everything is working as expected. Ensure *not to reload the local page* when you were testing using Quarkus dev mode.
+Reload the https://parasol-app-{user}-dev-parasol-app-{user}-dev.{openshift_cluster_ingress_domain}[Parasol web page^] in `production` to verify everything is working as expected. Ensure *not to reload the local page* when you were testing using Quarkus dev mode.
 
 [NOTE]
 ====

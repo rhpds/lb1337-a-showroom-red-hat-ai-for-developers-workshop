@@ -115,7 +115,7 @@ In a minute or so, you will be prompted that a new application was detected with
 
 image::prompt/open_devui_from_endpoints.png[Open Dev-UI Using Endpoints Explorer]
 
-Or you can also access the http://{user}-parasol-insurance-quarkus-devui{openshift_cluster_ingress_domain}/q/dev-ui[Quarkus Dev UI^] directly.
+Or you can also access the http://{user}-parasol-insurance-quarkus-devui.{openshift_cluster_ingress_domain}/q/dev-ui[Quarkus Dev UI^] directly.
 
 Click on `Chat`.  This is highlighted with a red box in the screenshot below.
 
@@ -397,7 +397,7 @@ If you haven't created *a new Gen AI email service* in the previous module yet, 
 sh ${PROJECT_SOURCE}/scripts/create-email-ai-service.sh
 ----
 
-Access the https://parasol-app-{user}-dev-parasol-app-{user}-dev{openshift_cluster_ingress_domain}[Parasol web page^] to verify the Gen AI email service.
+Access the https://parasol-app-{user}-dev-parasol-app-{user}-dev.{openshift_cluster_ingress_domain}[Parasol web page^] to verify the Gen AI email service.
 ====
 
 ==== Generate an email for `new claim #1` to the new.claim@parasol.com
