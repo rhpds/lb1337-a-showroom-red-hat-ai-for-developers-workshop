@@ -447,7 +447,7 @@ These skills and tools will be invaluable as you continue to develop AI-enabled 
 These commands install VSCode and a few other needed tools. You should not have to run these, it's only here for reference.
 
 [.console-input]
-[source,bash,subs="+attributes,macros+"]
+[source,bash]
 ----
 cd ~
 curl -L -o files/vscode.rpm 'https://code.visualstudio.com/sha/download?build=stable&os=linux-rpm-x64'
