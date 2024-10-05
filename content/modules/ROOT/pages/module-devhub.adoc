@@ -314,7 +314,12 @@ This interface allows customer service representatives to copy and paste the cus
 
 ==== Add a new menu item in the navigation bar
 
-Open the `routes.tsx` file in the `src/main/webui/src/app` directory and `uncomment` the following code out in line *8* and *89 - 95* to show the new menu item.
+Open the `routes.tsx` file in the `src/main/webui/src/app` directory and `uncomment` the following code out in line *8* and *89 - 95* to show the new menu item. 
+
+[NOTE]
+====
+For example, press kbd:[Ctrl+/] on Windows or kbd:[Cmd+/] on macOS to comment out the code.
+====
 
 [.console-output]
 [source,javascript]
@@ -342,7 +347,7 @@ Reload the https://{user}-parasol-insurance-parasol-webui.{openshift_cluster_ing
 
 [NOTE]
 ====
-If you're still seeing the old page, try refreshing the page without the browser caches by pressing kbd:[Ctrl+F5] or kbd:[Cmd+Shift+F5] on macOS.
+If you're still seeing the old page, try refreshing the page without the browser caches by pressing kbd:[Ctrl+F5] or kbd:[Cmd+Shift+R] on macOS.
 ====
 
 The new *Email Generate* menu item will appear on the left panel. Click on it.
@@ -431,7 +436,7 @@ image::devhub/pr_devhub.png[]
 
 === Review the changes
 
-Select the *Changes* tab to review what code has changed in the pull request. This should be done by an application architect or senior developer in general.
+Select the https://gitlab-gitlab.{openshift_cluster_ingress_domain}/development/parasol-app-{user}/-/merge_requests/1/diffs[Changes^] tab in the *Gitlab* to review what code has changed in the pull request. This should be done by an application architect or senior developer in general.
 
 image::devhub/review_pr.png[]
 
