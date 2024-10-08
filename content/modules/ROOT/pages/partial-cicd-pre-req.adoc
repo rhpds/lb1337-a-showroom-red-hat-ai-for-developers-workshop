@@ -38,7 +38,7 @@ As a Parasol customer service representative, try to ask any questions about the
 [.console-input]
 [source,bash,subs="attributes"]
 ----
-Please clarify the policy coverage for this specific claim in less than 5 lines.
+Please clarify Parasol's policy coverage for this specific claim in 4 sentences or less.
 ----
 
 Then, click on `paper airplane` icon (or press `Enter`) to send the query. The AI chatbot will connect to the trained Parasol LLM and respond with an answer.
