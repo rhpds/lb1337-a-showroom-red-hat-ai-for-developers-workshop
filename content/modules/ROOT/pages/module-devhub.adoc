@@ -137,23 +137,22 @@ import dev.langchain4j.service.SystemMessage;
 import dev.langchain4j.service.UserMessage;
 import io.quarkiverse.langchain4j.RegisterAiService;
 
-@RegisterAiService(modelName = "parasol-email") // <1>
+@RegisterAiService(modelName = "parasol-email") 
 public interface EmailService {
-    @SystemMessage(""" // <2>
+    @SystemMessage(""" 
       You are a helpful, respectful and honest assistant named "Parasol Assistant".
 
-      You work for Parasol Insurance.
-
+      You are responding to customer emails. Provide a friendly response that is written by Parasol. The response should thank them for being a customer. Include information about when parasol insurance was founded.
+      
       Your response must look like the following JSON:
 
       {
-        "subject": "Subject of your response, suitable to use as an email subject line.",
-        "message": "Response text that summarizes the information they gave, and asks for any other missing information needed from Parasol."
+        "subject": [A good one-line greeting],
+        "message": [Your response, summarizing the information they gave and ask the customer for any follow-up information needed to file a claim]
       }
       """)
-    EmailResponse chat(@UserMessage String claim); // <3>
+    EmailResponse chat(@UserMessage String claim); 
 }
-
 ----
 <1> *@RegisterAiService* annotation is pivotal for registering the AI Service, represented as a Java interface.
 <2> *@SystemMessage* annotation defines the scope and initial instructions, serving as the first message sent to the LLM. It delineates the AI service's role in the interaction.
