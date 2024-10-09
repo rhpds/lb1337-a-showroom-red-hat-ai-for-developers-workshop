@@ -369,7 +369,7 @@ with:
 [source,properties,subs="+attributes,macros+"]
 ----
 # quarkus.langchain4j.openai.parasol-chat.chat-model.stop=DONE,done,stop,STOP
-quarkus.langchain4j.openai.parasol-chat.chat-model.model-name=llama3.1
+quarkus.langchain4j.openai.parasol-chat.chat-model.model-name=llama3.2
 quarkus.langchain4j.openai.parasol-chat.base-url=http://parasol-tools.aiworkshop.svc.cluster.local/v1
 ----
 
@@ -461,14 +461,14 @@ image::private-docs/jaeger-trace-details.png[Jaeger trace details]
 . The entrypoint to the chat interface (`org.parasol.resources.ClaimWebsocketChatBot` class, `onMessage` method).
 . Entrypoint into the `ClaimService` AI service's `chat` method.
 . REST HTTP call to the embedding model to retrieve appropriate embeddings based on the chat query.
-. Call to the `llama3.1` model.
+. Call to the `llama3.2` model.
 . REST HTTP call to the model server.
 . Callback from the model to invoke the `updateClaimStatus` tool.
 . Call into our `NotificationService.updateClaimStatus` method.
 . Get a connection to the database.
 . **Select** the `Claim` record from the database to update.
 . **Update** the `Claim` record from the database and set the claim's status to **denied**.
-. Send the result of the tool invocation back to the `llama3.1` model.
+. Send the result of the tool invocation back to the `llama3.2` model.
 . REST HTTP call to the model server including the result from the tool invocation.
 
 You can click on any span to show more contextual information about the span:
