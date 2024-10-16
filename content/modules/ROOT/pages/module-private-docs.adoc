@@ -194,6 +194,11 @@ Dev Spaces may also ask if you would like to open the application again. This is
 Don't open the application again yet, we first need to add some configuration for the new extension.
 ====
 
+[CAUTION]
+====
+You will most likely see errors if you open the application again (or return to the console the application is running in) before completing the following configuration. Please continue with the following configuration before reattempting to use the application.
+====
+
 We have already added a policy document (`policy-info.pdf`) in the `src/main/resources/policies` folder. https://gitlab-gitlab.{openshift_cluster_ingress_domain}/development/parasol-app-{user}/-/blob/master/src/main/resources/policies/policy-info.pdf[Click here^] to view it.
 
 We can tell the Easy Rag extension where to find it by adding the following lines in your `src/main/resources/application.properties`:
@@ -350,6 +355,8 @@ public ClaimBotQueryResponse onMessage(ClaimBotQuery query) {
 }
 ----
 
+IMPORTANT: When the application restarts you may see compilation errors in the console. This is because we updated the `ClaimWebsocketChatBot` class but did not update the corresponding tests. That is ok. The application will continue to function properly.
+
 === Configure new LLM with tool support
 
 The last thing we need to do is to switch to a different LLM for our chat bot because the `parasol-chat` model does not currently support tools integration.
@@ -383,7 +390,7 @@ Open the chat interface again and this time tell the chat assistant:
 Update the claim status to denied
 ----
 
-After a few moment you should see that the chatbot answers, telling you that it updated the status and sent an email to the customer.
+After a few moments (it could take up to a minute or so) you should see that the chatbot answers, telling you that it updated the status and sent an email to the customer.
 
 image::private-docs/chat-response-email.png[Chatbot response]
 
