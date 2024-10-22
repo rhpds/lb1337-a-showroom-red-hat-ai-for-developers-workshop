@@ -388,7 +388,7 @@ Click on `Submit` to generate the email subject and body. It will take a few sec
 
 image::devhub/generated_email.png[]
 
-*Great!* Now you're ready to merge this code into the application. We'll create a pull request which will automatically build the new app so taht we can test it.
+*Great!* Now you're ready to merge this code into the application. We'll create a pull request which will automatically build the new app so that we can test it.
 
 == Create a new pull request
 
