@@ -63,7 +63,7 @@ Follow the next steps to create a component based on the pre-defined Software Te
 * *Name*: The name of the component. Replace the *Name* with the following domain:
 
 [.console-input]
-[source,bash,subs="attributes"]
+[source,console,subs="attributes"]
 ----
 parasol-app-{user}
 ----
