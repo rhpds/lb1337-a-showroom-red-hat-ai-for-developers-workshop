@@ -361,10 +361,6 @@ By updating the template with these specific requirements, you can tailor the su
 
 ==== Restart the recipe to re-build the container with the updated code
 
-image::discovery/text-summarization-app-restart.png[Podman AI Lab Text Summarization Application Restart]
-
-You may also restart it from the drop-down menu on the _Running_ tab:
-
 image::discovery/text-summarization-restart.png[Podman AI Lab Text Summarization Application Restart]
 
 Since the source code has changed, you may be notified from Podman AI Lab that the hash has changed. This is expected behavior, and you can select *Continue* to proceed building the application container image with the updated code.
