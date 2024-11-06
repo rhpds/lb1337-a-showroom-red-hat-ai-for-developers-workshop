@@ -179,7 +179,7 @@ By systematically testing various configurations and prompts related to insuranc
 
 Now let's play with it a bit:
 
-==== Click on the name of the new playground `playground1` (or whatever you called it)
+==== Click on the name of the new playground `Granite Playground` (or whatever you called it)
 
 ==== Click the `Open` icon next to `Define a system prompt`
 
