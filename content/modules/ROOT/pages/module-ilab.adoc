@@ -63,6 +63,26 @@ To begin working with InstructLab, you'll need to access the provided noNVC virt
 
 ==== Click the `Show Applications` icon to show all the applications
 
+==== Click the `Terminal` icon to Open a new terminal
+
+image::ilab/launch-terminal.png[Launch Terminal]
+
+==== Set up the REHL VM environment
+
+Run the following bash script in the terminal.
+
+[.console-input]
+[source,shell,subs="+attributes,macros+"]
+----
+sh parasol-insurance/scripts/rhelvm-setup.sh
+----
+
+This script will perform the following actions:
+
+* Install OpenJDK 21 using sdkman
+* Build the Quarkus (_parasol-insurnce_) application
+* Run the Quarkus application in the REHL VM
+
 ==== Click the `Visual Studio Code` icon to launch Visual Studio Code
 
 image::ilab/launch-vscode-desktop.png[Launch Podman Desktop]
