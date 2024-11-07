@@ -197,6 +197,7 @@ document:<7>
     - Insurance_claims_data.md
     - teen_driving_rules.md
     - claims_cost_data.md
+
 ----
 
 Each `qna.yaml` file requires a minimum of five question-answer pairs. The `qna.yaml` format must include the following fields:
@@ -322,7 +323,6 @@ After running the above command you should be able to see the following output.
 
 [source,bash]
 ----
-└─> ilab diff
 knowledge/economy/finance/insurance/parasol/qna.yaml
 Taxonomy in /home/instruct/.local/share/instructlab/taxonomy is valid :)
 ----
@@ -417,10 +417,8 @@ It may take a minute to start, but you should see the following:
 
 [source,bash]
 ----
-(venv) [instruct@bastion instructlab]$ ilab model serve --model-path ~/instructlab/models/parasol-model.gguf
-INFO 2024-09-09 16:01:01,652 serve.py:51: serve Using model '/home/instruct/instructlab/models/parasol-model.gguf' with -1 gpu-layers and 4096 max context size.
-INFO 2024-09-09 16:02:14,664 server.py:218: server Starting server process, press CTRL+C to shutdown server...
-INFO 2024-09-09 16:02:14,664 server.py:219: server After application startup complete see http://127.0.0.1:8000/docs for API.
+INFO 2024-11-07 23:03:09,682 instructlab.model.serve:136: Using model '/home/instruct/instructlab/models/parasol-model.gguf' with -1 gpu-layers and 4096 max context size.
+INFO 2024-11-07 23:03:09,683 instructlab.model.serve:140: Serving model '/home/instruct/instructlab/models/parasol-model.gguf' with llama-cpp
 ----
 
 === Interacting with the Model
@@ -436,7 +434,7 @@ In the new terminal, run the following command to begin a chat session with the 
 ----
 cd ~/instructlab
 source venv/bin/activate
-ilab chat
+ilab model chat
 ----
 
 We can now ask the trained model some parasol specific questions such as:
@@ -497,36 +495,3 @@ This exercise showed how organizations can leverage fine tuning with InstructLab
 * You understand the *benefits and limitations* of fine-tuning compared to other AI customization methods
 
 These skills and tools will be invaluable as you continue to develop AI-enabled applications at Parasol Insurance, allowing you to quickly iterate on ideas and integrate powerful AI capabilities into your workflow.
-
-[#appendix]
-== Appendix
-
-These commands install VSCode and a few other needed tools. You should not have to run these, it's only here for reference.
-
-[.console-input]
-[source,bash]
-----
-cd ~
-curl -L -o files/vscode.rpm 'https://code.visualstudio.com/sha/download?build=stable&os=linux-rpm-x64'
-sudo dnf install -y xdg-utils
-sudo rpm -ivh files/vscode.rpm
-sudo dnf -y install zip gcc glibc-devel zlib-devel firefox
-curl -s "https://get.sdkman.io" | bash
-source "/home/instruct/.sdkman/bin/sdkman-init.sh"
-sdk install java 21.0.3-tem
-
-curl -Lo ~/instructlab/models/parasol-model.gguf https://huggingface.co/rh-rad-ai-roadshow/parasol-merlanite-trained-GGUF/resolve/main/parasol-model-0715-sdg400.gguf?download=true
-
-
-curl -Lo ~/Documents/marty-mcfly-auto.pdf https://raw.githubusercontent.com/rh-rad-ai-roadshow/parasol-insurance/main/app/src/main/resources/claims/marty-mcfly-auto.pdf
-
-cd ~/instructlab
-rm -rf taxonomy
-source venv/bin/activate
-ilab config init --non-interactive
-
-git clone https://github.com/rh-rad-ai-roadshow/parasol-insurance.git
-cd parasol-insurance/app
-./mvnw clean package -DskipTests
-nohup java -jar -Dquarkus.langchain4j.openai.parasol-chat.base-url=http://localhost:8000/v1 target/quarkus-app/quarkus-run.jar > ~/quarkus.out 2>&1 &
-----
