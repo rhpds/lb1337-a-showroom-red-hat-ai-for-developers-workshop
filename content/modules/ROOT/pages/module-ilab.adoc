@@ -57,7 +57,7 @@ As you work with InstructLab, you will see the terms _Skills_ and _Knowledge_. W
 
 === Access your Virtual Environment
 
-To begin working with InstructLab, you'll need to access the provided noNVC virtual environment. This environment comes pre-configured with all necessary tools and dependencies. Connect to {novnc_url}[noVNC server,window=_blank] using the password `{password}`.
+To begin working with InstructLab, you'll need to access the provided noNVC virtual environment. This environment comes pre-configured with all necessary tools and dependencies. Connect to {novnc_web_url}[noVNC server,window=_blank] using the password `{password}`.
 
 ==== Click the `Activities` label in the top-left corner of the screen
 
