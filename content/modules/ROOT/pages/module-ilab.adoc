@@ -67,21 +67,54 @@ To begin working with InstructLab, you'll need to access the provided noNVC virt
 
 image::ilab/launch-terminal.png[Launch Terminal]
 
-==== Set up the REHL VM environment
+==== Install Java 21
+
+Run the following `sdk` command in the terminal.
+
+[.console-input]
+[source,shell,subs="+attributes,macros+"]
+----
+sdk install java 21.0.5-tem
+----
+
+The output should be similar to the following:
+
+[.console-output]
+[source,shell,subs="+attributes,macros+"]
+----
+Downloading: java 21.0.5-tem
+
+In progress...
+
+######################################################################### 100.0%
+
+Repackaging Java 21.0.5-tem...
+
+Done repackaging...
+
+Installing: java 21.0.5-tem
+Done installing!
+
+
+Setting java 21.0.5-tem as default.
+----
+
+==== Build and run the Paasol Insurance application
 
 Run the following bash script in the terminal.
 
 [.console-input]
 [source,shell,subs="+attributes,macros+"]
 ----
-sh parasol-insurance/scripts/rhelvm-setup.sh
+sh parasol-insurance/scripts/run-parasol-app.sh
 ----
 
 This script will perform the following actions:
 
-* Install OpenJDK 21 using sdkman
 * Build the Quarkus (_parasol-insurnce_) application
-* Run the Quarkus application in the REHL VM
+* Run the Quarkus application locally in the REHL VM
+
+It will take a few minutes to complete.
 
 ==== Click the `Visual Studio Code` icon to launch Visual Studio Code
 
