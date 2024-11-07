@@ -419,6 +419,24 @@ It may take a minute to start, but you should see the following:
 ----
 INFO 2024-11-07 23:03:09,682 instructlab.model.serve:136: Using model '/home/instruct/instructlab/models/parasol-model.gguf' with -1 gpu-layers and 4096 max context size.
 INFO 2024-11-07 23:03:09,683 instructlab.model.serve:140: Serving model '/home/instruct/instructlab/models/parasol-model.gguf' with llama-cpp
+INFO 2024-11-07 23:04:57,699 instructlab.model.backends.llama_cpp:232: Replacing chat template:
+ {% for message in messages %}
+{% if message['role'] == 'user' %}
+{{ '<|user|>
+' + message['content'] }}
+{% elif message['role'] == 'system' %}
+{{ '<|system|>
+' + message['content'] }}
+{% elif message['role'] == 'assistant' %}
+{{ '<|assistant|>
+' + message['content'] + eos_token }}
+{% endif %}
+{% if loop.last and add_generation_prompt %}
+{{ '<|assistant|>' }}
+{% endif %}
+{% endfor %}
+INFO 2024-11-07 23:04:57,702 instructlab.model.backends.llama_cpp:189: Starting server process, press CTRL+C to shutdown server...
+INFO 2024-11-07 23:04:57,702 instructlab.model.backends.llama_cpp:190: After application startup complete see http://127.0.0.1:8000/docs for API.
 ----
 
 === Interacting with the Model
