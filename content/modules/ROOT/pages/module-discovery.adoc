@@ -132,10 +132,9 @@ image::discovery/model-service-new.png[Podman AI Lab Model Service New]
 
 Once completed, click the `Open service details` to see the model service details dashboard, which provides essential information for integrating the model into your applications:
 
-* *Container section*: Shows the model's container name, useful for viewing direct container interactions via Podman Desktop.
-* *Model section*: Displays the model name, license, and source repository.
-* *Server section*: Provides the local URL (inference endpoint) for the model.
-* *Client Code section*: Offers integration code snippets in various programming languages.
+* *Inference Endpoint URL*: Provides the local URL (inference endpoint) for the model.
+* *Model*: Displays the model name, license, and source repository.
+* *Client Code*: Offers integration code snippets in various programming languages.
 
 image::discovery/model-service-details.png[Podman AI Lab Model Service Details]
 
