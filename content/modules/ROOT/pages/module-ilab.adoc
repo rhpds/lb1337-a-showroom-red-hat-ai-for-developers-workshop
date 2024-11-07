@@ -116,6 +116,8 @@ This script will perform the following actions:
 
 It will take a few minutes to complete.
 
+The output should end with the `BUILD SUCCESS` message.
+
 ==== Click the `Visual Studio Code` icon to launch Visual Studio Code
 
 image::ilab/launch-vscode-desktop.png[Launch Podman Desktop]
