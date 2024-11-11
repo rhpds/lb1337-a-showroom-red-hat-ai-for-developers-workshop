@@ -381,7 +381,7 @@ Once the generation stage is complete, you should see something like this:
 
 [source,console]
 ----
-$ ilab data generate --sdg-scale-factor 1
+$ ilab data generate --model ~/instructlab/models/granite-7b-lab-Q4_K_M.gguf --sdg-scale-factor 1 --enable-serving-output
 Filter: 100%|████████████████████████████████████████████████| 42/42 [00:00<00:00, 2836.45 examples/s]
 Filter: 100%|████████████████████████████████████████████████| 28/28 [00:00<00:00, 4355.46 examples/s]
 Flattening the indices: 100%|████████████████████████████████| 22/22 [00:00<00:00, 3207.77 examples/s]
