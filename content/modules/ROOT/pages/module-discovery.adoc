@@ -280,6 +280,8 @@ If you see the following error message, the latest receipe has not been pulled t
 
 image::discovery/summerizer-error.png[Summerizer Error]
 
+You can fix this by pulling the lastest recipe from GitHub. 
+
 Open a new terminal (_Activities > Show Applications > Terminal_) and run the following command:
 
 [.console-input]
