@@ -360,7 +360,7 @@ source venv/bin/activate
 [.console-input]
 [source,bash,subs="+attributes,macros+"]
 ----
-ilab data generate --sdg-scale-factor 1 --enable-serving-output
+ilab data generate --model ~/instructlab/models/granite-7b-lab-Q4_K_M.gguf --sdg-scale-factor 1 --enable-serving-output
 ----
 
 To reduce the amount of time the generation process takes, we are setting the *"--sdg-scale-factor"* to `1` (The number of instructions to generate for each seed
@@ -371,6 +371,11 @@ This process may take some time (up to 25 minutes for this lab), depending on th
 image::ilab/nvtop.png[nvtop]
 
 You can switch back to the original terminal by clicking on it on the right side of the screen (named `python`) to check on the progress of the generation.
+
+[NOTE]
+====
+If you encounter an *AssertionError*, this is likely due to a known issue that has been resolved in the latest InstructLab. The fix will be included in the next release.
+====
 
 Once the generation stage is complete, you should see something like this:
 
