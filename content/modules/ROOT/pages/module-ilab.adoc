@@ -162,7 +162,9 @@ LLMs have inherent limitations that make certain tasks extremely difficult, like
 
 In our case we want the LLM to learn more about Parasol Insurance by supplying this specific information in the form of a basic YAML file named `qna.yaml`:
 
-[source,yaml]
+test
+[.console-input]
+[source,yaml,subs="+attributes,macros+"]
 ----
 version: 3<1>
 domain: insurance<2>
