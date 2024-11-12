@@ -272,11 +272,11 @@ image::ilab/ilab-taxonomy-qna.png[New folder]
 
 Enter the filename `qna.yaml` to create the file. Then, copy in the following content into the file (using the special copy/paste procedure as before):
 
-test
 [.console-input]
 [source,yaml,subs="+attributes,macros+"]
 ----
 include::https://raw.githubusercontent.com/rh-rad-ai-roadshow/parasol-taxonomy/refs/heads/main/knowledge/economy/finance/insurance/parasol/qna.yaml[]
+
 ----
 
 And now lets also create an attribution.txt file for citing sources. Copy the following and create a new file `attribution.txt` in the same folder `parasol`:
