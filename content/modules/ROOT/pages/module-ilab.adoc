@@ -162,9 +162,7 @@ LLMs have inherent limitations that make certain tasks extremely difficult, like
 
 In our case we want the LLM to learn more about Parasol Insurance by supplying this specific information in the form of a basic YAML file named `qna.yaml`:
 
-test
-[.console-input]
-[source,yaml,subs="+attributes,macros+"]
+[source,yaml]
 ----
 version: 3<1>
 domain: insurance<2>
@@ -199,7 +197,6 @@ document:<7>
     - Insurance_claims_data.md
     - teen_driving_rules.md
     - claims_cost_data.md
---
 ----
 
 Each `qna.yaml` file requires a minimum of five question-answer pairs. The `qna.yaml` format must include the following fields:
