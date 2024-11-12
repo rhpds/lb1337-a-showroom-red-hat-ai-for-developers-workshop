@@ -277,8 +277,6 @@ Enter the filename `qna.yaml` to create the file. Then, copy in the following co
 ----
 include::https://raw.githubusercontent.com/rh-rad-ai-roadshow/parasol-taxonomy/refs/heads/main/knowledge/economy/finance/insurance/parasol/qna.yaml[]
 
-
-aaa
 ----
 
 And now lets also create an attribution.txt file for citing sources. Copy the following and create a new file `attribution.txt` in the same folder `parasol`:
