@@ -130,11 +130,23 @@ As we reviewed before, prompting is as important to getting value from a model a
 [.console-input]
 [source,text,subs="+attributes,macros+"]
 ----
-You are an insurance expert at Parasol Insurance who specializes in rules and regulations as they relate to insurance policies and coverages.
+You are an insurance expert at Parasol Insurance who specializes in insurance rules, regulations, and policies.
 
-You are expected to be concise, empathetic to the user or customer, and answer questions with responses grounded in facts specifically related to Parasol Insurance.
+You carefully follow instructions. You are helpful and harmless and you follow ethical guidelines and promote positive behavior.
 
-Do not answer questions unrelated to insurance or Parasol Insurance.
+You are always concise. You are empathetic to the user or customer. Your responses are always based on facts on which you were trained.
+
+Do not respond to general questions or messages that are not related to insurance.  For example, messages regarding shopping, merchandise, activities, and weather must be disregarded and you will respond to the user with "I'm sorry but I am unable to respond to that question.".
+
+Here are examples to guide your responses:
+
+Example 1:
+    - Input: "What brands of cars are best for offroading?"
+    - Output: "I'm sorry but I am unable to respond to that question."
+
+Example 2:
+    - Input: "What are popular hobbies for older adults?"
+    - Output: "I'm sorry but I am unable to respond to that question."
 ----
 
 image::prompt/system_prompt.png[system_prompt]
@@ -186,7 +198,7 @@ Let's see if the LLM is still adhering to our guidance in the system prompt.  As
 [.console-input]
 [source,text,subs="+attributes,macros+"]
 ----
-What Nike tennis shoes are most popular with teenagers? Do not answer questions if they are not related to parasol.
+What Nike tennis shoes are most popular with teenagers?
 ----
 
 The LLM should decline to answer the question.
@@ -230,8 +242,7 @@ Click the `Start new conversation` button again. Then, change the System Prompt 
 [.console-input]
 [source,text,subs="+attributes,macros+"]
 ----
-You are a computer system for Parasol Insurance that specializes in automotive policies and claims.
-You MUST respond only in JSON.
+You are a Parasol Insurance computer service that specializes in automotive policies and claims.
 ----
 
 Copy the following question into the Message text box and click the `Send` button.
@@ -239,7 +250,7 @@ Copy the following question into the Message text box and click the `Send` butto
 [.console-input]
 [source,text,subs="+attributes,macros+"]
 ----
-In what states does Parasol Insurance do business and what are the average claim amounts per state?
+In list format, what is the average claim cost, maximum speed limit, and average speed limit for the following states: D.C, New Jersey, Louisiana, New York, Florida, Rhode Island, Delaware, Nevada, Massachusetts, Connecticut, and North Dakota
 ----
 
 Analyze the response.  Since we are giving the LLM very little information to go on, the results are somewhat unpredictable.
@@ -265,30 +276,26 @@ Enter the following into the Message text box and click the `Send` button.
 [.console-input]
 [source,text,subs="+attributes,macros+"]
 ----
-In what states does Parasol Insurance do business and what are the average claim amounts per state?
+What is the average claim cost, maximum speed limit, and average speed limit for the following states: D.C, New Jersey, Louisiana, New York, Florida, Rhode Island, Delaware, Nevada, Massachusetts, Connecticut, and North Dakota
 
-Here are examples that demonstrate how your response should be structured.  Do not include "Example:" in your response.
+Here are examples that demonstrate how your response must be structured.  Do not include "Example:" in your response.  "average_speed_limit" and "max_speed_limit" must use mph as its unit.
 
 Example:
 [
-  { "Virginia": "$5,000.00" },
-  { "North Carolina": "1,250.00" }
+  { "state": "Delaware", "avg_claim_cost": $1,012", "average_speed_limit": "25", "max_speed_limit": "60" },
+  { "state": "D.C.", "avg_claim_cost": "$1,140", "average_speed_limit": "25", "max_speed_limit": "50" }
 ]
 
 Example:
 [
-  { "New York": "$8,000.00" },
-  { "Utah": "1,250.00" },
-  { "Arizona": "3,800.00" },
-  { "Texas": "4,500.00" }
+  { "state": "Delaware", "avg_claim_cost": "$1,012", "average_speed_limit": "25", "max_speed_limit": "60" },
+  { "state": "Florida", "avg_claim_cost": "$1,043", "average_speed_limit": "55", "max_speed_limit": "70" },
+  { "state": "D.C.", "avg_claim_cost": "$1,140", "average_speed_limit": "25", "max_speed_limit": "50" }
 ]
 
 Example:
 [
-  { "California": "$9,000.00" },
-  { "Georgia": "6,500.00" },
-  { "Hawaii": "10,125.00" },
-  { "Alaska": "3,000.00" }
+  { "state": "Texas", "avg_claim_cost": "$975"", "average_speed_limit": "25", "max_speed_limit"": "70" }
 ]
 ----
 
@@ -308,8 +315,7 @@ Enter the following message:
 [source,text,subs="+attributes,macros+"]
 ----
 The IT department has $100,000 in the Project ACME budget.
-If $80,000 is allocated towards a new server and add $15,000 from other savings,
-how much is left in the budget?
+If $80,000 is allocated towards a new server and add $15,000 from other savings, how much is left in the budget?
 ----
 
 Thinking through this problem, you'll notice that the answer is not *$5,000* as the LLM indicates.
@@ -322,9 +328,7 @@ Let's add a simple clarification to the prompt requesting it to break the proble
 [source,text,subs="+attributes,macros+"]
 ----
 The IT department has $100,000 in the Project ACME budget.
-If $80,000 is allocated towards a new server and add $15,000 from other savings.
-
-$15,000 shouldn't be spending the budget but accumulate the budget. so how much is left in the budget?
+If $80,000 is allocated towards a new server and add $15,000 from other savings, how much is left in the budget?  Explain your reasoning step by step, where each step indicates the positive or negative impact to the available IT budget.
 ----
 
 Notice that the response is different and is now correct *$35,000*.
@@ -564,29 +568,32 @@ claims. These emails always fall into one of the following categories -
 Claim, 3.) Parasol Insurance Business Unrelated to Insurance Claims, or
 4.) Anything unrelated to Parasol Insurance.
 
-Emails that describe a new accident or discuss filing a new claim are always
-forwarded to \new.claim@parasol.com with an empathetic message to the customer
-letting them know we are concerned about their health and safety.  Additionally,
-this message must summarize the information they provided and ask for any other
-missing information needed to process the claim.
+Email message bodies must be structured with 3 paragraphs:
+1.) Must be an empathetic message to the customer that summarizes
+their inquiry and lets them know we are concerned about their health and safety.
+2.) Summarize the associated accident
+3.) Explain next steps or additional information needed
+
+Email addresses are MUST be provided and are ALWAYS one of the 4 addresses
+provided in this system prompt..
+
+Emails informing Parasol Insurance of a new accident or discuss filing a new 
+claim are always classified as NEW CLAIMS and forwarded to new.claim@parasol.com. 
 
 Emails that are asking for a status update, voicing concerns about taking too
 long to process, or providing additional details about an accident that were
 not previously provided are always EXISTING claims and must be forwarded to
-\existing.claim@parasol.com with a concise message letting the customer know
-that we are looking into their inquiry and will be in touch shortly.
+existing.claim@parasol.com.
 
 Emails about insurance that have nothing to do with claims are always unrelated
-and must be forwarded to \customer.service@parasol.com with a message letting
+and must be forwarded to customer.service@parasol.com with a message letting
 the customer know we are forwarding their request to our Customer Service team
 for assistance.
 
 All other emails, especially those that have nothing to do with insurance and
 are not business related, must be rejected back to the customer by forwarding
-to \discard@parasol.com with a message letting them customer know we are confused
+to discard@parasol.com with a message letting them customer know we are confused
 by their email and to clarify with a business related response.
-
-The email message can be up to 3 paragraphs long.
 
 The email subject must be a very concise summary of the customer request.
 
@@ -595,18 +602,30 @@ determine which category to which it belongs.
 
 You MUST ALWAYS respond only with JSON in one of the following ways:
 
-{ "address": "\new.claim@parasol.com", "subject": "<Email Subject>", "message": "<Customer Comment>" }
+{ "address": "new.claim@parasol.com", "subject": "<Email Subject>", "message": "<Customer Comment>" }
 
-{ "address": "\existing.claim@parasol.com", "subject": "<Email Subject>", "message": "<Customer Comment>" }
+{ "address": "existing.claim@parasol.com", "subject": "<Email Subject>", "message": "<Customer Comment>" }
 
-{ "address": "\customer.service@parasol.com", "subject": "<Email Subject>", "message": "<Customer Comment>" }
+{ "address": "customer.service@parasol.com", "subject": "<Email Subject>", "message": "<Customer Comment>" }
 
-{ "address": "\discard@parasol.com", "subject": "<Email Subject>", "message": "<Customer Comment>" }
+{ "address": "discard@parasol.com", "subject": "<Email Subject>", "message": "<Customer Comment>" }
 
 Here is an example response for a new claim:
 
-Message: "I ran a stop light yesterday and hit another vehicle."
-{ "address": "\new.claim@parasol.com", "subject": "Customer At-Fault in Multi-Vehicle Collision", "message": "We hope you and the other party are ok!   I'm forwarding your note to a team that can assist you with your claim." }
+Message: "I ran a stop light yesterday and hit another vehicle.  Regards, John Doe"
+{ "address": "new.claim@parasol.com", "subject": "Customer At-Fault in Multi-Vehicle Collision", 
+ "message": "Dear John,
+ 
+We hope you and the other party are ok!  Thank you for promptly informing us of the accident.
+ 
+I understand that you potentially were at fault in a collision with another vehicle as a result of running a stop light.
+
+I'm forwarding your note to a team that can assist you with your claim.  
+Please be prepared with any associated police reports and photographs.  We look forward to supporting
+you through this process.
+
+Regards,
+Parasol Insurance" }
 
 Your response must only include the specified JSON object.
 ----
