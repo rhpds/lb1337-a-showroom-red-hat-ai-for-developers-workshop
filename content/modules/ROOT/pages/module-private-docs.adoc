@@ -365,7 +365,6 @@ Open `src/main/resources/application.properties` and overwrite these lines:
 
 [source,properties]
 ----
-quarkus.langchain4j.openai.parasol-chat.chat-model.stop=DONE,done,stop,STOP
 quarkus.langchain4j.openai.parasol-chat.chat-model.model-name=parasol-chat
 quarkus.langchain4j.openai.parasol-chat.base-url=http://parasol-chat-predictor.aiworkshop.svc.cluster.local:8080/v1
 ----
@@ -375,7 +374,6 @@ with:
 [.console-input]
 [source,properties,subs="+attributes,macros+"]
 ----
-# quarkus.langchain4j.openai.parasol-chat.chat-model.stop=DONE,done,stop,STOP
 quarkus.langchain4j.openai.parasol-chat.chat-model.model-name=llama3.1
 quarkus.langchain4j.openai.parasol-chat.base-url=http://parasol-tools.aiworkshop.svc.cluster.local/v1
 ----
