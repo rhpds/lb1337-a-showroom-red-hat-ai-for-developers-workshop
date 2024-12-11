@@ -380,8 +380,6 @@ image::discovery/text-summarization-app-refine.png[Podman AI Lab Text Summarizat
 
 By updating the template with these specific requirements, you can tailor the summarization output to provide more detailed and relevant information for insurance claims processing at Parasol Insurance.
 
-==== Save your changes
-
 ==== Switch back to Podman Desktop and to the running `Summarizer` recipe
 
 ==== Restart the recipe to re-build the container with the updated code
