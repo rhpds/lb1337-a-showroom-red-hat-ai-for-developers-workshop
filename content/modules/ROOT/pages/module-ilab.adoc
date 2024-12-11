@@ -112,7 +112,7 @@ sh parasol-insurance/scripts/run-parasol-app.sh
 This script will perform the following actions:
 
 * Build the Quarkus (_parasol-insurnce_) application
-* Run the Quarkus application locally in the REHL VM
+* Run the Quarkus application locally in the RHEL VM
 
 It will take a few minutes to complete.
 
@@ -273,7 +273,7 @@ image::ilab/ilab-taxonomy-qna.png[New folder]
 Enter the filename `qna.yaml` to create the file. Then, copy in the following content into the file (using the special copy/paste procedure as before):
 
 [.console-input]
-[source,yaml,subs="+attributes,macros+"]
+[source,yaml]
 ----
 include::https://raw.githubusercontent.com/rh-rad-ai-roadshow/parasol-taxonomy/refs/heads/main/knowledge/economy/finance/insurance/parasol/qna.yaml[]
 
