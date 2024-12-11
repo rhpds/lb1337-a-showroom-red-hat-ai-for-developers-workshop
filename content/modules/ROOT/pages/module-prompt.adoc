@@ -680,7 +680,7 @@ public record EmailResponse(String subject, String message, String address) { }
 
 image::prompt/new-field-added-to-email-response.png[Add "address" field to EmailResponse Record]
 
-Now let's revisit the https://parasol-app-{user}-dev-parasol-app-{user}-dev.{openshift_cluster_ingress_domain}[web form^] and test out the new AI-generated attribute:
+Now let's revisit the https://{user}-parasol-insurance-parasol-webui.{openshift_cluster_ingress_domain}[web form^] and test out the new AI-generated attribute:
 
 - Reload the Email generate page. It take 10 - 20 seconds to recompile and apply the new prompt in the Quarkus dev mode.
 - Copy and paste the new claim #1 example from the prior section into the form.
