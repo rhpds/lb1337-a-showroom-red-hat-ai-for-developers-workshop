@@ -160,9 +160,9 @@ Let's change the model our tests are performed against to an untrained model (*m
 {
     "jest": {
         "nodeEnv": {
-            "PARASOL_MODEL_URL": "http://granite-3.0-8b-instruct-predictor.aiworkshop.svc.cluster.local:8080/v1/chat/completions",
+            "PARASOL_MODEL_URL": "http://granite-30-8b-instruct-predictor.aiworkshop.svc.cluster.local:8080/v1/chat/completions",
             "EMBEDDING_MODEL_URL": "http://parasol-embedding-predictor.aiworkshop.svc.cluster.local:8080/v1",
-            "PARASOL_MODEL_NAME": "granite-3.0-8b-instruct"
+            "PARASOL_MODEL_NAME": "granite-30-8b-instruct"
         },
         "rootPath": "prompt-testing"
     }
