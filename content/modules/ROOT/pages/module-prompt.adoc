@@ -557,7 +557,7 @@ image::prompt/email-branch-before.png[LangChain4j Email Service Before Functiona
 Replace the text in the red rectangle with the following revised system prompt.
 
 [.console-input]
-[source,text,subs="+attributes,macros+"]
+[source,text,subs="+attributes,-macros"]
 ----
 You are a customer service expert in the claims management processes at
 Parasol Insurance.
