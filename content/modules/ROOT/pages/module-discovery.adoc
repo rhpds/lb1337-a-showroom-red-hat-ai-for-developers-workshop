@@ -274,31 +274,31 @@ Select the file `marty-mcfly-auto.pdf`, and click `Open`.
 
 image::discovery/text-summarization-open-claim.png[Podman AI Lab Text Summarization Open Claim]
 
-[NOTE]
-====
-If you see the following error message, the latest receipe has not been pulled to the RHEL virtual machine yet.
+// [NOTE]
+// ====
+// If you see the following error message, the latest receipe has not been pulled to the RHEL virtual machine yet.
 
-image::discovery/summerizer-error.png[Summerizer Error]
+// image::discovery/summerizer-error.png[Summerizer Error]
 
-You can fix this by pulling the lastest recipe from GitHub. 
+// You can fix this by pulling the lastest recipe from GitHub. 
 
-Open a new terminal (_Activities > Show Applications > Terminal_) and run the following command:
+// Open a new terminal (_Activities > Show Applications > Terminal_) and run the following command:
 
-[.console-input]
-[source,shell,subs="+attributes,macros+"]
-----
-cd /home/instruct/.local/share/containers/podman-desktop/extensions-storage/redhat.ai-lab/summarizer/recipes/natural_language_processing/summarizer
-git pull origin main
-----
+// [.console-input]
+// [source,shell,subs="+attributes,macros+"]
+// ----
+// cd /home/instruct/.local/share/containers/podman-desktop/extensions-storage/redhat.ai-lab/summarizer/recipes/natural_language_processing/summarizer
+// git pull origin main
+// ----
 
-Restart the recipe to re-build the container with the updated code.
+// Restart the recipe to re-build the container with the updated code.
 
-image::discovery/text-summarization-restart.png[Podman AI Lab Text Summarization Application Restart]
+// image::discovery/text-summarization-restart.png[Podman AI Lab Text Summarization Application Restart]
 
-Since the source code has changed, you may be notified from Podman AI Lab that the hash has changed. This is expected behavior, and you can select *Continue* to proceed building the application container image with the updated code.
+// Since the source code has changed, you may be notified from Podman AI Lab that the hash has changed. This is expected behavior, and you can select *Continue* to proceed building the application container image with the updated code.
 
-image::discovery/text-summarization-hash-change.png[Podman AI Lab Text Summarization Hash Change]
-====
+// image::discovery/text-summarization-hash-change.png[Podman AI Lab Text Summarization Hash Change]
+// ====
 
 ==== Review the summarization that is generated from the claim
 
@@ -379,8 +379,6 @@ Make sure the variable name `refine_template` begins in column 1 (no whitespace 
 image::discovery/text-summarization-app-refine.png[Podman AI Lab Text Summarization Application Refine]
 
 By updating the template with these specific requirements, you can tailor the summarization output to provide more detailed and relevant information for insurance claims processing at Parasol Insurance.
-
-==== Save your changes
 
 ==== Switch back to Podman Desktop and to the running `Summarizer` recipe
 
