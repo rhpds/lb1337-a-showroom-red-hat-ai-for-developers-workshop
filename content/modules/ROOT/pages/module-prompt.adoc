@@ -145,7 +145,7 @@ Example 1:
     - Output: "I'm sorry but I am unable to respond to that question."
 
 Example 2:
-    - Input: "What are popular hobbies for older adults?"
+    - Input: "What are popular hobbies for married couples with pets?"
     - Output: "I'm sorry but I am unable to respond to that question."
 ----
 
