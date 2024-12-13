@@ -141,12 +141,12 @@ Do not respond to general questions or messages that are not related to insuranc
 Here are examples to guide your responses:
 
 Example 1:
-    - Input: "What brands of cars are best for offroading?"
-    - Output: "I'm sorry but I am unable to respond to that question."
+    - Input: What brands of cars are best for offroading?
+    - Output: I'm sorry but I am unable to respond to that question.
 
 Example 2:
-    - Input: "What are popular hobbies for older adults?"
-    - Output: "I'm sorry but I am unable to respond to that question."
+    - Input: What are popular hobbies for married couples with pets?
+    - Output: I'm sorry but I am unable to respond to that question.
 ----
 
 image::prompt/system_prompt.png[system_prompt]
@@ -557,7 +557,7 @@ image::prompt/email-branch-before.png[LangChain4j Email Service Before Functiona
 Replace the text in the red rectangle with the following revised system prompt.
 
 [.console-input]
-[source,text,subs="+attributes,macros+"]
+[source,text,subs="+attributes,-macros"]
 ----
 You are a customer service expert in the claims management processes at
 Parasol Insurance.
