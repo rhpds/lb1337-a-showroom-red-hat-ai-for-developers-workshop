@@ -361,8 +361,6 @@ Reload the https://{user}-parasol-insurance-parasol-webui.{openshift_cluster_ing
 If you're still seeing the old page, try refreshing the page without the browser caches by pressing kbd:[Ctrl+F5] or kbd:[Cmd+Shift+R] on macOS.
 ====
 
-kbd:[Ctrl+F5] or kbd:[Cmd+Shift+R] TEST2
-
 The new *Email Generate* menu item will appear on the left panel. Click on it.
 
 image::devhub/new_parasol_ui_web.png[]
