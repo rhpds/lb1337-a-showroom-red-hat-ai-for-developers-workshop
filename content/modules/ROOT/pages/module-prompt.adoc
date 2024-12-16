@@ -90,8 +90,12 @@ For the remainder of the lab, you will be using the Quarkus Dev UI with the Lang
 
 IMPORTANT: If you haven't accessed *Red Hat Developer Hub and Red Hat Dev Spaces* yet, complete the following sections. Otherwise, *proceed* to the <<Chat with the Model>> section.
 
+.Click to Playground Setup
+[%collapsible]
+====
 include::partial-devhub-pre-req.adoc[]
 include::partial-dev-spaces-pre-req.adoc[]
+====
 
 == Chat with the Model
 
