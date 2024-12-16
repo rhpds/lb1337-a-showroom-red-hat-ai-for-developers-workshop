@@ -395,19 +395,6 @@ If you run into challenges while drafting the prompt, ask your instructor for as
 
 === Test emails to speed up prompt development
 
-[IMPORTANT]
-====
-If you haven't created *a new Gen AI email service* in the previous module yet, create the new email service by running the following magic bash script in VS Code terminal. If you're still running the Quarkus dev mode, open a new terminal window to run the script.
-
-[.console-input]
-[source,shell,subs="+attributes,macros+"]
-----
-sh ${PROJECT_SOURCE}/scripts/create-email-ai-service.sh
-----
-
-Access the https://parasol-app-{user}-dev-parasol-app-{user}-dev.{openshift_cluster_ingress_domain}[Parasol web page^],to verify the Gen AI email service. To access the email service, click on the `Email Generate` tab on the left and use it in the following sections:
-====
-
 ==== Generate an email for `new claim #1` to the new.claim@parasol.com
 
 [.console-input]
@@ -539,6 +526,19 @@ image::prompt/output_example_existing_2.png[output_example_existing_2]
 === Objectives
 
 Now that you've developed a working prompt that can help satisfy leadership objectives with its first Generative AI initiative, you need to incorporate this logic into the Parasol Insurance application so that ongoing business value may be realized.  For this exercise that involves updating the Email Response REST service and UI to provide an recommended recipient, email subject, and automated response based on a given customer email.
+
+[IMPORTANT]
+====
+If you haven't created *a new Gen AI email service* in the previous module yet, create the new email service by running the following magic bash script in VS Code terminal. If you're still running the Quarkus dev mode, open a new terminal window to run the script.
+
+[.console-input]
+[source,shell,subs="+attributes,macros+"]
+----
+sh ${PROJECT_SOURCE}/scripts/create-email-ai-service.sh
+----
+
+Access the https://parasol-app-{user}-dev-parasol-app-{user}-dev.{openshift_cluster_ingress_domain}[Parasol web page^],to verify the Gen AI email service. To access the email service, click on the `Email Generate` tab on the left and use it in the following sections:
+====
 
 === Integrate Prompt with the Parasol Insurance Application
 
