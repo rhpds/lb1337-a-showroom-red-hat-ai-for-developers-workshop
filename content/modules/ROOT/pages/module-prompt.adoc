@@ -670,16 +670,23 @@ Add the following html to the `email-response` div block:
             </div>
 ----
 
-image::prompt/email_response_addresse.png[email_response_addresse]
+image::prompt/email_response_address.png[email_response_address]
 
 Additionally, we must add the address field to the REST Service's JSON Response.
 
-Open the `src/main/java/org/parasol/model/EmailResponse.java` file to `replace` the constructor with the following code.
+Open the `src/main/java/org/parasol/model/EmailResponse.java` file and `replace` the Java record signature with the following code.
+
+[IMPORTANT]
+====
+The new field you are adding for email address must be first in the EmailResponse method signature.
+
+LangChain4j uses this to suggest JSON response syntax to the LLM and our examples in the system prompt have the email address first in the response.  If the examples do not match LangChain4j's suggestion, the effect is that email address is sometimes left off the response and will be blank in the UI.
+====
 
 [.console-input]
 [source,java,subs="+attributes,macros+"]
 ----
-public record EmailResponse(String subject, String message, String address) { }
+public record EmailResponse(String address, String subject, String message) { }
 ----
 
 image::prompt/new-field-added-to-email-response.png[Add "address" field to EmailResponse Record]
