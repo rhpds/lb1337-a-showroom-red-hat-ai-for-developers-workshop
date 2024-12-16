@@ -14,3 +14,4 @@ asciidoc:
     release-version: main
     page-pagination: true
     page-toclevels: 1
+    experimental: ""
