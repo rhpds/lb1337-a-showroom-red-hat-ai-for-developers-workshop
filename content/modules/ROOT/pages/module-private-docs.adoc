@@ -175,7 +175,7 @@ In the new terminal, add this extension by running the following command:
 [.console-input]
 [source,bash,subs="+attributes,macros+"]
 ----
-./mvnw quarkus:add-extension -Dextension=easy-rag
+./mvnw quarkus:add-extension -Dextension="io.quarkiverse.langchain4j:quarkus-langchain4j-easy-rag:\${quarkus.langchain4j.version}"
 ----
 
 You will see that a new extension was added to your application:
@@ -295,15 +295,26 @@ There is a fair bit of code in this file, but the main thing you should pay atte
 
 To wire everything up, we will need to tell the AI Service about this tool. In the `src/main/java/org/parasol/ai` folder, open the `ClaimService.java` class again.
 
-Find the `@RegisterAiService` annotation. We need to register the `NotificationService` class as a tool. Go ahead and replace the existing line with the following:
+We need to register the `NotificationService` class as a tool. Find the `chat` method and add the following annotation to it:
 
 [.console-input]
 [source,java,subs="+attributes,macros+"]
 ----
-@RegisterAiService(modelName = "parasol-chat", tools = NotificationService.class)
+@ToolBox(NotificationService.class)
 ----
 
-By doing this we have now registered the `NotificationService` file as class that contains one or more `@Tool` annotated methods.
+[NOTE]
+====
+You may need to add the following import to the `ClaimService` class if it isn't already added for you:
+
+[.console-input]
+[source,java,subs="+attributes,macros+"]
+----
+import io.quarkiverse.langchain4j.ToolBox;
+----
+====
+
+By doing this we have now registered the `NotificationService` file as class that contains one or more `@Tool` annotated methods. These methods become available to the LLM to be called.
 
 === Convert chat from streaming to synchronous
 
