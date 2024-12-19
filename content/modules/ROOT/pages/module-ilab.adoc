@@ -401,7 +401,7 @@ The result of this is a number of files which you can inspect in the `~/.local/s
 ----
 xdg-open ~/.local/share/instructlab/datasets
 ----
-you can examine the contents of the files by double-clicking on them. For example, check out the file whose name starts with `messages_merlinite`. These are sample questions generated based on the content of our Parasol data.
+you can examine the contents of the files by double-clicking on them. For example, check out the file whose name starts with `messages_granite`. These are sample questions generated based on the content of our Parasol data.
 
 === Training the Model with New Data
 
