@@ -186,7 +186,7 @@ seed_examples:<4>
           for assessing risk.
       # more questions and answers
 document_outline: |<6>
-  Information about the Parasol insruance claims data glossary, terms and how
+  Information about the Parasol insurance claims data glossary, terms and how
   to read and understand claims. The information is related to the Parasol
   insurance internal records and systems.
 document:<7>
