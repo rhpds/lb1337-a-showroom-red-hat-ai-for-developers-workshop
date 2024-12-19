@@ -111,7 +111,7 @@ sh parasol-insurance/scripts/run-parasol-app.sh
 
 This script will perform the following actions:
 
-* Build the Quarkus (_parasol-insurnce_) application
+* Build the Quarkus (_parasol-insurance_) application
 * Run the Quarkus application locally in the RHEL VM
 
 It will take a few minutes to complete.

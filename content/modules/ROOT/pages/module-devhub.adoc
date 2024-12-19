@@ -103,9 +103,9 @@ To add the new feature, you will either create or edit the following files. Use 
 
 ==== Create Java records beans
 
-Create a new Java record, `Email.java` in the `src/main/java/org/parasol/model` directory to carry email data in a concise and immutable way.
+Create a new Java record, `Email.java` in the `src/main/java/org/parasol/model` folder to carry email data in a concise and immutable way.
 
-To create this file, right-click on the `model` directory in the file tree, then select "New File..." and enter the name of the new file `Email.java`. The empty file will open.
+To create this file, right-click on the `model` folder in the file tree, then select "New File..." and enter the name of the new file `Email.java`. The empty file will open.
 
 image::devhub/new-file.png[new-file, 500]
 
@@ -124,7 +124,7 @@ public record Email(String text) { }
 Where is the Save button? VS Code will autosave your changes, that is why you can’t find a SAVE button - no more losing code because you forgot to save. You can undo with *CTRL-Z* (or *CMD-Z* on a Mac) or by using the `Edit -> Undo` menu option.
 ====
 
-Next, create a new Java record, `EmailResponse.java` in the `src/main/java/org/parasol/model` directory to store the response from the LLM. Copy the following code and paste it into the `EmailResponse.java` file.
+Next, create a new Java record, `EmailResponse.java` in the `src/main/java/org/parasol/model` folder to store the response from the LLM. Copy the following code and paste it into the `EmailResponse.java` file.
 
 [.console-input]
 [source,java,subs="+attributes,macros+"]
@@ -136,7 +136,7 @@ public record EmailResponse(String subject, String message) { }
 
 ==== Create Java AI service
 
-Create a new Java file, `EmailService.java` in the `src/main/java/org/parasol/ai` directory to serve as the AI Service connection point between your application and the LLM. Copy the following code and paste it into the `EmailService.java` file.
+Create a new Java file, `EmailService.java` in the `src/main/java/org/parasol/ai` folder to serve as the AI Service connection point between your application and the LLM. Copy the following code and paste it into the `EmailService.java` file.
 
 [.console-input]
 [source,java,subs="+attributes,macros+"]
@@ -172,7 +172,7 @@ public interface EmailService {
 
 ==== Create Jakarta REST resource
 
-Create a new Java file, `EmailResource.java` in the `src/main/java/org/parasol/resources` directory to serve a new REST endpoint. Copy the following code and paste it into the `EmailResource.java` file.
+Create a new Java file, `EmailResource.java` in the `src/main/java/org/parasol/resources` folder to serve a new REST endpoint. Copy the following code and paste it into the `EmailResource.java` file.
 
 [.console-input]
 [source,java,subs="+attributes,macros+"]
@@ -208,7 +208,7 @@ public class EmailResource {
 
 ==== Add new LLM model configurations
 
-Open the existing `application.properties` file in the `src/main/resources` directory to append the following Langchain4j configuration values.
+Open the existing `application.properties` file in the `src/main/resources` folder to append the following Langchain4j configuration values.
 
 [.console-input]
 [source,properties,subs="+attributes,macros+"]
@@ -232,7 +232,7 @@ Let's update the frontend React web application to give our customer service rep
 
 ==== Create new React TypeScript component
 
-Create a new `EmailGenerate` directory in the `src/main/webui/src/app/components` directory. Also, create a new TypeScript XML file, `EmailGenerate.tsx` in the `src/main/webui/src/app/components/EmailGenerate` directory to render the output of the LLM in the email subject and body content. Copy the following code and paste it into the EmailGenerate.tsx file.
+Create a new `EmailGenerate` folder in the `src/main/webui/src/app/components` folder. Also, create a new TypeScript XML file, `EmailGenerate.tsx` in the `src/main/webui/src/app/components/EmailGenerate` folder to render the output of the LLM in the email subject and body content. Copy the following code and paste it into the EmailGenerate.tsx file.
 
 [.console-input]
 [source,javascript,subs="+attributes,macros+"]
@@ -325,7 +325,7 @@ This interface allows customer service representatives to copy and paste the cus
 
 ==== Add a new menu item in the navigation bar
 
-Open the `routes.tsx` file in the `src/main/webui/src/app` directory and `uncomment` the following code out in line *8* and *89 - 95* to show the new menu item.
+Open the `routes.tsx` file in the `src/main/webui/src/app` folder and `uncomment` the following code out in line *8* and *89 - 95* to show the new menu item.
 
 [NOTE]
 ====
@@ -410,7 +410,7 @@ Create a new pull request (PR) to add the new Gen AI feature in the Parasol Insu
 
 Click on the *Source Control* icon. Then, follow the next steps.
 
-* Add a *Message* (e.g., `Add a new email feature`) for the commit.
+* Add a *Message* (e.g., `Add a new Gen AI feature`) for the commit.
 * Click on Commit *arrow*.
 * Select the option *Commit & Push*.
 
