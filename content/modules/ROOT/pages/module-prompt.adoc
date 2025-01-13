@@ -42,15 +42,7 @@ Before jumping into specific tools, let's review the basics of interfacing with 
 
 Depending on use case, it may be necessary for the LLM to produce a more creative or a more predictable response to the user message.  Temperature is a floating point number, usually between 0 and 1, that is used to steer the model accordingly.  Lower temperature values (such as 0) are more predictable and higher values (such as 1) are more creative, although even at 0 LLMs will never produce 100% repeatable responses.  Many tools simply use 0.8 as a default.
 
-Lastly, while experimenting with LLMs, especially with inferencing servers without a GPU, it is recommended to constrain the LLM from producing overly verbose responses by setting the Max Tokens to an appropriate threshold.  This also helps coach the LLM to be more concise with its responses, which can be helpful during testing.
-
-=== Podman Desktop with AI Lab
-
-Podman Desktop is an open source tool by Red Hat that enables you to work with containerized applications in an easy to use graphical interface local to your laptop or workstation.  AI Lab is an extension to Podman Desktop that provides additional functionality for interacting with Large Language Models using a variety of experiences or recipes (including chat and document summarization).  Its Playground feature enables you to easily select and download a model and then have an interactive conversation with it using a system prompt that you provide.  The most common parameters, such as temperature and token count, can be customized directly within the playground UI itself.
-
-image::prompt/podman-desktop-with-ai-lab.png[Podman Desktop with AI Lab]
-
-If you would like to install Podman Desktop in your own environment, visit http://podman-desktop.io[podman-desktop.io^] and click the "Download Now" button in the middle of the page.  Once installed, click the download button next to AI Lab on either the home screen or search for it in the Extensions view.
+Lastly, while experimenting with LLMs, especially with inferencing servers without a powerful GPU, it is recommended to constrain the LLM from producing overly verbose responses by setting the Max Tokens to an appropriate threshold.  This also helps coach the LLM to be more concise with its responses, which can be helpful during testing.
 
 === Quarkus Dev UI with LangChain4j Chat Extension
 
@@ -708,3 +700,11 @@ Here is a quick summary of what we have learned:
 - Learned how to use the Quarkus Dev UI to chat with a trained model
 - Explored common use cases for gaining value from an LLM, such as agents and content analysis
 - Developed a new prompt from scratch in support of a new business use case
+
+== Extra Credit - Podman Desktop with AI Lab
+
+Podman Desktop is an open source tool by Red Hat that enables you to work with containerized applications in an easy to use graphical interface local to your laptop or workstation.  AI Lab is an extension to Podman Desktop that provides additional functionality for interacting with Large Language Models using a variety of experiences or recipes (including chat and document summarization).  Its Playground feature enables you to easily select and download a model and then have an interactive conversation with it using a system prompt that you provide.  The most common parameters, such as temperature and token count, can be customized directly within the playground UI itself.
+
+image::prompt/podman-desktop-with-ai-lab.png[Podman Desktop with AI Lab]
+
+If you would like to install Podman Desktop in your own environment, visit http://podman-desktop.io[podman-desktop.io^] and click the "Download Now" button in the middle of the page.  Once installed, click the download button next to AI Lab on either the home screen or search for it in the Extensions view.
