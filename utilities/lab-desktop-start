@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+
+echo "Starting build process..."
+podman run --privileged --rm --name showroom-builder -v "./:/antora" docker.io/antora/antora default-site.yml
+
+echo "Starting serve process..."
+podman run --privileged -d --rm --name showroom-httpd -p 8443:80 -v "./www:/usr/local/apache2/htdocs/" docker.io/httpd:2.4
+
+echo "Serving lab content on http://localhost:8443/index.html"
