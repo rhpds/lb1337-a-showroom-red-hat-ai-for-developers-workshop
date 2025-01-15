@@ -60,10 +60,6 @@ Your developer environment includes Podman Desktop with an AI Lab extension that
 
 === Launch Podman Desktop AI Lab
 
-To provide you with an easy to use desktop, we have provisioned a Red Hat Enterprise Linux machine, and setup noVNC to allow you to access the desktop from your browser.
-
-If you have not already connected to your noVNC server, connect to {novnc_web_url}[noVNC server,window=_blank] using the password `{password}`.
-
 ==== Click the `Activities` label in the top-left corner of the screen
 
 ==== Click the `Show Applications` icon to show all the applications
