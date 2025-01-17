@@ -141,7 +141,7 @@ Specifically, the `Client Code` section provides developers with code snippets i
 
 image::discovery/model-service-client-code.png[Podman AI Lab Model Service Client Code]
 
-include::partial-vnc-copy-paste.adoc[]
+// include::partial-vnc-copy-paste.adoc[]
 
 === Testing out Playground Environments
 

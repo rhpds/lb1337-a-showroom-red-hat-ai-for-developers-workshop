@@ -126,7 +126,7 @@ To access the `ilab` CLI, open a new terminal in Visual Studio Code by clicking 
 
 image::ilab/vscode-new-terminal-menu.png[Open new VSCode terminal]
 
-include::partial-vnc-copy-paste.adoc[]
+// include::partial-vnc-copy-paste.adoc[]
 
 == Model Fine-Tuning for the Insurance Organization
 
@@ -475,7 +475,7 @@ In reality, Parasol employees would not be using `ilab` to ask the model(s) ques
 [.console-input]
 [source,bash]
 ----
-xdg-open http://localhost:8005
+firefox http://localhost:8005
 ----
 This is the same Java application built on https://quarkus.io[Quarkus^] which Parasol customer service reps use to organize claims. On the *Claims* page, click on the first Claim for the customer named _Marty McFly_.
 
