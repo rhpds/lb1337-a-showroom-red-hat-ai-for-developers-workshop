@@ -98,7 +98,7 @@ image::discovery/model-catalog.png[Podman AI Lab Model Catalog]
 
 The Model Catalog interface is organized into four distinct tabs, each serving a specific purpose:
 
-* *All*: Displays the complete list of catalog models. Models that have been downloaded are easily identifiable by their green highlighted icon.
+* *All*: Displays the complete list of catalog models. Models that have been downloaded are easily identifiable by their solid icon.
 * *Downloaded*: Shows only the models that have been stored locally on your machine, ready for offline use.
 * *Imported*: Lists any custom models you've imported that weren't originally part of the catalog. These could be models you've trained yourself or obtained from other sources, via `.gguf` format.
 * *Available*: Presents all catalog models that are yet to be downloaded.
@@ -110,7 +110,7 @@ All models in the Podman AI Lab catalog are licensed under Apache 2.0. This perm
 
 image::discovery/model-catalog-tabs.png[Podman AI Lab Model Catalog Tabs]
 
-If the icon next to the _granite_7b-lab_ model is green, then the https://huggingface.co/instructlab/granite-7b-lab-GGUF[`instructlab/granite-7b-lab-GGUF`] model has been pre-installed for you. if not, click the _Download_ button to download it (this should only take a minute or two):
+If the icon next to the _granite_7b-lab_ model is a solid box, then the https://huggingface.co/instructlab/granite-7b-lab-GGUF[`instructlab/granite-7b-lab-GGUF`] model has been pre-installed for you. if not, click the _Download_ button to download it (this should only take a minute or two):
 
 image::discovery/granite-download.png[Podman AI Lab Model Catalog Tabs]
 
@@ -208,7 +208,7 @@ image::discovery/playground-prompt-response-1.png[Podman AI Lab Playground promp
 
 ==== Try "lowering" the *temperature*
 
-Reducing the *top-p* each to `0.1` to try and make responses more deterministic.
+Reducing the *temperature* and *top-p* each to `0.1` to try and make responses more deterministic.
 
 ==== Re-enter the same prompt (`Should I approve claims?`)
 
@@ -236,7 +236,7 @@ These recipes can help you quickly prototype new AI and LLM-based applications l
 
 Let's explore the `Text Summarization` recipe, which can be particularly useful for processing insurance claim documents:
 
-==== In the `Recipes Catalog`, select the `Summarizer` application under the `Natural Language Processing` category. 
+==== In the `Recipes Catalog`, select the `Summarizer` application under the `Natural Language Processing` category.
 
 Click the *More Details* link.
 
@@ -244,7 +244,7 @@ Click the *More Details* link.
 
 ==== Click the *Start* button to begin the application's building process
 
-In the this step, one container will act as an AI model server and another as the application interface. Be sure to choose the model you downloaded previously (it should be auto-selected). Then click *Start Summarizer recipe*. This will kick off the build and deploy process within Podman Desktop.
+In the this step, one container will act as an AI model server and another as the application interface. Be sure to choose the model you downloaded previously (it may not be auto-selected). Then click *Start Summarizer recipe*. This will kick off the build and deploy process within Podman Desktop.
 
 image::discovery/text-summarization-recipe.png[Podman AI Lab Text Summarization Recipe]
 
@@ -276,7 +276,7 @@ image::discovery/text-summarization-open-claim.png[Podman AI Lab Text Summarizat
 
 // image::discovery/summerizer-error.png[Summerizer Error]
 
-// You can fix this by pulling the lastest recipe from GitHub. 
+// You can fix this by pulling the lastest recipe from GitHub.
 
 // Open a new terminal (_Activities > Show Applications > Terminal_) and run the following command:
 
@@ -404,9 +404,18 @@ Compare this new output with the previous summarization to see how the changes i
 
 == Cleanup
 
-To save resources, be sure to stop the containers running our apps and services. To do this, in Podman Desktop, click the _Containers_ tab, select all containers, and click the trash can icon, and confirm that you wish to delete them:
+To save resources, be sure to stop the services and playgrounds you started. To do this, in Podman Desktop, click `Services`, select all services, and click the `Delete ## Selected Items` button, and confirm that you wish to delete them:
 
-image::discovery/cleanup.png[Cleanup]
+image::discovery/cleanup1.png[Cleanup Services]
+
+Do the same for `Playgrounds`:
+
+image::discovery/cleanup2.png[Cleanup Playgrounds]
+
+and finally, the running Recipe:
+
+image::discovery/cleanup3.png[Cleanup Recipe]
+
 
 == Conclusion
 
