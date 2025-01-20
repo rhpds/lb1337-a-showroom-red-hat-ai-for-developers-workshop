@@ -364,7 +364,7 @@ ilab data generate --model ~/instructlab/models/granite-7b-lab-Q4_K_M.gguf --sdg
 To reduce the amount of time the generation process takes, we are setting the *"--sdg-scale-factor"* to `1` (The number of instructions to generate for each seed
 example), the default for this value is `30`. If we were generating data for a production deployment we would likely set this value higher.
 
-This process may take some time (up to 25 minutes for this lab), depending on the amount of data and the computational resources available. Feel free to wait, or stop the process with kbd:[CTRL+C] as we will not be using these files in the next step in the interest of time. You may also want to open a separate Terminal and run the `nvtop` command to see the use of your GPU during this generation phase. Click the `+` button and run `nvtop` in the new terminal:
+This process may take some time (up to 3 minutes for this lab), depending on the amount of data and the computational resources available. Feel free to wait, or stop the process with kbd:[CTRL+C] as we will not be using these files in the next step in the interest of time. You may also want to open a separate Terminal and run the `nvtop` command to see the use of your GPU during this generation phase. Click the `+` button and run `nvtop` in the new terminal (you may need to make the terminal window bigger to see the moving line graphs):
 
 image::ilab/nvtop.png[nvtop]
 
