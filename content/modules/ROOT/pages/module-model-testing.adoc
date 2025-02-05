@@ -62,7 +62,7 @@ There are a three things to take note of in this JSON file.
 
 == The initial set of tests
 
-We have included an initial set of tests which should pass when run against the *Parasol Chat* model.  
+We have included an initial set of tests which should pass when run against the *Parasol Chat* model.
 
 For each of these tests we're provided an expected response, so for example, when we ask the question: *"In one sentence, who founded Parasol Insurance?"* we should get a response similar to: *"Parasol Insurance was founded in 1936 by James Falkner and James Labocki."*
 
@@ -107,7 +107,7 @@ The output should be similar to the following.
 [.console-output]
 [source,bash]
 ----
-npm WARN skipping integrity check for git dependency ssh://git@github.com/kenlimmj/rouge.git 
+npm WARN skipping integrity check for git dependency ssh://git@github.com/kenlimmj/rouge.git
 npm WARN deprecated glob@7.2.3: Glob versions prior to v9 are no longer supported
 npm WARN deprecated inflight@1.0.6: This module is not supported, and leaks memory. Do not use it. Check out lru-cache if you want a good and tested way to coalesce async requests by a key value, which is much more comprehensive and powerful.
 
@@ -142,7 +142,7 @@ When the test run is complete you should see.
 
 image::model-testing/run-complete.png[run complete, 800]
 
-Both of the tests should have passed successfully.  
+Both of the tests should have passed successfully.
 
 == Failing the tests
 
@@ -152,7 +152,7 @@ As we discussed above, one of our tests is testing responses to the question: *"
 
 To answer this question our model has been trained with knowledge about the history of Parasol Insurance.
 
-Let's change the model our tests are performed against to an untrained model (*merlinite-7b-lab*).  To do this, open the `.vscode/settings.json` file to `replace` the contents with:
+Let's change the model our tests are performed against to an untrained model (*granite-30-8b-instruct*).  To do this, open the `.vscode/settings.json` file to `replace` the contents with:
 
 [.console-input]
 [source,json,subs="+attributes,macros+"]
@@ -169,7 +169,7 @@ Let's change the model our tests are performed against to an untrained model (*m
 }
 ----
 
-Go back to the `Testing` panel. Then, click on the `Run Tests` to run the tests again.  
+Go back to the `Testing` panel. Then, click on the `Run Tests` to run the tests again.
 
 image::model-testing/run-tests.png[run tests]
 

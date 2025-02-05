@@ -569,8 +569,8 @@ their inquiry and lets them know we are concerned about their health and safety.
 Email addresses are MUST be provided and are ALWAYS one of the 4 addresses
 provided in this system prompt..
 
-Emails informing Parasol Insurance of a new accident or discuss filing a new 
-claim are always classified as NEW CLAIMS and forwarded to new.claim@parasol.com. 
+Emails informing Parasol Insurance of a new accident or discuss filing a new
+claim are always classified as NEW CLAIMS and forwarded to new.claim@parasol.com.
 
 Emails that are asking for a status update, voicing concerns about taking too
 long to process, or providing additional details about an accident that were
@@ -605,14 +605,14 @@ You MUST ALWAYS respond only with JSON in one of the following ways:
 Here is an example response for a new claim:
 
 Message: "I ran a stop light yesterday and hit another vehicle.  Regards, John Doe"
-{ "address": "new.claim@parasol.com", "subject": "Customer At-Fault in Multi-Vehicle Collision", 
+{ "address": "new.claim@parasol.com", "subject": "Customer At-Fault in Multi-Vehicle Collision",
  "message": "Dear John,
- 
+
 We hope you and the other party are ok!  Thank you for promptly informing us of the accident.
- 
+
 I understand that you potentially were at fault in a collision with another vehicle as a result of running a stop light.
 
-I'm forwarding your note to a team that can assist you with your claim.  
+I'm forwarding your note to a team that can assist you with your claim.
 Please be prepared with any associated police reports and photographs.  We look forward to supporting
 you through this process.
 
@@ -638,7 +638,7 @@ Now, you'll notice that this does not look drastically different from before the
 
 Open the `src/main/webui/src/app/components/EmailGenerate/EmailGenerate.tsx` typescript file for the Generate Email view.
 
-At the top of the source file there is a data structured called EmailResponse.  Add `address` of type `string` to the end of the list.
+At the top of the source file there is a data structure called `ResponseData`.  Add `address` of type `string` to the end of the list.
 
 [.console-input]
 [source,javascript,subs="attributes"]
@@ -651,7 +651,7 @@ image::prompt/email-generate-view-data-structure.png[Add "address" to EmailRespo
 Add the following html to the `email-response` div block:
 
 [.console-input]
-[source,javascript,subs="+attributes,macros+"]
+[source,html,subs="+attributes,macros+"]
 ----
             <div id="email-response-address" style={{ fontWeight: 'bold', fontFamily: 'Arial' }}>
               To: {response.address}
