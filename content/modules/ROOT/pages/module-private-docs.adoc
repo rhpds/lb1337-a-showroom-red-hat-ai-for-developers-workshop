@@ -149,7 +149,11 @@ You should notice that the chatbot can answer these questions based on the claim
 
 image::private-docs/chat-policies-unknown.png[Chatbot questions about policies]
 
-The answer you will get back might be different from the one in the screenshot above, but you'll likely observe that the chatbot struggles with this question, as it doesn't have access to Parasol's specific policies, *in particular the 6 month policy term limit*. It might even respond with an incorrect decision! If only there was a way to automatically retrieve this information and provide it to the chatbot.
+The answer you will get back might be different from the one in the screenshot above, but you'll likely observe that the chatbot struggles with this question, as it doesn't have access to Parasol's specific policies, *in particular the 6 month policy term limit*. It might even respond with an incorrect decision, but sound very authoritative when doing so:
+
+image::private-docs/chat-response-hlcn.png[Chatbot halluncination]
+
+If only there was a way to automatically retrieve this information and provide it to the chatbot so that answers were more accurate!
 
 == Embedding Documents with RAG
 
@@ -314,7 +318,7 @@ import io.quarkiverse.langchain4j.ToolBox;
 ----
 ====
 
-By doing this we have now registered the `NotificationService` file as class that contains one or more `@Tool` annotated methods. These methods become available to the LLM to be called.
+By doing this we have now registered the `NotificationService` file as a class that contains one or more `@Tool` annotated methods. These methods become available to the LLM to be called.
 
 === Convert chat from streaming to synchronous
 
