@@ -1,6 +1,6 @@
 ---
 site:
-  title: Red Hat AI Development Roadshow - Developer Track
+  title: RAD Roadshow for AI Developers - Cloud
   start_page: modules::index.adoc
 
 content:
